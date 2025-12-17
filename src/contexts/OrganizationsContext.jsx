@@ -27,7 +27,7 @@ export const OrganizationsProvider = ({children}) => {
 
     const fetchOrganization = async ({organizationId}) => {
         try {
-            const response = await unauthorizedDashboardAxiosInstance.get(`/organizations/organization_id/${organizationId}`);
+            const response = await unauthorizedDashboardAxiosInstance.get(`/organizations/${organizationId}`);
             const organization = response.data.results;
             setOrganizationMap({
                 ...organizationMap, [organizationId]: organization
