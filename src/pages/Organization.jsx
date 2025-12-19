@@ -68,7 +68,7 @@ export default function Organization() {
         }
     ];
 
-    let resourcesProcessing = true;
+    let resourcesProcessing = resources && resources.length > 0; // Set it to processing if there are resources.
     for (let i = 0; resources && i < resources.length; i++) {
         let resource = resources[i];
         let resourceId = resource.info_resourceid;
@@ -93,88 +93,76 @@ export default function Organization() {
 
     sections = sections.filter(section => section.resources.length > 0);
 
-    if (organization && resources && resources.length > 0) {
-        return <div className="container">
-            <div className="row">
-                <div className="col-sm-2 col-m-3 col-lg-4 p-3">
-                    <div className="w-100 bg-white" style={{
-                        backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "contain",
-                        backgroundPosition: "center",
-                        height: "200px"
-                    }}>
+    return <div className="container">
+        <div className="row">
+            <div className="col-sm-2 col-m-3 col-lg-4 p-3">
+                {organization && <div className="w-100 bg-white" style={{
+                    backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                    backgroundRepeat: "no-repeat", backgroundSize: "contain",
+                    backgroundPosition: "center", height: "200px"
+                }}/>}
+            </div>
+            <div className="col d-flex flex-row">
+                <div className="flex-fill align-content-center">
+                    {organization && <h1 style={{margin: "0px", textAlign: "start"}}>
+                        {organization.organization_name}
+                    </h1>}
+                </div>
+                <div className="align-content-center">
+                    <div className="border-start ps-5 pe-3">
+                        <h2>Badge Verification <br/>Status</h2>
+                        <OrgBadgeVerificationStatus organizationId={organizationId}
+                                                    badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
                     </div>
                 </div>
-                <div className="col d-flex flex-row">
-                    <div className="flex-fill align-content-center">
-                        <h1 style={{
-                            margin: "0px",
-                            textAlign: "start",
-                        }}>
-                            {organization.organization_name}
-                        </h1>
-                    </div>
-                    <div className="align-content-center">
-                        <div className="border-start ps-5 pe-3">
-                            <h2>Badge Verification <br/>Status</h2>
-                            <OrgBadgeVerificationStatus organizationId={organizationId}
-                                                        badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-12">
-                    <div className="input-group mb-3 search-input">
+            </div>
+            <div className="col-12">
+                <div className="input-group mb-3 search-input">
                         <span className="input-group-text">
                             <i className="bi bi-search"></i>
                         </span>
-                        <input type="text" className="form-control"
-                               placeholder="Search Resource by Name, Type, ResourceBadge, etc"
-                               aria-label="Search keywords" onChange={(e) => setSearchText(e.target.value)}/>
-                    </div>
-                </div>
-
-                <div className="w-100">
-                    {resourcesProcessing && <LoadingBlock/>}
-
-                    {!resourcesProcessing && sections.length === 0 &&
-                        <div className="w-100 p-3 text-center lead">
-                            There are no resource in this organization
-                        </div>}
-
-                    {!resourcesProcessing && sections.map((section, sectionIndex) => {
-                        const tooltip = <Tooltip id="tooltip">
-                            {section.description}
-                        </Tooltip>;
-
-                        return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
-                            <div className="w-100 text-start pb-2">
-                                <h2 className="d-inline me-4">
-                                    {section.title} ({section.resources.filter(r => !!r).length})</h2>
-                                <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
-                                    <button className="btn btn-link text-yellow d-inline"><i
-                                        className="bi bi-question-square-fill"></i></button>
-                                </OverlayTrigger>
-                            </div>
-
-                            <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
-                                {section.resources.map((resource, resourceIndex) => {
-                                    return <div className="col p-3" key={resourceIndex}>
-                                        <ResourceCard organization={organization} resource={resource}
-                                                      inProgress={section.showContinueSetup}/>
-                                    </div>
-                                })}
-                            </div>
-                        </div>
-                    })}
+                    <input type="text" className="form-control"
+                           placeholder="Search Resource by Name, Type, ResourceBadge, etc"
+                           aria-label="Search keywords" onChange={(e) => setSearchText(e.target.value)}/>
                 </div>
             </div>
+
+            <div className="w-100">
+                {resourcesProcessing && <LoadingBlock/>}
+
+                {!resourcesProcessing && sections.length === 0 &&
+                    <div className="w-100 p-3 text-center lead">
+                        There are no resource in this organization
+                    </div>}
+
+                {!resourcesProcessing && sections.map((section, sectionIndex) => {
+                    const tooltip = <Tooltip id="tooltip">
+                        {section.description}
+                    </Tooltip>;
+
+                    return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
+                        <div className="w-100 text-start pb-2">
+                            <h2 className="d-inline me-4">
+                                {section.title} ({section.resources.filter(r => !!r).length})</h2>
+                            <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
+                                <button className="btn btn-link text-yellow d-inline"><i
+                                    className="bi bi-question-square-fill"></i></button>
+                            </OverlayTrigger>
+                        </div>
+
+                        <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+                            {section.resources.map((resource, resourceIndex) => {
+                                return <div className="col p-3" key={resourceIndex}>
+                                    <ResourceCard organization={organization} resource={resource}
+                                                  inProgress={section.showContinueSetup}/>
+                                </div>
+                            })}
+                        </div>
+                    </div>
+                })}
+            </div>
         </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    </div>
 }
 
 function hasSearchCriteria(organization, resource, searchText) {
