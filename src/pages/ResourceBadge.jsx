@@ -67,9 +67,12 @@ export default function ResourceBadge() {
     };
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
+        const requiredTasks = tasks.filter(t => t.required);
 
-        const isReadyToSubmit = tasks.filter(t => [BadgeTaskWorkflowStatus.COMPLETED, BadgeTaskWorkflowStatus.NOT_COMPLETED].indexOf(t.status) >= 0).length === tasks.length &&
-            prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
+        const isReadyToSubmit = requiredTasks
+                .filter(t => [BadgeTaskWorkflowStatus.COMPLETED]
+                    .indexOf(t.status) >= 0).length === requiredTasks.length
+            && prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
 
         const lastUpdatedAt = new Date(Date.parse(badge.status_updated_at));
         const lastUpdatedBy = badge.status_updated_by;
