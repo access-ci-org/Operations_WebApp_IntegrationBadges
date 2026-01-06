@@ -45,6 +45,14 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     const isCurrentEventKey = activeEventKey.indexOf(eventKey) >= 0;
 
+    const taskStatusIcon = {
+        undefined : "bi bi-layers",
+        [BadgeTaskWorkflowStatus.NOT_COMPLETED]: "bi bi-layers",
+        [BadgeTaskWorkflowStatus.NOT_APPLICABLE]: "bi bi-eye-slash-fill",
+        [BadgeTaskWorkflowStatus.COMPLETED]: "bi bi-check-circle-fill",
+        [BadgeTaskWorkflowStatus.ACTION_NEEDED]: "bi bi-exclamation-triangle-fill"
+    };
+
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col ps-0 d-flex flex-row align-items-center">
             <div
@@ -70,16 +78,15 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                     <Dropdown.Toggle variant={task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED? "danger" : task.status ? 'outline-dark' : 'dark'}
                                      id="dropdown-basic"
                                      bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
-                                            <span className="flex-fill text-start">
-                                                {!task.status ? <i className="bi bi-layers"></i> :
-                                                    <i className="bi bi-check-circle-fill"></i>}
-                                                <span className="ps-3 pe-3">
-                                                    <Translate>badgeTaskWorkflowStatus.{task.status}</Translate>
-                                                </span>
-                                            </span>
+                        <span className="flex-fill text-start">
+                            <i className={taskStatusIcon[task.status]}></i>
+                            <span className="ps-3 pe-3">
+                                <Translate>badgeTaskWorkflowStatus.{task.status}</Translate>
+                            </span>
+                        </span>
                         <span>
-                                                <i className="bi bi-chevron-down"></i>
-                                            </span>
+                            <i className="bi bi-chevron-down"></i>
+                        </span>
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
@@ -88,7 +95,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                             Completed</Dropdown.Item>
                         <Dropdown.Item
                             onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED, false)}>
-                            Not Completed</Dropdown.Item>
+                            Incomplete</Dropdown.Item>
                         {!task.required && <Dropdown.Item
                             onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_APPLICABLE, false)}>
                             Not Applicable</Dropdown.Item>}
