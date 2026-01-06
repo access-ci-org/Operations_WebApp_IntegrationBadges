@@ -30,8 +30,11 @@ export default {
         "deprecated": "Deprecated"
     },
     "badgeTaskWorkflowStatus": {
+        "": "Incomplete",
         "completed": "Completed",
-        "not-completed": "Not Completed"
+        "not-completed": "Incomplete",
+        "not-applicable": "Not Applicable",
+        "action-needed": "Action Needed"
     },
     "dialog.roadmapEnrollments.success.body": ``,
     "dialog.roadmapEnrollments.error_401.body": ``,

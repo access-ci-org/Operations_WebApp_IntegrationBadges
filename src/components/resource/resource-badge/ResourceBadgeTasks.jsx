@@ -74,10 +74,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                                                 {!task.status ? <i className="bi bi-layers"></i> :
                                                     <i className="bi bi-check-circle-fill"></i>}
                                                 <span className="ps-3 pe-3">
-                                                    {!task.status && "Incomplete"}
-                                                    {task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED && "Not Applicable"}
-                                                    {task.status === BadgeTaskWorkflowStatus.COMPLETED && "Completed"}
-                                                    {task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED && "Action Needed"}
+                                                    <Translate>badgeTaskWorkflowStatus.{task.status}</Translate>
                                                 </span>
                                             </span>
                         <span>
@@ -91,7 +88,10 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                             Completed</Dropdown.Item>
                         <Dropdown.Item
                             onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED, false)}>
-                            Not Applicable</Dropdown.Item>
+                            Not Completed</Dropdown.Item>
+                        {!task.required && <Dropdown.Item
+                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_APPLICABLE, false)}>
+                            Not Applicable</Dropdown.Item>}
                         <Concierge>
                             <Dropdown.Item className="bg-danger-subtle"
                                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.ACTION_NEEDED, false)}>
