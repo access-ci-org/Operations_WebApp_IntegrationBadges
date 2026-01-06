@@ -11,7 +11,7 @@ The general format of entries is:
 v1.7.0 2026-01-06 dinukadesilva
     1 - [new] Enabling "Not Applicable" status for optional tasks (CTT-826)
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
-
+    2 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/79
 
 v1.6.3 2025-12-02 dinukadesilva
     1 - [new] Style improvements
