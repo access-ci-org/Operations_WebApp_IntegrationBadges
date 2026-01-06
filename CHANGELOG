@@ -8,6 +8,11 @@ The general format of entries is:
         - *
 
 
+v1.7.0 2026-01-06 dinukadesilva
+    1 - [new] Enabling "Not Applicable" status for optional tasks (CTT-826)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
+
 v1.6.3 2025-12-02 dinukadesilva
     1 - [new] Style improvements
         - /docs/roadmaps
