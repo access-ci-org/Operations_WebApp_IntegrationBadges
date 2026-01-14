@@ -233,19 +233,9 @@ h4, .h4 {
   border-width: 1px;
   border-style: solid;
   text-decoration: none;
-  font-weight: 200;
   user-select: auto;
 
-  &:hover, &.active {
-    text-decoration: none;
-    font-weight: 200;
-    background-color: white;
-    border-color: black;
-    color: black;
-  }
-
   &.btn-link {
-    @extend .btn-link;
     margin: 0px;
     padding: 0px;
     width: initial;
@@ -266,30 +256,12 @@ h4, .h4 {
       border: none;
       color: $access-medium !important;
     }
+
+    &.text-decoration-none:hover {
+      text-decoration: underline !important;
+    }
   }
 
-  &.btn-primary {
-    border-color: $access-yellow !important;
-    background-color: $access-yellow !important;
-  }
-
-
-  &.btn-secondary {
-    //color: white;
-    //border-color: $access-medium;
-    //background-color: $access-medium;
-  }
-
-  .btn-outline-primary,
-  .btn-outline-secondary,
-  .btn-outline-success,
-  .btn-outline-danger,
-  .btn-outline-warning,
-  .btn-outline-info,
-  .btn-outline-light,
-  .btn-outline-dark {
-
-  }
 }
 
 a.badge {

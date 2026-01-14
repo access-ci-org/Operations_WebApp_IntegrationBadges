@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
@@ -7,13 +7,20 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx";
 import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
 import {HtmlToText} from "../util/text-editors.jsx";
+import RoadmapName from "../roadmap/RoadmapName.jsx";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
+    const navigate = useNavigate();
+
     const {getResource} = useResources();
     const {getRoadmap} = useRoadmaps();
 
     const resource = getResource({resourceId});
     const roadmap = getRoadmap({roadmapId});
+
+    const navigateToRoadmap = () => {
+        navigate(DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmapId}`);
+    };
 
     if (roadmap) {
         return <div className="w-100 h-100 p-4 pt-5">
@@ -26,12 +33,14 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                         </div>
                     </div>
                 </div>
-                <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">{roadmap.name}</h3>
-                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill pre-wrap-text text-break">
+                <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">
+                    <RoadmapName  roadmapId={roadmapId} seperator=" "/>
+                </h3>
+                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill">
                     <HtmlToText>{roadmap.executive_summary}</HtmlToText>
                 </p>
 
-                {selected &&
+                {resource && selected &&
                     <div className="w-100 p-3 text-center">
                         <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}`}
                               className="btn btn-link m-2">View</Link>
@@ -41,11 +50,10 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
 
                 <button
                     className={`btn btn-link w-100 p-3 text-center rounded-bottom-3 text-decoration-none ${selected ? 'bg-dark' : 'bg-light'}`}
-                    role="button" onClick={toggle}>
-                    {selected ?
-                        <span><i
-                            className="bi bi-check-circle-fill"></i>&nbsp;&nbsp;Selected</span> : "Select the Roadmap"}
-
+                    role="button" onClick={!!resource ? toggle : navigateToRoadmap}>
+                    {!!resource && !!selected && <span><i className="bi bi-check-circle-fill"></i>&nbsp;&nbsp;Selected</span>}
+                    {!!resource && !selected && <span>Select the Roadmap</span>}
+                    {!resource && <span>View</span>}
                 </button>
             </div>
         </div>

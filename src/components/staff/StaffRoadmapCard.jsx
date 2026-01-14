@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
+import RoadmapName from "../roadmap/RoadmapName.jsx";
 
 export function StaffRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();
@@ -18,8 +19,6 @@ export function StaffRoadmapCard({roadmapId}) {
 
     const roadmap = getRoadmap({roadmapId});
 
-    const roadmapNameSegments = /(ACCESS Allocated|ACCESS Affiliated|ACCESS)? *(.*)/.exec(roadmap.name);
-
     if (roadmap) {
         return <div className="w-100 h-100 p-2 pt-4">
             <div
@@ -36,10 +35,7 @@ export function StaffRoadmapCard({roadmapId}) {
                         {roadmap.status === "Draft" &&
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Draft</span>}
                     </div>
-                    <h3 className="w-100 text-center text-black fs-6">{roadmapNameSegments[1]}</h3>
-                    <strong className="w-100 text-center text-medium fs-6">
-                        {roadmapNameSegments[2]}
-                    </strong>
+                    <h3 className="w-100 text-center fs-6"><RoadmapName roadmapId={roadmapId}/></h3>
                 </div>
                 <div className="w-100 text-end p-1">
                     <Link className="btn btn-link p-2"

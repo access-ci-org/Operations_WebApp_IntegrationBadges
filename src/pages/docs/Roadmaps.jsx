@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import {BadgeCardRowWithRequiredLabel} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {HtmlToReact} from "../../components/util/text-editors.jsx";
+import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -48,7 +49,7 @@ export default function Roadmaps() {
 
         const tabs = roadmaps.map((roadmap) => {
             return {
-                title: roadmap.name,
+                title: <RoadmapName roadmapId={roadmap.roadmap_id} seperator=" "/> ,
                 link: DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`
             }
         });
@@ -67,17 +68,17 @@ export default function Roadmaps() {
                          className="d-flex flex-column">
                         {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
                             <NavLink eventKey={tab.link} to={tab.link} as={Link}
-                                      className={() => {
-                                          let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
+                                     className={() => {
+                                         let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
 
-                                          if (activeKey === tab.link) {
-                                              className += " bg-light text-dark border-medium";
-                                          } else {
-                                              className += " bg-gray-100 text-secondary border-gray-300";
-                                          }
+                                         if (activeKey === tab.link) {
+                                             className += " bg-light text-dark border-medium";
+                                         } else {
+                                             className += " bg-gray-100 text-secondary border-gray-300";
+                                         }
 
-                                          return className;
-                                      }}>
+                                         return className;
+                                     }}>
                                 {tab.title}
                             </NavLink>
                         </Nav.Item>)}
@@ -97,7 +98,7 @@ export default function Roadmaps() {
                                 </div>
                             </div>
                             <div className="flex-fill align-content-center ps-3">
-                                <h2>{selectedRoadmap.name}</h2>
+                                <h2><RoadmapName roadmapId={selectedRoadmap.roadmap_id} seperator=" "/></h2>
                             </div>
                         </div>
 
@@ -108,7 +109,9 @@ export default function Roadmaps() {
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap RP Summary:</h4>
-                                <div className="col-sm-9"><HtmlToReact>{selectedRoadmap.executive_summary}</HtmlToReact></div>
+                                <div className="col-sm-9">
+                                    <HtmlToReact>{selectedRoadmap.executive_summary}</HtmlToReact>
+                                </div>
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Integration Concierge:</h4>

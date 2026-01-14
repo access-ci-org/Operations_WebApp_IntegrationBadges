@@ -9,6 +9,7 @@ import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
 import Translate from "../../locales/Translate.jsx";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
+import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
 
 export default function ResourceBadgeStatusListing() {
     const navigate = useNavigate();
@@ -30,14 +31,14 @@ export default function ResourceBadgeStatusListing() {
     }
 
     const badges = getResourceRoadmapBadges({
-        badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null: badgeWorkflowStatus
+        badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null : badgeWorkflowStatus
     });
     const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
 
     useEffect(() => {
         if (!!badgeWorkflowStatus) {
             fetchResourceRoadmapBadges({
-                badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null: badgeWorkflowStatus
+                badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null : badgeWorkflowStatus
             });
         }
     }, [badgeWorkflowStatus]);
@@ -152,7 +153,6 @@ export default function ResourceBadgeStatusListing() {
                                     const badgeId = resourceBadge.badge_id;
                                     const roadmapId = resourceBadge.roadmap_id;
                                     const badge = getBadge({badgeId});
-                                    const roadmap = getRoadmap({roadmapId});
 
                                     return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
                                         <td>
@@ -162,7 +162,8 @@ export default function ResourceBadgeStatusListing() {
                                             <div className="fs-7 pt-2 pb-2">{badge.name}</div>
                                         </td>
                                         <td>
-                                            <div className="fs-7 pt-2 pb-2">{roadmap.name}</div>
+                                            <div className="fs-7 pt-2 pb-2">
+                                                <RoadmapName roadmapId={roadmapId} seperator=" "/></div>
                                         </td>
                                         <td>
                                             <div className="fs-7 pt-2 pb-2">
