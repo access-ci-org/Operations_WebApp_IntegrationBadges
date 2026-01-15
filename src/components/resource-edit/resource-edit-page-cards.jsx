@@ -8,6 +8,7 @@ import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx"
 import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
 import {HtmlToText} from "../util/text-editors.jsx";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
+import computeResourceIcon from "../../assets/integration_icon_compute.png";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const navigate = useNavigate();
@@ -16,30 +17,35 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const {getRoadmap} = useRoadmaps();
 
     const resource = getResource({resourceId});
-    const roadmap = getRoadmap({roadmapId});
+    let roadmap = getRoadmap({roadmapId});
 
     const navigateToRoadmap = () => {
         navigate(DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmapId}`);
     };
 
-    if (roadmap) {
+    const actionButtonClasses = "btn btn-link w-100 p-3 text-center rounded-bottom-3 text-decoration-none";
+
+    if (!roadmapId || roadmap) {
         return <div className="w-100 h-100 p-4 pt-5">
             <div
                 className="w-100 h-100 d-flex flex-column rounded-3 border-gray-200 border border-1 position-relative roadmap-card">
                 <div className="w-100 position-absolute text-center roadmap-card-icon-row">
                     <div className="rounded-circle p-3 border d-inline-block bg-white">
-                        <div className="background-image-center-no-repeat roadmap-card-icon"
-                             style={{backgroundImage: `url(${roadmap.graphic})`}}>
-                        </div>
+                        {!roadmapId && <div className="background-image-center-no-repeat roadmap-card-icon"
+                                            style={{backgroundImage: `url(${computeResourceIcon})`}}></div>}
+                        {!!roadmapId && <div className="background-image-center-no-repeat roadmap-card-icon"
+                                             style={{backgroundImage: `url(${roadmap.graphic})`}}></div>}
                     </div>
                 </div>
-                <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">
-                    <RoadmapName  roadmapId={roadmapId} seperator=" "/>
+                <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center text-black">
+                    {!roadmapId && "Not sure?"}
+                    {!!roadmapId && <RoadmapName roadmapId={roadmapId} seperator=" "/>}
                 </h3>
 
                 <p className="w-100 ps-5 pe-5 pt-2 pb-4 flex-fill">
                     <p className="w-100 text-break text-three-line-overflow-ellipsis">
-                        <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+                        {!roadmapId && "Contact our concierge team, and we’ll help you choose the right path and get started."}
+                        {!!roadmapId && <HtmlToText>{roadmap.executive_summary}</HtmlToText>}
                     </p>
                 </p>
 
@@ -51,13 +57,22 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                               className="btn btn-link m-2">Edit</Link>
                     </div>}
 
-                <button
-                    className={`btn btn-link w-100 p-3 text-center rounded-bottom-3 text-decoration-none ${selected ? 'bg-dark' : 'bg-light'}`}
-                    role="button" onClick={!!resource ? toggle : navigateToRoadmap}>
-                    {!!resource && !!selected && <span><i className="bi bi-check-circle-fill"></i>&nbsp;&nbsp;Selected</span>}
-                    {!!resource && !selected && <span>Select the Roadmap</span>}
-                    {!resource && <span>View</span>}
-                </button>
+                {!roadmapId &&
+                    <Link className={`${actionButtonClasses} bg-primary`} to={""}>
+                        Open Help Ticket
+                    </Link>}
+                {!!roadmapId && !resource &&
+                    <Link className={`${actionButtonClasses} bg-light`} target="_blank"
+                          to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmapId}`}>View
+                    </Link>}
+                {!!roadmapId && !!resource && !selected &&
+                    <button className={`${actionButtonClasses} bg-light`} onClick={toggle}>
+                        Select the Roadmap
+                    </button>}
+                {!!roadmapId && !!resource && !!selected &&
+                    <button className={`${actionButtonClasses} bg-dark`} onClick={toggle}>
+                        <i className="bi bi-check-circle-fill"></i>&nbsp;&nbsp;Selected
+                    </button>}
             </div>
         </div>
     }

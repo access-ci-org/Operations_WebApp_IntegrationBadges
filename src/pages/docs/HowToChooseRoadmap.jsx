@@ -13,13 +13,14 @@ export default function HowToChooseRoadmap() {
 
     const roadmaps = getRoadmaps();
 
-    console.log("roadmaps", roadmaps);
-
     return <div className="container">
         <div className="w-100 p-3 pt-5">
-            <h1 className="mb-4">
+            <h1 className="">
                 What is an Integration Roadmap and How Do I Choose the Right One?
             </h1>
+            <div className="w-100 fw-bold fst-italic fs-5 text-medium mb-5">
+                Discover how to integrate your infrastructure into the ACCESS environment.
+            </div>
             <div className="row">
                 <div className="col-sm-6">
                     <p className="fs-6">
@@ -31,23 +32,45 @@ export default function HowToChooseRoadmap() {
                     </p>
                 </div>
                 <div className="col-sm-6">
-                    <img src={roadmapsBanner} alt="Roadmaps Banner" className="w-100" />
+                    <img src={roadmapsBanner} alt="Roadmaps Banner" className="w-100"/>
                 </div>
             </div>
-            <p className="fs-6">
-                Currently, ACCESS supports integration for:
-            </p>
         </div>
 
         <div className="row">
+            <div className="col-sm-12">
+                <h2 className="w-100 p-3 fs-6">
+                    Currently, ACCESS supports integration for:
+                </h2>
+            </div>
+
             {roadmaps && roadmaps.map((roadmap, roadmapIndex) => <div className="col-sm-6" key={roadmapIndex}>
                 <RoadmapCard roadmapId={roadmap.roadmap_id}/>
             </div>)}
+            <div className="col-sm-6">
+                <RoadmapCard roadmapId={null}/>
+            </div>
         </div>
 
         <div className="w-100 p-3 pt-5">
-            <h2>Ready to integrate a new resource?</h2>
-            <Link className="btn btn-dark btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
+            <p>
+                <strong>Explore the Future of Infrastructure Integration:</strong>&nbsp;
+                Interested in contributing to the development of new infrastructure roadmaps? We invite you to explore
+                the possibilities of integrating new and novel infrastructure types. Open an&nbsp;
+                <Link to="https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/32"
+                      className="btn btn-link">ACCESS Integration and Operation Support Request</Link>&nbsp;
+                to start a conversation. Together, we can advance research and innovation in
+                cyberinfrastructure.
+            </p>
+        </div>
+
+        <div className="w-100 p-3 pt-5">
+            <h2>Integration Roadmaps Framework Participation</h2>
+            <p>
+                ACCESS projects contribute to the Integration Roadmaps Framework by participating in the ACCESS
+                Integration Roadmaps Working Group where they develop, document, review, and release tasks and emerging
+                roadmaps.
+            </p>
         </div>
 
     </div>
