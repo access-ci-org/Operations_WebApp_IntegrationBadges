@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {RoadmapCard} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {useEffect} from "react";
+import roadmapsBanner from "../../assets/roadmaps-banner.jpeg"
 
 export default function HowToChooseRoadmap() {
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
@@ -19,14 +20,20 @@ export default function HowToChooseRoadmap() {
             <h1 className="mb-4">
                 What is an Integration Roadmap and How Do I Choose the Right One?
             </h1>
-            <p className="fs-6">
-                ACCESS uses an Integration Roadmaps Framework to define how operators can integrate classes of
-                infrastructure into the ACCESS environment to achieve a defined operational status. This framework
-                defines, for example, how HPC compute clusters can achieve the ACCESS allocated operational status, and
-                is used to define how many new classes of emerging infrastructure can be integrated to achieve ACCESS
-                allocated, un-allocated, discoverable, or other statuses.
-
-            </p>
+            <div className="row">
+                <div className="col-sm-6">
+                    <p className="fs-6">
+                        ACCESS uses an Integration Roadmaps Framework to define how operators can integrate classes of
+                        infrastructure into the ACCESS environment to achieve a defined operational status. This
+                        framework defines, for example, how HPC compute clusters can achieve the ACCESS allocated
+                        operational status, and is used to define how many new classes of emerging infrastructure can be
+                        integrated to achieve ACCESS allocated, un-allocated, discoverable, or other statuses.
+                    </p>
+                </div>
+                <div className="col-sm-6">
+                    <img src={roadmapsBanner} alt="Roadmaps Banner" className="w-100" />
+                </div>
+            </div>
             <p className="fs-6">
                 Currently, ACCESS supports integration for:
             </p>

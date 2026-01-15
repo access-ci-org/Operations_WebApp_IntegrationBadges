@@ -36,8 +36,11 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                 <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">
                     <RoadmapName  roadmapId={roadmapId} seperator=" "/>
                 </h3>
-                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill">
-                    <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+
+                <p className="w-100 ps-5 pe-5 pt-2 pb-4 flex-fill">
+                    <p className="w-100 text-break text-three-line-overflow-ellipsis">
+                        <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+                    </p>
                 </p>
 
                 {resource && selected &&
