@@ -12,7 +12,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-medium"></i>,
         "description": "Learn how contributing your resource supports the national research community, expands your visibility, and opens opportunities for collaboration and program support.",
-        "link": "/docs/how-to-integrate-resource",
+        "link": "/docs/"
     }, {
         "title": <>
             How do I <br/>
@@ -22,7 +22,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-stack fs-1 text-medium"></i>,
         "description": "Understand the process, what’s expected, and how our team supports you every step of the way.",
-        "link": "/docs/",
+        "link": "/docs/how-to-integrate-resource"
     }, {
         "title": <>
             What is an <br/>
@@ -33,7 +33,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-gear fs-1 text-medium"></i>,
         "description": "Find out how roadmaps structure the integration process and help you select the path that fits your system.",
-        "link": "/docs/how-to-choose-roadmap",
+        "link": "/docs/how-to-choose-roadmap"
     }, {
         "title": <>
             What is a <strong>ticketing</strong> <br/>
@@ -44,7 +44,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-medium"></i>,
         "description": "Learn how to access the ticketing system and set up your account to submit requests and support national research efforts.",
-        "link": "/docs/",
+        "link": "/docs/"
     }];
 
     const additionalQuestions = [
@@ -85,20 +85,20 @@ export default function WhyBecomeAnRP() {
     return <div className="container">
         <div className="w-100 p-3 pt-5">
             <h1 className="mb-4">Become a Resource Provider (RP)</h1>
-            <p className="fs-5 lead mb-5">
+            <p className="mb-5 lead">
                 Resource Providers (RPs) are at the center of ACCESS, making research possible for the diverse community
                 ACCESS serves. Our providers share cyberinfrastructure resources and their expertise with the
                 researchers and scientists who request allocations. This symbiotic relationship, supported by other
                 areas of the program, makes scientific discoveries happen.
             </p>
-            <p className="fs-5 lead fst-italic">
+            <p className="fst-italic lead">
                 This page will help you understand what it means to be an RP, why it matters, and how to get started.
             </p>
         </div>
 
         <div className="w-100 p-3">
             <h2>How Can We Assist You?</h2>
-            <p className="fs-5 lead">
+            <p className="lead">
                 Explore clear, step-by-step answers to the most common questions new RPs have. If you don’t see what you
                 need, we’re here and happy to help. Scroll down and open a help ticket!
             </p>
@@ -116,7 +116,7 @@ export default function WhyBecomeAnRP() {
                               to={keyQuestion.link} style={{height: 170}}>
                             {keyQuestion.title}
                         </Link>
-                        <p className="mb-0 text-gray-600">{keyQuestion.description}</p>
+                        <p className="mb-0 text-gray-600 text-center">{keyQuestion.description}</p>
                     </div>
                 </div>)}
         </div>

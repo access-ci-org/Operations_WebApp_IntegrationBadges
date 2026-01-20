@@ -3,6 +3,7 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {RoadmapCard} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {useEffect} from "react";
 import roadmapsBanner from "../../assets/roadmaps-banner.jpeg"
+import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png";
 
 export default function HowToChooseRoadmap() {
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
@@ -15,7 +16,7 @@ export default function HowToChooseRoadmap() {
 
     return <div className="container">
         <div className="w-100 p-3 pt-5">
-            <h1 className="">
+            <h1>
                 What is an Integration Roadmap and How Do I Choose the Right One?
             </h1>
             <div className="w-100 fw-bold fst-italic fs-5 text-medium mb-5">
@@ -23,7 +24,7 @@ export default function HowToChooseRoadmap() {
             </div>
             <div className="row">
                 <div className="col-sm-6">
-                    <p className="fs-6">
+                    <p className="lead">
                         ACCESS uses an Integration Roadmaps Framework to define how operators can integrate classes of
                         infrastructure into the ACCESS environment to achieve a defined operational status. This
                         framework defines, for example, how HPC compute clusters can achieve the ACCESS allocated
@@ -32,7 +33,9 @@ export default function HowToChooseRoadmap() {
                     </p>
                 </div>
                 <div className="col-sm-6">
-                    <img src={roadmapsBanner} alt="Roadmaps Banner" className="w-100"/>
+                    <div className="h-100 bg-white background-image-center-no-repeat"
+                         style={{backgroundImage: `url(${roadmapsBanner})`, minHeight: 100}}>
+                    </div>
                 </div>
             </div>
         </div>

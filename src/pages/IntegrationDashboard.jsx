@@ -40,7 +40,7 @@ export default function IntegrationDashboard() {
                 work.
             </p>
         </div>
-        <div className="row mt-2">
+        <div className="w-100 mt-2">
             <input className="form-control" type="text" placeholder="Search Resource Provider by Organization Name"
                    aria-label="default input example" onChange={(e) => setSearchText(e.target.value)}/>
         </div>
