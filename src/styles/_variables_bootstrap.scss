@@ -21,20 +21,18 @@ $form-text-margin-top: 0 !default;
 $legend-font-size: 1rem !default;
 $table-cell-padding-x: .75rem !default;
 
-$accordion-button-color:           $access-medium;
+$accordion-button-color: $access-medium;
 
-$accordion-button-active-bg:              $access-light;
-$accordion-button-active-color:           $access-medium;
-
-
-$nav-link-color:                    $access-secondary;
-$nav-link-hover-color:             $access-medium;
-
-$nav-underline-gap:                 1rem !default;
-$nav-underline-border-width:        .1rem !default;
-$nav-underline-link-active-color:   $access-medium;
+$accordion-button-active-bg: $access-light;
+$accordion-button-active-color: $access-medium;
 
 
+$nav-link-color: $access-secondary;
+$nav-link-hover-color: $access-medium;
+
+$nav-underline-gap: 1rem !default;
+$nav-underline-border-width: .1rem !default;
+$nav-underline-link-active-color: $access-medium;
 
 
 // Modals
@@ -52,8 +50,8 @@ $nav-underline-link-active-color:   $access-medium;
 //$modal-content-color:               null !default;
 //$modal-content-bg:                  var(--#{$prefix}body-bg) !default;
 //$modal-content-border-color:        var(--#{$prefix}border-color-translucent) !default;
-$modal-content-border-width:        0px; // var(--#{$prefix}border-width) !default;
-$modal-content-border-radius:       0px; // var(--#{$prefix}border-radius-lg) !default;
+$modal-content-border-width: 0px; // var(--#{$prefix}border-width) !default;
+$modal-content-border-radius: 0px; // var(--#{$prefix}border-radius-lg) !default;
 $modal-content-inner-border-radius: 0px; // subtract($modal-content-border-radius, $modal-content-border-width) !default;
 //$modal-content-box-shadow-xs:       var(--#{$prefix}box-shadow-sm) !default;
 //$modal-content-box-shadow-sm-up:    var(--#{$prefix}box-shadow) !default;
@@ -61,15 +59,15 @@ $modal-content-inner-border-radius: 0px; // subtract($modal-content-border-radiu
 //$modal-backdrop-bg:                 $black !default;
 //$modal-backdrop-opacity:            .5 !default;
 
-$modal-header-border-color:         0px; // var(--#{$prefix}border-color) !default;
-$modal-header-border-width:         0px; // $modal-content-border-width !default;
-$modal-header-padding-y:            50px; // $modal-inner-padding !default;
-$modal-header-padding-x:            50px; // $modal-inner-padding !default;
+$modal-header-border-color: 0px; // var(--#{$prefix}border-color) !default;
+$modal-header-border-width: 0px; // $modal-content-border-width !default;
+$modal-header-padding-y: 50px; // $modal-inner-padding !default;
+$modal-header-padding-x: 50px; // $modal-inner-padding !default;
 //$modal-header-padding:              $modal-header-padding-y $modal-header-padding-x !default; // Keep this for backwards compatibility
 //
 //$modal-footer-bg:                   null !default;
 //$modal-footer-border-color:         $modal-header-border-color !default;
-$modal-footer-border-width:         0px; // $modal-header-border-width !default;
+$modal-footer-border-width: 0px; // $modal-header-border-width !default;
 
 //$modal-sm:                          300px !default;
 //$modal-md:                          500px !default;

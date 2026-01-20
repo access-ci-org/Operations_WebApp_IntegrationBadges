@@ -87,14 +87,32 @@ $table-variants: (
   "light": $access-light,
 );
 
+// custom-variables.scss
+$h1-font-size: 2.5rem;
+$h2-font-size: 2rem;
+$h3-font-size: 1.4rem;
+$h4-font-size: 1.3rem;
+$h5-font-size: 1.25rem;
+$h6-font-size: 1rem;
+$h7-font-size: 0.9rem;
+$h8-font-size: 0.8rem;
+$h9-font-size: 0.7rem;
+
+// Other useful variables to customize
+$headings-font-family:  "Archivo", Helvetica, Arial, sans-serif;
+$headings-font-weight: 800;
+$headings-line-height: 1.2;
+$headings-color: $black;
+
+
 $font-sizes: (
-  1: 2.5rem,
-  2: 2rem,
-  3: 1.75rem,
-  4: 1.5rem,
-  5: 1.25rem,
-  6: 1rem,
-  7: 0.9rem,
-  8: 0.8rem,
-  9: 0.7rem,
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: $h7-font-size,
+  8: $h8-font-size,
+  9: $h9-font-size
 );
