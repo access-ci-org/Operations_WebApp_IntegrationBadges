@@ -5,7 +5,7 @@ export default function BadgeIcon({badgeId}) {
 
     let badge = getBadge({badgeId});
 
-    return <div className={`w-100 background-image-center-no-repeat badge-icon-border`}
+    return <div className={`w-100 h-100 background-image-center-no-repeat badge-icon-border`}
         style={{backgroundImage: `url(${badge.graphic})`}}>
     </div>
 }

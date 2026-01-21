@@ -1,8 +1,24 @@
 import {Link} from "react-router-dom";
 
 import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png"
+import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {useEffect} from "react";
+import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
+import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 
 export default function HowToIntegrateResource() {
+
+    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
+    const {fetchBadges, getBadges} = useBadges();
+
+    useEffect(() => {
+        fetchRoadmaps();
+        fetchBadges();
+    }, []);
+
+    const roadmaps = getRoadmaps();
+    const badges = getBadges();
 
     const highlightedFeatures = [
         {
@@ -28,6 +44,24 @@ export default function HowToIntegrateResource() {
         }
     ];
 
+    const gettingStartedSections = [
+        {
+            "title": "Start a New Integration",
+            "icon": <i className="bi bi-stars"></i>,
+            "body": <p className="lead">
+                Click "Start Integration" on the home page to get started immediately.
+            </p>
+        },
+        {
+            "title": "Integration Dashboard",
+            "icon": <i className="bi bi-bar-chart-line"></i>,
+            "body": <p className="lead">
+                Navigate to the “Integration Dashboard” to access full control and manage your institution’s resources.
+                Select your institution name, then go to the “New Integrations” tab to create a new integration.
+            </p>
+        }
+    ];
+
     const workflowSteps = [
         {
             "title": "Register Your Organization and Resource",
@@ -44,38 +78,79 @@ export default function HowToIntegrateResource() {
         },
         {
             "title": "Choose an Integration Roadmap",
-            "body": <p>
-                Once your resource appears on your dashboard, you’ll see a list of roadmaps compatible with your
-                resource type. Select the roadmap that matches your system to begin the process and proceed to Step 3.
-                Each roadmap breaks the process into a clear sequence of badges, grouped sets of tasks that guide your
-                team through integration. <strong>Current Roadmaps</strong> include:
-            </p>
+            "body": <div>
+                <p>
+                    Once your resource appears on your dashboard, you’ll see a list of roadmaps compatible with your
+                    resource type. Select the roadmap that matches your system to begin the process and proceed to Step
+                    3. Each roadmap breaks the process into a clear sequence of badges, grouped sets of tasks that guide
+                    your team through integration.&nbsp;
+                    <strong>Current Roadmaps</strong> include:
+                </p>
+                <div className="row">
+                    {roadmaps.slice(0, 6).map((roadmap, roadmapIndex) =>
+                        <div className="col-sm-6 p-2" key={roadmapIndex}>
+                            <Link to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmap.roadmap_id}`}
+                                  className="w-100 btn btn-medium rounded-2">{roadmap.name}</Link>
+                        </div>)}
+                </div>
+            </div>
         },
         {
             "title": "Select Your Resource-Specific Badges",
-            "body": <p>
-                Within your chosen roadmap, you’ll see a set of badges related to technical setup, security, user
-                onboarding, documentation, operations, and more. Some badges are required and some are recommended.
-                Required badges are pre-selected by default, and you can choose additional badges based on your
-                resource’s specific needs.
-                <br/><br/>
-                Each badge includes clear instructions, links, and examples to guide you.
-            </p>
+            "body": <div>
+                <p>
+                    Within your chosen roadmap, you’ll see a set of badges related to technical setup, security, user
+                    onboarding, documentation, operations, and more. Some badges are required and some are recommended.
+                    Required badges are pre-selected by default, and you can choose additional badges based on your
+                    resource’s specific needs.
+                    <br/><br/>
+                    Each badge includes clear instructions, links, and examples to guide you.
+                </p>
+                <div className="w-100">
+                    {badges.slice(0, 2).map((badge, badgeIndex) =>
+                        <div className="d-inline-block p-2" key={badgeIndex}>
+                            <Link to={`${DocumentationRouteUrls.BADGES}?badgeId=${badge.badge_id}`}>
+                                <BadgeIcon badgeId={badge.badge_id}/>
+                            </Link>
+                        </div>)}
+                </div>
+            </div>
         },
         {
             "title": "Complete Your Badges",
-            "body": <p>
-                Each badge represents a focused, achievable milestone. As you work through your badges:
-                <br/><br/>
-                Your progress is visible both to your internal team and the ACCESS Concierge Team.
-            </p>
+            "body": <div>
+                <p>Each badge represents a focused, achievable milestone. As you work through your badges:</p>
+                <div className="w-100 pb-2 pt-2">
+                    <button className="btn btn-medium rounded-2 d-flex flex-row">
+                        <i className="bi bi-check-circle me-2 text-info"></i>
+                        <span className="flex-fill">Follow the step-by-step tasks</span>
+                    </button>
+                </div>
+                <div className="w-100 pb-4">
+                    <button className="btn btn-medium rounded-2 d-flex flex-row">
+                        <i className="bi bi-check-circle me-2 text-info"></i>
+                        <span className="flex-fill">Mark badges as complete in the dashboard</span>
+                    </button>
+                </div>
+                <p> Your progress is visible both to your internal team and the ACCESS Concierge Team.</p>
+            </div>
         },
         {
             "title": "Submit Badges for Verification",
-            "body": <p>
-                When a badge is ready, submit it for verification. The ACCESS team will review your work to ensure
-                everything is set up correctly. Once badges are verified, your resource is fully integrated into ACCESS.
-            </p>
+            "body": <div>
+                <p>
+                    When a badge is ready, submit it for verification. The ACCESS team will review your work to ensure
+                    everything is set up correctly. Once badges are verified, your resource is fully integrated into
+                    ACCESS.
+                </p>
+                <div className="w-100 pb-4">
+                    <button className="btn btn-medium rounded-2 text-start d-flex flex-row">
+                        <i className="bi bi-chat me-2 text-info"></i>
+                        <span className="flex-fill">You are never alone during this step. The concierge team is
+                            available to answer questions and provide guidance for a successful integration.</span>
+                    </button>
+                </div>
+            </div>
         }
     ];
 
@@ -134,36 +209,23 @@ export default function HowToIntegrateResource() {
             </p>
 
             <div className="row">
-                <div className="col-sm-6">
-                    <div className="h-100 p-4 rounded-3 border border-1 border-black">
-                        <div className="d-flex flex-row">
-                            <div className="bg-medium text-white text-center align-content-center rounded-3"
-                                 style={{width: 35, height: 35}}>
-                                <i className="bi bi-stars"></i>
+                {gettingStartedSections.map((gettingStartedSection, gettingStartedSectionIndex) =>
+                    <div className="col-sm-6" key={gettingStartedSectionIndex}>
+                        <div className="h-100 p-4 rounded-3 border border-1 border-black">
+                            <div className="d-flex flex-row">
+                                <div className="bg-medium text-white text-center align-content-center rounded-3"
+                                     style={{width: 35, height: 35}}>
+                                    {gettingStartedSection.icon}
+                                </div>
+                                <h4 className="flex-fill align-content-center m-0 ps-3">
+                                    {gettingStartedSection.title}
+                                </h4>
                             </div>
-                            <h4 className="flex-fill align-content-center m-0 ps-3">Start a New Integration</h4>
-                        </div>
-                        <p className="pt-4 pb-4 lead">
-                            Click "Start Integration" on the home page to get started immediately.
-                        </p>
-                    </div>
-                </div>
-                <div className="col-sm-6">
-                    <div className="h-100 p-4 rounded-3 border border-1 border-black">
-                        <div className="d-flex flex-row">
-                            <div className="bg-medium text-white text-center align-content-center rounded-3"
-                                 style={{width: 35, height: 35}}>
-                                <i className="bi bi-bar-chart-line"></i>
+                            <div className="pt-4 pb-4 lead">
+                                {gettingStartedSection.body}
                             </div>
-                            <h4 className="flex-fill align-content-center m-0 ps-3">Integration Dashboard</h4>
                         </div>
-                        <p className="pt-4 pb-4 lead">
-                            Navigate to the “Integration Dashboard” to access full control and manage your institution’s
-                            resources. Select your institution name, then go to the “New Integrations” tab to create a
-                            new integration.
-                        </p>
-                    </div>
-                </div>
+                    </div>)}
             </div>
         </div>
 
