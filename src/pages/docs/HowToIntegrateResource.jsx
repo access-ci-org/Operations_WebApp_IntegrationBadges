@@ -121,16 +121,16 @@ export default function HowToIntegrateResource() {
             "body": <div>
                 <p>Each badge represents a focused, achievable milestone. As you work through your badges:</p>
                 <div className="w-100 pb-2 pt-2">
-                    <button className="btn btn-dark rounded-2 d-flex flex-row">
+                    <div className="bg-dark p-2 rounded-2 d-flex flex-row width-fit-content">
                         <i className="bi bi-check-circle me-2 text-info"></i>
                         <span className="flex-fill">Follow the step-by-step tasks</span>
-                    </button>
+                    </div>
                 </div>
                 <div className="w-100 pb-4">
-                    <button className="btn btn-dark rounded-2 d-flex flex-row">
+                    <div className="bg-dark p-2 rounded-2 d-flex flex-row width-fit-content">
                         <i className="bi bi-check-circle me-2 text-info"></i>
                         <span className="flex-fill">Mark badges as complete in the dashboard</span>
-                    </button>
+                    </div>
                 </div>
                 <p> Your progress is visible both to your internal team and the ACCESS Concierge Team.</p>
             </div>
@@ -144,11 +144,11 @@ export default function HowToIntegrateResource() {
                     ACCESS.
                 </p>
                 <div className="w-100 pb-4">
-                    <button className="btn btn-dark rounded-2 text-start d-flex flex-row">
+                    <div className="bg-dark p-2 rounded-2 text-start d-flex flex-row width-fit-content">
                         <i className="bi bi-chat me-2 text-info"></i>
                         <span className="flex-fill">You are never alone during this step. The concierge team is
                             available to answer questions and provide guidance for a successful integration.</span>
-                    </button>
+                    </div>
                 </div>
             </div>
         }
