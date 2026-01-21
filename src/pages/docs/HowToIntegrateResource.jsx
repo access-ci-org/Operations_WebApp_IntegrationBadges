@@ -90,7 +90,7 @@ export default function HowToIntegrateResource() {
                     {roadmaps.slice(0, 6).map((roadmap, roadmapIndex) =>
                         <div className="col-sm-6 p-2" key={roadmapIndex}>
                             <Link to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmap.roadmap_id}`}
-                                  className="w-100 btn btn-medium rounded-2">{roadmap.name}</Link>
+                                  className="w-100 btn btn-dark rounded-2">{roadmap.name}</Link>
                         </div>)}
                 </div>
             </div>
@@ -121,13 +121,13 @@ export default function HowToIntegrateResource() {
             "body": <div>
                 <p>Each badge represents a focused, achievable milestone. As you work through your badges:</p>
                 <div className="w-100 pb-2 pt-2">
-                    <button className="btn btn-medium rounded-2 d-flex flex-row">
+                    <button className="btn btn-dark rounded-2 d-flex flex-row">
                         <i className="bi bi-check-circle me-2 text-info"></i>
                         <span className="flex-fill">Follow the step-by-step tasks</span>
                     </button>
                 </div>
                 <div className="w-100 pb-4">
-                    <button className="btn btn-medium rounded-2 d-flex flex-row">
+                    <button className="btn btn-dark rounded-2 d-flex flex-row">
                         <i className="bi bi-check-circle me-2 text-info"></i>
                         <span className="flex-fill">Mark badges as complete in the dashboard</span>
                     </button>
@@ -144,7 +144,7 @@ export default function HowToIntegrateResource() {
                     ACCESS.
                 </p>
                 <div className="w-100 pb-4">
-                    <button className="btn btn-medium rounded-2 text-start d-flex flex-row">
+                    <button className="btn btn-dark rounded-2 text-start d-flex flex-row">
                         <i className="bi bi-chat me-2 text-info"></i>
                         <span className="flex-fill">You are never alone during this step. The concierge team is
                             available to answer questions and provide guidance for a successful integration.</span>
@@ -152,6 +152,13 @@ export default function HowToIntegrateResource() {
                 </div>
             </div>
         }
+    ];
+
+    const outcomes = [
+        "It becomes discoverable to the national research community",
+        "You receive support for ongoing operations",
+        "You gain access to usage metrics, user activity insights, and support workflows",
+        "You participate in the broader RP community"
     ];
 
     return <div className="container">
@@ -183,7 +190,7 @@ export default function HowToIntegrateResource() {
                 {highlightedFeatures.map((highlightedFeature, highlightedFeatureIndex) =>
                     <div className="col d-flex flex-row" style={{minWidth: 220, maxWidth: 220}}>
                         <div className="p-1">
-                            <div className="bg-medium text-white text-center align-content-center rounded-3"
+                            <div className="bg-dark text-center align-content-center rounded-3"
                                  style={{width: 35, height: 35}}>
                                 {highlightedFeature.icon}
                             </div>
@@ -213,7 +220,7 @@ export default function HowToIntegrateResource() {
                     <div className="col-sm-6" key={gettingStartedSectionIndex}>
                         <div className="h-100 p-4 rounded-3 border border-1 border-black">
                             <div className="d-flex flex-row">
-                                <div className="bg-medium text-white text-center align-content-center rounded-3"
+                                <div className="bg-dark text-center align-content-center rounded-3"
                                      style={{width: 35, height: 35}}>
                                     {gettingStartedSection.icon}
                                 </div>
@@ -238,7 +245,7 @@ export default function HowToIntegrateResource() {
                 <div className="w-100 ps-5 pe-5 d-flex flex-row" key={workflowStepIndex}>
                     <div className="d-flex flex-column">
                         <div>
-                            <div className="bg-medium text-white text-center align-content-center rounded-3"
+                            <div className="bg-dark text-center align-content-center rounded-3"
                                  style={{width: 35, height: 35}}>
                                 {workflowStepIndex + 1}
                             </div>
@@ -254,6 +261,31 @@ export default function HowToIntegrateResource() {
                         </div>
                     </div>
                 </div>)}
+        </div>
+
+        <div className="w-100 p-3">
+            <div className="w-100 p-4 text-start d-flex flex-row bg-dark rounded-3">
+                <div>
+                    <div className="bg-white bg-opacity-10 text-white text-center align-content-center rounded-3 me-2"
+                         style={{width: 35, height: 35}}>
+                        <i className="bi bi-stars"></i>
+                    </div>
+                </div>
+                <div className="flex-fill">
+                    <h4 className="text-white mt-1 mb-4 fw-normal align-content-center">Once your resource is integrated:</h4>
+
+                    <div className="row">
+                        {outcomes.map((outcome, outcomeIndex) =>
+                            <div className="col-sm-6 p-2" key={outcomeIndex}>
+                                <div
+                                    className="w-100 h-100 text-start d-flex flex-row p-3 rounded-2 bg-white bg-opacity-10">
+                                    <i className="bi bi-check-circle me-2 text-success"></i>
+                                    <span className="flex-fill lh-sm">{outcome}</span>
+                                </div>
+                            </div>)}
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
