@@ -85,20 +85,20 @@ export default function WhyBecomeAnRP() {
     return <div className="container">
         <div className="w-100 p-3 pt-5">
             <h1 className="mb-4">Become a Resource Provider (RP)</h1>
-            <p className="mb-5 lead">
+            <p className="mb-5">
                 Resource Providers (RPs) are at the center of ACCESS, making research possible for the diverse community
                 ACCESS serves. Our providers share cyberinfrastructure resources and their expertise with the
                 researchers and scientists who request allocations. This symbiotic relationship, supported by other
                 areas of the program, makes scientific discoveries happen.
             </p>
-            <p className="fst-italic lead">
+            <p className="fst-italic">
                 This page will help you understand what it means to be an RP, why it matters, and how to get started.
             </p>
         </div>
 
         <div className="w-100 p-3">
             <h2>How Can We Assist You?</h2>
-            <p className="lead">
+            <p>
                 Explore clear, step-by-step answers to the most common questions new RPs have. If you don’t see what you
                 need, we’re here and happy to help. Scroll down and open a help ticket!
             </p>
@@ -116,7 +116,7 @@ export default function WhyBecomeAnRP() {
                               to={keyQuestion.link} style={{height: 170}}>
                             {keyQuestion.title}
                         </Link>
-                        <p className="mb-0 text-gray-600 text-center">{keyQuestion.description}</p>
+                        <p className="mb-0 text-gray-600 text-center small">{keyQuestion.description}</p>
                     </div>
                 </div>)}
         </div>
@@ -144,7 +144,7 @@ export default function WhyBecomeAnRP() {
                             <i className="bi bi-chat-left fs-1 text-black"></i>
                             <h3 className="flex-fill text-start align-content-center ps-4">Still have questions?</h3>
                         </div>
-                        <p className="mb-5 fs-6 lead">
+                        <p className="mb-5 fs-6">
                             Can’t find the answer you’re looking for? Our support team is ready to help you with any
                             questions or concerns.
                         </p>
@@ -162,7 +162,7 @@ export default function WhyBecomeAnRP() {
                             <i className="bi bi-rocket-takeoff fs-1 text-black"></i>
                             <h3 className="flex-fill text-start align-content-center ps-4">Ready to get started?</h3>
                         </div>
-                        <p className="mb-5 fs-6 lead">
+                        <p className="mb-5 fs-6">
                             Start integrating your resources and unlock the full potential of our platform.
                         </p>
                     </div>

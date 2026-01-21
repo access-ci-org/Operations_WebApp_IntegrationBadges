@@ -48,14 +48,14 @@ export default function HowToIntegrateResource() {
         {
             "title": "Start a New Integration",
             "icon": <i className="bi bi-stars"></i>,
-            "body": <p className="lead">
+            "body": <p>
                 Click "Start Integration" on the home page to get started immediately.
             </p>
         },
         {
             "title": "Integration Dashboard",
             "icon": <i className="bi bi-bar-chart-line"></i>,
-            "body": <p className="lead">
+            "body": <p>
                 Navigate to the “Integration Dashboard” to access full control and manage your institution’s resources.
                 Select your institution name, then go to the “New Integrations” tab to create a new integration.
             </p>
@@ -171,7 +171,7 @@ export default function HowToIntegrateResource() {
             </div>
             <div className="row">
                 <div className="col-sm-6">
-                    <p className="lead">
+                    <p className="">
                         Integrating your resource with ACCESS is designed to be clear, structured, and supported at
                         every stage. You don’t need to figure it out alone, our Integration Roadmaps, badges, and
                         concierge support make the process manageable for teams of all sizes. The integration process
@@ -188,7 +188,7 @@ export default function HowToIntegrateResource() {
 
             <div className="row pt-5">
                 {highlightedFeatures.map((highlightedFeature, highlightedFeatureIndex) =>
-                    <div className="col d-flex flex-row" style={{minWidth: 220, maxWidth: 220}}>
+                    <div className="col d-flex flex-row" style={{minWidth: 240, maxWidth: 240}}>
                         <div className="p-1">
                             <div className="bg-dark text-center align-content-center rounded-3"
                                  style={{width: 35, height: 35}}>
@@ -208,7 +208,7 @@ export default function HowToIntegrateResource() {
                 <h3 className="text-uppercase fs-5 ps-2 pe-2 m-0 align-content-center">Getting Started</h3>
                 <hr className="flex-fill"/>
             </div>
-            <p className="w-100 pt-5 pb-5 lead">
+            <p className="w-100 pt-5 pb-5">
                 Visit the&nbsp;
                 <Link className="btn btn-link" to="https://access-ci.org/get-started/for-resource-providers/">RP home
                     page</Link>
@@ -228,7 +228,7 @@ export default function HowToIntegrateResource() {
                                     {gettingStartedSection.title}
                                 </h4>
                             </div>
-                            <div className="pt-4 pb-4 lead">
+                            <div className="pt-4 pb-4">
                                 {gettingStartedSection.body}
                             </div>
                         </div>

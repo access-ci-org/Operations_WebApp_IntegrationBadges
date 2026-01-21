@@ -24,7 +24,7 @@ export default function HowToChooseRoadmap() {
             </div>
             <div className="row">
                 <div className="col-sm-6">
-                    <p className="lead">
+                    <p className="">
                         ACCESS uses an Integration Roadmaps Framework to define how operators can integrate classes of
                         infrastructure into the ACCESS environment to achieve a defined operational status. This
                         framework defines, for example, how HPC compute clusters can achieve the ACCESS allocated

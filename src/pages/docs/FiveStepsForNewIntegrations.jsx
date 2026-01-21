@@ -15,7 +15,7 @@ export default function FiveStepsForNewIntegrations() {
                 <h2 className="pb-3">
                     Five Simple Stages
                 </h2>
-                <p className="lead">
+                <p className="">
                     The process kicks off with a registration. From there, you’ll choose the roadmaps you want to
                     integrate with and specify the badges your team plans to work on. You will then finalize the process
                     by submitting the completed badges for concierge verification. Don’t worry—we’ve got you covered
