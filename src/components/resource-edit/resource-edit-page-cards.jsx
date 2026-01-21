@@ -43,7 +43,7 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                 </h3>
 
                 <p className="w-100 ps-5 pe-5 pt-2 pb-4 flex-fill">
-                    <p className="w-100 text-break text-three-line-overflow-ellipsis">
+                    <p className="w-100 text-break text-three-line-overflow-ellipsis small">
                         {!roadmapId && "Contact our concierge team, and we’ll help you choose the right path and get started."}
                         {!!roadmapId && <HtmlToText>{roadmap.executive_summary}</HtmlToText>}
                     </p>
@@ -113,7 +113,7 @@ export function BadgeCardRow({
                 {!!body ?
                     <div className="col-sm-3 pt-2 pb-2 badge-card-row-description align-content-center">{body}</div> :
                     <div className="col pt-2 pb-2 badge-card-row-description align-content-center">
-                        <p className="m-0 align-content-center">
+                        <p className="m-0 align-content-center small">
                             <HtmlToText>{badge.resource_provider_summary}</HtmlToText>
                         </p>
                     </div>}

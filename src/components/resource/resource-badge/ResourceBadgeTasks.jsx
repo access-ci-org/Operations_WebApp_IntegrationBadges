@@ -179,7 +179,7 @@ export default function  ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
                                              eventKey={taskIndex} badge={badge}
                                              task={task}>{task.name}</TaskAccordionHeader>
                         <Accordion.Collapse eventKey={taskIndex} bsPrefix="row">
-                            <div className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1">
+                            <div className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1 small">
                                 <HtmlToReact>{task.technical_summary}</HtmlToReact>
                                 <a className="btn btn-link" href={task.detailed_instructions_url} target="_blank">View Details</a>
                             </div>

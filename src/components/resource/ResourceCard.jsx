@@ -32,7 +32,7 @@ export default function ResourceCard({organization, resource, inProgress = false
             </div>
         </div>
         <div className="w-100 p-1 pt-4 flex-fill resource-card-body">
-            <p className="w-100">
+            <p className="w-100 small">
                 {resource.resource_description}
             </p>
         </div>
