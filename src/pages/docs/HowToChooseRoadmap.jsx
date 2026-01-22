@@ -2,8 +2,7 @@ import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {RoadmapCard} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {useEffect} from "react";
-import roadmapsBanner from "../../assets/roadmaps-banner.jpeg"
-import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png";
+import roadmapsBanner from "../../assets/roadmaps-banner.jpeg";
 
 export default function HowToChooseRoadmap() {
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();

@@ -1,5 +1,4 @@
 import {Link} from "react-router-dom";
-
 import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png"
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useEffect} from "react";
@@ -287,6 +286,5 @@ export default function HowToIntegrateResource() {
                 </div>
             </div>
         </div>
-
     </div>
 }

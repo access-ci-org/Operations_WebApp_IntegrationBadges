@@ -1,5 +1,4 @@
 import {Link} from "react-router-dom";
-
 import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png"
 
 export default function FiveStepsForNewIntegrations() {

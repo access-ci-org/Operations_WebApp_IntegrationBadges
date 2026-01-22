@@ -22,7 +22,6 @@ export default function Badges() {
     const queryParams = new URLSearchParams(location.search);
     let badgeId = queryParams.get('badgeId');
 
-    const {fetchRoadmaps, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
     const {fetchBadges, getBadges, getBadge} = useBadges();
     const {fetchTasks, getTasks} = useTasks();
 
