@@ -8,6 +8,18 @@ The general format of entries is:
         - *
 
 
+v1.8.0 2026-01-22 dinukadesilva
+    1 - [new] Enable black and green text separation on roadmap names
+        - /staff/badge-status
+        - /docs/roadmaps
+        - /resources/<resource_id>/edit (new enrollments)
+    2 - [new] Adding the latest documentation pages
+        - /docs/why-become-an-rp
+        - /docs/why-should-i-integrate-resources
+        - /docs/how-to-integrate-resource
+        - /docs/how-to-choose-roadmap
+        - /docs/what-is-ticketing-system
+
 v1.7.0 2026-01-06 dinukadesilva
     1 - [new] Enabling "Not Applicable" status for optional tasks (CTT-826)
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
