@@ -1,3 +1,6 @@
+import {WhyBecomeAnRPFooter} from "./WhyBecomeAnRP.jsx";
+import {Link} from "react-router-dom";
+
 export default function WhyIntegrateResources() {
 
     const benefits = [
@@ -127,13 +130,22 @@ export default function WhyIntegrateResources() {
             </h4>
             <div className="w-100 lh-lg">
                 <ul>
-                    <li>Highlighted placement in the ACCESS Resource Catalog</li>
-                    <li>Opportunities to be featured in ACCESS communications or community events</li>
+                    <li>
+                        Highlighted placement in the&nbsp;
+                        <Link to="https://allocations.access-ci.org/resources" className="btn btn-link fw-normal">
+                            ACCESS Resource Catalog</Link>
+                    </li>
+                    <li>
+                        Opportunities to be featured in&nbsp;
+                        <Link to="" className="btn btn-link fw-normal">ACCESS communications</Link>&nbsp;
+                        or community events</li>
                     <li>Exposure to educators developing classroom and training experiences</li>
                 </ul>
             </div>
             <div className="border-bottom border-medium border-1 ms-5 me-5 mt-5 mb-5"></div>
         </div>
+
+        <WhyBecomeAnRPFooter/>
 
     </div>
 }

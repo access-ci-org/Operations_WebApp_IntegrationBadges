@@ -5,6 +5,7 @@ import {useEffect} from "react";
 import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
+import {WhyBecomeAnRPFooter} from "./WhyBecomeAnRP.jsx";
 
 export default function HowToIntegrateResource() {
 
@@ -286,5 +287,7 @@ export default function HowToIntegrateResource() {
                 </div>
             </div>
         </div>
+
+        <WhyBecomeAnRPFooter/>
     </div>
 }
