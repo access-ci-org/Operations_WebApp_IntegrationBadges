@@ -1,5 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 import {Link} from "react-router-dom";
+import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
 
 export default function WhyBecomeAnRP() {
 
@@ -12,7 +13,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-medium"></i>,
         "description": "Learn how contributing your resource supports the national research community, expands your visibility, and opens opportunities for collaboration and program support.",
-        "link": "/docs/"
+        "link": DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES
     }, {
         "title": <>
             How do I <br/>
@@ -22,7 +23,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-stack fs-1 text-medium"></i>,
         "description": "Understand the process, what’s expected, and how our team supports you every step of the way.",
-        "link": "/docs/how-to-integrate-resource"
+        "link": DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE
     }, {
         "title": <>
             What is an <br/>
@@ -33,7 +34,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-gear fs-1 text-medium"></i>,
         "description": "Find out how roadmaps structure the integration process and help you select the path that fits your system.",
-        "link": "/docs/how-to-choose-roadmap"
+        "link": DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP
     }, {
         "title": <>
             What is a <strong>ticketing</strong> <br/>
