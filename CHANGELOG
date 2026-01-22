@@ -7,13 +7,15 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+v1.8.1 2026-01-22 dinukadesilva
+    1 - [fix] Fix the "Incomplete" toggle button styles (CTT-826)
 
 v1.8.0 2026-01-22 dinukadesilva
     1 - [new] Enable black and green text separation on roadmap names
         - /staff/badge-status
         - /docs/roadmaps
         - /resources/<resource_id>/edit (new enrollments)
-    2 - [new] Adding the latest documentation pages
+    2 - [new] Adding the latest documentation pages (CTT-537)
         - /docs/why-become-an-rp
         - /docs/why-should-i-integrate-resources
         - /docs/how-to-integrate-resource

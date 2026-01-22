@@ -46,12 +46,16 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     const isCurrentEventKey = activeEventKey.indexOf(eventKey) >= 0;
 
     const taskStatusIcon = {
-        undefined : "bi bi-layers",
+        undefined: "bi bi-layers",
         [BadgeTaskWorkflowStatus.NOT_COMPLETED]: "bi bi-layers",
         [BadgeTaskWorkflowStatus.NOT_APPLICABLE]: "bi bi-eye-slash-fill",
         [BadgeTaskWorkflowStatus.COMPLETED]: "bi bi-check-circle-fill",
         [BadgeTaskWorkflowStatus.ACTION_NEEDED]: "bi bi-exclamation-triangle-fill"
     };
+
+    let toggleButtonVariant = "dark";
+    if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "danger";
+    if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-dark";
 
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col ps-0 d-flex flex-row align-items-center">
@@ -75,8 +79,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         {badge.status ?
             <div className="col-sm-3 pt-2 pb-2 align-content-center">
                 <Dropdown>
-                    <Dropdown.Toggle variant={task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED? "danger" : task.status ? 'outline-dark' : 'dark'}
-                                     id="dropdown-basic"
+                    <Dropdown.Toggle variant={toggleButtonVariant} id="dropdown-basic"
                                      bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
                         <span className="flex-fill text-start">
                             <i className={taskStatusIcon[task.status]}></i>
@@ -160,7 +163,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 }
 
 
-export default function  ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
+export default function ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
     const {getResourceRoadmapBadgeTasks, getResourceRoadmapBadge} = useResources();
 
     const badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
@@ -179,9 +182,11 @@ export default function  ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
                                              eventKey={taskIndex} badge={badge}
                                              task={task}>{task.name}</TaskAccordionHeader>
                         <Accordion.Collapse eventKey={taskIndex} bsPrefix="row">
-                            <div className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1 small">
+                            <div
+                                className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1 small">
                                 <HtmlToReact>{task.technical_summary}</HtmlToReact>
-                                <a className="btn btn-link" href={task.detailed_instructions_url} target="_blank">View Details</a>
+                                <a className="btn btn-link" href={task.detailed_instructions_url} target="_blank">
+                                    View Details</a>
                             </div>
                         </Accordion.Collapse>
                     </div>
