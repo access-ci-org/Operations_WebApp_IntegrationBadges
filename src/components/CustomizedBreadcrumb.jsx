@@ -50,6 +50,8 @@ function CustomizedBreadcrumb() {
             [DocumentationRouteUrls.WHY_BECOME_AN_RP]: "How & Why Become an RP",
             [DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE]: "How Do I Integrate My Resource into ACCESS",
             [DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP]: "What is an Integration Roadmap and How do I Choose the Right One",
+            [DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES]: "Why Should I Integrate My Resource With ACCESS?",
+            [DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM]: "What is a Ticketing System & How do I Open a Jira/Atlassian Account?",
             [DocumentationRouteUrls.ROADMAPS]: "Available Roadmaps for Integration",
             [DocumentationRouteUrls.BADGES]: "Available Badges for Integration",
         }

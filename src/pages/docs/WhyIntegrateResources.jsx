@@ -138,7 +138,8 @@ export default function WhyIntegrateResources() {
                     <li>
                         Opportunities to be featured in&nbsp;
                         <Link to="" className="btn btn-link fw-normal">ACCESS communications</Link>&nbsp;
-                        or community events</li>
+                        or community events
+                    </li>
                     <li>Exposure to educators developing classroom and training experiences</li>
                 </ul>
             </div>
