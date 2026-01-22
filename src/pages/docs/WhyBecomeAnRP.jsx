@@ -45,7 +45,7 @@ export default function WhyBecomeAnRP() {
         </>,
         "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-medium"></i>,
         "description": "Learn how to access the ticketing system and set up your account to submit requests and support national research efforts.",
-        "link": "/docs/"
+        "link": DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM
     }];
 
     const additionalQuestions = [
@@ -137,42 +137,47 @@ export default function WhyBecomeAnRP() {
             </Accordion>
         </div>
 
-        <div className="row p-3 pt-5 justify-content-center">
-            <div className="col">
-                <div className="h-100 p-5 rounded-2 border border-light box-shadow-0-4-4-0 d-flex flex-column">
-                    <div className="flex-fill">
-                        <div className="d-flex flex-row mb-4">
-                            <i className="bi bi-chat-left fs-1 text-black"></i>
-                            <h3 className="flex-fill text-start align-content-center ps-4">Still have questions?</h3>
-                        </div>
-                        <p className="mb-5 fs-6">
-                            Can’t find the answer you’re looking for? Our support team is ready to help you with any
-                            questions or concerns.
-                        </p>
-                    </div>
-                    <div className="text-center">
-                        <Link className="btn btn-primary btn-lg rounded-2 mt-2" to="/docs">Open Help Ticket</Link>
-                    </div>
-                </div>
-            </div>
+        <WhyBecomeAnRPFooter/>
 
-            <div className="col">
-                <div className="h-100 p-5 rounded-2 border border-light box-shadow-0-4-4-0 d-flex flex-column">
-                    <div className="flex-fill">
-                        <div className="d-flex flex-row mb-4">
-                            <i className="bi bi-rocket-takeoff fs-1 text-black"></i>
-                            <h3 className="flex-fill text-start align-content-center ps-4">Ready to get started?</h3>
-                        </div>
-                        <p className="mb-5 fs-6">
-                            Start integrating your resources and unlock the full potential of our platform.
-                        </p>
+    </div>
+}
+
+export function WhyBecomeAnRPFooter() {
+    return <div className="row p-3 pt-5 pb-5 justify-content-center">
+        <div className="col">
+            <div className="h-100 p-5 rounded-2 border border-light box-shadow-0-4-4-0 d-flex flex-column">
+                <div className="flex-fill">
+                    <div className="d-flex flex-row mb-4">
+                        <i className="bi bi-chat-left fs-1 text-black"></i>
+                        <h3 className="flex-fill text-start align-content-center ps-4">Still have questions?</h3>
                     </div>
-                    <div className="text-center">
-                        <Link className="btn btn-dark btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
-                    </div>
+                    <p className="mb-5 fs-6">
+                        Can’t find the answer you’re looking for? Our support team is ready to help you with any
+                        questions or concerns.
+                    </p>
+                </div>
+                <div className="text-center">
+                    <Link className="btn btn-primary btn-lg rounded-2 mt-2"
+                          to="https://support.access-ci.org/help-ticket">Open Help Ticket</Link>
                 </div>
             </div>
         </div>
 
+        <div className="col">
+            <div className="h-100 p-5 rounded-2 border border-light box-shadow-0-4-4-0 d-flex flex-column">
+                <div className="flex-fill">
+                    <div className="d-flex flex-row mb-4">
+                        <i className="bi bi-rocket-takeoff fs-1 text-black"></i>
+                        <h3 className="flex-fill text-start align-content-center ps-4">Ready to get started?</h3>
+                    </div>
+                    <p className="mb-5 fs-6">
+                        Start integrating your resources and unlock the full potential of our platform.
+                    </p>
+                </div>
+                <div className="text-center">
+                    <Link className="btn btn-dark btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
+                </div>
+            </div>
+        </div>
     </div>
 }

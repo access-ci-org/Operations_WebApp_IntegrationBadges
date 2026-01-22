@@ -7,6 +7,7 @@ import Roadmaps from "./Roadmaps.jsx";
 import Badges from "./Badges.jsx";
 import Debug from "../../components/util/Debug.jsx";
 import WhyIntegrateResources from "./WhyIntegrateResources.jsx";
+import WhatIsTicketingSystem from "./WhatIsTicketingSystem.jsx";
 
 export const DocumentationRouteUrls = {
     INDEX: "/docs",
@@ -14,6 +15,7 @@ export const DocumentationRouteUrls = {
     HOW_TO_INTEGRATE_RESOURCE: "/docs/how-to-integrate-resource",
     HOW_TO_CHOOSE_ROADMAP: "/docs/how-to-choose-roadmap",
     WHY_INTEGRATE_RESOURCES: "/docs/why-should-i-integrate-resources",
+    WHAT_IS_TICKETING_SYSTEM: "/docs/what-is-ticketing-system",
     ROADMAPS: "/docs/roadmaps",
     BADGES: "/docs/badges",
 };
@@ -71,6 +73,7 @@ export const DocumentationRoute = <Route path="/docs" element={<RouterLayout/>}>
     <Route path={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE} element={<HowToIntegrateResource/>}/>
     <Route path={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP} element={<HowToChooseRoadmap/>}/>
     <Route path={DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES} element={<WhyIntegrateResources/>}/>
+    <Route path={DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM} element={<WhatIsTicketingSystem/>}/>
     <Route path={DocumentationRouteUrls.ROADMAPS} element={<Roadmaps/>}/>
     <Route path={DocumentationRouteUrls.BADGES} element={<Badges/>}/>
 </Route>
