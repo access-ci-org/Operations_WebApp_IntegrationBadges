@@ -60,7 +60,9 @@ export default function HowToChooseRoadmap() {
                 Interested in contributing to the development of new infrastructure roadmaps? We invite you to explore
                 the possibilities of integrating new and novel infrastructure types. Open an&nbsp;
                 <Link to="https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/32"
-                      className="btn btn-link">ACCESS Integration and Operation Support Request</Link>&nbsp;
+                      target="_blank" className="btn btn-link">
+                    Internal ACCESS and Resource Provider Request
+                </Link>&nbsp;
                 to start a conversation. Together, we can advance research and innovation in
                 cyberinfrastructure.
             </p>

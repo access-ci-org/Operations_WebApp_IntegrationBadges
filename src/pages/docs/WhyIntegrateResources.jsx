@@ -132,12 +132,14 @@ export default function WhyIntegrateResources() {
                 <ul>
                     <li>
                         Highlighted placement in the&nbsp;
-                        <Link to="https://allocations.access-ci.org/resources" className="btn btn-link fw-normal">
+                        <Link to="https://allocations.access-ci.org/resources" target="_blank"
+                              className="btn btn-link fw-normal">
                             ACCESS Resource Catalog</Link>
                     </li>
                     <li>
                         Opportunities to be featured in&nbsp;
-                        <Link to="" className="btn btn-link fw-normal">ACCESS communications</Link>&nbsp;
+                        <Link to="https://support.access-ci.org/announcements" target="_blank"
+                              className="btn btn-link fw-normal">ACCESS communications</Link>&nbsp;
                         or community events
                     </li>
                     <li>Exposure to educators developing classroom and training experiences</li>

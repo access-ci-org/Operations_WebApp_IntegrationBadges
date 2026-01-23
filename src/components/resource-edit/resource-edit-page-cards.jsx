@@ -58,7 +58,8 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                     </div>}
 
                 {!roadmapId &&
-                    <Link className={`${actionButtonClasses} bg-primary`} to={""}>
+                    <Link className={`${actionButtonClasses} bg-primary`}
+                          to="https://support.access-ci.org/help-ticket">
                         Open Help Ticket
                     </Link>}
                 {!!roadmapId && !resource &&
