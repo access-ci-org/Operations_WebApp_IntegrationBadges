@@ -72,7 +72,7 @@ export default function Roadmaps() {
                                          let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
 
                                          if (activeKey === tab.link) {
-                                             className += " bg-light text-dark border-medium";
+                                             className += " bg-light text-medium border-medium";
                                          } else {
                                              className += " bg-gray-100 text-secondary border-gray-300";
                                          }

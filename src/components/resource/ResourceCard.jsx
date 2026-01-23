@@ -39,7 +39,7 @@ export default function ResourceCard({organization, resource, inProgress = false
         <div className="w-100">
             {showViewButton && !!inProgress &&
                 <div className="p-1">
-                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-dark rounded-5 w-100">
+                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-medium rounded-5 w-100">
                         Continue Setup
                     </Link>
                 </div>}
@@ -47,7 +47,7 @@ export default function ResourceCard({organization, resource, inProgress = false
             {showViewButton && !inProgress && resource.roadmaps && resource.roadmaps.map((roadmap, roadmapIndex) => {
                 return <div className="p-1" key={roadmapIndex}>
                     <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap.roadmap_id}`}
-                          className={`btn ${roadmapIndex === 0 ? 'btn-dark' : 'btn-outline-dark'} rounded-5 w-100`}>
+                          className={`btn ${roadmapIndex === 0 ? 'btn-medium' : 'btn-outline-medium'} rounded-5 w-100`}>
                         {roadmap.roadmap.name}
                     </Link>
                 </div>

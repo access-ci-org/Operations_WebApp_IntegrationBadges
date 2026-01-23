@@ -90,7 +90,7 @@ export default function HowToIntegrateResource() {
                     {roadmaps.slice(0, 6).map((roadmap, roadmapIndex) =>
                         <div className="col-sm-6 p-2" key={roadmapIndex}>
                             <Link to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmap.roadmap_id}`}
-                                  className="w-100 btn btn-dark rounded-2">{roadmap.name}</Link>
+                                  className="w-100 btn btn-medium rounded-2">{roadmap.name}</Link>
                         </div>)}
                 </div>
             </div>
@@ -121,13 +121,13 @@ export default function HowToIntegrateResource() {
             "body": <div>
                 <p>Each badge represents a focused, achievable milestone. As you work through your badges:</p>
                 <div className="w-100 pb-2 pt-2">
-                    <div className="bg-dark p-2 rounded-2 d-flex flex-row width-fit-content">
+                    <div className="bg-medium p-2 rounded-2 d-flex flex-row width-fit-content">
                         <i className="bi bi-check-circle me-2 text-info"></i>
                         <span className="flex-fill">Follow the step-by-step tasks</span>
                     </div>
                 </div>
                 <div className="w-100 pb-4">
-                    <div className="bg-dark p-2 rounded-2 d-flex flex-row width-fit-content">
+                    <div className="bg-medium p-2 rounded-2 d-flex flex-row width-fit-content">
                         <i className="bi bi-check-circle me-2 text-info"></i>
                         <span className="flex-fill">Mark badges as complete in the dashboard</span>
                     </div>
@@ -144,7 +144,7 @@ export default function HowToIntegrateResource() {
                     ACCESS.
                 </p>
                 <div className="w-100 pb-4">
-                    <div className="bg-dark p-2 rounded-2 text-start d-flex flex-row width-fit-content">
+                    <div className="bg-medium p-2 rounded-2 text-start d-flex flex-row width-fit-content">
                         <i className="bi bi-chat me-2 text-info"></i>
                         <span className="flex-fill">You are never alone during this step. The concierge team is
                             available to answer questions and provide guidance for a successful integration.</span>
@@ -166,7 +166,7 @@ export default function HowToIntegrateResource() {
             <h1>
                 How Do I Integrate My Resource into ACCESS?
             </h1>
-            <div className="w-100 fw-bold fst-italic fs-5 text-medium mb-5">
+            <div className="w-100 fw-bold fst-italic fs-5 text-dark mb-5">
                 A Guided Step-by-Step Path to Integration
             </div>
             <div className="row">
@@ -190,7 +190,7 @@ export default function HowToIntegrateResource() {
                 {highlightedFeatures.map((highlightedFeature, highlightedFeatureIndex) =>
                     <div className="col d-flex flex-row" style={{minWidth: 240, maxWidth: 240}}>
                         <div className="p-1">
-                            <div className="bg-dark text-center align-content-center rounded-3"
+                            <div className="bg-medium text-center align-content-center rounded-3"
                                  style={{width: 35, height: 35}}>
                                 {highlightedFeature.icon}
                             </div>
@@ -205,7 +205,7 @@ export default function HowToIntegrateResource() {
         <div className="w-100 p-3 mt-5">
             <div className="w-100 d-flex flex-row">
                 <hr className="flex-fill"/>
-                <h3 className="text-uppercase fs-5 ps-2 pe-2 m-0 align-content-center">Getting Started</h3>
+                <h3 className="text-uppercase fs-5 ps-2 pe-2 m-0 align-content-center text-medium">Getting Started</h3>
                 <hr className="flex-fill"/>
             </div>
             <p className="w-100 pt-5 pb-5">
@@ -220,7 +220,7 @@ export default function HowToIntegrateResource() {
                     <div className="col-sm-6" key={gettingStartedSectionIndex}>
                         <div className="h-100 p-4 rounded-3 border border-1 border-black">
                             <div className="d-flex flex-row">
-                                <div className="bg-dark text-center align-content-center rounded-3"
+                                <div className="bg-medium text-center align-content-center rounded-3"
                                      style={{width: 35, height: 35}}>
                                     {gettingStartedSection.icon}
                                 </div>
@@ -245,13 +245,13 @@ export default function HowToIntegrateResource() {
                 <div className="w-100 ps-5 pe-5 d-flex flex-row" key={workflowStepIndex}>
                     <div className="d-flex flex-column">
                         <div>
-                            <div className="bg-dark text-center align-content-center rounded-3"
+                            <div className="bg-medium text-center align-content-center rounded-3"
                                  style={{width: 35, height: 35}}>
                                 {workflowStepIndex + 1}
                             </div>
                         </div>
                         <div className="flex-fill text-center">
-                            <div className="h-100 bg-dark d-inline-block" style={{width: 2}}></div>
+                            <div className="h-100 bg-medium d-inline-block" style={{width: 2}}></div>
                         </div>
                     </div>
                     <div className="flex-fill ps-4 pb-4">
@@ -264,7 +264,7 @@ export default function HowToIntegrateResource() {
         </div>
 
         <div className="w-100 p-3">
-            <div className="w-100 p-4 text-start d-flex flex-row bg-dark rounded-3">
+            <div className="w-100 p-4 text-start d-flex flex-row bg-medium rounded-3">
                 <div>
                     <div className="bg-white bg-opacity-10 text-white text-center align-content-center rounded-3 me-2"
                          style={{width: 35, height: 35}}>

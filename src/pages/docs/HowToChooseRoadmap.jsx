@@ -18,7 +18,7 @@ export default function HowToChooseRoadmap() {
             <h1>
                 What is an Integration Roadmap and How Do I Choose the Right One?
             </h1>
-            <div className="w-100 fw-bold fst-italic fs-5 text-medium mb-5">
+            <div className="w-100 fw-bold fst-italic fs-5 text-dark mb-5">
                 Discover how to integrate your infrastructure into the ACCESS environment.
             </div>
             <div className="row">

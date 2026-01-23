@@ -57,7 +57,7 @@ export default function StaffDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-sm btn-dark rounded-2"
+                                <Link className="btn btn-sm btn-medium rounded-2"
                                       to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                                 <Link className="btn btn-link ms-3 me-3 fw-light"
                                       to={StaffRouteUrls.ROADMAPS}>View All</Link>
@@ -96,7 +96,7 @@ export default function StaffDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-sm btn-dark rounded-2" to={StaffRouteUrls.BADGE_NEW}>
+                                <Link className="btn btn-sm btn-medium rounded-2" to={StaffRouteUrls.BADGE_NEW}>
                                     Create New</Link>
                                 <Link className="btn btn-link ms-3 me-3 fw-light" to={StaffRouteUrls.BADGES}>
                                     View All</Link>

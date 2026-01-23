@@ -222,7 +222,7 @@ export default function ResourceBadgeStatusListing() {
                         </button>
                     </div>
                     <div className="p-1">
-                        <button type="button" className="btn btn-dark">
+                        <button type="button" className="btn btn-medium">
                             <i className="bi bi-grid-3x3-gap-fill"></i>
                         </button>
                     </div>

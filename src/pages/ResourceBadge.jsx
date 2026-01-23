@@ -206,7 +206,7 @@ export default function ResourceBadge() {
                 <div className="w-100 d-flex flex-row">
                     <div className="flex-fill"></div>
                     {/*<div className="pe-3">*/}
-                    {/*    <button className=" btn btn-outline-dark rounded-3" disabled={!comment || comment.length === 0}*/}
+                    {/*    <button className=" btn btn-outline-medium rounded-3" disabled={!comment || comment.length === 0}*/}
                     {/*            onClick={clickBadgeAction.bind(this, null)}>*/}
                     {/*        Add Comment*/}
                     {/*    </button>*/}
@@ -214,26 +214,26 @@ export default function ResourceBadge() {
                     <div style={{maxWidth: 600}} className="text-end">
                         {(() => {
                             if (badgeActionStatusProcessing) {
-                                return <button className="btn btn-dark rounded-3 ps-3 pe-3 m-1">
+                                return <button className="btn btn-medium rounded-3 ps-3 pe-3 m-1">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
                                     Loading...
                                 </button>
                             } else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
-                                return <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                return <button className="btn btn-outline-medium rounded-3 ps-3 pe-3 m-1"
                                                onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                     Add this badge to the resource
                                 </button>
                             } else if (badge.status === BadgeWorkflowStatus.PLANNED ||
                                 badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
-                                return <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                return <button className="btn btn-outline-medium rounded-3 ps-3 pe-3 m-1"
                                                disabled={!isReadyToSubmit}
                                                onClick={setShowSaveConfirmationModal.bind(this, true)}>
                                     Submit for Verification
                                 </button>
                             } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED ||
                                 badge.status === BadgeWorkflowStatus.VERIFIED) {
-                                return <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                return <button className="btn btn-outline-medium rounded-3 ps-3 pe-3 m-1"
                                                onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                     Reopen
                                 </button>
@@ -242,11 +242,11 @@ export default function ResourceBadge() {
 
                         {!badgeActionStatusProcessing && badge.status === BadgeWorkflowStatus.TASK_COMPLETED &&
                             <Concierge>
-                                <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                <button className="btn btn-outline-medium rounded-3 ps-3 pe-3 m-1"
                                         onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.VERIFIED)}>
                                     Mark as Verified
                                 </button>
-                                <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                <button className="btn btn-outline-medium rounded-3 ps-3 pe-3 m-1"
                                         onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.VERIFICATION_FAILED)}>
                                     Mark as Verification Failed
                                 </button>
@@ -257,18 +257,18 @@ export default function ResourceBadge() {
                         <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
                             <Modal.Header closeButton className="bg-light">
                                 <Modal.Title>
-                                    <i className="bi bi-question-octagon-fill"></i>
+                                    <i className="bi bi-question-octagon-fill text-medium"></i>
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 Are you sure that you want to submit this badge for verification?
                             </Modal.Body>
                             <Modal.Footer>
-                                <button className="btn btn-outline-dark rounded-1"
+                                <button className="btn btn-outline-medium rounded-1"
                                         onClick={setShowSaveConfirmationModal.bind(this, false)}>
                                     No
                                 </button>
-                                <button className="btn btn-dark rounded-1"
+                                <button className="btn btn-medium rounded-1"
                                         onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
                                     Yes
                                 </button>
@@ -278,14 +278,14 @@ export default function ResourceBadge() {
                         <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
                             <Modal.Header closeButton className="bg-light">
                                 <Modal.Title>
-                                    <i className="bi bi-floppy-fill"></i>
+                                    <i className="bi bi-floppy-fill text-medium"></i>
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 Badge completion has been sent to a concierge for verification.
                             </Modal.Body>
                             <Modal.Footer>
-                                <button className="btn btn-dark rounded-1"
+                                <button className="btn btn-medium rounded-1"
                                         onClick={setShowSavedModal.bind(this, false)}>
                                     Exit
                                 </button>
@@ -295,7 +295,7 @@ export default function ResourceBadge() {
                         <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
                             <Modal.Header closeButton className="bg-danger-subtle">
                                 <Modal.Title>
-                                    <i className="bi bi-exclamation-triangle-fill"></i>
+                                    <i className="bi bi-exclamation-triangle-fill text-danger"></i>
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
@@ -309,7 +309,7 @@ export default function ResourceBadge() {
                                     resource <strong>{resourceId}</strong></p>
                             </Modal.Body>
                             <Modal.Footer>
-                                <button className="btn btn-outline-dark rounded-1"
+                                <button className="btn btn-outline-medium rounded-1"
                                         onClick={setShowErrorModal.bind(this, false)}>
                                     Cancel
                                 </button>

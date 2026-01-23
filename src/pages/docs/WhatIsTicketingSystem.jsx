@@ -62,7 +62,7 @@ export default function WhatIsTicketingSystem() {
             <h1>
                 What is a Ticketing System & How do I Open a Jira/Atlassian Account?
             </h1>
-            <div className="w-100 fw-bold fst-italic fs-5 text-medium mb-5">
+            <div className="w-100 fw-bold fst-italic fs-5 text-dark mb-5">
                 Get Connected. Stay Supported. Manage Your Resources with Ease
             </div>
             <div className="row">
@@ -78,7 +78,7 @@ export default function WhatIsTicketingSystem() {
         </div>
 
         <div className="w-100 p-3 mt-3">
-            <h4 className="fst-italic fw-bold text-medium fs-5 mb-5">
+            <h4 className="fst-italic fw-bold text-dark fs-5 mb-5">
                 Ticketing-Related Questions
             </h4>
 

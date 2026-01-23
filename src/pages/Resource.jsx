@@ -121,7 +121,7 @@ export default function Resource() {
             </div>
             <div className="w-100 pt-3 pb-3">
                 <p>{resource.resource_description}</p>
-                {/*<Link to={resource.user_guide_url} className="btn btn-dark">View User Guide</Link>*/}
+                {/*<Link to={resource.user_guide_url} className="btn btn-medium">View User Guide</Link>*/}
             </div>
 
             <div className=" w-100 pt-5 pb-5 text-medium lead fst-italic">

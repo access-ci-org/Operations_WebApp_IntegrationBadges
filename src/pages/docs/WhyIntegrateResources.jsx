@@ -72,7 +72,7 @@ export default function WhyIntegrateResources() {
             <h1>
                 Why Should I Integrate My Resource With ACCESS?
             </h1>
-            <div className="w-100 fw-bold fst-italic fs-5 text-medium mb-5">
+            <div className="w-100 fw-bold fst-italic fs-5 text-dark mb-5">
                 Empower Your Resource. Expand Your Impact. Join the ACCESS Community.
             </div>
             <div className="row">
@@ -90,12 +90,12 @@ export default function WhyIntegrateResources() {
         </div>
 
         <div className="w-100 p-3 mt-3">
-            <h4 className="fst-italic fw-bold text-medium fs-5 mb-5">
+            <h4 className="fst-italic fw-bold text-dark fs-5 mb-5">
                 Benefits of Becoming an ACCESS Resource Provider
             </h4>
 
             {benefits.map((benefit, benefitIndex) => {
-                const explanationBlockClass = benefitIndex % 2 === 0 ? "bg-dark text-white" : "bg-light";
+                const explanationBlockClass = benefitIndex % 2 === 0 ? "bg-medium text-white" : "bg-light";
 
                 return <div className="w-100 p-2 pb-5" key={benefitIndex}>
                     <div className="w-100 border border-1 rounded-3 p-5">
@@ -106,9 +106,9 @@ export default function WhyIntegrateResources() {
                                     style={{width: 40, height: 40, borderRadius: "50%"}}>
                                     {benefitIndex + 1}</div>
                             </div>
-                            <h5 className="flex-fill text-medium align-content-center ps-3 m-0">{benefit.title}</h5>
+                            <h5 className="flex-fill text-dark align-content-center ps-3 m-0">{benefit.title}</h5>
                         </div>
-                        <div className="text-medium">{benefit.description}</div>
+                        <div className="text-dark">{benefit.description}</div>
                         <div
                             className={"w-100 p-3 mt-4 rounded-3 border border-1 " + explanationBlockClass}>
                             <h6 className={"fw-bold " + explanationBlockClass}>What this means for you:</h6>
@@ -125,7 +125,7 @@ export default function WhyIntegrateResources() {
 
         <div className="w-100 p-3 mt-3">
             <div className="border-bottom border-medium border-1 ms-5 me-5 mb-5"></div>
-            <h4 className="fst-italic fw-bold text-medium fs-5 mb-3">
+            <h4 className="fst-italic fw-bold text-dark fs-5 mb-3">
                 Examples of Visibility & Engagement Opportunities
             </h4>
             <div className="w-100 lh-lg">

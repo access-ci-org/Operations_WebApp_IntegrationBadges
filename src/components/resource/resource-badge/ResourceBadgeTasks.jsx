@@ -53,9 +53,9 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         [BadgeTaskWorkflowStatus.ACTION_NEEDED]: "bi bi-exclamation-triangle-fill"
     };
 
-    let toggleButtonVariant = "dark";
+    let toggleButtonVariant = "medium";
     if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "danger";
-    if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-dark";
+    if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-medium";
 
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col ps-0 d-flex flex-row align-items-center">
@@ -69,7 +69,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         </div>
 
         <div className="col-sm-3 align-content-center text-center">
-            {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-dark-subtle text-black">
+            {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-medium-subtle text-black">
                     Required</small> :
                 <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
                     Not Required</small>}
@@ -116,7 +116,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         <Modal show={showTaskReopenModal} onHide={setShowTaskReopenModal.bind(this, false)}>
             <Modal.Header closeButton className="bg-light">
                 <Modal.Title>
-                    <i className="bi bi-question-octagon-fill"></i>
+                    <i className="bi bi-question-octagon-fill text-medium"></i>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -126,11 +126,11 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                 Do you want to continue?
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-outline-dark rounded-1"
+                <button className="btn btn-outline-medium rounded-1"
                         onClick={setShowTaskReopenModal.bind(this, false)}>
                     No
                 </button>
-                <button className="btn btn-dark rounded-1"
+                <button className="btn btn-medium rounded-1"
                         onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status, true)}>
                     Yes
                 </button>
@@ -140,7 +140,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
             <Modal.Header closeButton className="bg-danger-subtle">
                 <Modal.Title>
-                    <i className="bi bi-exclamation-triangle-fill"></i>
+                    <i className="bi bi-exclamation-triangle-fill text-danger"></i>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -153,7 +153,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                     resource <strong>{resourceId}</strong></p>
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-outline-dark rounded-1"
+                <button className="btn btn-outline-medium rounded-1"
                         onClick={setShowErrorModal.bind(this, false)}>
                     Cancel
                 </button>

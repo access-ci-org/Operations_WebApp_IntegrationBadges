@@ -71,7 +71,7 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                         Select the Roadmap
                     </button>}
                 {!!roadmapId && !!resource && !!selected &&
-                    <button className={`${actionButtonClasses} bg-dark`} onClick={toggle}>
+                    <button className={`${actionButtonClasses} bg-medium`} onClick={toggle}>
                         <i className="bi bi-check-circle-fill"></i>&nbsp;&nbsp;Selected
                     </button>}
             </div>
@@ -171,7 +171,7 @@ export function BadgeCardRowWithRequiredLabel({resourceId, roadmapId, badgeId, s
     </div>
 
     const body = <div className="text-center">
-        {!!required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-dark-subtle text-black">
+        {!!required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-medium-subtle text-black">
                 Required</small> :
             <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
                 Not Required</small>}

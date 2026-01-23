@@ -37,7 +37,7 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
                 if (!!resourceId && !!roadmapId) {
                     actions = <Link
                         to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
-                        className="w-100 btn btn-outline-dark btn-sm rounded-3 d-flex flex-row">
+                        className="w-100 btn btn-outline-medium btn-sm rounded-3 d-flex flex-row">
                         <span className="flex-fill text-start">
                             <i className={`bi ${badgePrerequisiteActionIconClass[prerequisiteBadge.status]}`}></i>
                             <span className="ps-3 pe-3">

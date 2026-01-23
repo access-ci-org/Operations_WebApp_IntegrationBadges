@@ -175,7 +175,7 @@ export function WhyBecomeAnRPFooter() {
                     </p>
                 </div>
                 <div className="text-center">
-                    <Link className="btn btn-dark btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
+                    <Link className="btn btn-medium btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
                 </div>
             </div>
         </div>

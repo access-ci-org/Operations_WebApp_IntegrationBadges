@@ -28,7 +28,7 @@ export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
                 </div>
             </div>
             <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
-                  className="btn btn-dark rounded-5 w-100">
+                  className="btn btn-medium rounded-5 w-100">
                 View
             </Link>
         </div>

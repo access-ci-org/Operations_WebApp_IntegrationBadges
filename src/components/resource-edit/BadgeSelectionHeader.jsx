@@ -56,7 +56,7 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
 
             {!!resourceRoadmaps ?
                 <DropdownButton size="lg" title={roadmap.name}
-                                bsPrefix="w-100 text-start btn btn-lg btn-outline-dark rounded-2 p-4"
+                                bsPrefix="w-100 text-start btn btn-lg btn-outline-medium rounded-2 p-4"
                                 onSelect={handleResourceRoadmapSelect}>
                     {resourceRoadmaps.map(resourceRoadmap => <Dropdown.Item key={resourceRoadmap.roadmap_id}
                                                                             eventKey={resourceRoadmap.roadmap_id}>

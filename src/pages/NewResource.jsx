@@ -28,7 +28,7 @@ export default function NewResource() {
         </div>
         <div class="w-100 pt-5">
             <strong class="text-black d-block">Ready to start the process? </strong>
-            <a href="#" class="btn btn-dark rounded-2 mt-2">Register Your Resource in CiDeR</a>
+            <a href="#" class="btn btn-medium rounded-2 mt-2">Register Your Resource in CiDeR</a>
         </div>
         <div class="w-100 pt-5">
             <div>

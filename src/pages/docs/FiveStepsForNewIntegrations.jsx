@@ -28,7 +28,7 @@ export default function FiveStepsForNewIntegrations() {
         </div>
         <div className="w-100 p-3 pt-5">
             <strong className="text-black d-block">Ready to start the process? </strong>
-            <Link className="btn btn-dark rounded-2 mt-2"
+            <Link className="btn btn-medium rounded-2 mt-2"
                   to="https://operations.access-ci.org/open-new-integration-request">
                 Register Your Resource</Link>
         </div>
