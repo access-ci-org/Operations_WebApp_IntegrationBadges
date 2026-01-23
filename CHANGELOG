@@ -7,6 +7,11 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.8.2 2026-01-23 dinukadesilva
+    1 - [fix] Fix the "dark" and "medium" colors in many places.
+        -   *
+
 v1.8.1 2026-01-22 dinukadesilva
     1 - [fix] Fix the "Incomplete" toggle button styles (CTT-826)
 
