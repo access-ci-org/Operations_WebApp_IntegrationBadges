@@ -32,7 +32,7 @@ export function StaffRoadmapCard({roadmapId}) {
                 </div>
                 <div className="w-100 p-2 text-center">
                     <div className="w-100 text-end" style={{height: "70px"}}>
-                        {roadmap.status === "Draft" &&
+                        {roadmap.status && roadmap.status.toLowerCase() === "draft" &&
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Draft</span>}
                     </div>
                     <h3 className="w-100 text-center fs-6"><RoadmapName roadmapId={roadmapId}/></h3>

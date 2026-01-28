@@ -24,11 +24,23 @@ export default function Roadmaps() {
     const {fetchBadges, getBadges} = useBadges();
     const {fetchRoadmaps, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
 
-    const roadmaps = getRoadmaps();
+    let roadmaps = getRoadmaps();
     const badges = getBadges();
 
     const selectedRoadmap = getRoadmap({roadmapId});
     const selectedRoadmapBadges = getRoadmapBadges({roadmapId});
+
+    const draftRoadmaps = []
+    const productionRoadmaps = [];
+    for (let i = 0; i < roadmaps.length; i++) {
+        const roadmap = roadmaps[i];
+        if (roadmap.status && roadmap.status.toLowerCase() === "draft") {
+            draftRoadmaps.push(roadmap);
+        } else {
+            productionRoadmaps.push(roadmap);
+        }
+    }
+    roadmaps = productionRoadmaps.concat(draftRoadmaps);
 
     useEffect(() => {
         fetchRoadmaps();
@@ -49,7 +61,7 @@ export default function Roadmaps() {
 
         const tabs = roadmaps.map((roadmap) => {
             return {
-                title: <RoadmapName roadmapId={roadmap.roadmap_id} seperator=" "/> ,
+                title: <RoadmapName roadmapId={roadmap.roadmap_id} seperator=" " showStatus={true}/> ,
                 link: DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`
             }
         });

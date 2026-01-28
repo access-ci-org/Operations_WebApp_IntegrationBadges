@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.8.3 2026-01-28 dinukadesilva
+    1 - [new] Moving the draft roadmaps to the bottom and enable "Draft" label
+        - /docs/roadmaps
+
 v1.8.2 2026-01-23 dinukadesilva
     1 - [fix] Fix the "dark" and "medium" colors in many places.
         -   *
