@@ -5,7 +5,7 @@ export default function RoadmapName({roadmapId, seperator = <br/>, showStatus=fa
 
     const roadmap = getRoadmap({roadmapId});
 
-    const roadmapNameSegments = /(ACCESS Allocated|ACCESS Affiliated|ACCESS)? *(.*)/.exec(roadmap.name);
+    const roadmapNameSegments = /(ACCESS Allocated|ACCESS Enabled|ACCESS Aligned|ACCESS)? *(.*)/.exec(roadmap.name);
 
     return <span>
         <span className="text-black">{roadmapNameSegments[1]}</span>
