@@ -39,33 +39,36 @@ export default function Organization() {
     // If conditions in the order
     let sections = [
         {
-            title: "New Integrations",
-            description: "Resources described in the CiDeR databased that haven't selected an integration roadmap or badges",
+            title: "New Resources",
+            description: "Defined in CiDeR; no roadmap or badges selected",
             showContinueSetup: true,
             condition: (resource, resourceRoadmaps) => resourceRoadmaps.length === 0,
             resources: [],
         },
         {
-            title: "In-Progress Integrations",
-            description: "Resources that have selected an integration roadmaps and are working on badges but haven't reached their production start date",
+            title: "In-Progress Resources",
+            description: "Roadmap selected; currently earning required badges OR awaiting production start date. Optional badges do not affect this status",
             showContinueSetup: false,
-            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.ANNOUNCEMENT || resource.latest_status === ResourceStatus.PRE_PRODUCTION,
+            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.ANNOUNCEMENT ||
+                resource.latest_status === ResourceStatus.PRE_PRODUCTION ||
+                resource.badge_status_summary.required.verified < resource.badge_status_summary.required.total,
             resources: [],
         },
         {
-            title: "Production Integrations",
-            description: "Resources that have reached their production start date, that may continue to add or remove badges as appropriate",
+            title: "Production",
+            description: "Production start date reached; all required badges completed. Optional badges can be managed dynamically",
             showContinueSetup: false,
-            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.PRODUCTION,
+            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.PRODUCTION &&
+                resource.badge_status_summary.required.verified === resource.badge_status_summary.required.total,
             resources: [],
         },
-        {
-            title: "Post-Production Integrations",
-            description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
-            showContinueSetup: false,
-            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,
-            resources: [],
-        }
+        // {
+        //     title: "Post-Production Integrations",
+        //     description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
+        //     showContinueSetup: false,
+        //     condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,
+        //     resources: [],
+        // }
     ];
 
     let resourcesProcessing = resources && resources.length > 0; // Set it to processing if there are resources.

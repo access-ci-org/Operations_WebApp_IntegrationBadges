@@ -7,6 +7,11 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.9.0 2026-02-09 dinukadesilva
+    1 - Updating the resource sections in the organization page (CTT-852)
+        - /organizations/<organization_id>
+
 v1.8.4 2026-01-30 dinukadesilva
     1 - Changing the roadmap name keywords to "ACCESS Allocated|ACCESS Enabled|ACCESS Aligned|ACCESS" (CTT-764)
         -   *
