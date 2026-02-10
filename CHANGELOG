@@ -8,12 +8,17 @@ The general format of entries is:
         - *
 
 
+v1.9.1 2026-02-10 dinukadesilva
+    1 - [bug-fix] Fixing the query parameter names of the resources-full api call
+        - /resources/<resource_id>/roadmaps/<roadmap_id>
+
 v1.9.0 2026-02-09 dinukadesilva
-    1 - Updating the resource sections in the organization page (CTT-852)
+    1 - [new] Updating the resource sections in the organization page (CTT-852)
         - /organizations/<organization_id>
+    2 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/83
 
 v1.8.4 2026-01-30 dinukadesilva
-    1 - Changing the roadmap name keywords to "ACCESS Allocated|ACCESS Enabled|ACCESS Aligned|ACCESS" (CTT-764)
+    1 - [new] Changing the roadmap name keywords to "ACCESS Allocated|ACCESS Enabled|ACCESS Aligned|ACCESS" (CTT-764)
         -   *
 
 v1.8.3 2026-01-28 dinukadesilva
