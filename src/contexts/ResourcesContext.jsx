@@ -262,7 +262,7 @@ export const ResourcesProvider = ({children}) => {
         let url = '/resources?';
         if (full) url = '/resources-full?';
         if (organizationId) url += `organization_id=${organizationId}&`;
-        if (resourceId) url += `resource_id=${resourceId}`;
+        if (resourceId) url += `info_resourceid=${resourceId}`;
 
         return url;
     }
