@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
@@ -9,6 +9,8 @@ import {StaffRoadmapCard} from "../../components/staff/StaffRoadmapCard.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {Fade} from "react-bootstrap";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
+import RoadmapIcon from "../../components/roadmap/RoadmapIcon.jsx";
+import {HtmlToText} from "../../components/util/text-editors.jsx";
 
 export default function StaffDashboard() {
     const {
@@ -89,8 +91,50 @@ export default function StaffDashboard() {
                     </div>
                 </div>
 
-                <div className="col-md-8 col-sm-6 p-0 pe-md-3 pe-sm-1">
-                    <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                <div className="col-md-6 p-0 pb-4 pe-md-3 pe-sm-1">
+                    <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                        <div className="w-100 d-flex flex-row pb-4">
+                            <h2 className="text-medium">Roadmaps</h2>
+                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
+                            </div>
+                            <div>
+                                <Link className="btn btn-sm btn-medium rounded-2"
+                                      to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
+                            </div>
+                        </div>
+
+                        <ul className="w-100 p-0">
+                            {roadmaps && roadmaps.map((roadmap, roadmapIndex) => (
+                                <li key={roadmapIndex}
+                                    className=" w-100 d-flex flex-row p-3 btn btn-outline-gray-200 rounded-1 mb-2">
+                                    <div>
+                                        <RoadmapIcon roadmapId={roadmap.roadmap_id}/>
+                                    </div>
+                                    <div className="flex-fill ps-3 align-content-center text-start">
+                                        <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
+                                            {roadmap.name}
+                                        </h3>
+                                        <div className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
+                                            <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+                                        </div>
+                                    </div>
+                                    <div className="align-content-center text-end"  style={{minWidth: 70}}>
+                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":badgeId", roadmap.roadmap_id)}
+                                              className="btn btn-sm btn-link text-center">
+                                            <i className="bi bi-pencil-square pe-2"></i>
+                                        </Link>
+                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":badgeId", roadmap.roadmap_id)}
+                                              className="ms-3 btn btn-sm btn-link text-center">
+                                            <i className="bi bi-trash"></i>
+                                        </Link>
+                                    </div>
+                                </li>))}
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="col-md-6 p-0 pb-4 ps-md-3 ps-sm-1">
+                    <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row pb-4">
                             <h2 className="text-medium">Badges</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
@@ -98,8 +142,6 @@ export default function StaffDashboard() {
                             <div>
                                 <Link className="btn btn-sm btn-medium rounded-2" to={StaffRouteUrls.BADGE_NEW}>
                                     Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light" to={StaffRouteUrls.BADGES}>
-                                    View All</Link>
                             </div>
                         </div>
                         <ul className="p-0">
