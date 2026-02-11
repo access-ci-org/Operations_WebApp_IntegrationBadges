@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.10.0 2026-02-11 dinukadesilva
+    1 - [new] Revised staff dashboard (CTT-870)
+        - /staff/dashboard
+
 v1.9.1 2026-02-10 dinukadesilva
     1 - [bug-fix] Fixing the query parameter names of the resources-full api call
         - /resources/<resource_id>/roadmaps/<roadmap_id>
