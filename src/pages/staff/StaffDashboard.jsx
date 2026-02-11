@@ -17,12 +17,20 @@ export default function StaffDashboard() {
         fetchResourceRoadmapBadgeStatusSummary,
         getResourceRoadmapBadgeStatusSummary
     } = useResources();
-    const {getRoadmaps} = useRoadmaps();
+    const {getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
     const {getBadges} = useBadges();
+
+    const [selectedRoadmapId, setSelectedRoadmapId] = useState(null);
 
     const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
     const roadmaps = getRoadmaps();
-    const badges = getBadges();
+    let badges = getBadges();
+
+    let selectedRoadmap;
+    if (selectedRoadmapId) {
+        selectedRoadmap = getRoadmap({roadmapId: selectedRoadmapId});
+        badges = getRoadmapBadges({roadmapId: selectedRoadmapId});
+    }
 
     useEffect(() => {
         fetchResourceRoadmapBadgeStatusSummary();
@@ -56,6 +64,14 @@ export default function StaffDashboard() {
         }
     ];
 
+    const toggleSelectedRoadmap = ({roadmapId}) => (evt) => {
+        if (selectedRoadmapId === roadmapId) {
+            setSelectedRoadmapId(null);
+        } else {
+            setSelectedRoadmapId(roadmapId);
+        }
+    };
+
     if (roadmaps && badges && resourceRoadmapBadgeStatusSummary) {
 
         return <div className="container">
@@ -71,7 +87,7 @@ export default function StaffDashboard() {
                             <h2 className="text-medium">Badge Verification Status</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
-                            <div>
+                            <div style={{minWidth: 100}}>
                                 <Link className="btn btn-sm btn-medium rounded-2"
                                       to={StaffRouteUrls.BADGE_STATUS}>View All</Link>
                             </div>
@@ -82,16 +98,13 @@ export default function StaffDashboard() {
                                     const variantClass = `border-${verificationHighlight.variant} bg-${verificationHighlight.variant} text-${verificationHighlight.variant}`
 
                                     return <li className="col p-2" key={verificationHighlightIndex}>
-                                        {/*<Link to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${verificationHighlight.status}`}*/}
-                                        {/*      className="btn btn-sm btn-link text-center fw-normal">*/}
-                                        {/*    <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>*/}
-                                        {/*</Link>*/}
-                                        <Link to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${verificationHighlight.status}`}
+                                        <Link
+                                            to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${verificationHighlight.status}`}
                                             className={`btn w-100 h-100 p-2 bg-opacity-10 border border-2 border-opacity-10 rounded-3 ${variantClass}`}>
                                             <div className="w-100 text-center fs-2">
                                                 {verificationHighlight.icon}
                                             </div>
-                                            <div className="w-100 text-center fs-2">
+                                            <div className="w-100 text-center fs-2 fw-bolder">
                                                 {resourceRoadmapBadgeStatusSummary[verificationHighlight.status] ?
                                                     resourceRoadmapBadgeStatusSummary[verificationHighlight.status] : 0}
                                             </div>
@@ -112,16 +125,20 @@ export default function StaffDashboard() {
                             <h2 className="text-medium">Roadmaps</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
-                            <div>
+                            <div style={{minWidth: 100}}>
                                 <Link className="btn btn-sm btn-medium rounded-2"
                                       to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                             </div>
                         </div>
 
                         <ul className="w-100 p-0">
-                            {roadmaps && roadmaps.map((roadmap, roadmapIndex) => (
-                                <li key={roadmapIndex}
-                                    className="w-100 d-flex flex-row p-3 btn btn-outline-gray-200 rounded-1 mb-2">
+                            {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
+                                const roadmapId = roadmap.roadmap_id;
+                                let activeClassName = "";
+                                if (selectedRoadmapId === roadmapId) activeClassName = "bg-gray-200";
+
+                                return <li key={roadmapIndex} onClick={toggleSelectedRoadmap({roadmapId})}
+                                    className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2 ${activeClassName}`}>
                                     <div>
                                         {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
                                         <i className="bi bi-map text-medium"></i>
@@ -144,7 +161,8 @@ export default function StaffDashboard() {
                                             <i className="bi bi-trash"></i>
                                         </Link>
                                     </div>
-                                </li>))}
+                                </li>
+                            })}
                         </ul>
                     </div>
                 </div>
@@ -152,10 +170,16 @@ export default function StaffDashboard() {
                 <div className="col-md-6 p-0 pb-4 ps-md-3 ps-sm-1">
                     <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row pb-4">
-                            <h2 className="text-medium">Badges</h2>
-                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
+                            <div className="align-content-center text-start" style={{minHeight: 40}}>
+                                {!selectedRoadmap && <h2 className="text-medium">Badges</h2>}
+                                {!!selectedRoadmap && <h2 className="text-medium fs-6">
+                                    {selectedRoadmap.name} Badges
+                                </h2>}
                             </div>
-                            <div>
+                            <div
+                                className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4 align-content-center">
+                            </div>
+                            <div style={{minWidth: 100}}>
                                 <Link className="btn btn-sm btn-medium rounded-2" to={StaffRouteUrls.BADGE_NEW}>
                                     Create New</Link>
                             </div>
