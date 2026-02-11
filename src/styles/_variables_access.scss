@@ -62,7 +62,11 @@ $theme-colors: (
   "yellow": $access-yellow,
   "orange": $access-orange,
 
-  "success":    $success,
+  "white": $white,
+  "blue": $blue,
+  "green": $green,
+
+  "success":    #A4F4CF, // $success
   "info":       $info,
   "warning":    $warning,
   "danger":     $danger,

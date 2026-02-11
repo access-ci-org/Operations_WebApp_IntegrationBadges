@@ -28,22 +28,35 @@ export default function StaffDashboard() {
         fetchResourceRoadmapBadgeStatusSummary();
     }, []);
 
-    const visibleStatusList = [
-        // BadgeWorkflowStatus.NOT_PLANNED,
-        BadgeWorkflowStatus.VERIFICATION_FAILED,
-        BadgeWorkflowStatus.TASK_COMPLETED,
-        BadgeWorkflowStatus.PLANNED,
-        BadgeWorkflowStatus.VERIFIED,
-        BadgeWorkflowStatus.DEPRECATED
-    ]
-
-    const [roadmapPaginationIndex, setRoadmapPaginationIndex] = useState(0);
-    const prevRoadmapPaginationIndex = roadmapPaginationIndex - 4;
-    const nextRoadmapPaginationIndex = roadmapPaginationIndex + 4;
+    const verificationHighlightList = [
+        {
+            status: BadgeWorkflowStatus.VERIFICATION_FAILED,
+            icon: <i className="bi bi-exclamation-circle"></i>,
+            variant: "danger",
+        },
+        {
+            status: BadgeWorkflowStatus.TASK_COMPLETED,
+            icon: <i className="bi bi-clock"></i>,
+            variant: "orange",
+        },
+        {
+            status: BadgeWorkflowStatus.PLANNED,
+            icon: <i className="bi bi-activity"></i>,
+            variant: "blue",
+        },
+        {
+            status: BadgeWorkflowStatus.VERIFIED,
+            icon: <i className="bi bi-check2-circle"></i>,
+            variant: "green",
+        },
+        {
+            status: BadgeWorkflowStatus.DEPRECATED,
+            icon: <i className="bi bi-archive"></i>,
+            variant: "secondary",
+        }
+    ];
 
     if (roadmaps && badges && resourceRoadmapBadgeStatusSummary) {
-        const roadmapsPrevDisabled = prevRoadmapPaginationIndex < 0;
-        const roadmapsNextDisabled = nextRoadmapPaginationIndex >= roadmaps.length;
 
         return <div className="container">
             <div className="row visually-hidden">
@@ -55,38 +68,40 @@ export default function StaffDashboard() {
                 <div className="col-12 p-0 pb-4">
                     <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row p-0">
-                            <h2 className="text-medium">Roadmaps</h2>
+                            <h2 className="text-medium">Badge Verification Status</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
                                 <Link className="btn btn-sm btn-medium rounded-2"
-                                      to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light"
-                                      to={StaffRouteUrls.ROADMAPS}>View All</Link>
-                                <div className="btn-group">
-                                    <button className="btn btn-sm btn-outline-gray-500 rounded-start"
-                                            onClick={setRoadmapPaginationIndex.bind(null, prevRoadmapPaginationIndex)}
-                                            disabled={roadmapsPrevDisabled}>
-                                        <i className={`bi bi-chevron-left ${!roadmapsPrevDisabled && "text-black"}`}></i>
-                                    </button>
-                                    <button className="btn btn-sm btn-outline-gray-500 rounded-end"
-                                            onClick={setRoadmapPaginationIndex.bind(null, nextRoadmapPaginationIndex)}
-                                            disabled={roadmapsNextDisabled}>
-                                        <i className={`bi bi-chevron-right ${!roadmapsNextDisabled && "text-black"}`}></i>
-                                    </button>
-                                </div>
+                                      to={StaffRouteUrls.BADGE_STATUS}>View All</Link>
                             </div>
                         </div>
-                        <div className="row">
-                            {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
-                                let show = roadmapPaginationIndex <= roadmapIndex && (roadmapPaginationIndex + 3) >= roadmapIndex;
+                        <div className="w-100 pt-4">
+                            <ul className="row p-0 list-unstyled">
+                                {verificationHighlightList.map((verificationHighlight, verificationHighlightIndex) => {
+                                    const variantClass = `border-${verificationHighlight.variant} bg-${verificationHighlight.variant} text-${verificationHighlight.variant}`
 
-                                return <Fade in={show} timeout="2000" key={roadmapIndex}>
-                                    <div className={`col-lg-3 col-md-4 col-sm-6 p-2 ${show ? "" : "visually-hidden"}`}>
-                                        <StaffRoadmapCard roadmapId={roadmap.roadmap_id}/>
-                                    </div>
-                                </Fade>
-                            })}
+                                    return <li className="col p-2" key={verificationHighlightIndex}>
+                                        {/*<Link to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${verificationHighlight.status}`}*/}
+                                        {/*      className="btn btn-sm btn-link text-center fw-normal">*/}
+                                        {/*    <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>*/}
+                                        {/*</Link>*/}
+                                        <Link to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${verificationHighlight.status}`}
+                                            className={`btn w-100 h-100 p-2 bg-opacity-10 border border-2 border-opacity-10 rounded-3 ${variantClass}`}>
+                                            <div className="w-100 text-center fs-2">
+                                                {verificationHighlight.icon}
+                                            </div>
+                                            <div className="w-100 text-center fs-2">
+                                                {resourceRoadmapBadgeStatusSummary[verificationHighlight.status] ?
+                                                    resourceRoadmapBadgeStatusSummary[verificationHighlight.status] : 0}
+                                            </div>
+                                            <div className="w-100 text-center text-secondary">
+                                                <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                })}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -106,9 +121,10 @@ export default function StaffDashboard() {
                         <ul className="w-100 p-0">
                             {roadmaps && roadmaps.map((roadmap, roadmapIndex) => (
                                 <li key={roadmapIndex}
-                                    className=" w-100 d-flex flex-row p-3 btn btn-outline-gray-200 rounded-1 mb-2">
+                                    className="w-100 d-flex flex-row p-3 btn btn-outline-gray-200 rounded-1 mb-2">
                                     <div>
-                                        <RoadmapIcon roadmapId={roadmap.roadmap_id}/>
+                                        {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
+                                        <i className="bi bi-map text-medium"></i>
                                     </div>
                                     <div className="flex-fill ps-3 align-content-center text-start">
                                         <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
@@ -118,13 +134,13 @@ export default function StaffDashboard() {
                                             <HtmlToText>{roadmap.executive_summary}</HtmlToText>
                                         </div>
                                     </div>
-                                    <div className="align-content-center text-end"  style={{minWidth: 70}}>
+                                    <div className="align-content-center text-end" style={{minWidth: 80}}>
                                         <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":badgeId", roadmap.roadmap_id)}
-                                              className="btn btn-sm btn-link text-center">
-                                            <i className="bi bi-pencil-square pe-2"></i>
+                                              className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                            <i className="bi bi-pencil-square"></i>
                                         </Link>
                                         <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":badgeId", roadmap.roadmap_id)}
-                                              className="ms-3 btn btn-sm btn-link text-center">
+                                              className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">
                                             <i className="bi bi-trash"></i>
                                         </Link>
                                     </div>
@@ -145,51 +161,33 @@ export default function StaffDashboard() {
                             </div>
                         </div>
                         <ul className="p-0">
-                            {badges && badges.map((badge, badgeIndex) => (
-                                <li key={badgeIndex} className="d-flex flex-row pb-2">
-                                    <div>
-                                        <BadgeIcon badgeId={badge.badge_id}/>
+                            {badges && badges.map((badge, badgeIndex) => {
+                                let borderClass = "border-gray-200 border-bottom border-1";
+                                if (badgeIndex === badges.length - 1) borderClass = "";
+
+                                return <li key={badgeIndex} className={"d-flex flex-row pb-2 mb-2 " + borderClass}>
+                                    <div className="align-content-center">
+                                        {/*<BadgeIcon badgeId={badge.badge_id}/>*/}
+                                        <i className="bi bi-patch-check text-medium"></i>
                                     </div>
-                                    <div className="flex-fill ps-4 align-content-center">{badge.name}</div>
+                                    <div className="flex-fill ps-3 align-content-center text-start">
+                                        <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis fw-normal">
+                                            {badge.name}
+                                        </h3>
+                                    </div>
                                     <div className="align-content-center">
                                         <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
-                                              className="btn btn-sm btn-link text-center" style={{width: 80}}>
-                                            <i className="bi bi-pencil-square pe-2"></i>
-                                            Edit
+                                              className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                            <i className="bi bi-pencil-square"></i>
                                         </Link>
                                     </div>
-                                </li>))}
+                                </li>
+
+                            })}
                         </ul>
                     </div>
                 </div>
 
-                <div className="col-md-4 col-sm-6 p-0 ps-sm-1">
-                    <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
-                        <div className="w-100 d-flex flex-row pb-4">
-                            <h2 className="text-medium">Badge Status</h2>
-                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
-                            </div>
-                            <div>
-                                <Link className="btn btn-link ms-3 me-1 fw-light" to={StaffRouteUrls.BADGE_STATUS}>
-                                    View All</Link>
-                            </div>
-                        </div>
-                        <ul className="p-0">
-                            {visibleStatusList.map((status) => (
-                                <li key={status} className="d-flex flex-row pb-2">
-                                    <div className="flex-fill">
-                                        <Link to={`/staff/badge-status/?badgeWorkflowStatus=${status}`}
-                                              className="btn btn-sm btn-link text-center fw-normal">
-                                            <Translate>badgeWorkflowStatus.{status}</Translate>
-                                        </Link>
-                                    </div>
-                                    <div className="text-center" style={{width: 60}}>
-                                        {resourceRoadmapBadgeStatusSummary[status] ? resourceRoadmapBadgeStatusSummary[status] : 0}
-                                    </div>
-                                </li>))}
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     } else {
