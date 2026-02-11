@@ -51,7 +51,8 @@ export default function Organization() {
             showContinueSetup: false,
             condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.ANNOUNCEMENT ||
                 resource.latest_status === ResourceStatus.PRE_PRODUCTION ||
-                resource.badge_status_summary.required.verified < resource.badge_status_summary.required.total,
+                (resource.latest_status === ResourceStatus.PRODUCTION &&
+                    resource.badge_status_summary.required.verified < resource.badge_status_summary.required.total),
             resources: [],
         },
         {
