@@ -89,7 +89,7 @@ export default function StaffDashboard() {
                             </div>
                             <div style={{minWidth: 100}}>
                                 <Link className="btn btn-sm btn-medium rounded-2"
-                                      to={StaffRouteUrls.BADGE_STATUS}>View All</Link>
+                                      to={StaffRouteUrls.BADGE_STATUS + "?badgeWorkflowStatus=*"}>View All</Link>
                             </div>
                         </div>
                         <div className="w-100 pt-4">

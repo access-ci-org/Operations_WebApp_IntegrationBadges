@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.10.2 2026-02-12 dinukadesilva
+    1 - [fix] Fixing the "View All" link of the "Badge Verification Status" section in the staff dashboard (CTT-870)
+        - /staff/dashboard
+
 v1.10.1 2026-02-11 dinukadesilva
     1 - [bug-fix] Minor bug fix in the PR dashboard "In Progress" section (CTT-852)
         - organizations/<organization_id>
