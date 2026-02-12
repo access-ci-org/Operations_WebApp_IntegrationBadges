@@ -8,6 +8,11 @@ The general format of entries is:
         - *
 
 
+v1.10.3 2026-02-12 dinukadesilva
+    1 - [bug-fix] Fixing the browser back action from staff badge status page (CTT-872)
+        - /staff/dashboard
+        - /staff/badge-status
+
 v1.10.2 2026-02-12 dinukadesilva
     1 - [fix] Fixing the "View All" link of the "Badge Verification Status" section in the staff dashboard (CTT-870)
         - /staff/dashboard

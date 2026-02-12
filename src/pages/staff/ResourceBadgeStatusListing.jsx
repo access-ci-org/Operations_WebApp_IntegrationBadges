@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
@@ -11,11 +11,13 @@ import Translate from "../../locales/Translate.jsx";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
 import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
 
+export const BadgeWorkflowStatus_VIEW_ALL = "*";
+
 export default function ResourceBadgeStatusListing() {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    let badgeWorkflowStatus = queryParams.get('badgeWorkflowStatus');
+    let badgeWorkflowStatusParam = queryParams.get('badgeWorkflowStatus');
 
     const {
         fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeStatusSummary,
@@ -24,75 +26,86 @@ export default function ResourceBadgeStatusListing() {
     const {getBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
 
-    if ([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
-        BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED, "*"].indexOf(badgeWorkflowStatus) < 0) {
-
-        badgeWorkflowStatus = null;
-    }
+    const [badgeWorkflowStatus, setBadgeWorkflowStatus] = useState(null);
 
     const badges = getResourceRoadmapBadges({
-        badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null : badgeWorkflowStatus
+        badgeWorkflowStatus: badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ? null : badgeWorkflowStatus
     });
     const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
 
-    useEffect(() => {
-        if (!!badgeWorkflowStatus) {
-            fetchResourceRoadmapBadges({
-                badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null : badgeWorkflowStatus
-            });
+    const getTabLink = (tab) => {
+        return StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${tab.status}`;
+    };
+
+    const tabs = [
+        {
+            title: "Pending Verification",
+            status: BadgeWorkflowStatus.TASK_COMPLETED,
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.TASK_COMPLETED]
+        },
+        {
+            title: "RP Attention Needed",
+            status: BadgeWorkflowStatus.VERIFICATION_FAILED,
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED]
+        },
+        {
+            title: "In Progress",
+            status: BadgeWorkflowStatus.PLANNED,
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.PLANNED]
+        },
+        {
+            title: "Deprecated",
+            status: BadgeWorkflowStatus.DEPRECATED,
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED]
+        },
+        {
+            title: "Available",
+            status: BadgeWorkflowStatus.VERIFIED,
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFIED]
+        },
+        {
+            title: "View All",
+            status: BadgeWorkflowStatus_VIEW_ALL,
+            count: () => resourceRoadmapBadgeStatusSummary["total"]
         }
-    }, [badgeWorkflowStatus]);
+    ];
 
     useEffect(() => {
         fetchResourceRoadmapBadgeStatusSummary();
     }, []);
 
-    const tabs = [
-        {
-            title: "Pending Verification",
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.TASK_COMPLETED],
-            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.TASK_COMPLETED}`
-        },
-        {
-            title: "RP Attention Needed",
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED],
-            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFICATION_FAILED}`
-        },
-        {
-            title: "In Progress",
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.PLANNED],
-            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.PLANNED}`
-        },
-        {
-            title: "Deprecated",
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED],
-            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.DEPRECATED}`
-        },
-        {
-            title: "Available",
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFIED],
-            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFIED}`
-        },
-        {
-            title: "View All",
-            count: () => resourceRoadmapBadgeStatusSummary["total"],
-            link: StaffRouteUrls.BADGE_STATUS + "?badgeWorkflowStatus=*"
-        }
-    ];
+    useEffect(() => {
+        if (!!resourceRoadmapBadgeStatusSummary) {
+            if ([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
+                BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED, BadgeWorkflowStatus_VIEW_ALL].indexOf(badgeWorkflowStatusParam) < 0) {
 
-    let activeKey = StaffRouteUrls.BADGE_STATUS;
-    if (!!badgeWorkflowStatus) activeKey += `?badgeWorkflowStatus=${badgeWorkflowStatus}`;
+                badgeWorkflowStatusParam = null;
+            }
 
-    if (resourceRoadmapBadgeStatusSummary) {
-
-        if (!badgeWorkflowStatus) {
-            for (let tab of tabs) {
-                console.log("tab", [tab.title, tab.count()]);
-                if (tab.count() > 0) {
-                    return navigate(tab.link);
+            // If the tab is not specified, set it to the first tab with some entries. Or the "View All"
+            if (!badgeWorkflowStatusParam) {
+                badgeWorkflowStatusParam = BadgeWorkflowStatus_VIEW_ALL
+                for (let tab of tabs) {
+                    if (tab.count() > 0) {
+                        badgeWorkflowStatusParam = tab.status;
+                        break;
+                    }
                 }
             }
+
+            setBadgeWorkflowStatus(badgeWorkflowStatusParam);
         }
+    }, [!!resourceRoadmapBadgeStatusSummary, badgeWorkflowStatusParam]);
+
+    useEffect(() => {
+        if (!!badgeWorkflowStatus) {
+            fetchResourceRoadmapBadges({
+                badgeWorkflowStatus: badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ? null : badgeWorkflowStatus
+            });
+        }
+    }, [badgeWorkflowStatus]);
+
+    if (badgeWorkflowStatus && resourceRoadmapBadgeStatusSummary) {
 
         return <div className="container">
             <div className="row mt-2 p-3">
@@ -104,10 +117,10 @@ export default function ResourceBadgeStatusListing() {
                     <div className="w-100 pt-4">
                         <div className="w-100 d-flex flex-row">
                             <div className="flex-fill">
-                                <Nav variant="underline" activeKey={activeKey}
+                                <Nav variant="underline" activeKey={badgeWorkflowStatus}
                                      className="pe-3 border-bottom border-1 border-gray-200">
                                     {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                                        <Nav.Link eventKey={tab.link} to={tab.link} as={Link}>
+                                        <Nav.Link eventKey={tab.status} as={Link} to={getTabLink(tab)}>
                                             {tab.title} ({tab.count()})
                                         </Nav.Link>
                                     </Nav.Item>)}

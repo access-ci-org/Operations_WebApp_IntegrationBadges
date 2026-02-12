@@ -11,6 +11,7 @@ import {Fade} from "react-bootstrap";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
 import RoadmapIcon from "../../components/roadmap/RoadmapIcon.jsx";
 import {HtmlToText} from "../../components/util/text-editors.jsx";
+import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
 
 export default function StaffDashboard() {
     const {
@@ -89,7 +90,7 @@ export default function StaffDashboard() {
                             </div>
                             <div style={{minWidth: 100}}>
                                 <Link className="btn btn-sm btn-medium rounded-2"
-                                      to={StaffRouteUrls.BADGE_STATUS + "?badgeWorkflowStatus=*"}>View All</Link>
+                                      to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View All</Link>
                             </div>
                         </div>
                         <div className="w-100 pt-4">
