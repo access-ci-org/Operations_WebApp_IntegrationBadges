@@ -39,14 +39,14 @@ export default function Organization() {
     // If conditions in the order
     let sections = [
         {
-            title: "New Resources",
+            title: "New",
             description: "Defined in CiDeR; no roadmap or badges selected",
             showContinueSetup: true,
             condition: (resource, resourceRoadmaps) => resourceRoadmaps.length === 0,
             resources: [],
         },
         {
-            title: "In-Progress Resources",
+            title: "In-Progress",
             description: "Roadmap selected; currently earning required badges OR awaiting production start date. Optional badges do not affect this status",
             showContinueSetup: false,
             condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.ANNOUNCEMENT ||
@@ -64,7 +64,7 @@ export default function Organization() {
             resources: [],
         },
         {
-            title: "Post-Production Integrations",
+            title: "Post-Production",
             description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
             showContinueSetup: false,
             condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,

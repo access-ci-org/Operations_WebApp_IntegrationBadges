@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.10.5 2026-02-13 dinukadesilva
+    1 - [new] Revised sections names in the RP dashboard (CTT-852)
+        - organizations/<organization_id>
+
 v1.10.4 2026-02-13 dinukadesilva
     1 - [new] Adding the "Post-Production" section back (CTT-852)
         - organizations/<organization_id>
