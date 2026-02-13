@@ -63,13 +63,13 @@ export default function Organization() {
                 resource.badge_status_summary.required.verified === resource.badge_status_summary.required.total,
             resources: [],
         },
-        // {
-        //     title: "Post-Production Integrations",
-        //     description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
-        //     showContinueSetup: false,
-        //     condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,
-        //     resources: [],
-        // }
+        {
+            title: "Post-Production Integrations",
+            description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
+            showContinueSetup: false,
+            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,
+            resources: [],
+        }
     ];
 
     let resourcesProcessing = resources && resources.length > 0; // Set it to processing if there are resources.
