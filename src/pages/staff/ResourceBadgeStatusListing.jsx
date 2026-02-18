@@ -54,14 +54,14 @@ export default function ResourceBadgeStatusListing() {
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.PLANNED]
         },
         {
-            title: "Deprecated",
-            status: BadgeWorkflowStatus.DEPRECATED,
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED]
-        },
-        {
             title: "Available",
             status: BadgeWorkflowStatus.VERIFIED,
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFIED]
+        },
+        {
+            title: "Deprecated",
+            status: BadgeWorkflowStatus.DEPRECATED,
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED]
         },
         {
             title: "View All",

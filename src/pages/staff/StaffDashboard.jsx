@@ -39,14 +39,14 @@ export default function StaffDashboard() {
 
     const verificationHighlightList = [
         {
-            status: BadgeWorkflowStatus.VERIFICATION_FAILED,
-            icon: <i className="bi bi-exclamation-circle"></i>,
-            variant: "danger",
-        },
-        {
             status: BadgeWorkflowStatus.TASK_COMPLETED,
             icon: <i className="bi bi-clock"></i>,
             variant: "orange",
+        },
+        {
+            status: BadgeWorkflowStatus.VERIFICATION_FAILED,
+            icon: <i className="bi bi-exclamation-circle"></i>,
+            variant: "danger",
         },
         {
             status: BadgeWorkflowStatus.PLANNED,

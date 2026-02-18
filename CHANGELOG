@@ -7,6 +7,8 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+v1.10.6 2026-02-18 dinukadesilva
+    1 - [new] Changing the order of staff badge status tabs (CTT-870)
 
 v1.10.5 2026-02-13 dinukadesilva
     1 - [new] Revised sections names in the RP dashboard (CTT-852)
