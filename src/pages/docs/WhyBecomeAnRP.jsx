@@ -128,10 +128,12 @@ export default function WhyBecomeAnRP() {
             </div>
             <Accordion defaultActiveKey={[]}>
                 {additionalQuestions.map((additionalQuestion, additionalQuestionIndex) =>
-                    <Accordion.Item eventKey={additionalQuestionIndex} key={additionalQuestionIndex}>
-                        <Accordion.Header>{additionalQuestion.title}</Accordion.Header>
+                    <Accordion.Item eventKey={additionalQuestionIndex} key={additionalQuestionIndex} className="mb-2 rounded-3 border-top">
+                        <Accordion.Button className="rounded-3">
+                            <span className="text-medium fw-bold">{additionalQuestion.title}</span>
+                        </Accordion.Button>
                         <Accordion.Body>
-                            <p className="fs-6">{additionalQuestion.description}</p>
+                            <p className="fs-6 p-3 text-gray-700">{additionalQuestion.description}</p>
                         </Accordion.Body>
                     </Accordion.Item>)}
             </Accordion>

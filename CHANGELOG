@@ -7,6 +7,10 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+v1.10.7 2026-02-24 dinukadesilva
+    1 - [new] Improve the styles of accordions (CTT-537)
+        - /docs/why-become-an-rp
+
 v1.10.6 2026-02-18 dinukadesilva
     1 - [new] Changing the order of staff badge status tabs (CTT-870)
 
