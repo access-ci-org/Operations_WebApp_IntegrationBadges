@@ -69,7 +69,8 @@ export default function StaffBadgeEdit() {
     }, [badgeId, !!badge]);
 
     useEffect(() => {
-        !!badgeId && fetchBadge({badgeId});
+        !!badgeId && fetchBadge({badgeId})
+            .catch(() => navigate(StaffRouteUrls.INDEX));
     }, [badgeId]);
 
     const sections = [

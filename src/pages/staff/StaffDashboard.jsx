@@ -153,11 +153,11 @@ export default function StaffDashboard() {
                                         </div>
                                     </div>
                                     <div className="align-content-center text-end" style={{minWidth: 80}}>
-                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":badgeId", roadmap.roadmap_id)}
+                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
                                               className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                             <i className="bi bi-pencil-square"></i>
                                         </Link>
-                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":badgeId", roadmap.roadmap_id)}
+                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
                                               className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">
                                             <i className="bi bi-trash"></i>
                                         </Link>

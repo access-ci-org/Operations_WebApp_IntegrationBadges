@@ -58,7 +58,8 @@ export default function StaffRoadmapEdit() {
     }, [roadmapId, !!roadmap]);
 
     useEffect(() => {
-        !!roadmapId && fetchRoadmap({roadmapId});
+        !!roadmapId && fetchRoadmap({roadmapId})
+            .catch(() => navigate(StaffRouteUrls.INDEX));
     }, [roadmapId]);
 
 
@@ -74,7 +75,7 @@ export default function StaffRoadmapEdit() {
         {
             title: "Review & Edit",
             component: <StaffRoadmapEditReviewAndEdit roadmapData={roadmapData} setRoadmapData={setRoadmapData}
-                                                          onClickEditBadges={seActiveSectionIndex.bind(this, 1)}/>
+                                                      onClickEditBadges={seActiveSectionIndex.bind(this, 1)}/>
         },
     ];
 
