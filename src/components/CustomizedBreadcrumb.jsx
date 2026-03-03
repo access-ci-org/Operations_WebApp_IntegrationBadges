@@ -6,6 +6,7 @@ import LoadingBlock from "./util/LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
 import Translate from "../locales/Translate.jsx";
+import {useBadges} from "../contexts/BadgeContext.jsx";
 
 const defaultLinkProps = {className: "btn btn-link text-medium"}
 
@@ -21,6 +22,7 @@ function CustomizedBreadcrumb() {
     const {organizationMap, organizationMapByName} = useOrganizations();
     const {getResource} = useResources();
     const {getRoadmap} = useRoadmaps();
+    const {getBadge} = useBadges();
 
     let key = 1;
     if (pathSegments[1] && pathSegments[1].length > 0) {
@@ -162,6 +164,18 @@ function CustomizedBreadcrumb() {
                         }}
                     >
                         Edit
+                    </Breadcrumb.Item>)
+                } else if (pathSegments[5] === "badges" && !!pathSegments[6]) {
+                    const badge = getBadge({badgeId: pathSegments[6]});
+
+                    breadcrumbLinks.push(<Breadcrumb.Item
+                        key={key++} linkAs={Link}
+                        linkProps={{
+                            ...defaultLinkProps,
+                            to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/badges/${pathSegments[6]}`
+                        }}
+                    >
+                        {badge.name}
                     </Breadcrumb.Item>)
                 }
             }
