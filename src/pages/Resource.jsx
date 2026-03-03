@@ -7,6 +7,7 @@ import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
+import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 
 export default function Resource() {
     const navigate = useNavigate();
@@ -90,12 +91,17 @@ export default function Resource() {
     if (resource && roadmap && organization) {
         return <div className="container">
             <div className="row">
-                <h1>{resource.resource_descriptive_name}</h1>
-                <div>
-                    By&nbsp;&nbsp;
-                    <Link to={`/organizations/${organization.organization_id}`} className="btn btn-link text-dark">
-                        {organization.organization_name}
-                    </Link>
+                <div className="col">
+                    <h1>{resource.resource_descriptive_name}</h1>
+                    <div>
+                        By&nbsp;&nbsp;
+                        <Link to={`/organizations/${organization.organization_id}`} className="btn btn-link text-dark">
+                            {organization.organization_name}
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
+                    <ContactsAndCollaboratorsSummary/>
                 </div>
             </div>
             <div className="row pt-5">

@@ -12,6 +12,7 @@ import Form from "react-bootstrap/Form";
 import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
 import Concierge, {ConciergeSwitch} from "../components/staff/Concierge.jsx";
 import {HtmlToReact} from "../components/util/text-editors.jsx";
+import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -92,46 +93,47 @@ export default function ResourceBadge() {
                 </div>}
 
             <div className="row">
-                <div className="col-sm-12">
-                    <div className="row">
-                        <h1>{resource.resource_descriptive_name}</h1>
-                        <div>
-                            By&nbsp;&nbsp;
-                            <Link to={`/organizations/${organization.organization_id}`}
-                                  className="btn btn-link text-dark">
-                                {organization.organization_name}
-                            </Link>
-                        </div>
+                <div className="col">
+                    <h1>{resource.resource_descriptive_name}</h1>
+                    <div>
+                        By&nbsp;&nbsp;
+                        <Link to={`/organizations/${organization.organization_id}`} className="btn btn-link text-dark">
+                            {organization.organization_name}
+                        </Link>
                     </div>
-                    <div className="row pt-5">
-                        <div className="col-sm-2 mb-3"
-                             style={{minHeight: 100}}>
-                            <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
-                        </div>
-                        <div className="col mb-3">
-                            <h2>{badge.name}</h2>
-                            <div className="row">
-                                <label className="text-secondary">RP Roles</label>
-                                <div>{getImplementorRoles(tasks).join(", ")}</div>
-                            </div>
-                        </div>
-                        <div className="col-sm-3 ps-1 mb-3">
-                            <ConciergeSwitch/>
+                </div>
+                <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
+                    <ContactsAndCollaboratorsSummary/>
+                </div>
+            </div>
 
-                            <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
-                                <label className="text-black d-inline fw-bold">Badge Status : </label>
-                                <div className="ps-2 d-inline">
-                                    <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId}
-                                                         badgeId={badgeId}/>
-                                </div>
-                            </div>
-                        </div>
+            <div className="row pt-5">
+                <div className="col-sm-2 mb-3"
+                     style={{minHeight: 100}}>
+                    <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
+                </div>
+                <div className="col mb-3">
+                    <h2>{badge.name}</h2>
+                    <div className="row">
+                        <label className="text-secondary">RP Roles</label>
+                        <div>{getImplementorRoles(tasks).join(", ")}</div>
                     </div>
-                    <div className="w-100 pt-5 pb-3">
-                        <HtmlToReact>{badge.resource_provider_summary}</HtmlToReact>
+                </div>
+                <div className="col-sm-3 ps-1 mb-3">
+                    <ConciergeSwitch/>
+
+                    <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
+                        <label className="text-black d-inline fw-bold">Badge Status : </label>
+                        <div className="ps-2 d-inline">
+                            <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId}
+                                                 badgeId={badgeId}/>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div className="w-100 pt-5 pb-3">
+                        <HtmlToReact>{badge.resource_provider_summary}</HtmlToReact>
+                    </div>
 
             <div className="w-100 d-flex flex-row pt-3 pb-4">
                 <div className="ps-3 pe-3  text-yellow fs-3">

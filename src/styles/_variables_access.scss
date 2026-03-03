@@ -97,6 +97,7 @@ $h6-font-size: 1rem;
 $h7-font-size: 0.9rem;
 $h8-font-size: 0.8rem;
 $h9-font-size: 0.7rem;
+$h10-font-size: 0.6rem;
 
 // Other useful variables to customize
 $headings-font-family:  "Archivo", Helvetica, Arial, sans-serif;
@@ -114,5 +115,6 @@ $font-sizes: (
   6: $h6-font-size,
   7: $h7-font-size,
   8: $h8-font-size,
-  9: $h9-font-size
+  9: $h9-font-size,
+  10: $h10-font-size
 );
