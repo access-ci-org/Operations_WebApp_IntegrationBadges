@@ -79,7 +79,7 @@ export default function ResourceBadge() {
         const lastUpdatedBy = badge.status_updated_by;
 
         return <div className="container">
-
+            <ConciergeSwitch/>
             {badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
                 <div className="w-100 d-flex flex-row pb-3 pt-3">
                     <div className="flex-fill bg-warning rounded-2 p-3 bg-opacity-10">
@@ -103,7 +103,7 @@ export default function ResourceBadge() {
                     </div>
                 </div>
                 <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
-                    <ContactsAndCollaboratorsSummary/>
+                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}/>
                 </div>
             </div>
 
@@ -120,8 +120,6 @@ export default function ResourceBadge() {
                     </div>
                 </div>
                 <div className="col-sm-3 ps-1 mb-3">
-                    <ConciergeSwitch/>
-
                     <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
                         <label className="text-black d-inline fw-bold">Badge Status : </label>
                         <div className="ps-2 d-inline">
@@ -132,8 +130,8 @@ export default function ResourceBadge() {
                 </div>
             </div>
             <div className="w-100 pt-5 pb-3">
-                        <HtmlToReact>{badge.resource_provider_summary}</HtmlToReact>
-                    </div>
+                <HtmlToReact>{badge.resource_provider_summary}</HtmlToReact>
+            </div>
 
             <div className="w-100 d-flex flex-row pt-3 pb-4">
                 <div className="ps-3 pe-3  text-yellow fs-3">

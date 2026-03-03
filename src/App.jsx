@@ -25,6 +25,7 @@ import {StaffRoute} from "./pages/staff/StaffRoute.jsx";
 import {StaffMainNavigation} from "./components/staff/StaffMainNavigation.jsx";
 import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import About from "./pages/About.jsx";
+import {ContactProvider} from "./contexts/ContactsContext.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -84,52 +85,55 @@ function App() {
             <TaskProvider>
                 <BadgeProvider>
                     <RoadmapProvider>
-                        <ResourcesProvider>
-                            <I18nextProvider i18n={i18n}>
-                                <div className="w-100">
+                        <ContactProvider>
+                            <ResourcesProvider>
+                                <I18nextProvider i18n={i18n}>
                                     <div className="w-100">
-                                        <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
-                                            <AlwaysScrollToTop/>
-                                            <Routes>
-                                                <Route path="/" element={<RouterLayout/>}>
+                                        <div className="w-100">
+                                            <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
+                                                <AlwaysScrollToTop/>
+                                                <Routes>
+                                                    <Route path="/" element={<RouterLayout/>}>
 
-                                                    <Route path="/about" element={<About/>}/>
+                                                        <Route path="/about" element={<About/>}/>
 
-                                                    <Route path="/organizations" element={<IntegrationDashboard/>}/>
-                                                    <Route path="/organizations/:organizationId"
-                                                           element={<Organization/>}/>
-                                                    <Route
-                                                        path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
-                                                        element={<OrganizationBadgeReview/>}/>
+                                                        <Route path="/organizations" element={<IntegrationDashboard/>}/>
+                                                        <Route path="/organizations/:organizationId"
+                                                               element={<Organization/>}/>
+                                                        <Route
+                                                            path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
+                                                            element={<OrganizationBadgeReview/>}/>
 
-                                                    <Route path="/resources/new" element={<NewResource/>}/>
+                                                        <Route path="/resources/new" element={<NewResource/>}/>
 
-                                                    <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId"
-                                                           element={<Resource/>}/>
+                                                        <Route path="/resources/:resourceId" element={<Resource/>}/>
+                                                        <Route path="/resources/:resourceId/roadmaps/:roadmapId"
+                                                               element={<Resource/>}/>
 
-                                                    <Route path="/resources/:resourceId/edit"
-                                                           element={<ResourceEdit/>}/>
-                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId/edit"
-                                                           element={<ResourceEdit/>}/>
+                                                        <Route path="/resources/:resourceId/edit"
+                                                               element={<ResourceEdit/>}/>
+                                                        <Route path="/resources/:resourceId/roadmaps/:roadmapId/edit"
+                                                               element={<ResourceEdit/>}/>
 
-                                                    <Route
-                                                        path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
-                                                        element={<ResourceBadge/>}/>
+                                                        <Route
+                                                            path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
+                                                            element={<ResourceBadge/>}/>
 
-                                                    {DocumentationRoute}
-                                                    {StaffRoute}
+                                                        {DocumentationRoute}
+                                                        {StaffRoute}
 
-                                                    <Route path="/*?"
-                                                           element={<Navigate to="/organizations" replace={true}/>}/>
+                                                        <Route path="/*?"
+                                                               element={<Navigate to="/organizations"
+                                                                                  replace={true}/>}/>
 
-                                                </Route>
-                                            </Routes>
-                                        </BrowserRouter>
+                                                    </Route>
+                                                </Routes>
+                                            </BrowserRouter>
+                                        </div>
                                     </div>
-                                </div>
-                            </I18nextProvider>
-                        </ResourcesProvider>
+                                </I18nextProvider>
+                            </ResourcesProvider>
+                        </ContactProvider>
                     </RoadmapProvider>
                 </BadgeProvider>
             </TaskProvider>

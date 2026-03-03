@@ -1,6 +1,7 @@
-import {useLocation, useNavigate} from "react-router-dom";
-import Form from "react-bootstrap/Form";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {useContacts} from "../../contexts/ContactsContext.jsx";
+import {useEffect} from "react";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 
 const ContactAvatarClasses = [
     "bg-orange text-white",
@@ -52,175 +53,15 @@ function AddNewCollaboratorButton() {
     </div>
 }
 
-export default function ContactsAndCollaboratorsSummary(props) {
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const concierge = queryParams.get('concierge');
+export default function ContactsAndCollaboratorsSummary(
+    {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
+) {
+    const {fetchContacts, getContacts} = useContacts();
+    const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
 
-    const contacts = [
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Dave Hancock",
-            "contact_email": "dyhancoc@iu.edu",
-            "contact_type": "Public relations and media"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Dave Hancock",
-            "contact_email": "dyhancoc@iu.edu",
-            "contact_type": "Resource PI"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Jeremy Fischer",
-            "contact_email": "jeremy@iu.edu",
-            "contact_type": "Integration coordinator"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Jeremy Fischer",
-            "contact_email": "jeremy@iu.edu",
-            "contact_type": "Resource news and outages"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Le Mai Weakley",
-            "contact_email": "llnguyen@iu.edu",
-            "contact_type": "Public documentation"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Le Mai Weakley",
-            "contact_email": "llnguyen@iu.edu",
-            "contact_type": "Researcher support and ticket handling"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Le Mai Weakley",
-            "contact_email": "llnguyen@iu.edu",
-            "contact_type": "Resource Co-PI"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Le Mai Weakley",
-            "contact_email": "llnguyen@iu.edu",
-            "contact_type": "Resource news and outages"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Jenn Taylor",
-            "contact_email": "jlrobiso@iu.edu",
-            "contact_type": "Public relations and media"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Jenn Taylor",
-            "contact_email": "jlrobiso@iu.edu",
-            "contact_type": "Allocations process"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Mike Lowe",
-            "contact_email": "jomlowe@iu.edu",
-            "contact_type": "AMIE technical"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Mike Lowe",
-            "contact_email": "jomlowe@iu.edu",
-            "contact_type": "Metrics and performance data"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Mike Lowe",
-            "contact_email": "jomlowe@iu.edu",
-            "contact_type": "System administrator"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Mike Lowe",
-            "contact_email": "jomlowe@iu.edu",
-            "contact_type": "Cybersecurity and incident response"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Mike Lowe",
-            "contact_email": "jomlowe@iu.edu",
-            "contact_type": "Resource Co-PI"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "IU NOC",
-            "contact_email": "noc@iu.edu",
-            "contact_type": "Data and networking"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Zach Graber",
-            "contact_email": "zegraber@iu.edu",
-            "contact_type": "AMIE technical"
-        },
-        {
-            "info_resourceid": "jetstream2.indiana.access-ci.org",
-            "project_affiliation": "ACCESS",
-            "organization_id": 561,
-            "organization_name": "Indiana University",
-            "contact_name": "Danny Havert",
-            "contact_email": "djhavert@iu.edu",
-            "contact_type": "Metrics and performance data"
-        }
-    ];
+    useEffect(() => {
+        fetchContacts({organizationId, resourceId, contactType, contactEmail});
+    }, [organizationId, resourceId, contactType, contactEmail]);
 
     // ContactAvatarClasses.sort(() => Math.random() - Math.random());
 
@@ -230,18 +71,23 @@ export default function ContactsAndCollaboratorsSummary(props) {
             <button className="btn btn-link text-medium d-inline">
                 <i className="bi bi-info-circle-fill fs-7"></i></button>
         </div>
-        <div className="row p-2 bg-light rounded-5">
-            {contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
-                <CollaboratorProfileAvatarButton key={contactIndex} contact={contact} contactIndex={contactIndex}/>)}
+
+        <LoadingBlock processing={!contacts} className="row p-2 bg-light rounded-5 fs-8"/>
+        {contacts && <div className="row p-2 bg-light rounded-5">
+            {contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
+                <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}
+                                                 contactIndex={contactIndex}/>)}
             <div className="col align-content-center ps-1">
                 <button className="btn btn-link fs-8">
                     <span className="text-one-line-overflow-ellipsis text text-secondary">
-                        +{contacts.length - NumberOfContactDisplayOnSummary}
+                        +{contacts && (contacts.length - NumberOfContactDisplayOnSummary)}
                     </span>
                 </button>
             </div>
-            <AddNewCollaboratorButton/>
-        </div>
+            {/*<Concierge>*/}
+                <AddNewCollaboratorButton/>
+            {/*</Concierge>*/}
+        </div>}
     </div>
 }
 

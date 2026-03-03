@@ -1,6 +1,6 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {ResourceStatus, useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
@@ -9,6 +9,7 @@ import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificatio
 import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
+import {ConciergeSwitch} from "../components/staff/Concierge.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -99,6 +100,7 @@ export default function Organization() {
     sections = sections.filter(section => section.resources.length > 0);
 
     return <div className="container">
+        <ConciergeSwitch/>
         <div className="row">
             <div className="col-sm-3 p-3 align-content-center" style={{maxWidth: 300}}>
                 {organization && <div className="w-100 bg-white" style={{
@@ -111,7 +113,7 @@ export default function Organization() {
                 <h1 className="p-3">{organization.organization_name}</h1>
             </div>
             <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
-                <ContactsAndCollaboratorsSummary/>
+                <ContactsAndCollaboratorsSummary organizationId={organizationId}/>
                 <div className="pe-3 mt-5 mb-5">
                     <h2 className="fs-6 text-gray-700">Badge Verification <br/>Status</h2>
                     <OrgBadgeVerificationStatus organizationId={organizationId}

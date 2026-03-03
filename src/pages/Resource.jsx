@@ -8,6 +8,7 @@ import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
+import {ConciergeSwitch} from "../components/staff/Concierge.jsx";
 
 export default function Resource() {
     const navigate = useNavigate();
@@ -90,6 +91,7 @@ export default function Resource() {
 
     if (resource && roadmap && organization) {
         return <div className="container">
+            <ConciergeSwitch/>
             <div className="row">
                 <div className="col">
                     <h1>{resource.resource_descriptive_name}</h1>
@@ -101,7 +103,7 @@ export default function Resource() {
                     </div>
                 </div>
                 <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
-                    <ContactsAndCollaboratorsSummary/>
+                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}/>
                 </div>
             </div>
             <div className="row pt-5">

@@ -1,17 +1,17 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import Form from "react-bootstrap/Form";
 
-export default function Concierge(props) {
+export default function Concierge({children}) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const concierge = queryParams.get('concierge');
 
     if (concierge) {
-        return props.children;
+        return children;
     }
 }
 
-export function ConciergeSwitch(props) {
+export function ConciergeSwitch() {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
