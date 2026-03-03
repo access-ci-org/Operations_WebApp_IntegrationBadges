@@ -112,7 +112,7 @@ export default function Organization() {
             <div className="col align-content-center">
                 <h1 className="p-3">{organization.organization_name}</h1>
             </div>
-            <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
+            <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
                 <ContactsAndCollaboratorsSummary organizationId={organizationId}/>
                 <div className="pe-3 mt-5 mb-5">
                     <h2 className="fs-6 text-gray-700">Badge Verification <br/>Status</h2>

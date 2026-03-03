@@ -102,7 +102,7 @@ export default function ResourceBadge() {
                         </Link>
                     </div>
                 </div>
-                <div className="col-sm-4 pt-3 align-content-start" style={{minWidth: 280}}>
+                <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
                     <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}/>
                 </div>
             </div>

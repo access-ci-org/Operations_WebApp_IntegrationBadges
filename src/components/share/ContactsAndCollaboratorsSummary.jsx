@@ -6,8 +6,8 @@ import LoadingBlock from "../util/LoadingBlock.jsx";
 const ContactAvatarClasses = [
     "bg-orange text-white",
     "bg-success text-dark",
-    "bg-yellow text-orange",
-    "bg-danger-subtle text-danger",
+    "bg-yellow text-light",
+    "bg-info-subtle text-danger",
     "bg-info text-black",
 ];
 
