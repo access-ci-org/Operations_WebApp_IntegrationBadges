@@ -7,6 +7,15 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.11.0 2026-03-03 dinukadesilva
+    1 - [fix] Fixing the resource badge page breadcrumb
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [new] Adding the contact/collaborator summary to rp dashboard and resource pages
+        - /organizations
+        - /resources/<resource_id>/roadmaps/<roadmap_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
 v1.10.8 2026-02-26 dinukadesilva
     1 - [bug-fix] Fix roadmap edit links in the staff dashboard (ATS-25110)
 
