@@ -72,15 +72,15 @@ export default function ContactsAndCollaboratorsSummary(
                 <i className="bi bi-info-circle-fill fs-7"></i></button>
         </div>
 
-        <LoadingBlock processing={!contacts} className="row p-2 bg-light rounded-5 fs-8"/>
-        {contacts && <div className="row p-2 bg-light rounded-5">
-            {contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
+        <LoadingBlock processing={!contacts} className="row fs-8 p-2 rounded-5 bg-light"/>
+        {contacts && <div className="row p-2 rounded-5 bg-gray-100">
+            {contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
                 <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}
                                                  contactIndex={contactIndex}/>)}
             <div className="col align-content-center ps-1">
                 <button className="btn btn-link fs-8">
                     <span className="text-one-line-overflow-ellipsis text text-secondary">
-                        +{contacts && (contacts.length - NumberOfContactDisplayOnSummary)}
+                        +{contacts.length - NumberOfContactDisplayOnSummary}
                     </span>
                 </button>
             </div>
