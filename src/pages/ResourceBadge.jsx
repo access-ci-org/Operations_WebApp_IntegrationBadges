@@ -103,7 +103,8 @@ export default function ResourceBadge() {
                     </div>
                 </div>
                 <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
-                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}/>
+                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
+                                                     organizationId={organization.organization_id}/>
                 </div>
             </div>
 

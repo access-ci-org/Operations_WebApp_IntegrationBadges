@@ -5,6 +5,8 @@ import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
+import {ConciergeSwitch} from "../components/staff/Concierge.jsx";
+import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -28,8 +30,17 @@ export default function IntegrationDashboard() {
     filteredOrganizations = sortJsonArrayAlphabetically(filteredOrganizations, "organization_name")
 
     return (<div className="container">
+        <ConciergeSwitch/>
         <div className="row">
-            <h1>Integration Dashboard</h1>
+            <div className="col align-content-end">
+                <h1>Integration Dashboard</h1>
+            </div>
+            <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
+                <ContactsAndCollaboratorsSummary/>
+            </div>
+        </div>
+        <div className="row">
+            {/*<h1>Integration Dashboard</h1>*/}
             <p className="mt-3">
                 Welcome to the ACCESS Integration Dashboard.
                 <br/><br/>

@@ -1,7 +1,9 @@
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {useContacts} from "../../contexts/ContactsContext.jsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import LoadingBlock from "../util/LoadingBlock.jsx";
+import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
+import {Link} from "react-router-dom";
 
 const ContactAvatarClasses = [
     "bg-orange text-white",
@@ -15,12 +17,11 @@ const NumberOfContactDisplayOnSummary = 5;
 
 function getContactNameInitials(contactName) {
     let nameInitials = "";
-    const nameSplit = /(.)?.*\s+(.)?.*/.exec(contactName);
-    console.log("nameSplit ", nameSplit)
+    let nameSplit = /\s*([a-zA-Z0-9])?[^\s]*\s*([a-zA-Z0-9])?/.exec(contactName);
     if (nameSplit[1]) nameInitials += nameSplit[1];
     if (nameSplit[2]) nameInitials += nameSplit[2];
 
-    return nameInitials;
+    return nameInitials.toUpperCase();
 }
 
 function CollaboratorProfileAvatarButton({contact, contactIndex, profileAvatarClass}) {
@@ -43,20 +44,53 @@ function CollaboratorProfileAvatarButton({contact, contactIndex, profileAvatarCl
     </div>
 }
 
-function AddNewCollaboratorButton() {
+function AddNewCollaboratorButton(
+    {organizationId = null, resourceId = null, contactType = null, contactEmail = null, onClick = null} = {}
+) {
+
     let style = {maxWidth: 28, minWidth: 28, maxHeight: 28, minHeight: 28};
 
     return <div className="col p-0 me-1" style={style}>
-        <button className="btn btn-gray-400 fs-8 w-100 h-100 rounded-circle p-1">
+        <button className="btn btn-gray-400 fs-8 w-100 h-100 rounded-circle p-1" onClick={() => onClick && onClick()}>
             <i className="bi bi-person-plus"></i>
         </button>
     </div>
 }
 
+
+function ShowMoreCollaboratorDetailsButton(
+    {organizationId = null, resourceId = null, contactType = null, contactEmail = null, onClick = null} = {}
+) {
+    const {getContacts} = useContacts();
+
+    const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
+
+    return <div className="col align-content-center ps-1">
+        {contacts && contacts.length > NumberOfContactDisplayOnSummary &&
+            <button className="btn btn-link fs-8" onClick={() => onClick && onClick()}>
+                    <span className="text-one-line-overflow-ellipsis text text-secondary">
+                        +{contacts.length - NumberOfContactDisplayOnSummary}
+                    </span>
+            </button>}
+
+        {contacts && contacts.length === 0 &&
+            <div className="fs-8">
+                <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>
+                <span className="text-secondary">No contacts found.</span>
+            </div>}
+    </div>
+}
+
+
 export default function ContactsAndCollaboratorsSummary(
     {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
 ) {
+    const {getOrganization} = useOrganizations();
     const {fetchContacts, getContacts} = useContacts();
+
+    const [showContactsAndCollaboratorsModal, setShowContactsAndCollaboratorsModal] = useState(false);
+
+    const organization = getOrganization({organizationId});
     const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
 
     useEffect(() => {
@@ -77,17 +111,84 @@ export default function ContactsAndCollaboratorsSummary(
             {contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
                 <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}
                                                  contactIndex={contactIndex}/>)}
-            <div className="col align-content-center ps-1">
-                <button className="btn btn-link fs-8">
-                    <span className="text-one-line-overflow-ellipsis text text-secondary">
-                        +{contacts.length - NumberOfContactDisplayOnSummary}
-                    </span>
-                </button>
-            </div>
-            {/*<Concierge>*/}
-                <AddNewCollaboratorButton/>
-            {/*</Concierge>*/}
+
+            <ShowMoreCollaboratorDetailsButton organizationId={organizationId} resourceId={resourceId}
+                                               contactEmail={contactEmail} contactType={contactType}
+                                               onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
+
+            <AddNewCollaboratorButton onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
         </div>}
+
+        <Modal size="lg" show={showContactsAndCollaboratorsModal}
+               onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
+            <Modal.Header closeButton className="bg-medium">
+                <Modal.Title className="text-white">
+                    Contacts / Collaborators
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-0 fs-8">
+                {organization && <div className="w-100 d-flex flex-row bg-light">
+                    <div className="p-2 ps-3" style={{minWidth: 200, minHeight: 60}}>
+                        <div className="w-100 h-100 p-2" style={{
+                            backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "contain",
+                            backgroundPosition: "left center"
+                        }}/>
+                    </div>
+                    <div className="flex-fill align-content-center text-start p-2">
+                        <h5 className="text-medium fs-6 m-0">{organization.organization_name}</h5>
+                        {resourceId && <h6 className="fs-6 m-0 mt-2">{resourceId}</h6>}
+                    </div>
+                </div>}
+                <div className="w-100 pt-4 pb-5 ps-2 pe-2">
+                    <table className="table table-sm">
+                        <thead className="text-start">
+                        <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Affiliations / Collaborations</th>
+                        </tr>
+                        </thead>
+                        <tbody className="table-group-divider text-start">
+
+                        {contacts && contacts.map(contact =>
+                            <tr>
+                                <th scope="row">
+                                    <div className="d-flex flex-row">
+                                        <div className="pe-2">
+                                            <CollaboratorProfileAvatarButton contact={contact}
+                                                                             profileAvatarClass="bg-orange text-white"/>
+                                        </div>
+                                        <div className="flex-fill">
+                                            <h5 className="fs-8 mb-0">{contact.contact_name}</h5>
+                                            <div className="fs-9 fw-normal">{contact.contact_email}</div>
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    {contact.resource_contacts.map((resourceContact, resourceContactIndex) => {
+                                        return <div key={resourceContactIndex}>
+                                            {!resourceId &&
+                                                <h6 className="fs-9 m-0">{resourceContact.info_resourceid}</h6>}
+                                            <ul className="p-0 mb-2 ps-4">
+                                                {resourceContact.contact_types.map((contactType, contactTypeIndex) =>
+                                                    <li key={contactTypeIndex}>{contactType}</li>)}
+                                            </ul>
+                                        </div>
+                                    })}
+                                </td>
+                            </tr>)}
+                        </tbody>
+                    </table>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <button className="btn btn-outline-medium rounded-1"
+                        onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
+                    Cancel
+                </button>
+            </Modal.Footer>
+        </Modal>
     </div>
 }
 
