@@ -8,7 +8,7 @@ The general format of entries is:
         - *
 
 
-v1.11.0 2026-03-04 dinukadesilva
+v1.11.0 2026-03-05 dinukadesilva
     1 - [fix] Fixing the resource badge page breadcrumb
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
     2 - [new] Adding the contact/collaborator summary and modal to rp dashboard and resource pages (CTT-871)
@@ -16,6 +16,10 @@ v1.11.0 2026-03-04 dinukadesilva
         - organizations/<organization_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [new] Adding staff contacts page (CTT-871)
+        - /staff/contacts
+        - /staff/contacts?resourceId=<resource_id>
+        - /staff/contacts?organizationId=<organization_id>
 
 v1.10.8 2026-02-26 dinukadesilva
     1 - [bug-fix] Fix roadmap edit links in the staff dashboard (ATS-25110)
