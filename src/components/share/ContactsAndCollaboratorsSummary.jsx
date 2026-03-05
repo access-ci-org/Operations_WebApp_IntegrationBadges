@@ -106,84 +106,82 @@ export default function ContactsAndCollaboratorsSummary(
 
     // ContactAvatarClasses.sort(() => Math.random() - Math.random());
 
-    return <Concierge>
-        <div className="w-100 p-2">
-            <div className="w-100">
-                <h4 className="fs-10 fw-bold mb-1 pe-2 text-medium d-inline">Contacts / Collaborators</h4>
-                <button className="btn btn-link text-medium d-inline">
-                    <i className="bi bi-info-circle-fill fs-7"></i></button>
-            </div>
+    return <div className="w-100 p-2">
+        <div className="w-100">
+            <h4 className="fs-10 fw-bold mb-1 pe-2 text-medium d-inline">Contacts / Collaborators</h4>
+            <button className="btn btn-link text-medium d-inline">
+                <i className="bi bi-info-circle-fill fs-7"></i></button>
+        </div>
 
-            <LoadingBlock processing={!error && !contacts} className="row fs-8 p-2 rounded-5 bg-light"/>
+        <LoadingBlock processing={!error && !contacts} className="row fs-8 p-2 rounded-5 bg-light"/>
 
-            <div className="row p-2 rounded-5 bg-gray-100">
-                {contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
-                    <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}
-                                                     contactIndex={contactIndex}/>)}
+        <div className="row p-2 rounded-5 bg-gray-100">
+            {contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
+                <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}
+                                                 contactIndex={contactIndex}/>)}
 
 
-                {error && <div className="col align-content-center ps-1">
+            {error && <div className="col align-content-center ps-1">
+                <div className="w-100 fs-8">
+                    <i className="bi bi-exclamation-triangle-fill text-danger pe-2"></i>
+                    <span className="fw-bold">Error : </span>
+                    <span>Unauthorized</span>
+                </div>
+            </div>}
+
+            {!error && contacts && contacts.length === 0 &&
+                <div className="col align-content-center ps-1">
                     <div className="w-100 fs-8">
-                        <i className="bi bi-exclamation-triangle-fill text-danger pe-2"></i>
-                        <span className="fw-bold">Error : </span>
-                        <span>Unauthorized</span>
+                        <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>
+                        <span className="text-secondary">No contacts found.</span>
                     </div>
                 </div>}
 
-                {!error && contacts && contacts.length === 0 &&
-                    <div className="col align-content-center ps-1">
-                        <div className="w-100 fs-8">
-                            <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>
-                            <span className="text-secondary">No contacts found.</span>
-                        </div>
-                    </div>}
 
+            {!error && contacts && contacts.length > 0 &&
+                <ShowMoreCollaboratorDetailsButton organizationId={organizationId} resourceId={resourceId}
+                                                   contactEmail={contactEmail} contactType={contactType}
+                                                   onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>}
 
-                {!error && contacts && contacts.length > 0 &&
-                    <ShowMoreCollaboratorDetailsButton organizationId={organizationId} resourceId={resourceId}
-                                                       contactEmail={contactEmail} contactType={contactType}
-                                                       onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>}
-
-                <AddNewCollaboratorButton organizationId={organizationId} resourceId={resourceId}
-                                          contactEmail={contactEmail} contactType={contactType}
-                                          onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
-            </div>
-
-            <Modal size="lg" show={showContactsAndCollaboratorsModal}
-                   onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-medium">
-                    <Modal.Title className="text-white">
-                        Contacts / Collaborators
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="p-0 fs-8">
-                    {organization && <div className="w-100 d-flex flex-row bg-light">
-                        <div className="p-2 ps-3" style={{minWidth: 100, minHeight: 60}}>
-                            <div className="w-100 h-100 p-2" style={{
-                                backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                                backgroundRepeat: "no-repeat",
-                                backgroundSize: "contain",
-                                backgroundPosition: "center"
-                            }}/>
-                        </div>
-                        <div className="flex-fill align-content-center text-start p-2">
-                            <h5 className="text-medium fs-6 m-0">{organization.organization_name}</h5>
-                            {resourceId && <h6 className="fs-6 m-0 mt-2">{resourceId}</h6>}
-                        </div>
-                    </div>}
-                    <div className="w-100 pt-4 pb-5 ps-2 pe-2">
-                        <ContactsAndCollaboratorsTable organizationId={organizationId} resourceId={resourceId}
-                                                       contactEmail={contactEmail} contactType={contactType}/>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
-                            onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-                        Cancel
-                    </button>
-                </Modal.Footer>
-            </Modal>
+            <AddNewCollaboratorButton organizationId={organizationId} resourceId={resourceId}
+                                      contactEmail={contactEmail} contactType={contactType}
+                                      onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
         </div>
-    </Concierge>
+
+        <Modal size="lg" show={showContactsAndCollaboratorsModal}
+               onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
+            <Modal.Header closeButton className="bg-medium">
+                <Modal.Title className="text-white">
+                    Contacts / Collaborators
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-0 fs-8">
+                {organization && <div className="w-100 d-flex flex-row bg-light">
+                    <div className="p-2 ps-3" style={{minWidth: 100, minHeight: 60}}>
+                        <div className="w-100 h-100 p-2" style={{
+                            backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "contain",
+                            backgroundPosition: "center"
+                        }}/>
+                    </div>
+                    <div className="flex-fill align-content-center text-start p-2">
+                        <h5 className="text-medium fs-6 m-0">{organization.organization_name}</h5>
+                        {resourceId && <h6 className="fs-6 m-0 mt-2">{resourceId}</h6>}
+                    </div>
+                </div>}
+                <div className="w-100 pt-4 pb-5 ps-2 pe-2">
+                    <ContactsAndCollaboratorsTable organizationId={organizationId} resourceId={resourceId}
+                                                   contactEmail={contactEmail} contactType={contactType}/>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <button className="btn btn-outline-medium rounded-1"
+                        onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
+                    Cancel
+                </button>
+            </Modal.Footer>
+        </Modal>
+    </div>
 }
 
