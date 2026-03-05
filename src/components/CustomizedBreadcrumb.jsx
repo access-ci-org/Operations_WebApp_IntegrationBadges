@@ -175,7 +175,7 @@ function CustomizedBreadcrumb() {
                             to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/badges/${pathSegments[6]}`
                         }}
                     >
-                        {badge.name}
+                        {badge ? badge.name : <LoadingBlock processing={true}/>}
                     </Breadcrumb.Item>)
                 }
             }

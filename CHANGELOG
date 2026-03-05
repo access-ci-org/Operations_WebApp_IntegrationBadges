@@ -8,6 +8,9 @@ The general format of entries is:
         - *
 
 
+v1.11.1 2026-03-05 dinukadesilva
+    1 - [but-fix] Minor bug fix on the resource badge page breadcrumb
+
 v1.11.0 2026-03-05 dinukadesilva
     1 - [fix] Fixing the resource badge page breadcrumb
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
