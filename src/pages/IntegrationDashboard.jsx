@@ -34,6 +34,9 @@ export default function IntegrationDashboard() {
         <div className="row">
             <div className="col align-content-end">
                 <h1>Integration Dashboard</h1>
+                <p className="mt-3">
+                    Welcome to the ACCESS Integration Dashboard.
+                </p>
             </div>
             <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
                 <ContactsAndCollaboratorsSummary/>
@@ -41,9 +44,7 @@ export default function IntegrationDashboard() {
         </div>
         <div className="row">
             {/*<h1>Integration Dashboard</h1>*/}
-            <p className="mt-3">
-                Welcome to the ACCESS Integration Dashboard.
-                <br/><br/>
+            <p className="mt-4">
                 <strong className="text-medium">Click on a Resource Provider (RP)</strong> to view their resources and
                 integration statuses.
                 You can explore and manage the resources provided by various RPs. Each RP’s integration progress is
@@ -84,10 +85,9 @@ export default function IntegrationDashboard() {
                                 {/*<img className="w-100" src={organization.other_attributes.organization_logo_url}/>*/}
                             </div>
                             <div className="w-100 p-3 text-center">
-                                <Link className="btn btn-link"
-                                      to={"/organizations/" + organization.organization_id}>
+                                <div className="btn btn-link">
                                     {organization.organization_name}
-                                </Link>
+                                </div>
                             </div>
                         </Link>
                     </div>

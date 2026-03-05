@@ -93,7 +93,7 @@ export default function ResourceBadge() {
                 </div>}
 
             <div className="row">
-                <div className="col">
+                <div className="col pb-5">
                     <h1>{resource.resource_descriptive_name}</h1>
                     <div>
                         By&nbsp;&nbsp;
@@ -108,7 +108,7 @@ export default function ResourceBadge() {
                 </div>
             </div>
 
-            <div className="row pt-5">
+            <div className="row">
                 <div className="col-sm-2 mb-3"
                      style={{minHeight: 100}}>
                     <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>

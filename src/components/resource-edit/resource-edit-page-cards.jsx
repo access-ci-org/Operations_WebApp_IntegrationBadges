@@ -42,12 +42,12 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                     {!!roadmapId && <RoadmapName roadmapId={roadmapId} seperator=" "/>}
                 </h3>
 
-                <p className="w-100 ps-5 pe-5 pt-2 pb-4 flex-fill">
+                <div className="w-100 ps-5 pe-5 pt-2 pb-4 flex-fill">
                     <p className="w-100 text-break text-three-line-overflow-ellipsis small">
                         {!roadmapId && "Contact our concierge team, and we’ll help you choose the right path and get started."}
                         {!!roadmapId && <HtmlToText>{roadmap.executive_summary}</HtmlToText>}
                     </p>
-                </p>
+                </div>
 
                 {resource && selected &&
                     <div className="w-100 p-3 text-center">

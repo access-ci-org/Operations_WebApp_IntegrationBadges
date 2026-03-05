@@ -5,6 +5,7 @@ import StaffDashboard from "./StaffDashboard.jsx";
 import StaffRoadmaps from "./StaffRoadmaps.jsx";
 import StaffRoadmapEdit from "./StaffRoadmapEdit.jsx";
 import StaffBadgeEdit from "./StaffBadgeEdit.jsx";
+import StaffContacts from "./StaffContacts.jsx";
 
 export const StaffRouteUrls = {
     INDEX: "/staff/dashboard",
@@ -15,6 +16,7 @@ export const StaffRouteUrls = {
     BADGE_NEW: "/staff/badges/new",
     BADGE_EDIT: "/staff/badges/:badgeId/edit",
     BADGE_STATUS: "/staff/badge-status",
+    CONTACTS: "/staff/contacts",
 };
 
 const RouterLayout = () => {
@@ -47,6 +49,7 @@ export const StaffRoute = <Route path="/staff" element={<RouterLayout/>}>
     <Route path={StaffRouteUrls.BADGE_EDIT} element={<StaffBadgeEdit/>}/>
     <Route path={StaffRouteUrls.BADGE_NEW} element={<StaffBadgeEdit/>}/>
     <Route path={StaffRouteUrls.BADGE_STATUS} element={<ResourceBadgeStatusListing/>}/>
+    <Route path={StaffRouteUrls.CONTACTS} element={<StaffContacts/>}/>
 
     <Route path="/staff/*?" element={<Navigate to={StaffRouteUrls.INDEX} replace={true}/>}/>
 </Route>

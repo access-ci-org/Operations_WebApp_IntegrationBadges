@@ -93,7 +93,7 @@ export default function Resource() {
         return <div className="container">
             <ConciergeSwitch/>
             <div className="row">
-                <div className="col">
+                <div className="col pb-5">
                     <h1>{resource.resource_descriptive_name}</h1>
                     <div>
                         By&nbsp;&nbsp;
@@ -107,7 +107,7 @@ export default function Resource() {
                                                      organizationId={organization.organization_id}/>
                 </div>
             </div>
-            <div className="row pt-5">
+            <div className="row">
                 <h2>Overview</h2>
                 <div className="row">
                     <div className="col">
