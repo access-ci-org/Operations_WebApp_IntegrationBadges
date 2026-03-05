@@ -7,6 +7,15 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+v1.11.2 2026-03-05 dinukadesilva
+    1 - [new] Enable copy to clipboard button for contact email addresses (CTT-871)
+        - /organizations
+        - organizations/<organization_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+        - /staff/contacts
+        - /staff/contacts?resourceId=<resource_id>
+        - /staff/contacts?organizationId=<organization_id>
 
 v1.11.1 2026-03-05 dinukadesilva
     1 - [but-fix] Minor bug fix on the resource badge page breadcrumb
