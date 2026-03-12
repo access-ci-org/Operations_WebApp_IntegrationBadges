@@ -15,7 +15,10 @@ const CopyStatus = {
 }
 
 export default function ContactsAndCollaboratorsTable(
-    {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
+    {
+        organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+        contactType = null, contactEmail = null
+    } = {}
 ) {
     const {getOrganization} = useOrganizations();
     const {getResource} = useResources();
@@ -25,12 +28,12 @@ export default function ContactsAndCollaboratorsTable(
     const [copyStatus, setCopyStatus] = useState("");
 
     const organization = getOrganization({organizationId});
-    let contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
+    let contacts = getContacts({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail});
 
     // if (contacts) contacts = sortJsonArrayAlphabetically(contacts, "contact_name");
 
     useEffect(() => {
-        fetchContacts({organizationId, resourceId, contactType, contactEmail})
+        fetchContacts({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail})
             .catch(() => setError(true));
     }, [organizationId, resourceId, contactType, contactEmail]);
 
@@ -69,10 +72,10 @@ export default function ContactsAndCollaboratorsTable(
                 {copyStatus === CopyStatus.error &&
                     <i className="pe-2 text-warning bi bi-exclamation-triangle-fill"></i>}
 
-                <button className="btn btn-sm btn-gray-300 rounded-2" onClick={copyEmailAddresses}>
+                {contacts && <button className="btn btn-sm btn-gray-300 rounded-2" onClick={copyEmailAddresses}>
                     <i className="bi bi-copy pe-2"></i>
-                    Copy Email Addresses
-                </button>
+                    Copy ({contacts.length}) Email Addresses
+                </button>}
             </div>
             <table className="table table-sm">
                 <thead className="text-start">
@@ -88,8 +91,8 @@ export default function ContactsAndCollaboratorsTable(
                 </thead>
                 <tbody className="table-group-divider text-start">
 
-                {contacts && contacts.map(contact =>
-                    <tr>
+                {contacts && contacts.map((contact, contactIndex) =>
+                    <tr key={contactIndex}>
                         <th scope="row">
                             <div className="d-flex flex-row pt-2">
                                 <div className="pe-2">
@@ -109,19 +112,17 @@ export default function ContactsAndCollaboratorsTable(
 
                                 return <div key={resourceContactIndex}>
                                     <div className="w-100 d-flex flex-row">
-                                        {!organization &&
-                                            <div className="p-2 ps-3"
-                                                 style={{minWidth: 100, maxWidth: 100, minHeight: 60, maxHeight: 60}}>
-                                                <div className="w-100 h-100 p-2" style={{
-                                                    backgroundImage: `url(${resourceContactOrg.other_attributes.organization_logo_url})`,
-                                                    backgroundRepeat: "no-repeat",
-                                                    backgroundSize: "contain",
-                                                    backgroundPosition: "top left"
-                                                }}/>
-                                            </div>}
+                                        <div className="p-2 ps-3"
+                                             style={{minWidth: 100, maxWidth: 100, minHeight: 60, maxHeight: 60}}>
+                                            <div className="w-100 h-100 p-2" style={{
+                                                backgroundImage: `url(${resourceContactOrg.other_attributes.organization_logo_url})`,
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundSize: "contain",
+                                                backgroundPosition: "top left"
+                                            }}/>
+                                        </div>
                                         <div className="flex-fill ps-3 pt-2 align-content-start">
-                                            {!resourceId &&
-                                                <h6 className="w-100 fs-9 m-0">{resource.resource_descriptive_name}</h6>}
+                                            <h6 className="w-100 fs-9 m-0">{resource.resource_descriptive_name}</h6>
 
                                             <ul className="w-100 p-0 mb-2 ps-4 fs-8 text-gray-800">
                                                 {resourceContact.contact_types.map((contactType, contactTypeIndex) =>

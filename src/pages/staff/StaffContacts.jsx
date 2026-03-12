@@ -6,6 +6,7 @@ import ContactsAndCollaboratorsTable from "../../components/share/ContactsAndCol
 import {useLocation, useNavigate} from "react-router-dom";
 import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
+import ContactsAndCollaboratorsFilterView from "../../components/share/ContactsAndCollaboratorsFilterView.jsx";
 
 export default function StaffContacts() {
     const navigate = useNavigate();
@@ -42,25 +43,8 @@ export default function StaffContacts() {
                             </button>
                         </div>
                     </div>
-                    <div className="row">
-                        {organization && <div className="w-100 d-flex flex-row pt-3">
-                            <div className="p-2 ps-3" style={{minWidth: 100, minHeight: 100}}>
-                                <div className="w-100 h-100 p-2" style={{
-                                    backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundSize: "contain",
-                                    backgroundPosition: "center"
-                                }}/>
-                            </div>
-                            <div className="flex-fill align-content-center text-start p-2">
-                                <h5 className="fs-4 m-0">{organization.organization_name}</h5>
-                                {resource &&
-                                    <h6 className="fs-6 m-0 mt-2 text-secondary">{resource.resource_descriptive_name}</h6>}
-                            </div>
-                        </div>}
-                        <div className="pt-4">
-                            <ContactsAndCollaboratorsTable organizationId={organizationId} resourceId={resourceId}/>
-                        </div>
+                    <div className="w-100 pt-4">
+                        <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}/>
                     </div>
                 </div>
             </div>

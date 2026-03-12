@@ -1,11 +1,21 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {unauthorizedCiderAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const ContactContext = createContext({
-    fetchContacts: ({organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}) => {
+    fetchContacts: (
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            contactType = null, contactEmail = null
+        } = {}
+    ) => {
     },
-    getContacts: ({organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}) => {
+    getContacts: (
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            contactType = null, contactEmail = null
+        } = {}
+    ) => {
     }
 });
 
@@ -19,23 +29,62 @@ export const ContactProvider = ({children}) => {
     const [contactListMap, setContactListMap] = useReducer(DefaultReducer, {});
 
     const getContactsEndpointUrl = (
-        {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            contactType = null, contactEmail = null
+        } = {}
     ) => {
-        let url = '/contacts?';
-        if (organizationId) url += `organization_id=${organizationId}&`;
-        if (resourceId) url += `info_resourceid=${resourceId}&`;
-        if (contactType) url += `contact_type=${contactType}&`;
-        if (contactEmail) url += `contact_email=${contactEmail}&`;
+        let url = '/resource-contacts?';
+
+        if (organizationId) {
+            if (!Array.isArray(organizationId)) organizationId = [organizationId];
+            url += organizationId.map(i => `organization_id=${i}&`).join("");
+        }
+
+        if (resourceId) {
+            if (!Array.isArray(resourceId)) resourceId = [resourceId];
+            url += resourceId.map(i => `info_resourceid=${i}&`).join("");
+        }
+
+        if (roadmapId) {
+            if (!Array.isArray(roadmapId)) roadmapId = [roadmapId];
+            url += roadmapId.map(i => `roadmap_id=${i}&`).join("");
+        }
+
+        if (badgeId) {
+            if (!Array.isArray(badgeId)) badgeId = [badgeId];
+            url += badgeId.map(i => `badge_id=${i}&`).join("");
+        }
+
+        if (contactType) {
+            if (!Array.isArray(contactType)) contactType = [contactType];
+            url += contactType.map(i => `contact_type=${i}&`).join("");
+        }
+
+        if (contactEmail) {
+            if (!Array.isArray(contactEmail)) contactEmail = [contactEmail];
+            url += contactEmail.map(i => `contact_email=${i}&`).join("");
+        }
 
         return url;
     }
 
     const fetchContacts = async (
-        {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            contactType = null, contactEmail = null
+        } = {}
     ) => {
         try {
-            const url = getContactsEndpointUrl({organizationId, resourceId, contactType, contactEmail});
-            const response = await unauthorizedCiderAxiosInstance.get(url);
+            const url = getContactsEndpointUrl({
+                organizationId,
+                resourceId,
+                roadmapId,
+                badgeId,
+                contactType,
+                contactEmail
+            });
+            const response = await dashboardAxiosInstance.get(url);
             const _contacts = response.data.results;
             const contactsMap = {}
             const contactEmails = [];
@@ -72,9 +121,12 @@ export const ContactProvider = ({children}) => {
     };
 
     const getContacts = (
-        {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            contactType = null, contactEmail = null
+        } = {}
     ) => {
-        const url = getContactsEndpointUrl({organizationId, resourceId, contactType, contactEmail});
+        const url = getContactsEndpointUrl({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail});
 
         return contactListMap[url];
     };

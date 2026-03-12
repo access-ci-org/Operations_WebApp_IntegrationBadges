@@ -73,6 +73,13 @@ export const ResourceStatus = {
     RETIRED: "decommissioned"
 }
 
+export const RpDashboardResourceStatus = {
+    NEW: "new",
+    IN_PROGRESS: "pre-production",
+    PRODUCTION: "production",
+    POST_PRODUCTION: "post-production"
+}
+
 /**
  * Context provider for resources
  * @param children
@@ -283,10 +290,12 @@ export const ResourcesProvider = ({children}) => {
                 _resourceIds.push(resourceId);
 
                 _resourceMap[resourceId] = {
-                    ...getResource({resourceId}), ...resource
+                    ..._resourceMap[resourceId],
+                    ...resource
                 };
 
                 if (resource.roadmaps) {
+                    _resourceMap[resourceId]["rp_dashboard_resource_status"] = _getRpDashboardResourceStatus(resource);
                     _resourceRoadmapIds[resourceId] = resource.roadmaps.map(r => r.roadmap_id);
                 }
             }
@@ -302,6 +311,22 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
+
+    const _getRpDashboardResourceStatus = (resource) => {
+        if (resource.roadmaps.length === 0) {
+            return RpDashboardResourceStatus.NEW;
+        } else if ([ResourceStatus.ANNOUNCEMENT, ResourceStatus.PRE_PRODUCTION].indexOf(resource.latest_status) >= 0) {
+            return RpDashboardResourceStatus.IN_PROGRESS;
+        } else if (resource.latest_status === ResourceStatus.PRODUCTION) {
+            if (resource.badge_status_summary.required.verified === resource.badge_status_summary.required.total) {
+                return RpDashboardResourceStatus.PRODUCTION;
+            } else {
+                return RpDashboardResourceStatus.IN_PROGRESS;
+            }
+        } else if (resource.latest_status === ResourceStatus.POST_PRODUCTION) {
+            return RpDashboardResourceStatus.POST_PRODUCTION;
+        }
+    }
 
     const getResource = ({resourceId}) => {
         return resourceMap[resourceId];

@@ -8,6 +8,7 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import ContactsAndCollaboratorsTable from "./ContactsAndCollaboratorsTable.jsx";
 import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
 import Concierge from "../staff/Concierge.jsx";
+import ContactsAndCollaboratorsFilterView from "./ContactsAndCollaboratorsFilterView.jsx";
 
 const ContactAvatarClasses = [
     "bg-orange text-white",
@@ -148,7 +149,7 @@ export default function ContactsAndCollaboratorsSummary(
                                       onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
         </div>
 
-        <Modal size="lg" show={showContactsAndCollaboratorsModal}
+        <Modal size="xl" show={showContactsAndCollaboratorsModal}
                onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
             <Modal.Header closeButton className="bg-medium">
                 <Modal.Title className="text-white">
@@ -156,22 +157,8 @@ export default function ContactsAndCollaboratorsSummary(
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className="p-0 fs-8">
-                {organization && <div className="w-100 d-flex flex-row bg-light">
-                    <div className="p-2 ps-3" style={{minWidth: 100, minHeight: 60}}>
-                        <div className="w-100 h-100 p-2" style={{
-                            backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundSize: "contain",
-                            backgroundPosition: "center"
-                        }}/>
-                    </div>
-                    <div className="flex-fill align-content-center text-start p-2">
-                        <h5 className="text-medium fs-6 m-0">{organization.organization_name}</h5>
-                        {resourceId && <h6 className="fs-6 m-0 mt-2">{resourceId}</h6>}
-                    </div>
-                </div>}
                 <div className="w-100 pt-4 pb-5 ps-2 pe-2">
-                    <ContactsAndCollaboratorsTable organizationId={organizationId} resourceId={resourceId}
+                    <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}
                                                    contactEmail={contactEmail} contactType={contactType}/>
                 </div>
             </Modal.Body>

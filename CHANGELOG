@@ -7,6 +7,11 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.11.3 2026-03-12 dinukadesilva
+    1 - [new] Enabling filtering by organization, resource, roadmap and badge (CTT-871)
+        - Everything on v1.11.2
+
 v1.11.2 2026-03-05 dinukadesilva
     1 - [new] Enable copy to clipboard button for contact email addresses (CTT-871)
         - /organizations

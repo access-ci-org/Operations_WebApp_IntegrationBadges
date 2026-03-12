@@ -1,7 +1,7 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {ResourceStatus, useResources} from "../contexts/ResourcesContext";
+import {ResourceStatus, RpDashboardResourceStatus, useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -29,7 +29,7 @@ export default function Organization() {
     const organization = organizationMap[organizationId];
     let resources = getResources({organizationId, full: true});
 
-    if (!!resources) {
+    if (resources) {
         resources = sortJsonArrayAlphabetically(resources, "short_name");
     }
 
@@ -44,33 +44,29 @@ export default function Organization() {
             title: "New",
             description: "Defined in CiDeR; no roadmap or badges selected",
             showContinueSetup: true,
-            condition: (resource, resourceRoadmaps) => resourceRoadmaps.length === 0,
             resources: [],
+            rpDashboardResourceStatus: RpDashboardResourceStatus.NEW
         },
         {
             title: "In-Progress",
             description: "Roadmap selected; currently earning required badges OR awaiting production start date. Optional badges do not affect this status",
             showContinueSetup: false,
-            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.ANNOUNCEMENT ||
-                resource.latest_status === ResourceStatus.PRE_PRODUCTION ||
-                (resource.latest_status === ResourceStatus.PRODUCTION &&
-                    resource.badge_status_summary.required.verified < resource.badge_status_summary.required.total),
             resources: [],
+            rpDashboardResourceStatus: RpDashboardResourceStatus.IN_PROGRESS
         },
         {
             title: "Production",
             description: "Production start date reached; all required badges completed. Optional badges can be managed dynamically",
             showContinueSetup: false,
-            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.PRODUCTION &&
-                resource.badge_status_summary.required.verified === resource.badge_status_summary.required.total,
             resources: [],
+            rpDashboardResourceStatus: RpDashboardResourceStatus.PRODUCTION
         },
         {
             title: "Post-Production",
             description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
             showContinueSetup: false,
-            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,
             resources: [],
+            rpDashboardResourceStatus: RpDashboardResourceStatus.POST_PRODUCTION
         }
     ];
 
@@ -86,7 +82,9 @@ export default function Organization() {
             if (resource && resourceRoadmaps) {
                 resourcesProcessing = false;
 
-                if (hasSearchCriteria(organization, resource, searchText) && section.condition(resource, resourceRoadmaps)) {
+                if (hasSearchCriteria(organization, resource, searchText) &&
+                    section.rpDashboardResourceStatus === resource.rp_dashboard_resource_status) {
+
                     section.resources.push(resource);
                     break;
                 }
