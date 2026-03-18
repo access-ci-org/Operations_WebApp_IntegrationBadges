@@ -18,15 +18,6 @@ const BadgeContext = createContext({
 
 export const useBadges = () => useContext(BadgeContext);
 
-export const BadgeWorkflowStatus = {
-    NOT_PLANNED: "not-planned",
-    PLANNED: "planned",
-    TASK_COMPLETED: "tasks-completed",
-    VERIFICATION_FAILED: "verification-failed",
-    VERIFIED: "verified",
-    DEPRECATED: "deprecated"
-}
-
 /**
  * Context provider for badges
  * @param children
@@ -125,6 +116,7 @@ export const BadgeProvider = ({children}) => {
     const getBadges = () => {
         return badgeIds.map(badgeId => getBadge({badgeId}));
     };
+
 
 
     return (

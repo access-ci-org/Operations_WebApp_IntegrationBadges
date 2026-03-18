@@ -1,11 +1,10 @@
 import {AccordionContext, Dropdown, Modal, useAccordionButton} from "react-bootstrap";
-import {BadgeTaskWorkflowStatus} from "../../../contexts/TaskContext.jsx";
-import {BadgeWorkflowStatus} from "../../../contexts/BadgeContext.jsx";
+import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus} from "../../../contexts/constants.js";
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
-import Concierge from "../../staff/Concierge.jsx";
+import {Concierge} from "../../util/Permissions.jsx";
 import {HtmlToReact} from "../../util/text-editors.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {

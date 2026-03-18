@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {BadgeWorkflowStatus} from "../../../contexts/BadgeContext.jsx";
+import {BadgeWorkflowStatus} from "../../../contexts/constants.js";
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {BadgeCardRow} from "../../resource-edit/resource-edit-page-cards.jsx";

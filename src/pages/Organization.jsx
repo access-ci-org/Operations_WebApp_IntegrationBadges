@@ -1,15 +1,15 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {ResourceStatus, RpDashboardResourceStatus, useResources} from "../contexts/ResourcesContext";
+import {useResources} from "../contexts/ResourcesContext";
+import {RpDashboardResourceStatus, BadgeWorkflowStatus} from "../contexts/constants.js";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificationStatus.jsx";
-import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
-import {ConciergeSwitch} from "../components/staff/Concierge.jsx";
+import {PermissionSwitch} from "../components/util/Permissions.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -98,7 +98,7 @@ export default function Organization() {
     sections = sections.filter(section => section.resources.length > 0);
 
     return <div className="container">
-        <ConciergeSwitch/>
+        <PermissionSwitch/>
         <div className="row">
             <div className="col-sm-3 p-3 align-content-center" style={{maxWidth: 300}}>
                 {organization && <div className="w-100 bg-white" style={{

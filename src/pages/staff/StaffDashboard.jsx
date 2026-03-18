@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
-import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
+import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
-import {StaffRoadmapCard} from "../../components/staff/StaffRoadmapCard.jsx";
-import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
-import {Fade} from "react-bootstrap";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
-import RoadmapIcon from "../../components/roadmap/RoadmapIcon.jsx";
 import {HtmlToText} from "../../components/util/text-editors.jsx";
 import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
+import {BadgeMaintainer, RoadmapMaintainer} from "../../components/util/Permissions.jsx";
 
 export default function StaffDashboard() {
     const {
@@ -90,7 +88,8 @@ export default function StaffDashboard() {
                             </div>
                             <div style={{minWidth: 100}}>
                                 <Link className="btn btn-sm btn-medium rounded-2"
-                                      to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View All</Link>
+                                      to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View
+                                    All</Link>
                             </div>
                         </div>
                         <div className="w-100 pt-4">
@@ -126,10 +125,12 @@ export default function StaffDashboard() {
                             <h2 className="text-medium">Roadmaps</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
-                            <div style={{minWidth: 100}}>
-                                <Link className="btn btn-sm btn-medium rounded-2"
-                                      to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
-                            </div>
+                            <RoadmapMaintainer>
+                                <div style={{minWidth: 100}}>
+                                    <Link className="btn btn-sm btn-medium rounded-2"
+                                          to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
+                                </div>
+                            </RoadmapMaintainer>
                         </div>
 
                         <ul className="w-100 p-0">
@@ -139,7 +140,7 @@ export default function StaffDashboard() {
                                 if (selectedRoadmapId === roadmapId) activeClassName = "bg-gray-200";
 
                                 return <li key={roadmapIndex} onClick={toggleSelectedRoadmap({roadmapId})}
-                                    className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2 ${activeClassName}`}>
+                                           className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2 ${activeClassName}`}>
                                     <div>
                                         {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
                                         <i className="bi bi-map text-medium"></i>
@@ -152,16 +153,20 @@ export default function StaffDashboard() {
                                             <HtmlToText>{roadmap.executive_summary}</HtmlToText>
                                         </div>
                                     </div>
-                                    <div className="align-content-center text-end" style={{minWidth: 80}}>
-                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                              className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
-                                            <i className="bi bi-pencil-square"></i>
-                                        </Link>
-                                        <Link to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                              className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">
-                                            <i className="bi bi-trash"></i>
-                                        </Link>
-                                    </div>
+                                    <RoadmapMaintainer>
+                                        <div className="align-content-center text-end" style={{minWidth: 80}}>
+                                            <Link
+                                                to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
+                                                className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                <i className="bi bi-pencil-square"></i>
+                                            </Link>
+                                            <Link
+                                                to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
+                                                className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                <i className="bi bi-trash"></i>
+                                            </Link>
+                                        </div>
+                                    </RoadmapMaintainer>
                                 </li>
                             })}
                         </ul>
@@ -180,10 +185,12 @@ export default function StaffDashboard() {
                             <div
                                 className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4 align-content-center">
                             </div>
-                            <div style={{minWidth: 100}}>
-                                <Link className="btn btn-sm btn-medium rounded-2" to={StaffRouteUrls.BADGE_NEW}>
-                                    Create New</Link>
-                            </div>
+                            <BadgeMaintainer>
+                                <div style={{minWidth: 100}}>
+                                    <Link className="btn btn-sm btn-medium rounded-2" to={StaffRouteUrls.BADGE_NEW}>
+                                        Create New</Link>
+                                </div>
+                            </BadgeMaintainer>
                         </div>
                         <ul className="p-0">
                             {badges && badges.map((badge, badgeIndex) => {
@@ -200,12 +207,14 @@ export default function StaffDashboard() {
                                             {badge.name}
                                         </h3>
                                     </div>
-                                    <div className="align-content-center">
-                                        <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
-                                              className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
-                                            <i className="bi bi-pencil-square"></i>
-                                        </Link>
-                                    </div>
+                                    <BadgeMaintainer>
+                                        <div className="align-content-center">
+                                            <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
+                                                  className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                <i className="bi bi-pencil-square"></i>
+                                            </Link>
+                                        </div>
+                                    </BadgeMaintainer>
                                 </li>
 
                             })}

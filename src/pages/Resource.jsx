@@ -2,13 +2,13 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import {Collapse, Nav} from "react-bootstrap";
-import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
+import {BadgeWorkflowStatus} from "../contexts/constants.js";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
-import {ConciergeSwitch} from "../components/staff/Concierge.jsx";
+import {PermissionSwitch} from "../components/util/Permissions.jsx";
 
 export default function Resource() {
     const navigate = useNavigate();
@@ -91,7 +91,7 @@ export default function Resource() {
 
     if (resource && roadmap && organization) {
         return <div className="container">
-            <ConciergeSwitch/>
+            <PermissionSwitch/>
             <div className="row">
                 <div className="col pb-5">
                     <h1>{resource.resource_descriptive_name}</h1>

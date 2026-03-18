@@ -5,7 +5,7 @@ import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import Translate from "../locales/Translate.jsx";
 import ResourceBadgeCardV2 from "../components/resource/resource-badge/ResourceBadgeCardV2.jsx";
-import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
+import {BadgeWorkflowStatus} from "../contexts/constants.js";
 
 /**
  * The initial page that displays al resources.

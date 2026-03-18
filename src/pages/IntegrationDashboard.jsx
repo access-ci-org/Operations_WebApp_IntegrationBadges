@@ -5,7 +5,7 @@ import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
-import {ConciergeSwitch} from "../components/staff/Concierge.jsx";
+import {PermissionSwitch} from "../components/util/Permissions.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 
 /**
@@ -30,7 +30,7 @@ export default function IntegrationDashboard() {
     filteredOrganizations = sortJsonArrayAlphabetically(filteredOrganizations, "organization_name")
 
     return (<div className="container">
-        <ConciergeSwitch/>
+        <PermissionSwitch/>
         <div className="row">
             <div className="col align-content-end">
                 <h1>Integration Dashboard</h1>

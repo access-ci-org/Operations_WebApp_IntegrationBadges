@@ -1,10 +1,13 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {BadgeWorkflowStatus, useBadges} from "./BadgeContext";
+import {useBadges} from "./BadgeContext";
+import {BadgeWorkflowStatus, ResourceStatus, RpDashboardResourceStatus} from "./constants.js"
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
 import {dashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {BADGE_WORKFLOW} from "./Workflows.js";
+import {usePermissions} from "./PermissionContext.jsx";
 
 const ResourcesContext = createContext({
     fetchResources: ({organizationId = null, resourceId = null, full = false} = {}) => {
@@ -55,6 +58,8 @@ const ResourcesContext = createContext({
     },
     getOrganizationResourceIds: ({organizationName}) => {
     },
+    getAuthorizedBadgeTransitions: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    },
     setResourceRoadmapBadgeWorkflowStatus: ({resourceId, roadmapId, badgeId, status, comment}) => {
     },
     setResourceRoadmapBadgeTaskWorkflowStatus: ({resourceId, roadmapId, badgeId, taskId, status}) => {
@@ -65,26 +70,13 @@ const ResourcesContext = createContext({
 
 export const useResources = () => useContext(ResourcesContext);
 
-export const ResourceStatus = {
-    ANNOUNCEMENT: "coming soon",
-    PRE_PRODUCTION: "pre-production",
-    PRODUCTION: "production",
-    POST_PRODUCTION: "post-production",
-    RETIRED: "decommissioned"
-}
-
-export const RpDashboardResourceStatus = {
-    NEW: "new",
-    IN_PROGRESS: "pre-production",
-    PRODUCTION: "production",
-    POST_PRODUCTION: "post-production"
-}
 
 /**
  * Context provider for resources
  * @param children
  */
 export const ResourcesProvider = ({children}) => {
+    const {hasPermission} = usePermissions();
     const {getBadge} = useBadges();
     const {getTask} = useTasks();
     const {getOrganization} = useOrganizations();
@@ -99,8 +91,6 @@ export const ResourcesProvider = ({children}) => {
     const [resourceRoadmapBadgeLogMap, setResourceRoadmapBadgeLogMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeTaskMap, setResourceRoadmapBadgeTaskMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeStatusSummaryMap, setResourceRoadmapBadgeStatusSummaryMap] = useReducer(DefaultReducer, {});
-
-    const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
     const fetchResource = async ({resourceId}) => {
         return fetchResources({resourceId, full: true});
@@ -445,6 +435,21 @@ export const ResourcesProvider = ({children}) => {
         return orgResourceIds;
     }
 
+    const getAuthorizedBadgeTransitions = ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+        const resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+
+        return BADGE_WORKFLOW.transitions.filter(transition => {
+            if (transition.from.indexOf(resourceRoadmapBadge.status) >= 0) {
+                let roles = null;
+                if (transition.conditions ) roles = transition.conditions.map(c => c.role);
+
+                return hasPermission({roles, resourceIds: [resourceId]});
+            }
+
+            return false;
+        })
+    };
+
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {
         try {
             const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`, {comment});
@@ -493,7 +498,6 @@ export const ResourcesProvider = ({children}) => {
             resourceMap,
             resourceRoadmapBadgeMap,
             resourceRoadmapBadgeTaskMap,
-            resourceOrgMap,
             fetchResources,
             fetchResource,
             fetchResourceRoadmapBadges,
@@ -512,6 +516,7 @@ export const ResourcesProvider = ({children}) => {
             getResourceRoadmapBadgeStatusSummary,
             getResourceOrganization,
             getOrganizationResourceIds,
+            getAuthorizedBadgeTransitions,
             setResourceRoadmapBadgeWorkflowStatus,
             setResourceRoadmapBadgeTaskWorkflowStatus,
             setResourceRoadmap

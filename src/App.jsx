@@ -26,6 +26,7 @@ import {StaffMainNavigation} from "./components/staff/StaffMainNavigation.jsx";
 import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import About from "./pages/About.jsx";
 import {ContactProvider} from "./contexts/ContactsContext.jsx";
+import {PermissionProvider, usePermissions} from "./contexts/PermissionContext.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -33,6 +34,7 @@ const RouterLayout = () => {
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isStaffPage = !!(/^\/staff/i.exec(pathname));
 
+    const {fetchPermissions} = usePermissions();
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
@@ -46,6 +48,8 @@ const RouterLayout = () => {
     const tasks = getTasks();
 
     useEffect(() => {
+        fetchPermissions();
+
         if (initialFetchesAreRequired) {
             fetchOrganizations();
             fetchResources();
@@ -82,61 +86,65 @@ const RouterLayout = () => {
 function App() {
     return (
         <OrganizationsProvider>
-            <TaskProvider>
+            <PermissionProvider>
                 <BadgeProvider>
-                    <RoadmapProvider>
-                        <ContactProvider>
-                            <ResourcesProvider>
-                                <I18nextProvider i18n={i18n}>
-                                    <div className="w-100">
+                    <TaskProvider>
+                        <RoadmapProvider>
+                            <ContactProvider>
+                                <ResourcesProvider>
+                                    <I18nextProvider i18n={i18n}>
                                         <div className="w-100">
-                                            <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
-                                                <AlwaysScrollToTop/>
-                                                <Routes>
-                                                    <Route path="/" element={<RouterLayout/>}>
+                                            <div className="w-100">
+                                                <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
+                                                    <AlwaysScrollToTop/>
+                                                    <Routes>
+                                                        <Route path="/" element={<RouterLayout/>}>
 
-                                                        <Route path="/about" element={<About/>}/>
+                                                            <Route path="/about" element={<About/>}/>
 
-                                                        <Route path="/organizations" element={<IntegrationDashboard/>}/>
-                                                        <Route path="/organizations/:organizationId"
-                                                               element={<Organization/>}/>
-                                                        <Route
-                                                            path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
-                                                            element={<OrganizationBadgeReview/>}/>
+                                                            <Route path="/organizations"
+                                                                   element={<IntegrationDashboard/>}/>
+                                                            <Route path="/organizations/:organizationId"
+                                                                   element={<Organization/>}/>
+                                                            <Route
+                                                                path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
+                                                                element={<OrganizationBadgeReview/>}/>
 
-                                                        <Route path="/resources/new" element={<NewResource/>}/>
+                                                            <Route path="/resources/new" element={<NewResource/>}/>
 
-                                                        <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                                        <Route path="/resources/:resourceId/roadmaps/:roadmapId"
-                                                               element={<Resource/>}/>
+                                                            <Route path="/resources/:resourceId" element={<Resource/>}/>
+                                                            <Route path="/resources/:resourceId/roadmaps/:roadmapId"
+                                                                   element={<Resource/>}/>
 
-                                                        <Route path="/resources/:resourceId/edit"
-                                                               element={<ResourceEdit/>}/>
-                                                        <Route path="/resources/:resourceId/roadmaps/:roadmapId/edit"
-                                                               element={<ResourceEdit/>}/>
+                                                            <Route path="/resources/:resourceId/edit"
+                                                                   element={<ResourceEdit/>}/>
+                                                            <Route
+                                                                path="/resources/:resourceId/roadmaps/:roadmapId/edit"
+                                                                element={<ResourceEdit/>}/>
 
-                                                        <Route
-                                                            path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
-                                                            element={<ResourceBadge/>}/>
+                                                            <Route
+                                                                path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
+                                                                element={<ResourceBadge/>}/>
 
-                                                        {DocumentationRoute}
-                                                        {StaffRoute}
+                                                            {DocumentationRoute}
+                                                            {StaffRoute}
 
-                                                        <Route path="/*?"
-                                                               element={<Navigate to="/organizations"
-                                                                                  replace={true}/>}/>
+                                                            <Route path="/*?"
+                                                                   element={<Navigate to="/organizations"
+                                                                                      replace={true}/>}/>
 
-                                                    </Route>
-                                                </Routes>
-                                            </BrowserRouter>
+                                                        </Route>
+                                                    </Routes>
+                                                </BrowserRouter>
+                                            </div>
                                         </div>
-                                    </div>
-                                </I18nextProvider>
-                            </ResourcesProvider>
-                        </ContactProvider>
-                    </RoadmapProvider>
+                                    </I18nextProvider>
+                                </ResourcesProvider>
+                            </ContactProvider>
+                        </RoadmapProvider>
+                    </TaskProvider>
                 </BadgeProvider>
-            </TaskProvider>
+            </PermissionProvider>
         </OrganizationsProvider>
     );
 }

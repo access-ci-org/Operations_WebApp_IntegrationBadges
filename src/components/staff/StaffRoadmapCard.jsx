@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
+import {RoadmapMaintainer} from "../util/Permissions.jsx";
 
 export function StaffRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();
@@ -37,11 +38,13 @@ export function StaffRoadmapCard({roadmapId}) {
                     </div>
                     <h3 className="w-100 text-center fs-6"><RoadmapName roadmapId={roadmapId}/></h3>
                 </div>
-                <div className="w-100 text-end p-1">
-                    <Link className="btn btn-link p-2"
-                          to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i
-                        className="bi bi-pencil-fill"></i></Link>
-                    <Link className="btn btn-link p-2" to=""><i className="bi bi-trash-fill"></i></Link>
+                <div className="w-100 text-end p-1" style={{minHeight: 48}}>
+                    <RoadmapMaintainer>
+                        <Link className="btn btn-link p-2"
+                              to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i
+                            className="bi bi-pencil-fill"></i></Link>
+                        <Link className="btn btn-link p-2" to=""><i className="bi bi-trash-fill"></i></Link>
+                    </RoadmapMaintainer>
                 </div>
             </div>
         </div>
