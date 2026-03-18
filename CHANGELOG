@@ -8,6 +8,9 @@ The general format of entries is:
         - *
 
 
+v1.11.6 2026-03-18 dinukadesilva
+    1 - [fix] Minor fix in the permission fetch method (CTT-891)
+        - *
 
 v1.11.5 2026-03-18 dinukadesilva
     1 - [fix] Minor improvements in the contacts components (CTT-871)

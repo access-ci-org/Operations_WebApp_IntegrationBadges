@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
+import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const PermissionContext = createContext({
     // permissionMap: {},
