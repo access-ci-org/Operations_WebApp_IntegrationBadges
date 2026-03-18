@@ -6,12 +6,15 @@ import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
 import {Concierge} from "../../util/Permissions.jsx";
 import {HtmlToReact} from "../../util/text-editors.jsx";
+import {getAvailableTransitions, TASK_WORKFLOW} from "../../../contexts/Workflows.js";
+import {usePermissions} from "../../../contexts/PermissionContext.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
     const decoratedOnClick = useAccordionButton(eventKey);
 
     const {setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
+    const {getAuthorizedRoles} = usePermissions();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
     const [showTaskReopenModal, setShowTaskReopenModal] = useState(false);
@@ -19,6 +22,12 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     const taskId = task.task_id;
 
+    const availableTransitions = getAvailableTransitions(TASK_WORKFLOW, task.status,
+        {
+            role: getAuthorizedRoles({resourceId}),
+            required: task.required,
+            badgeStatus: badge.status
+        });
 
     const clickTaskAction = async (taskId, status, confirmationReceived = false) => {
         if (status !== BadgeTaskWorkflowStatus.ACTION_NEEDED && (badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) && !confirmationReceived) {
@@ -56,6 +65,13 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "danger";
     if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-medium";
 
+    const taskStatusLabel = (<span className="flex-fill text-start">
+        <i className={taskStatusIcon[task.status]}></i>
+        <span className="ps-3 pe-3">
+            <Translate>badgeTaskWorkflowStatus.{task.status}</Translate>
+        </span>
+    </span>);
+
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col ps-0 d-flex flex-row align-items-center">
             <div
@@ -75,41 +91,26 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         </div>
 
 
-        {badge.status ?
-            <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                <Dropdown>
-                    <Dropdown.Toggle variant={toggleButtonVariant} id="dropdown-basic"
-                                     bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
-                        <span className="flex-fill text-start">
-                            <i className={taskStatusIcon[task.status]}></i>
-                            <span className="ps-3 pe-3">
-                                <Translate>badgeTaskWorkflowStatus.{task.status}</Translate>
-                            </span>
-                        </span>
-                        <span>
+        {badge.status && <div className="col-sm-3 pt-2 pb-2 align-content-center">
+            {availableTransitions.length === 0 && <span className="text-medium">{taskStatusLabel}</span>}
+            {availableTransitions.length > 0 && <Dropdown>
+                <Dropdown.Toggle variant={toggleButtonVariant} id="dropdown-basic"
+                                 bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
+                    {taskStatusLabel}
+                    <span>
                             <i className="bi bi-chevron-down"></i>
                         </span>
-                    </Dropdown.Toggle>
+                </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item
-                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.COMPLETED, false)}>
-                            Completed</Dropdown.Item>
-                        <Dropdown.Item
-                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED, false)}>
-                            Incomplete</Dropdown.Item>
-                        {!task.required && <Dropdown.Item
-                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_APPLICABLE, false)}>
-                            Not Applicable</Dropdown.Item>}
-                        <Concierge>
-                            <Dropdown.Item className="bg-danger-subtle"
-                                           onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.ACTION_NEEDED, false)}>
-                                Action Needed</Dropdown.Item>
-                        </Concierge>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div> :
-            null}
+                <Dropdown.Menu>
+                    {availableTransitions.map((transition, transitionIndex) => <Dropdown.Item
+                        key={transitionIndex} onClick={clickTaskAction.bind(this, taskId, transition.to, false)}
+                        className={transition.to === BadgeTaskWorkflowStatus.ACTION_NEEDED ? "bg-danger-subtle" : ""}>
+                        {transition.name}
+                    </Dropdown.Item>)}
+                </Dropdown.Menu>
+            </Dropdown>}
+        </div>}
 
 
         <Modal show={showTaskReopenModal} onHide={setShowTaskReopenModal.bind(this, false)}>
@@ -167,7 +168,6 @@ export default function ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
 
     const badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
-
 
     if (badge && tasks) {
         return <div className="w-100">

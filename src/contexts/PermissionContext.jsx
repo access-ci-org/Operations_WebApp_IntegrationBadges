@@ -7,7 +7,9 @@ const PermissionContext = createContext({
     fetchPermissions: () => {
     },
     hasPermission: ({roles = [], resourceIds = []} = {}) => {
-    }
+    },
+    getAuthorizedRoles: ({resourceId = null}) => {
+    },
 });
 
 export const usePermissions = () => useContext(PermissionContext);
@@ -121,9 +123,25 @@ export const PermissionProvider = ({children}) => {
     };
 
 
+    /**
+     * @param {string} resourceId
+     * @returns {string []}
+     */
+    const getAuthorizedRoles = ({resourceId = null}) => {
+        const authorizedRoles = [];
+        for (let role in permissionMap) {
+            if (permissionMap[role] === true || permissionMap[role][resourceId] === true) {
+                authorizedRoles.push(role);
+            }
+        }
+
+        return authorizedRoles;
+    };
+
+
     return (
         <PermissionContext.Provider
-            value={{permissionMap, fetchPermissions, hasPermission}}>
+            value={{permissionMap, fetchPermissions, hasPermission, getAuthorizedRoles}}>
             {children}
         </PermissionContext.Provider>
     );

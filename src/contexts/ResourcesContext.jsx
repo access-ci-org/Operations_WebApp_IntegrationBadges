@@ -1,12 +1,12 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {useBadges} from "./BadgeContext";
-import {BadgeWorkflowStatus, ResourceStatus, RpDashboardResourceStatus} from "./constants.js"
+import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus, ResourceStatus, RpDashboardResourceStatus} from "./constants.js"
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
 import {dashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
-import {BADGE_WORKFLOW} from "./Workflows.js";
+import {BADGE_WORKFLOW, getAvailableTransitions} from "./Workflows.js";
 import {usePermissions} from "./PermissionContext.jsx";
 
 const ResourcesContext = createContext({
@@ -76,7 +76,7 @@ export const useResources = () => useContext(ResourcesContext);
  * @param children
  */
 export const ResourcesProvider = ({children}) => {
-    const {hasPermission} = usePermissions();
+    const {hasPermission, getAuthorizedRoles} = usePermissions();
     const {getBadge} = useBadges();
     const {getTask} = useTasks();
     const {getOrganization} = useOrganizations();
@@ -398,6 +398,7 @@ export const ResourcesProvider = ({children}) => {
                 return {
                     ...task,
                     required,
+                    status: BadgeTaskWorkflowStatus.NOT_COMPLETED,
                     ...resourceBadgeTaskWorkflow
                 }
             });
@@ -438,16 +439,7 @@ export const ResourcesProvider = ({children}) => {
     const getAuthorizedBadgeTransitions = ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
         const resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
 
-        return BADGE_WORKFLOW.transitions.filter(transition => {
-            if (transition.from.indexOf(resourceRoadmapBadge.status) >= 0) {
-                let roles = null;
-                if (transition.conditions ) roles = transition.conditions.map(c => c.role);
-
-                return hasPermission({roles, resourceIds: [resourceId]});
-            }
-
-            return false;
-        })
+        return getAvailableTransitions(BADGE_WORKFLOW, resourceRoadmapBadge.status, {role: getAuthorizedRoles({resourceId})});
     };
 
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {
