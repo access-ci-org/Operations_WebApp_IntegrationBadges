@@ -8,6 +8,13 @@ The general format of entries is:
         - *
 
 
+
+v1.11.7 2026-03-18 dinukadesilva
+    1 - [new] Adding and enabling task workflow config (CTT-891)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [new] Style improvements and refactoring of contacts and collaborator interfaces (CTT-871)
+        - Everything on v1.11.2
+
 v1.11.6 2026-03-18 dinukadesilva
     1 - [fix] Minor fix in the permission fetch method (CTT-891)
         - *
