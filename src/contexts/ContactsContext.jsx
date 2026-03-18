@@ -77,16 +77,11 @@ export const ContactProvider = ({children}) => {
     ) => {
         try {
             const url = getContactsEndpointUrl({
-                organizationId,
-                resourceId,
-                roadmapId,
-                badgeId,
-                contactType,
-                contactEmail
+                organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail
             });
             const response = await dashboardAxiosInstance.get(url);
             const _contacts = response.data.results;
-            const contactsMap = {}
+            const contactsMap = {};
             const contactEmails = [];
 
             for (const contacts of _contacts) {

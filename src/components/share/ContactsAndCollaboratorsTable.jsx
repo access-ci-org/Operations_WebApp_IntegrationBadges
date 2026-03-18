@@ -33,8 +33,10 @@ export default function ContactsAndCollaboratorsTable(
     // if (contacts) contacts = sortJsonArrayAlphabetically(contacts, "contact_name");
 
     useEffect(() => {
-        fetchContacts({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail})
-            .catch(() => setError(true));
+        if (!contacts) {
+            fetchContacts({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail})
+                .catch(() => setError(true));
+        }
     }, [organizationId, resourceId, contactType, contactEmail]);
 
     const copyEmailAddresses = () => {

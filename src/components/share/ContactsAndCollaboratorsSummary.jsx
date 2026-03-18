@@ -4,10 +4,7 @@ import {useEffect, useState} from "react";
 import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {Link, useNavigate} from "react-router-dom";
-import {useResources} from "../../contexts/ResourcesContext.jsx";
-import ContactsAndCollaboratorsTable from "./ContactsAndCollaboratorsTable.jsx";
 import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
-import Concierge from "../staff/Concierge.jsx";
 import ContactsAndCollaboratorsFilterView from "./ContactsAndCollaboratorsFilterView.jsx";
 
 const ContactAvatarClasses = [

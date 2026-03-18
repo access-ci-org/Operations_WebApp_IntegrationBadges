@@ -6,6 +6,7 @@ import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import ContactsAndCollaboratorsTable from "./ContactsAndCollaboratorsTable.jsx";
 import Select from 'react-select';
+import LoadingBlock from "../util/LoadingBlock.jsx";
 
 
 const CopyStatus = {
@@ -35,9 +36,10 @@ export default function ContactsAndCollaboratorsFilterView(
     const [selectedResourceStatuses, setSelectedResourceStatuses] = useState([]);
     const [selectedRoadmapIds, setSelectedRoadmapIds] = useState([]);
     const [selectedBadgeIds, setSelectedBadgeIds] = useState([]);
+    const [processing, setProcessing] = useState(true);
 
     useEffect(() => {
-        console.log("####### useEffect ### ", [organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail])
+        setProcessing(true);
 
         const organization = getOrganization({organizationId});
         const resource = getResource({resourceId});
@@ -48,6 +50,8 @@ export default function ContactsAndCollaboratorsFilterView(
         resource && setSelectedResourceIds([{value: resourceId, label: resource.resource_descriptive_name}]);
         roadmap && setSelectedRoadmapIds([{value: roadmapId, label: roadmap.name}]);
         badge && setSelectedBadgeIds([{value: badgeId, label: badge.name}]);
+
+        setProcessing(false);
     }, [organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail]);
 
     const contactFilters = [
@@ -93,8 +97,6 @@ export default function ContactsAndCollaboratorsFilterView(
         <div className="w-100">
             <div className="row pb-3 ps-3 pe-3">
                 {contactFilters.map((contactFilter, contactFilterIndex) => {
-                    const checkboxName = `contacts-filter-${contactFilter.title}-checkbox`;
-
                     return <div className="col-md-3 col-sm-6 p-2 d-flex flex-column" key={contactFilterIndex}>
                         <h4 className="fs-8">{contactFilter.title}</h4>
                         <div className="flex-fill">
@@ -108,17 +110,18 @@ export default function ContactsAndCollaboratorsFilterView(
                                 onChange={contactFilter.set}
                                 value={contactFilter.state}
                             />
-
                         </div>
                     </div>
                 })}
 
             </div>
             <div className="col-sm-12">
-                <ContactsAndCollaboratorsTable organizationId={selectedOrganizationIds.map(({value}) => value)}
-                                               resourceId={selectedResourceIds.map(({value}) => value)}
-                                               roadmapId={selectedRoadmapIds.map(({value}) => value)}
-                                               badgeId={selectedBadgeIds.map(({value}) => value)}/>
+                <LoadingBlock processing={processing}/>
+                {!processing && <ContactsAndCollaboratorsTable
+                    organizationId={selectedOrganizationIds.map(({value}) => value)}
+                    resourceId={selectedResourceIds.map(({value}) => value)}
+                    roadmapId={selectedRoadmapIds.map(({value}) => value)}
+                    badgeId={selectedBadgeIds.map(({value}) => value)}/>}
             </div>
         </div>
     </div>
