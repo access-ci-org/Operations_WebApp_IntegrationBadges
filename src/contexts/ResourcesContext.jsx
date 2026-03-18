@@ -257,7 +257,7 @@ export const ResourcesProvider = ({children}) => {
 
     const getResourcesEndpointUrl = ({organizationId = null, resourceId = null, full = false} = {}) => {
         let url = '/resources?';
-        if (full) url = '/resources-full?';
+        if (full) url = '/resources_full?';
         if (organizationId) url += `organization_id=${organizationId}&`;
         if (resourceId) url += `info_resourceid=${resourceId}`;
 

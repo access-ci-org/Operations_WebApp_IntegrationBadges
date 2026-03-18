@@ -34,7 +34,7 @@ export const ContactProvider = ({children}) => {
             contactType = null, contactEmail = null
         } = {}
     ) => {
-        let url = '/resource-contacts?';
+        let url = '/resource_contacts?';
 
         if (organizationId) {
             if (!Array.isArray(organizationId)) organizationId = [organizationId];
