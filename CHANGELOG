@@ -9,7 +9,7 @@ The general format of entries is:
 
 
 
-v1.11.4 2026-03-18 dinukadesilva
+v1.11.5 2026-03-18 dinukadesilva
     1 - [fix] Minor improvements in the contacts components (CTT-871)
         - Everything on v1.11.2
     2 - [new] Integrating the `permissions` endpoint to enable authorization (CTT-891)
