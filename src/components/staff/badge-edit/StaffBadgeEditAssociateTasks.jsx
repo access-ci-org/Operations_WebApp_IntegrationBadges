@@ -147,7 +147,7 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
         <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
             <Modal.Header closeButton className="bg-danger-subtle">
                 <Modal.Title>
-                    <i className="bi bi-exclamation-triangle-fill text-danger"></i>
+                    <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

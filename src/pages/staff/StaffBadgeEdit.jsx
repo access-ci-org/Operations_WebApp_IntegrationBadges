@@ -159,7 +159,7 @@ export default function StaffBadgeEdit() {
             <Modal show={showSavedModal}>
                 <Modal.Header className="bg-light">
                     <Modal.Title>
-                        <i className="bi bi-check-circle text-medium"></i>
+                        <i className="bi bi-check-circle text-medium center-and-large-icon"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -178,7 +178,7 @@ export default function StaffBadgeEdit() {
             <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
                 <Modal.Header closeButton className="bg-danger-subtle">
                     <Modal.Title>
-                        <i className="bi bi-exclamation-triangle-fill text-danger"></i>
+                        <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

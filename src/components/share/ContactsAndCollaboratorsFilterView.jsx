@@ -97,7 +97,7 @@ export default function ContactsAndCollaboratorsFilterView(
         <div className="w-100">
             <div className="row pb-3 ps-3 pe-3">
                 {contactFilters.map((contactFilter, contactFilterIndex) => {
-                    return <div className="col-md-3 col-sm-6 p-2 d-flex flex-column" key={contactFilterIndex}>
+                    return <div className="col-lg-3 col-md-6 col-sm-6 p-2 d-flex flex-column" key={contactFilterIndex}>
                         <h4 className="fs-8">{contactFilter.title}</h4>
                         <div className="flex-fill">
                             <Select

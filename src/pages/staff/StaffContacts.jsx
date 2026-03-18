@@ -9,20 +9,16 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import ContactsAndCollaboratorsFilterView from "../../components/share/ContactsAndCollaboratorsFilterView.jsx";
 
 export default function StaffContacts() {
-    const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
     let organizationId = queryParams.get('organizationId');
     const resourceId = queryParams.get('resourceId');
 
-    const {getOrganization} = useOrganizations();
     const {getResource} = useResources();
 
     let resource = getResource({resourceId: resourceId});
     if (!organizationId && resource) organizationId = resource.organization_id;
-
-    let organization = getOrganization({organizationId: organizationId});
 
     return <div className="container">
         <div className="row visually-hidden">

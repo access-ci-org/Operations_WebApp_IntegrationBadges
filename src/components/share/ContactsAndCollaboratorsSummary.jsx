@@ -28,7 +28,8 @@ function getContactNameInitials(contactName) {
 
 export function CollaboratorProfileAvatarButton({contact, contactIndex, profileAvatarClass}) {
     if (!profileAvatarClass) {
-        profileAvatarClass = ContactAvatarClasses[contactIndex % ContactAvatarClasses.length];
+        profileAvatarClass = ContactAvatarClasses[0];
+        // profileAvatarClass = ContactAvatarClasses[contactIndex % ContactAvatarClasses.length];
     }
     let style = {maxWidth: 28, minWidth: 28, maxHeight: 28, minHeight: 28};
 
@@ -49,18 +50,12 @@ export function CollaboratorProfileAvatarButton({contact, contactIndex, profileA
 function AddNewCollaboratorButton(
     {organizationId = null, resourceId = null, contactType = null, contactEmail = null, onClick = null} = {}
 ) {
-    const navigate = useNavigate();
-
     let style = {maxWidth: 28, minWidth: 28, maxHeight: 28, minHeight: 28};
 
-    let link = StaffRouteUrls.CONTACTS + "?";
-    if (organizationId) link += `organizationId=${organizationId}&`;
-    if (resourceId) link += `resourceId=${resourceId}&`;
-
     return <div className="col p-0 me-1" style={style}>
-        <Link className="btn btn-gray-400 fs-8 w-100 h-100 rounded-circle p-1" to={link}>
+        <button className="btn btn-gray-400 fs-8 w-100 h-100 rounded-circle p-1" onClick={onClick}>
             <i className="bi bi-person-plus"></i>
-        </Link>
+        </button>
     </div>
 }
 
@@ -73,7 +68,7 @@ function ShowMoreCollaboratorDetailsButton(
     const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
 
     if (contacts) {
-        return <div className="col align-content-center ps-1">
+        return <div className="col align-content-center ps-2">
             {contacts && contacts.length > NumberOfContactDisplayOnSummary &&
                 <button className="btn btn-link fs-8" onClick={() => onClick && onClick()}>
                     <span className="text-one-line-overflow-ellipsis text text-secondary">
@@ -88,13 +83,11 @@ function ShowMoreCollaboratorDetailsButton(
 export default function ContactsAndCollaboratorsSummary(
     {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
 ) {
-    const {getOrganization} = useOrganizations();
     const {fetchContacts, getContacts} = useContacts();
 
     const [showContactsAndCollaboratorsModal, setShowContactsAndCollaboratorsModal] = useState(false);
     const [error, setError] = useState(false);
 
-    const organization = getOrganization({organizationId});
     const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
 
     useEffect(() => {
@@ -103,6 +96,10 @@ export default function ContactsAndCollaboratorsSummary(
     }, [organizationId, resourceId, contactType, contactEmail]);
 
     // ContactAvatarClasses.sort(() => Math.random() - Math.random());
+
+    let externalLink = StaffRouteUrls.CONTACTS + "?";
+    if (organizationId) externalLink += `organizationId=${organizationId}&`;
+    if (resourceId) externalLink += `resourceId=${resourceId}&`;
 
     return <div className="w-100 p-2">
         <div className="w-100">
@@ -148,9 +145,13 @@ export default function ContactsAndCollaboratorsSummary(
 
         <Modal size="xl" show={showContactsAndCollaboratorsModal}
                onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-            <Modal.Header closeButton className="bg-medium">
-                <Modal.Title className="text-white">
+            <Modal.Header closeButton className="bg-light">
+                <Modal.Title className="">
                     Contacts / Collaborators
+
+                    <Link className="btn btn-link ps-3" to={externalLink} target="_blank" >
+                        <i className="bi bi-box-arrow-up-right"></i>
+                    </Link>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className="p-0 fs-8">

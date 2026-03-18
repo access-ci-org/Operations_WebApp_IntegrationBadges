@@ -12,6 +12,7 @@ export function StaffMainNavigation() {
         {"name": "Roadmaps", "link": StaffRouteUrls.ROADMAPS},
         {"name": "Badges", "link": StaffRouteUrls.BADGES},
         {"name": "Badge Status", "link": StaffRouteUrls.BADGE_STATUS},
+        {"name": "Contacts / Collaborators", "link": StaffRouteUrls.CONTACTS},
     ];
 
     const getLinkClassname = (props) => {
