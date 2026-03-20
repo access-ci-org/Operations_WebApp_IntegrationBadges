@@ -42,12 +42,8 @@ export const BADGE_WORKFLOW = {
         },
         {
             name: "Deprecate",
-            from: [
-                BadgeWorkflowStatus.PLANNED,
-                BadgeWorkflowStatus.TASK_COMPLETED,
-                BadgeWorkflowStatus.VERIFIED,
-                BadgeWorkflowStatus.VERIFICATION_FAILED
-            ],
+            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED,
+                BadgeWorkflowStatus.VERIFICATION_FAILED],
             to: BadgeWorkflowStatus.DEPRECATED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
@@ -63,10 +59,7 @@ export const BADGE_WORKFLOW = {
         },
         {
             name: "Reopen",
-            from: [
-                BadgeWorkflowStatus.VERIFIED,
-                BadgeWorkflowStatus.DEPRECATED
-            ],
+            from: [ BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED],
             to: BadgeWorkflowStatus.PLANNED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
@@ -96,7 +89,7 @@ export const TASK_WORKFLOW = {
             to: BadgeTaskWorkflowStatus.COMPLETED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
-                badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED]
+                badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.VERIFICATION_FAILED]
             }
         },
         {
@@ -105,7 +98,7 @@ export const TASK_WORKFLOW = {
             to: BadgeTaskWorkflowStatus.COMPLETED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE],
-                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.DEPRECATED]
+                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.DEPRECATED]
             }
         },
         {
@@ -114,7 +107,7 @@ export const TASK_WORKFLOW = {
             to: BadgeTaskWorkflowStatus.NOT_COMPLETED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
-                badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED]
+                badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.VERIFICATION_FAILED]
             }
         },
         {
@@ -123,7 +116,7 @@ export const TASK_WORKFLOW = {
             to: BadgeTaskWorkflowStatus.NOT_COMPLETED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE],
-                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.DEPRECATED]
+                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.DEPRECATED]
             }
         },
         {
@@ -133,7 +126,7 @@ export const TASK_WORKFLOW = {
             conditions: {
                 required: false,
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
-                badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED]
+                badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.VERIFICATION_FAILED]
             }
         },
         {
@@ -143,7 +136,7 @@ export const TASK_WORKFLOW = {
             conditions: {
                 required: false,
                 role: [IntegrationRoles.CONCIERGE],
-                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.DEPRECATED]
+                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.DEPRECATED]
             }
         },
         {
@@ -156,6 +149,9 @@ export const TASK_WORKFLOW = {
         }
     ]
 };
+
+console.log("BADGE_WORKFLOW : ", JSON.stringify(BADGE_WORKFLOW))
+console.log("TASK_WORKFLOW : ", JSON.stringify(TASK_WORKFLOW))
 
 function isEqualOrContains(source, value) {
     if (source === value) {
