@@ -1,7 +1,7 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import {IntegrationRoles} from "../../contexts/constants.js";
-import {usePermissions} from "../../contexts/PermissionContext.jsx";
+import {useRoles} from "../../contexts/PermissionContext.jsx";
 
 
 export function Concierge({children}) {
@@ -25,7 +25,7 @@ export function BadgeMaintainer({children}) {
  * @constructor
  */
 export function ShowIfAuthorized({children, roles, resourceIds}) {
-    const {hasPermission} = usePermissions();
+    const {hasPermission} = useRoles();
 
     if (hasPermission({roles, resourceIds})) {
         return children;
@@ -41,7 +41,7 @@ export function ShowIfAuthorized({children, roles, resourceIds}) {
  * @constructor
  */
 export function HideIfAuthorized({children, roles, resourceIds}) {
-    const {hasPermission} = usePermissions();
+    const {hasPermission} = useRoles();
 
     if (!hasPermission({roles, resourceIds})) {
         return children;

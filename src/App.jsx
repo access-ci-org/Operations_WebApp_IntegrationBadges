@@ -26,7 +26,7 @@ import {StaffMainNavigation} from "./components/staff/StaffMainNavigation.jsx";
 import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import About from "./pages/About.jsx";
 import {ContactProvider} from "./contexts/ContactsContext.jsx";
-import {PermissionProvider, usePermissions} from "./contexts/PermissionContext.jsx";
+import {RolesProvider, useRoles} from "./contexts/PermissionContext.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -34,7 +34,7 @@ const RouterLayout = () => {
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isStaffPage = !!(/^\/staff/i.exec(pathname));
 
-    const {fetchPermissions} = usePermissions();
+    const {fetchRoles} = useRoles();
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
@@ -48,7 +48,7 @@ const RouterLayout = () => {
     const tasks = getTasks();
 
     useEffect(() => {
-        fetchPermissions();
+        fetchRoles();
 
         if (initialFetchesAreRequired) {
             fetchOrganizations();
@@ -86,7 +86,7 @@ const RouterLayout = () => {
 function App() {
     return (
         <OrganizationsProvider>
-            <PermissionProvider>
+            <RolesProvider>
                 <BadgeProvider>
                     <TaskProvider>
                         <RoadmapProvider>
@@ -144,7 +144,7 @@ function App() {
                         </RoadmapProvider>
                     </TaskProvider>
                 </BadgeProvider>
-            </PermissionProvider>
+            </RolesProvider>
         </OrganizationsProvider>
     );
 }

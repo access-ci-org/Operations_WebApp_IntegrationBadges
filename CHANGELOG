@@ -8,6 +8,8 @@ The general format of entries is:
         - *
 
 
+v1.11.8 2026-03-20 dinukadesilva
+    1 - [new] Fix the "permissions" endpoint renaming to "roles" (CTT-891)
 
 v1.11.7 2026-03-18 dinukadesilva
     1 - [new] Adding and enabling task workflow config (CTT-891)

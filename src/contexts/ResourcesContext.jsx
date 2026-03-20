@@ -7,7 +7,7 @@ import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
 import {dashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 import {BADGE_WORKFLOW, getAvailableTransitions} from "./Workflows.js";
-import {usePermissions} from "./PermissionContext.jsx";
+import {useRoles} from "./PermissionContext.jsx";
 
 const ResourcesContext = createContext({
     fetchResources: ({organizationId = null, resourceId = null, full = false} = {}) => {
@@ -76,7 +76,7 @@ export const useResources = () => useContext(ResourcesContext);
  * @param children
  */
 export const ResourcesProvider = ({children}) => {
-    const {hasPermission, getAuthorizedRoles} = usePermissions();
+    const {hasPermission, getAuthorizedRoles} = useRoles();
     const {getBadge} = useBadges();
     const {getTask} = useTasks();
     const {getOrganization} = useOrganizations();

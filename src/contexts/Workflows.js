@@ -100,12 +100,30 @@ export const TASK_WORKFLOW = {
             }
         },
         {
+            name: "Completed",
+            from: [BadgeTaskWorkflowStatus.NOT_COMPLETED, BadgeTaskWorkflowStatus.NOT_APPLICABLE, BadgeTaskWorkflowStatus.ACTION_NEEDED],
+            to: BadgeTaskWorkflowStatus.COMPLETED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE],
+                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.DEPRECATED]
+            }
+        },
+        {
             name: "Incomplete",
             from: [BadgeTaskWorkflowStatus.NOT_APPLICABLE, BadgeTaskWorkflowStatus.COMPLETED, BadgeTaskWorkflowStatus.ACTION_NEEDED],
             to: BadgeTaskWorkflowStatus.NOT_COMPLETED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
                 badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED]
+            }
+        },
+        {
+            name: "Incomplete",
+            from: [BadgeTaskWorkflowStatus.NOT_APPLICABLE, BadgeTaskWorkflowStatus.COMPLETED, BadgeTaskWorkflowStatus.ACTION_NEEDED],
+            to: BadgeTaskWorkflowStatus.NOT_COMPLETED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE],
+                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.DEPRECATED]
             }
         },
         {
@@ -116,6 +134,16 @@ export const TASK_WORKFLOW = {
                 required: false,
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
                 badgeStatus: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED]
+            }
+        },
+        {
+            name: "Not Applicable",
+            from: [BadgeTaskWorkflowStatus.NOT_COMPLETED, BadgeTaskWorkflowStatus.COMPLETED, BadgeTaskWorkflowStatus.ACTION_NEEDED],
+            to: BadgeTaskWorkflowStatus.NOT_APPLICABLE,
+            conditions: {
+                required: false,
+                role: [IntegrationRoles.CONCIERGE],
+                badgeStatus: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.DEPRECATED]
             }
         },
         {
@@ -130,7 +158,7 @@ export const TASK_WORKFLOW = {
 };
 
 function isEqualOrContains(source, value) {
-    if (source === value ) {
+    if (source === value) {
         return true;
     }
 

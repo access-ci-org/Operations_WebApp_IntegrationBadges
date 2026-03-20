@@ -7,14 +7,14 @@ import Accordion from "react-bootstrap/Accordion";
 import {Concierge} from "../../util/Permissions.jsx";
 import {HtmlToReact} from "../../util/text-editors.jsx";
 import {getAvailableTransitions, TASK_WORKFLOW} from "../../../contexts/Workflows.js";
-import {usePermissions} from "../../../contexts/PermissionContext.jsx";
+import {useRoles} from "../../../contexts/PermissionContext.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
     const decoratedOnClick = useAccordionButton(eventKey);
 
     const {setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
-    const {getAuthorizedRoles} = usePermissions();
+    const {getAuthorizedRoles} = useRoles();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
     const [showTaskReopenModal, setShowTaskReopenModal] = useState(false);
