@@ -19,6 +19,9 @@ v1.11.7 2026-03-18 dinukadesilva
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
     2 - [new] Style improvements and refactoring of contacts and collaborator interfaces (CTT-871)
         - Everything on v1.11.2
+    3 - [new] Fix renamed endpoint urls (CTT-871)
+        - *
+    4 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/87
 
 v1.11.6 2026-03-18 dinukadesilva
     1 - [fix] Minor fix in the permission fetch method (CTT-891)
