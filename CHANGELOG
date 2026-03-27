@@ -8,7 +8,16 @@ The general format of entries is:
         - *
 
 
-v1.11.9 2026-03-20 dinukadesilva
+v1.11.11 2026-03-27 dinukadesilva
+    1 - [new] Incorporate authorization for new roadmap integration, edit and rp badge review (CTT-891)
+        - organizations/<organization_id>
+    2 - [new] Enabling the authorization of contacts summary component (CTT-871)
+        - /organizations
+        - /organizations/<organization_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
+v1.11.10 2026-03-20 dinukadesilva
     1 - [new] Making slight adjustment to the task worflow (CTT-826)
 
 v1.11.8 2026-03-20 dinukadesilva
@@ -46,7 +55,7 @@ v1.11.3 2026-03-05 dinukadesilva
 v1.11.2 2026-03-05 dinukadesilva
     1 - [new] Enable copy to clipboard button for contact email addresses (CTT-871)
         - /organizations
-        - organizations/<organization_id>
+        - /organizations/<organization_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
         - /staff/contacts
@@ -81,11 +90,11 @@ v1.10.6 2026-02-18 dinukadesilva
 
 v1.10.5 2026-02-13 dinukadesilva
     1 - [new] Revised sections names in the RP dashboard (CTT-852)
-        - organizations/<organization_id>
+        - /organizations/<organization_id>
 
 v1.10.4 2026-02-13 dinukadesilva
     1 - [new] Adding the "Post-Production" section back (CTT-852)
-        - organizations/<organization_id>
+        - /organizations/<organization_id>
 
 v1.10.3 2026-02-12 dinukadesilva
     1 - [bug-fix] Fixing the browser back action from staff badge status page (CTT-872)
@@ -98,7 +107,7 @@ v1.10.2 2026-02-12 dinukadesilva
 
 v1.10.1 2026-02-11 dinukadesilva
     1 - [bug-fix] Minor bug fix in the PR dashboard "In Progress" section (CTT-852)
-        - organizations/<organization_id>
+        - /organizations/<organization_id>
 
 v1.10.0 2026-02-11 dinukadesilva
     1 - [new] Revised staff dashboard (CTT-870)

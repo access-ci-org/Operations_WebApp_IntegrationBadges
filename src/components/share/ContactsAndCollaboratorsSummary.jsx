@@ -6,6 +6,8 @@ import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
 import ContactsAndCollaboratorsFilterView from "./ContactsAndCollaboratorsFilterView.jsx";
+import {IntegrationRoles} from "../../contexts/constants.js";
+import {ShowIfAuthorized} from "../util/Permissions.jsx";
 
 const ContactAvatarClasses = [
     "bg-orange text-white",
@@ -15,7 +17,7 @@ const ContactAvatarClasses = [
     "bg-info text-black",
 ];
 
-const NumberOfContactDisplayOnSummary = 5;
+const NumberOfContactDisplayOnSummary = 0;
 
 function getContactNameInitials(contactName) {
     let nameInitials = "";
@@ -68,12 +70,12 @@ function ShowMoreCollaboratorDetailsButton(
     const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
 
     if (contacts) {
-        return <div className="col align-content-center ps-2">
-            {contacts && contacts.length > NumberOfContactDisplayOnSummary &&
-                <button className="btn btn-link fs-8" onClick={() => onClick && onClick()}>
-                    <span className="text-one-line-overflow-ellipsis text text-secondary">
-                        +{contacts.length - NumberOfContactDisplayOnSummary}
-                    </span>
+        return <div className="col align-content-center text-end ps-2">
+            {contacts &&
+                <button className="btn btn-light rounded-3 border-0 fs-8" onClick={() => onClick && onClick()}>
+                        <span className="small text-medium fw-bold"> Contacts / Collaborator</span>
+                        <span className="ps-1 pe-1 ms-2 bg-medium text-white fw-bold rounded rounded-3">
+                            {contacts.length - NumberOfContactDisplayOnSummary}</span>
                 </button>}
         </div>
     }
@@ -101,72 +103,76 @@ export default function ContactsAndCollaboratorsSummary(
     if (organizationId) externalLink += `organizationId=${organizationId}&`;
     if (resourceId) externalLink += `resourceId=${resourceId}&`;
 
-    return <div className="w-100 p-2">
-        <div className="w-100">
-            <h4 className="fs-10 fw-bold mb-1 pe-2 text-medium d-inline">Contacts / Collaborators</h4>
-            <button className="btn btn-link text-medium d-inline">
-                <i className="bi bi-info-circle-fill fs-7"></i></button>
-        </div>
+    return <ShowIfAuthorized
+        roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+            IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+        <div className="w-100 p-2">
+            {/*<div className="w-100">*/}
+            {/*    <h4 className="fs-10 fw-bold mb-1 pe-2 text-medium d-inline">Contacts / Collaborators</h4>*/}
+            {/*    <button className="btn btn-link text-medium d-inline">*/}
+            {/*        <i className="bi bi-info-circle-fill fs-7"></i></button>*/}
+            {/*</div>*/}
 
-        <LoadingBlock processing={!error && !contacts} className="row fs-8 p-2 rounded-5 bg-light"/>
+            <LoadingBlock processing={!error && !contacts} className="row fs-8 p-2 rounded-5 bg-light"/>
 
-        <div className="row p-2 rounded-5 bg-gray-100">
-            {contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>
-                <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}
-                                                 contactIndex={contactIndex}/>)}
+            <div className="row p-2">
+                {/*{contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>*/}
+                {/*    <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}*/}
+                {/*                                     contactIndex={contactIndex}/>)}*/}
 
 
-            {error && <div className="col align-content-center ps-1">
-                <div className="w-100 fs-8">
-                    <i className="bi bi-exclamation-triangle-fill text-danger pe-2"></i>
-                    <span className="fw-bold">Error : </span>
-                    <span>Unauthorized</span>
-                </div>
-            </div>}
+                {/*{error && <div className="col align-content-center ps-1">*/}
+                {/*    <div className="w-100 fs-8">*/}
+                {/*        <i className="bi bi-exclamation-triangle-fill text-danger pe-2"></i>*/}
+                {/*        <span className="fw-bold">Error : </span>*/}
+                {/*        <span>Unauthorized</span>*/}
+                {/*    </div>*/}
+                {/*</div>}*/}
 
-            {!error && contacts && contacts.length === 0 &&
-                <div className="col align-content-center ps-1">
-                    <div className="w-100 fs-8">
-                        <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>
-                        <span className="text-secondary">No contacts found.</span>
+                {/*{!error && contacts && contacts.length === 0 &&*/}
+                {/*    <div className="col align-content-center ps-1">*/}
+                {/*        <div className="w-100 fs-8">*/}
+                {/*            <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>*/}
+                {/*            <span className="text-secondary">No contacts found.</span>*/}
+                {/*        </div>*/}
+                {/*    </div>}*/}
+
+
+                {!error && contacts &&
+                    <ShowMoreCollaboratorDetailsButton organizationId={organizationId} resourceId={resourceId}
+                                                       contactEmail={contactEmail} contactType={contactType}
+                                                       onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>}
+
+                {/*<AddNewCollaboratorButton organizationId={organizationId} resourceId={resourceId}*/}
+                {/*                          contactEmail={contactEmail} contactType={contactType}*/}
+                {/*                          onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>*/}
+            </div>
+
+            <Modal size="xl" show={showContactsAndCollaboratorsModal}
+                   onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
+                <Modal.Header closeButton className="bg-light">
+                    <Modal.Title className="">
+                        Contacts / Collaborators
+
+                        <Link className="btn btn-link ps-3" to={externalLink} target="_blank">
+                            <i className="bi bi-box-arrow-up-right"></i>
+                        </Link>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="p-0 fs-8">
+                    <div className="w-100 pt-4 pb-5 ps-2 pe-2">
+                        <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}
+                                                            contactEmail={contactEmail} contactType={contactType}/>
                     </div>
-                </div>}
-
-
-            {!error && contacts && contacts.length > 0 &&
-                <ShowMoreCollaboratorDetailsButton organizationId={organizationId} resourceId={resourceId}
-                                                   contactEmail={contactEmail} contactType={contactType}
-                                                   onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>}
-
-            <AddNewCollaboratorButton organizationId={organizationId} resourceId={resourceId}
-                                      contactEmail={contactEmail} contactType={contactType}
-                                      onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn btn-outline-medium rounded-1"
+                            onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
+                        Cancel
+                    </button>
+                </Modal.Footer>
+            </Modal>
         </div>
-
-        <Modal size="xl" show={showContactsAndCollaboratorsModal}
-               onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-            <Modal.Header closeButton className="bg-light">
-                <Modal.Title className="">
-                    Contacts / Collaborators
-
-                    <Link className="btn btn-link ps-3" to={externalLink} target="_blank" >
-                        <i className="bi bi-box-arrow-up-right"></i>
-                    </Link>
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="p-0 fs-8">
-                <div className="w-100 pt-4 pb-5 ps-2 pe-2">
-                    <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}
-                                                   contactEmail={contactEmail} contactType={contactType}/>
-                </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <button className="btn btn-outline-medium rounded-1"
-                        onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-                    Cancel
-                </button>
-            </Modal.Footer>
-        </Modal>
-    </div>
+    </ShowIfAuthorized>
 }
 

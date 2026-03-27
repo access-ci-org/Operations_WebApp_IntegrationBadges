@@ -108,10 +108,14 @@ export default function ResourceBadge() {
                         </Link>
                     </div>
                 </div>
-                <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
-                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
-                                                     organizationId={organization.organization_id}/>
-                </div>
+                <ShowIfAuthorized
+                    roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+                        IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+                    <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
+                        <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
+                                                         organizationId={organization.organization_id}/>
+                    </div>
+                </ShowIfAuthorized>
             </div>
 
             <div className="row">

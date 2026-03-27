@@ -2,13 +2,13 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import {Collapse, Nav} from "react-bootstrap";
-import {BadgeWorkflowStatus} from "../contexts/constants.js";
+import {BadgeWorkflowStatus, IntegrationRoles} from "../contexts/constants.js";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
-import {PermissionSwitch} from "../components/util/Permissions.jsx";
+import {PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 
 export default function Resource() {
     const navigate = useNavigate();
@@ -102,10 +102,14 @@ export default function Resource() {
                         </Link>
                     </div>
                 </div>
-                <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
-                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
-                                                     organizationId={organization.organization_id}/>
-                </div>
+                <ShowIfAuthorized
+                    roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+                        IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+                    <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
+                        <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
+                                                         organizationId={organization.organization_id}/>
+                    </div>
+                </ShowIfAuthorized>
             </div>
             <div className="row">
                 <h2>Overview</h2>

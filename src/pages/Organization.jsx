@@ -114,8 +114,8 @@ export default function Organization() {
                 <h1 className="p-3">{organization.organization_name}</h1>
             </div>
             <ShowIfAuthorized
-                resourceIds={resourceIds}
-                roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
+                roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+                    IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
                 <div className="col-sm-3 pt-3 align-content-start d-flex flex-column" style={{minWidth: 280}}>
                     <div>
                         <ContactsAndCollaboratorsSummary organizationId={organizationId}/>

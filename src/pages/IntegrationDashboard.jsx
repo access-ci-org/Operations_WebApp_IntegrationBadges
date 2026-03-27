@@ -5,8 +5,9 @@ import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
-import {PermissionSwitch} from "../components/util/Permissions.jsx";
+import {Concierge, PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
+import {IntegrationRoles} from "../contexts/constants.js";
 
 /**
  * The initial page that displays al resources.
@@ -38,9 +39,13 @@ export default function IntegrationDashboard() {
                     Welcome to the ACCESS Integration Dashboard.
                 </p>
             </div>
-            <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
-                <ContactsAndCollaboratorsSummary/>
-            </div>
+            <ShowIfAuthorized
+                roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+                    IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+                <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
+                    <ContactsAndCollaboratorsSummary/>
+                </div>
+            </ShowIfAuthorized>
         </div>
         <div className="row">
             {/*<h1>Integration Dashboard</h1>*/}
