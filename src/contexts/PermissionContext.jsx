@@ -126,8 +126,8 @@ export const RolesProvider = ({children}) => {
                     return true;
                 } else if (authorizedResourceIdsMap) {
                     for (let j = 0; j < resourceIds.length; j++) {
-                        const groupId = resourceIds[0];
-                        if (authorizedResourceIdsMap === true || authorizedResourceIdsMap[groupId]) {
+                        const resourceId = resourceIds[j];
+                        if (authorizedResourceIdsMap[resourceId]) {
                             return true;
                         }
                     }

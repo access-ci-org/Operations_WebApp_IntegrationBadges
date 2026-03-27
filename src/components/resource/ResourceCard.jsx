@@ -1,25 +1,30 @@
 import {Link} from "react-router-dom";
 import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
+import {IntegrationRoles} from "../../contexts/constants.js";
+import {ShowIfAuthorized} from "../util/Permissions.jsx";
 
 export default function ResourceCard({organization, resource, inProgress = false, showViewButton = true}) {
     if (resource === null) {
         return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column bg-gray-200">
-                <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center text-secondary">
-                    <i className="bi bi-plus-lg fs-1"></i>
-                    <div className="pb-5">
-                        Register New Resource
-                    </div>
-                </Link>
-            </div>
+            <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center text-secondary">
+                <i className="bi bi-plus-lg fs-1"></i>
+                <div className="pb-5">
+                    Register New Resource
+                </div>
+            </Link>
+        </div>
     }
 
     return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column">
         <div className="w-100 bg-light p-1 resource-card-header rounded-3">
             <div className="w-100 ps-2 resource-card-header-actions">
-                {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
-                                      className="btn btn-link text-medium">
-                    Edit
-                </Link>}
+                <ShowIfAuthorized resourceIds={[resource.info_resourceid]}
+                                  roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
+                    {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
+                                          className="btn btn-link text-medium">
+                        Edit
+                    </Link>}
+                </ShowIfAuthorized>
             </div>
             <h3 className="w-100 text-black">{resource.short_name}</h3>
         </div>

@@ -2,14 +2,14 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
-import {RpDashboardResourceStatus, BadgeWorkflowStatus} from "../contexts/constants.js";
+import {RpDashboardResourceStatus, BadgeWorkflowStatus, IntegrationRoles} from "../contexts/constants.js";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificationStatus.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
-import {PermissionSwitch} from "../components/util/Permissions.jsx";
+import {PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -71,10 +71,13 @@ export default function Organization() {
     ];
 
     let resourcesProcessing = resources && resources.length > 0; // Set it to processing if there are resources.
+    const resourceIds = [];
     for (let i = 0; resources && i < resources.length; i++) {
         let resource = resources[i];
         let resourceId = resource.info_resourceid;
         let resourceRoadmaps = getResourceRoadmaps({resourceId});
+
+        resourceIds.push(resourceId);
 
         for (let j = 0; j < sections.length; j++) {
             const section = sections[j];
@@ -110,14 +113,20 @@ export default function Organization() {
             <div className="col align-content-center">
                 <h1 className="p-3">{organization.organization_name}</h1>
             </div>
-            <div className="col-sm-3 pt-3 align-content-start d-flex flex-column" style={{minWidth: 280}}>
-                <div><ContactsAndCollaboratorsSummary organizationId={organizationId}/></div>
-                <div className="flex-fill align-content-end pe-3 mt-2 mb-2">
-                    <h2 className="fs-6 text-gray-700">Badge Verification <br/>Status</h2>
-                    <OrgBadgeVerificationStatus organizationId={organizationId}
-                                                badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
+            <ShowIfAuthorized
+                resourceIds={resourceIds}
+                roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
+                <div className="col-sm-3 pt-3 align-content-start d-flex flex-column" style={{minWidth: 280}}>
+                    <div>
+                        <ContactsAndCollaboratorsSummary organizationId={organizationId}/>
+                    </div>
+                    <div className="flex-fill align-content-end pe-3 mt-2 mb-2">
+                        <h2 className="fs-6 text-gray-700">Badge Verification <br/>Status</h2>
+                        <OrgBadgeVerificationStatus organizationId={organizationId}
+                                                    badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
+                    </div>
                 </div>
-            </div>
+            </ShowIfAuthorized>
         </div>
 
         <div className="row">
@@ -157,6 +166,15 @@ export default function Organization() {
 
                         <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                             {section.resources.map((resource, resourceIndex) => {
+                                if (resource === null) {
+                                    return <ShowIfAuthorized resourceIds={resourceIds}
+                                                             roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
+                                        <div className="col p-3">
+                                            <ResourceCard organization={organization} resource={null}/>
+                                        </div>
+                                    </ShowIfAuthorized>
+                                }
+
                                 return <div className="col p-3" key={resourceIndex}>
                                     <ResourceCard organization={organization} resource={resource}
                                                   inProgress={section.showContinueSetup}/>

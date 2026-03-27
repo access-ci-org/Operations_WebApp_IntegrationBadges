@@ -2,7 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus} from "../contexts/constants.js";
+import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus, IntegrationRoles} from "../contexts/constants.js";
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
@@ -10,7 +10,7 @@ import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBa
 import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import Form from "react-bootstrap/Form";
 import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
-import {Concierge, PermissionSwitch} from "../components/util/Permissions.jsx";
+import {Concierge, PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 import {HtmlToReact} from "../components/util/text-editors.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 
@@ -83,17 +83,20 @@ export default function ResourceBadge() {
 
         return <div className="container">
             <PermissionSwitch/>
-            {badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
-                <div className="w-100 d-flex flex-row pb-3 pt-3">
-                    <div className="flex-fill bg-warning rounded-2 p-3 bg-opacity-10">
-                        <h3>Badge Returned</h3>
-                        <div
-                            className="text-secondary pb-4 small">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
-                        <p className="pre-wrap-text text-break m-0">
-                            {badge.comment}
-                        </p>
-                    </div>
-                </div>}
+            <ShowIfAuthorized resourceIds={[resourceId]}
+                              roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER, IntegrationRoles.CONCIERGE]}>
+                {badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
+                    <div className="w-100 d-flex flex-row pb-3 pt-3">
+                        <div className="flex-fill bg-warning rounded-2 p-3 bg-opacity-10">
+                            <h3>Badge Returned</h3>
+                            <div
+                                className="text-secondary pb-4 small">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
+                            <p className="pre-wrap-text text-break m-0">
+                                {badge.comment}
+                            </p>
+                        </div>
+                    </div>}
+            </ShowIfAuthorized>
 
             <div className="row">
                 <div className="col pb-5">
