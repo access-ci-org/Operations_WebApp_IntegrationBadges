@@ -16,6 +16,8 @@ v1.11.11 2026-03-27 dinukadesilva
         - /organizations/<organization_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [new] Adding the roles configuration to the about page (CTT-871)
+        - /about
 
 v1.11.10 2026-03-20 dinukadesilva
     1 - [new] Making slight adjustment to the task worflow (CTT-826)

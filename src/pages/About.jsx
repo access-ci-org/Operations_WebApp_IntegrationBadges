@@ -3,6 +3,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import JSONGrid from '@redheadphone/react-json-grid'
 import pkg from '../../package.json';
 import {Nav} from "react-bootstrap";
+import {useRoles} from "../contexts/PermissionContext.jsx";
 
 
 /**
@@ -14,6 +15,8 @@ export default function About() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     let format = queryParams.get('display-format');
+
+    const {roleMap} = useRoles();
 
     const [theme, setTheme] = useState("remedy");
 
@@ -28,6 +31,7 @@ export default function About() {
 
     const data = {
         "Settings Variables": window.SETTINGS,
+        "Roles": roleMap,
         "Webapp NPM Package": pkg
     }
 
