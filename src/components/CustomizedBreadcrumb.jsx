@@ -136,10 +136,11 @@ function CustomizedBreadcrumb() {
             breadcrumbsRef.current.appendChild(host);
 
             // Create the new breadcrumb on the new host
-            window.ACCESS_CI_UI.breadcrumbs({
-                items: breadcrumbLinks,
-                target: host // document.getElementById("breadcrumbs")
-            });
+            if (window.ACCESS_CI_UI && window.ACCESS_CI_UI.breadcrumbs)
+                window.ACCESS_CI_UI.breadcrumbs({
+                    items: breadcrumbLinks,
+                    target: host // document.getElementById("breadcrumbs")
+                });
         }
     }, [breadcrumbLinks]);
 
