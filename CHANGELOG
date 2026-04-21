@@ -7,6 +7,11 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.12.2 2026-04-21 dinukadesilva
+    1 - [fix] Fix breadcrumb styles and links (CTT-892)
+        - *
+
 v1.12.1 2026-04-21 dinukadesilva
     1 - [fix] Externalizing the `access-ci-ui` import from the production build (CTT-892)
         - *

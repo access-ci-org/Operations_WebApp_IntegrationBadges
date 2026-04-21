@@ -32,8 +32,8 @@ function CustomizedBreadcrumb() {
     }
 
     if (pathSegments[1] === "about") {
-        breadcrumbLinks.push({name: "Dashboard", href: "/organizations"});
-        breadcrumbLinks.push({name: "About", href: "/about"});
+        breadcrumbLinks.push({name: "Dashboard", href: `${window.SETTINGS.APP_BASENAME}organizations`});
+        breadcrumbLinks.push({name: "About", href: `${window.SETTINGS.APP_BASENAME}about`});
     }
 
     if (pathSegments[1] === "docs") {
@@ -48,24 +48,24 @@ function CustomizedBreadcrumb() {
             [DocumentationRouteUrls.BADGES]: "Available Badges for Integration",
         }
 
-        breadcrumbLinks.push({name: linkTitleMap[pathname], href: pathname});
+        breadcrumbLinks.push({name: linkTitleMap[pathname], href: `${window.SETTINGS.APP_BASENAME}${pathname}`});
     }
 
     if (pathSegments[1] === "organizations") {
-        breadcrumbLinks.push({name: "Dashboard", href: "/organizations"});
+        breadcrumbLinks.push({name: "Dashboard", href: `${window.SETTINGS.APP_BASENAME}organizations`});
 
         if (pathSegments[2]) {
             const organization = organizationMap[pathSegments[2]];
 
             breadcrumbLinks.push({
                 name: organization ? organization.organization_name : loadingIndicator,
-                href: `/organizations/${pathSegments[2]}`
+                href: `${window.SETTINGS.APP_BASENAME}organizations/${pathSegments[2]}`
             });
 
             if (pathSegments[3] === "badge-review" && pathSegments[4]) {
                 breadcrumbLinks.push({
                     name: `Review ${t(`badgeWorkflowVerificationStatus.${pathSegments[4]}`)} Badges`,
-                    href: `/organizations/${pathSegments[2]}/badge-review/${pathSegments[4]}`
+                    href: `${window.SETTINGS.APP_BASENAME}organizations/${pathSegments[2]}/badge-review/${pathSegments[4]}`
                 });
             }
         }
@@ -73,7 +73,7 @@ function CustomizedBreadcrumb() {
 
 
     if (pathSegments[1] === "resources") {
-        breadcrumbLinks.push({name: "Dashboard", href: `/organizations`});
+        breadcrumbLinks.push({name: "Dashboard", href: `${window.SETTINGS.APP_BASENAME}organizations`});
 
         if (pathSegments[2]) {
             const resource = getResource({resourceId: pathSegments[2]});
@@ -83,20 +83,20 @@ function CustomizedBreadcrumb() {
                 if (organization) {
                     breadcrumbLinks.push({
                         name: organization.organization_name,
-                        href: `/organizations/${organization.organization_id}`
+                        href: `${window.SETTINGS.APP_BASENAME}organizations/${organization.organization_id}`
                     });
                 }
             }
 
             breadcrumbLinks.push({
                 name: resource ? resource.resource_descriptive_name : loadingIndicator,
-                href: `/resources/${pathSegments[2]}`
+                href: `${window.SETTINGS.APP_BASENAME}resources/${pathSegments[2]}`
             });
 
             if (pathSegments[3] === "edit") {
                 breadcrumbLinks.push({
                     name: "Edit",
-                    href: `/resources/${pathSegments[2]}/edit`
+                    href: `${window.SETTINGS.APP_BASENAME}resources/${pathSegments[2]}/edit`
                 });
             }
 
@@ -105,26 +105,28 @@ function CustomizedBreadcrumb() {
 
                 breadcrumbLinks.push({
                     name: roadmap ? roadmap.name : loadingIndicator,
-                    href: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}`
+                    href: `${window.SETTINGS.APP_BASENAME}resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}`
                 });
 
                 if (pathSegments[5] === "edit") {
                     breadcrumbLinks.push({
                         name: "Edit",
-                        href: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/edit`
+                        href: `${window.SETTINGS.APP_BASENAME}resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/edit`
                     });
                 } else if (pathSegments[5] === "badges" && !!pathSegments[6]) {
                     const badge = getBadge({badgeId: pathSegments[6]});
 
                     breadcrumbLinks.push({
                         name: badge ? badge.name : loadingIndicator,
-                        href: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/badges/${pathSegments[6]}`
+                        href: `${window.SETTINGS.APP_BASENAME}resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/badges/${pathSegments[6]}`
                     });
                 }
             }
 
         }
     }
+
+    console.log("breadcrumbLinks ", breadcrumbLinks)
 
     useEffect(() => {
         if (breadcrumbsRef.current) {
