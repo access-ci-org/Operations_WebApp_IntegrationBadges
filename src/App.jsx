@@ -73,11 +73,11 @@ const RouterLayout = () => {
             {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
         </div>;
     } else {
-        return <div className="w-100 pt-3 pb-5">
-            <div className="container">
-                <CustomizedBreadcrumb/>
+        return <div className="w-100">
+            <CustomizedBreadcrumb/>
+            <div className="w-100 pt-3 pb-5">
+                {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
             </div>
-            {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
         </div>;
     }
 };

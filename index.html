@@ -34,6 +34,32 @@
             // DISABLE_DASHBOARD_AUTHENTICATION: false
         };
     </script>
+
+    <script type="module">
+      import {
+        breadcrumbs,
+        footer,
+        footerMenus,
+        header,
+        qaBot,
+        siteMenus,
+        tableOfContents,
+        universalMenuItems,
+        universalMenus,
+      } from "https://unpkg.com/@access-ci/ui@0.18.1/dist/access-ci-ui.js";
+
+      window.ACCESS_CI_UI = {
+        breadcrumbs,
+        footer,
+        footerMenus,
+        header,
+        qaBot,
+        siteMenus,
+        tableOfContents,
+        universalMenuItems,
+        universalMenus,
+      };
+    </script>
 </head>
 <body>
 <div id="Operations_WebApp_IntegrationBadges"></div>

@@ -1,17 +1,17 @@
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import {Link, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
-import LoadingBlock from "./util/LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
-import Translate from "../locales/Translate.jsx";
 import {useBadges} from "../contexts/BadgeContext.jsx";
+import {useEffect, useRef} from "react";
+import {useTranslation} from "react-i18next";
 
-const defaultLinkProps = {className: "btn btn-link text-medium"}
+const loadingIndicator = " - "; // <LoadingBlock processing={true}/>;
 
 function CustomizedBreadcrumb() {
     const location = useLocation();
+    const {t} = useTranslation();
 
     const pathname = location.pathname.replace(/\/$/, "");
     const search = location.search;
@@ -24,26 +24,16 @@ function CustomizedBreadcrumb() {
     const {getRoadmap} = useRoadmaps();
     const {getBadge} = useBadges();
 
+    const breadcrumbsRef = useRef(null);
+
     let key = 1;
     if (pathSegments[1] && pathSegments[1].length > 0) {
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{
-            ...defaultLinkProps,
-            to: "https://access-ci.org/get-started/for-resource-providers/"
-        }}>
-            RP Home
-        </Breadcrumb.Item>)
+        breadcrumbLinks.push({name: "RP Home", href: "https://access-ci.org/get-started/for-resource-providers/"});
     }
 
     if (pathSegments[1] === "about") {
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
-                                              linkProps={{...defaultLinkProps, to: "/organizations"}}>
-            Dashboard
-        </Breadcrumb.Item>)
-
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
-                                              linkProps={{...defaultLinkProps, to: "/about"}}>
-            About
-        </Breadcrumb.Item>)
+        breadcrumbLinks.push({name: "Dashboard", href: "/organizations"});
+        breadcrumbLinks.push({name: "About", href: "/about"});
     }
 
     if (pathSegments[1] === "docs") {
@@ -58,136 +48,102 @@ function CustomizedBreadcrumb() {
             [DocumentationRouteUrls.BADGES]: "Available Badges for Integration",
         }
 
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{...defaultLinkProps, to: pathname}}>
-            {linkTitleMap[pathname]}
-        </Breadcrumb.Item>);
-
+        breadcrumbLinks.push({name: linkTitleMap[pathname], href: pathname});
     }
 
     if (pathSegments[1] === "organizations") {
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
-                                              linkProps={{...defaultLinkProps, to: "/organizations"}}>
-            Dashboard
-        </Breadcrumb.Item>)
+        breadcrumbLinks.push({name: "Dashboard", href: "/organizations"});
+
         if (pathSegments[2]) {
             const organization = organizationMap[pathSegments[2]];
-            breadcrumbLinks.push(<Breadcrumb.Item
-                key={key++} linkAs={Link}
-                linkProps={{
-                    ...defaultLinkProps,
-                    to: `/organizations/${pathSegments[2]}`
-                }}
-            >
-                {organization ? organization.organization_name : <LoadingBlock processing={true}/>}
-            </Breadcrumb.Item>)
 
+            breadcrumbLinks.push({
+                name: organization ? organization.organization_name : loadingIndicator,
+                href: `/organizations/${pathSegments[2]}`
+            });
 
             if (pathSegments[3] === "badge-review" && pathSegments[4]) {
-                breadcrumbLinks.push(<Breadcrumb.Item
-                    key={key++} linkAs={Link}
-                    linkProps={{
-                        ...defaultLinkProps,
-                        to: `/organizations/${pathSegments[2]}/badge-review/${pathSegments[4]}`
-                    }}
-                >
-                    Review <Translate>badgeWorkflowVerificationStatus.{pathSegments[4]}</Translate> Badges
-                </Breadcrumb.Item>)
+                breadcrumbLinks.push({
+                    name: `Review ${t(`badgeWorkflowVerificationStatus.${pathSegments[4]}`)} Badges`,
+                    href: `/organizations/${pathSegments[2]}/badge-review/${pathSegments[4]}`
+                });
             }
         }
     }
 
 
     if (pathSegments[1] === "resources") {
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
-                                              linkProps={{...defaultLinkProps, to: "/organizations"}}>
-            Dashboard
-        </Breadcrumb.Item>)
+        breadcrumbLinks.push({name: "Dashboard", href: `/organizations`});
+
         if (pathSegments[2]) {
             const resource = getResource({resourceId: pathSegments[2]});
 
             if (resource) {
                 const organization = organizationMapByName[resource.organization_name];
                 if (organization) {
-                    breadcrumbLinks.push(<Breadcrumb.Item
-                        key={key++} linkAs={Link}
-                        linkProps={{
-                            ...defaultLinkProps,
-                            to: `/organizations/${organization.organization_id}`
-                        }}
-                    >
-                        {organization.organization_name}
-                    </Breadcrumb.Item>)
+                    breadcrumbLinks.push({
+                        name: organization.organization_name,
+                        href: `/organizations/${organization.organization_id}`
+                    });
                 }
             }
 
-            breadcrumbLinks.push(<Breadcrumb.Item
-                key={key++} linkAs={Link}
-                linkProps={{
-                    ...defaultLinkProps,
-                    to: `/resources/${pathSegments[2]}`
-                }}
-            >
-                {resource ? resource.resource_descriptive_name : <LoadingBlock processing={true}/>}
-            </Breadcrumb.Item>)
+            breadcrumbLinks.push({
+                name: resource ? resource.resource_descriptive_name : loadingIndicator,
+                href: `/resources/${pathSegments[2]}`
+            });
 
             if (pathSegments[3] === "edit") {
-                breadcrumbLinks.push(<Breadcrumb.Item
-                    key={key++} linkAs={Link}
-                    linkProps={{
-                        ...defaultLinkProps,
-                        to: `/resources/${pathSegments[2]}/edit`
-                    }}
-                >
-                    Edit
-                </Breadcrumb.Item>)
+                breadcrumbLinks.push({
+                    name: "Edit",
+                    href: `/resources/${pathSegments[2]}/edit`
+                });
             }
 
             if (pathSegments[3] === "roadmaps" && pathSegments[4]) {
                 const roadmap = getRoadmap({roadmapId: pathSegments[4]});
 
-                breadcrumbLinks.push(<Breadcrumb.Item
-                    key={key++} linkAs={Link}
-                    linkProps={{
-                        ...defaultLinkProps,
-                        to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}`
-                    }}
-                >
-                    {roadmap ? roadmap.name : <LoadingBlock processing={true}/>}
-                </Breadcrumb.Item>)
+                breadcrumbLinks.push({
+                    name: roadmap ? roadmap.name : loadingIndicator,
+                    href: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}`
+                });
 
                 if (pathSegments[5] === "edit") {
-                    breadcrumbLinks.push(<Breadcrumb.Item
-                        key={key++} linkAs={Link}
-                        linkProps={{
-                            ...defaultLinkProps,
-                            to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/edit`
-                        }}
-                    >
-                        Edit
-                    </Breadcrumb.Item>)
+                    breadcrumbLinks.push({
+                        name: "Edit",
+                        href: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/edit`
+                    });
                 } else if (pathSegments[5] === "badges" && !!pathSegments[6]) {
                     const badge = getBadge({badgeId: pathSegments[6]});
 
-                    breadcrumbLinks.push(<Breadcrumb.Item
-                        key={key++} linkAs={Link}
-                        linkProps={{
-                            ...defaultLinkProps,
-                            to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/badges/${pathSegments[6]}`
-                        }}
-                    >
-                        {badge ? badge.name : <LoadingBlock processing={true}/>}
-                    </Breadcrumb.Item>)
+                    breadcrumbLinks.push({
+                        name: badge ? badge.name : loadingIndicator,
+                        href: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/badges/${pathSegments[6]}`
+                    });
                 }
             }
 
         }
     }
 
-    return (
-        <Breadcrumb>
-            {breadcrumbLinks}
-        </Breadcrumb>
-    );
+    useEffect(() => {
+        if (breadcrumbsRef.current) {
+            // Wipe out previous breadcrumb
+            breadcrumbsRef.current.innerHTML = '';
+
+            // Create a new host for the breadcrumb
+            const host = document.createElement('div');
+            breadcrumbsRef.current.appendChild(host);
+
+            // Create the new breadcrumb on the new host
+            window.ACCESS_CI_UI.breadcrumbs({
+                items: breadcrumbLinks,
+                target: host // document.getElementById("breadcrumbs")
+            });
+        }
+    }, [breadcrumbLinks]);
+
+    return <div id="my-breadcrumb" className="w-100" ref={breadcrumbsRef}></div>;
 }
 
 export default CustomizedBreadcrumb;
