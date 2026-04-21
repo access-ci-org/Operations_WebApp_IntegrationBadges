@@ -7,6 +7,11 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+v1.12.0 2026-04-21 dinukadesilva
+    1 - [new] Removing the task action confirmation popup (CTT-912)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [new] Enabling the `access-ci-ui` breadcrumb in the integration badges webapp (CTT-892)
+        - *
 
 v1.11.11 2026-03-27 dinukadesilva
     1 - [new] Incorporate authorization for new roadmap integration, edit and rp badge review (CTT-891)
