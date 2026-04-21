@@ -17,7 +17,6 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     const {getAuthorizedRoles} = useRoles();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
-    const [showTaskReopenModal, setShowTaskReopenModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
     const taskId = task.task_id;
@@ -29,26 +28,20 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
             badgeStatus: badge.status
         });
 
-    const clickTaskAction = async (taskId, status, confirmationReceived = false) => {
-        if (status !== BadgeTaskWorkflowStatus.ACTION_NEEDED && (badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) && !confirmationReceived) {
-            setShowTaskReopenModal({taskId, status});
-        } else {
-            setShowTaskReopenModal(false);
+    const clickTaskAction = async (taskId, status) => {
+        setTaskActionStatusProcessing({
+            ...taskActionStatusProcessing, [taskId]: true
+        });
 
-            setTaskActionStatusProcessing({
-                ...taskActionStatusProcessing, [taskId]: true
-            });
-
-            try {
-                await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
-            } catch (e) {
-                setShowErrorModal(true);
-            }
-
-            setTaskActionStatusProcessing({
-                ...taskActionStatusProcessing, [taskId]: false
-            });
+        try {
+            await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
+        } catch (e) {
+            setShowErrorModal(true);
         }
+
+        setTaskActionStatusProcessing({
+            ...taskActionStatusProcessing, [taskId]: false
+        });
     };
 
     const isCurrentEventKey = activeEventKey.indexOf(eventKey) >= 0;
@@ -62,8 +55,8 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     };
 
     let toggleButtonVariant = "medium";
-    if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "danger";
-    if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-medium";
+    if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "outline-danger";
+    else if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-medium";
 
     const taskStatusLabel = (<span className="flex-fill text-start">
         <i className={taskStatusIcon[task.status]}></i>
@@ -98,44 +91,19 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                                  bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
                     {taskStatusLabel}
                     <span>
-                            <i className="bi bi-chevron-down"></i>
-                        </span>
+                        <i className="bi bi-chevron-down"></i>
+                    </span>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                     {availableTransitions.map((transition, transitionIndex) => <Dropdown.Item
-                        key={transitionIndex} onClick={clickTaskAction.bind(this, taskId, transition.to, false)}
+                        key={transitionIndex} onClick={clickTaskAction.bind(this, taskId, transition.to)}
                         className={transition.to === BadgeTaskWorkflowStatus.ACTION_NEEDED ? "bg-danger-subtle" : ""}>
                         {transition.name}
                     </Dropdown.Item>)}
                 </Dropdown.Menu>
             </Dropdown>}
         </div>}
-
-
-        <Modal show={showTaskReopenModal} onHide={setShowTaskReopenModal.bind(this, false)}>
-            <Modal.Header closeButton className="bg-light">
-                <Modal.Title>
-                    <i className="bi bi-question-octagon-fill text-medium center-and-large-icon"></i>
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                You're about to make changes to a
-                "<Translate>badgeWorkflowStatus.{badge.status}</Translate>" badge.
-                These changes may require the badge to be re-verified by a concierge.
-                Do you want to continue?
-            </Modal.Body>
-            <Modal.Footer>
-                <button className="btn btn-outline-medium rounded-1"
-                        onClick={setShowTaskReopenModal.bind(this, false)}>
-                    No
-                </button>
-                <button className="btn btn-medium rounded-1"
-                        onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status, true)}>
-                    Yes
-                </button>
-            </Modal.Footer>
-        </Modal>
 
         <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
             <Modal.Header closeButton className="bg-danger-subtle">

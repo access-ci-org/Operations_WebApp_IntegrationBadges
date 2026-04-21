@@ -226,7 +226,7 @@ export default function ResourceBadge() {
                             {!badgeActionStatusProcessing && authorizedBadgeTransitions.map((transition, transitionIndex) => {
                                 let disabled = false;
                                 let onClick = clickBadgeAction.bind(this, transition.to);
-                                if (transition.to === BadgeWorkflowStatus.TASK_COMPLETED) {
+                                if ([BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED].indexOf(transition.to) >= 0) {
                                     disabled = !isReadyToSubmit;
                                     onClick = setShowSaveConfirmationModal.bind(this, true)
                                 }
