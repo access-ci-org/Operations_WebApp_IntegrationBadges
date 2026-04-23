@@ -9,7 +9,7 @@ The general format of entries is:
 
 
 
-v1.12.4 2026-04-23 dinukadesilva
+v1.12.5 2026-04-23 dinukadesilva
     1 - [fix] Removing the trash buttons from roadmaps list in the staff dashboard (CTT-825)
         - /staff
 
