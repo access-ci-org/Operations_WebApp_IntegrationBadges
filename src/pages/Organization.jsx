@@ -120,8 +120,7 @@ export default function Organization() {
                     <div>
                         <ContactsAndCollaboratorsSummary organizationId={organizationId}/>
                     </div>
-                    <div className="flex-fill align-content-end pe-3 mt-2 mb-2">
-                        <h2 className="fs-6 text-gray-700">Badge Verification <br/>Status</h2>
+                    <div className="flex-fill align-content-end">
                         <OrgBadgeVerificationStatus organizationId={organizationId}
                                                     badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
                     </div>

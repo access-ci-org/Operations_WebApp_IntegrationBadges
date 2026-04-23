@@ -25,11 +25,16 @@ export default function OrgBadgeVerificationStatus({organizationId, badgeWorkflo
         "verification-failed": "bg-danger-subtle"
     };
 
-    return <Link to={`/organizations/${organizationId}/badge-review/${badgeWorkflowStatus}`} style={{fontWeight:400}}
-                 className={`btn btn-link text-decoration-none m-1 w-100 ps-2 pe-2 pt-1 pb-1 rounded-1 d-flex flex-row ${badgeWorkflowStatusClass[badgeWorkflowStatus]}`}>
-        <small className="w-100 text-nowrap flex-fill">
-            <Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate>
-        </small>
-        <small>{badgeCount}</small>
-    </Link>
+    if (badgeCount > 0)
+        return <div className="w-100 pe-3 mt-2 mb-2">
+            <h2 className="fs-6 text-gray-700">Badge Verification <br/>Status</h2>
+            <Link to={`/organizations/${organizationId}/badge-review/${badgeWorkflowStatus}`}
+                  style={{fontWeight: 400}}
+                  className={`btn btn-link text-decoration-none m-1 w-100 ps-2 pe-2 pt-1 pb-1 rounded-1 d-flex flex-row ${badgeWorkflowStatusClass[badgeWorkflowStatus]}`}>
+                <small className="w-100 text-nowrap flex-fill">
+                    <Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate>
+                </small>
+                <small>{badgeCount}</small>
+            </Link>
+        </div>;
 }

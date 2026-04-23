@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.12.3 2026-04-23 dinukadesilva
+    1 - [fix] Enabling the "Badge Verification Status" block to show only when the count is more than zero (CTT-855)
+        - /organizations/<organization_id>
+
 v1.12.2 2026-04-21 dinukadesilva
     1 - [fix] Fix breadcrumb styles and links (CTT-892)
         - *
