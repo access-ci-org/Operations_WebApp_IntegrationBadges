@@ -160,11 +160,11 @@ export default function StaffDashboard() {
                                                 className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
-                                            <Link
-                                                to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                                className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">
-                                                <i className="bi bi-trash"></i>
-                                            </Link>
+                                            {/*<Link*/}
+                                            {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
+                                            {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
+                                            {/*    <i className="bi bi-trash"></i>*/}
+                                            {/*</Link>*/}
                                         </div>
                                     </RoadmapMaintainer>
                                 </li>
