@@ -26,7 +26,6 @@ function CustomizedBreadcrumb() {
 
     const breadcrumbsRef = useRef(null);
 
-    let key = 1;
     if (pathSegments[1] && pathSegments[1].length > 0) {
         breadcrumbLinks.push({name: "RP Home", href: "https://access-ci.org/get-started/for-resource-providers/"});
     }
@@ -125,8 +124,6 @@ function CustomizedBreadcrumb() {
 
         }
     }
-
-    console.log("breadcrumbLinks ", breadcrumbLinks)
 
     useEffect(() => {
         if (breadcrumbsRef.current) {

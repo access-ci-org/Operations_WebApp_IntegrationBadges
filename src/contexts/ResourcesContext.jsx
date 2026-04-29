@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {useBadges} from "./BadgeContext";
-import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus, ResourceStatus, RpDashboardResourceStatus} from "./constants.js"
+import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus} from "./constants.js"
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
@@ -285,7 +285,6 @@ export const ResourcesProvider = ({children}) => {
                 };
 
                 if (resource.roadmaps) {
-                    _resourceMap[resourceId]["rp_dashboard_resource_status"] = _getRpDashboardResourceStatus(resource);
                     _resourceRoadmapIds[resourceId] = resource.roadmaps.map(r => r.roadmap_id);
                 }
             }
@@ -300,23 +299,6 @@ export const ResourcesProvider = ({children}) => {
             throw error;
         }
     };
-
-
-    const _getRpDashboardResourceStatus = (resource) => {
-        if (resource.roadmaps.length === 0) {
-            return RpDashboardResourceStatus.NEW;
-        } else if ([ResourceStatus.ANNOUNCEMENT, ResourceStatus.PRE_PRODUCTION].indexOf(resource.latest_status) >= 0) {
-            return RpDashboardResourceStatus.IN_PROGRESS;
-        } else if (resource.latest_status === ResourceStatus.PRODUCTION) {
-            if (resource.badge_status_summary.required.verified === resource.badge_status_summary.required.total) {
-                return RpDashboardResourceStatus.PRODUCTION;
-            } else {
-                return RpDashboardResourceStatus.IN_PROGRESS;
-            }
-        } else if (resource.latest_status === ResourceStatus.POST_PRODUCTION) {
-            return RpDashboardResourceStatus.POST_PRODUCTION;
-        }
-    }
 
     const getResource = ({resourceId}) => {
         return resourceMap[resourceId];

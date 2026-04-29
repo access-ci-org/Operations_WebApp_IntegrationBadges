@@ -23,7 +23,7 @@ export const ResourceStatus = {
     RETIRED: "decommissioned"
 }
 
-export const RpDashboardResourceStatus = {
+export const ResourceIntegrationStatus = {
     NEW: "new",
     IN_PROGRESS: "pre-production",
     PRODUCTION: "production",

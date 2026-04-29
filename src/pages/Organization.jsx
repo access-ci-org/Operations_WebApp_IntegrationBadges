@@ -2,7 +2,7 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
-import {RpDashboardResourceStatus, BadgeWorkflowStatus, IntegrationRoles} from "../contexts/constants.js";
+import {ResourceIntegrationStatus, BadgeWorkflowStatus, IntegrationRoles} from "../contexts/constants.js";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -45,28 +45,28 @@ export default function Organization() {
             description: "Defined in CiDeR; no roadmap or badges selected",
             showContinueSetup: true,
             resources: [],
-            rpDashboardResourceStatus: RpDashboardResourceStatus.NEW
+            resourceIntegrationStatus: ResourceIntegrationStatus.NEW
         },
         {
             title: "In-Progress",
             description: "Roadmap selected; currently earning required badges OR awaiting production start date. Optional badges do not affect this status",
             showContinueSetup: false,
             resources: [],
-            rpDashboardResourceStatus: RpDashboardResourceStatus.IN_PROGRESS
+            resourceIntegrationStatus: ResourceIntegrationStatus.IN_PROGRESS
         },
         {
             title: "Production",
             description: "Production start date reached; all required badges completed. Optional badges can be managed dynamically",
             showContinueSetup: false,
             resources: [],
-            rpDashboardResourceStatus: RpDashboardResourceStatus.PRODUCTION
+            resourceIntegrationStatus: ResourceIntegrationStatus.PRODUCTION
         },
         {
             title: "Post-Production",
             description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
             showContinueSetup: false,
             resources: [],
-            rpDashboardResourceStatus: RpDashboardResourceStatus.POST_PRODUCTION
+            resourceIntegrationStatus: ResourceIntegrationStatus.POST_PRODUCTION
         }
     ];
 
@@ -86,7 +86,7 @@ export default function Organization() {
                 resourcesProcessing = false;
 
                 if (hasSearchCriteria(organization, resource, searchText) &&
-                    section.rpDashboardResourceStatus === resource.rp_dashboard_resource_status) {
+                    section.resourceIntegrationStatus === resource.resource_integration_status) {
 
                     section.resources.push(resource);
                     break;
@@ -166,7 +166,7 @@ export default function Organization() {
                         <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                             {section.resources.map((resource, resourceIndex) => {
                                 if (resource === null) {
-                                    return <ShowIfAuthorized resourceIds={resourceIds}
+                                    return <ShowIfAuthorized resourceIds={resourceIds}  key={resourceIndex}
                                                              roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
                                         <div className="col p-3">
                                             <ResourceCard organization={organization} resource={null}/>
