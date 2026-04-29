@@ -15,8 +15,9 @@ v1.12.6 2026-04-29 dinukadesilva
         - /resources/<resource_id>/roadmaps/<roadmap_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
         - /staff/contacts
-    1 - [fix] Enabling the "resource_integration_status" from "resource-full" endpoint (CTT-871)
+    2 - [fix] Enabling the "resource_integration_status" from "resource-full" endpoint (CTT-871)
         - /organizations/<organization_id>
+    3 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/89
 
 v1.12.5 2026-04-23 dinukadesilva
     1 - [fix] Removing the trash buttons from roadmaps list in the staff dashboard (CTT-825)
