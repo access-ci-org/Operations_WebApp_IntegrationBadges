@@ -5,17 +5,21 @@ import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 const ContactContext = createContext({
     fetchContacts: (
         {
-            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-            contactType = null, contactEmail = null
+            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
     },
     getContacts: (
         {
-            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-            contactType = null, contactEmail = null
+            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
+    },
+    fetchContactTypes: () => {
+    },
+    getContactTypes: () => {
     }
 });
 
@@ -27,11 +31,12 @@ export const useContacts = () => useContext(ContactContext);
  */
 export const ContactProvider = ({children}) => {
     const [contactListMap, setContactListMap] = useReducer(DefaultReducer, {});
+    const [contactTypesList, setContactTypesList] = useReducer(DefaultReducer, null);
 
     const getContactsEndpointUrl = (
         {
-            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-            contactType = null, contactEmail = null
+            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
         let url = '/resource_contacts?';
@@ -44,6 +49,11 @@ export const ContactProvider = ({children}) => {
         if (resourceId) {
             if (!Array.isArray(resourceId)) resourceId = [resourceId];
             url += resourceId.map(i => `info_resourceid=${i}&`).join("");
+        }
+
+        if (resourceIntegrationStatus) {
+            if (!Array.isArray(resourceIntegrationStatus)) resourceIntegrationStatus = [resourceIntegrationStatus];
+            url += resourceIntegrationStatus.map(i => `resource_integration_status=${i}&`).join("");
         }
 
         if (roadmapId) {
@@ -71,13 +81,13 @@ export const ContactProvider = ({children}) => {
 
     const fetchContacts = async (
         {
-            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-            contactType = null, contactEmail = null
+            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
         try {
             const url = getContactsEndpointUrl({
-                organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail
+                organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail
             });
             const response = await dashboardAxiosInstance.get(url);
             const _contacts = response.data.results;
@@ -117,18 +127,36 @@ export const ContactProvider = ({children}) => {
 
     const getContacts = (
         {
-            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-            contactType = null, contactEmail = null
+            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
-        const url = getContactsEndpointUrl({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail});
+        const url = getContactsEndpointUrl({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail});
 
         return contactListMap[url];
     };
 
+    const fetchContactTypes = async () => {
+        try {
+            const response = await dashboardAxiosInstance.get('/resource_contact_types');
+            const _contactTypes = response.data.results;
+            setContactTypesList(_contactTypes);
+
+            return response.data.results;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    };
+
+    const getContactTypes = () => {
+        return contactTypesList;
+    };
+
 
     return (
-        <ContactContext.Provider value={{contactListMap, fetchContacts, getContacts}}>
+        <ContactContext.Provider
+            value={{contactListMap, fetchContacts, getContacts, fetchContactTypes, getContactTypes}}>
             {children}
         </ContactContext.Provider>
     );

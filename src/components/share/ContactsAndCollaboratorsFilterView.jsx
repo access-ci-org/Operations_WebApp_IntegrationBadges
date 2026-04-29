@@ -7,6 +7,8 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import ContactsAndCollaboratorsTable from "./ContactsAndCollaboratorsTable.jsx";
 import Select from 'react-select';
 import LoadingBlock from "../util/LoadingBlock.jsx";
+import {useContacts} from "../../contexts/ContactsContext.jsx";
+import {ResourceIntegrationStatus} from "../../contexts/constants.js";
 
 
 const CopyStatus = {
@@ -25,17 +27,20 @@ export default function ContactsAndCollaboratorsFilterView(
     const {getResources, getResource} = useResources();
     const {getRoadmaps, getRoadmap} = useRoadmaps();
     const {getBadges, getBadge} = useBadges();
+    const {getContactTypes} = useContacts();
 
     const organizations = getOrganizations();
     const resources = getResources();
     const roadmaps = getRoadmaps();
     const badges = getBadges();
+    const contactTypes = getContactTypes();
 
     const [selectedOrganizationIds, setSelectedOrganizationIds] = useState([]);
     const [selectedResourceIds, setSelectedResourceIds] = useState([]);
     const [selectedResourceStatuses, setSelectedResourceStatuses] = useState([]);
     const [selectedRoadmapIds, setSelectedRoadmapIds] = useState([]);
     const [selectedBadgeIds, setSelectedBadgeIds] = useState([]);
+    const [selectedContactTypes, setSelectedContactTypes] = useState([]);
     const [processing, setProcessing] = useState(true);
 
     useEffect(() => {
@@ -73,12 +78,13 @@ export default function ContactsAndCollaboratorsFilterView(
             state: selectedResourceIds,
             set: setSelectedResourceIds
         },
-        // {
-        //     "title": "Resource Status (s)",
-        //     "options": ["In-Progress", "Production", "Post-Production"],
-        //     get: () => selectedResourceStatuses,
-        //     set: setSelectedResourceStatuses
-        // },
+        {
+            "title": "Resource Integration Status (s)",
+            "options": [ResourceIntegrationStatus.NEW, ResourceIntegrationStatus.IN_PROGRESS,
+                ResourceIntegrationStatus.PRODUCTION, ResourceIntegrationStatus.POST_PRODUCTION].map(s => ({label: s, value: s})),
+            get: () => selectedResourceStatuses,
+            set: setSelectedResourceStatuses
+        },
         {
             "title": "Roadmaps (s)",
             "options": roadmaps.map(roadmap => ({label: roadmap.name, value: roadmap.roadmap_id})),
@@ -90,6 +96,12 @@ export default function ContactsAndCollaboratorsFilterView(
             "options": badges.map(badge => ({label: badge.name, value: badge.badge_id})),
             state: selectedBadgeIds,
             set: setSelectedBadgeIds
+        },
+        {
+            "title": "Contact Type (s)",
+            "options": contactTypes.map(contactType => ({label: contactType, value: contactType})),
+            state: selectedContactTypes,
+            set: setSelectedContactTypes
         }
     ];
 
@@ -121,7 +133,10 @@ export default function ContactsAndCollaboratorsFilterView(
                     organizationId={selectedOrganizationIds.map(({value}) => value)}
                     resourceId={selectedResourceIds.map(({value}) => value)}
                     roadmapId={selectedRoadmapIds.map(({value}) => value)}
-                    badgeId={selectedBadgeIds.map(({value}) => value)}/>}
+                    badgeId={selectedBadgeIds.map(({value}) => value)}
+                    contactType={selectedContactTypes.map(({value}) => value)}
+                    resourceIntegrationStatus={selectedResourceStatuses.map(({value}) => value)}
+                />}
             </div>
         </div>
     </div>

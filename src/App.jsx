@@ -25,7 +25,7 @@ import {StaffRoute} from "./pages/staff/StaffRoute.jsx";
 import {StaffMainNavigation} from "./components/staff/StaffMainNavigation.jsx";
 import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import About from "./pages/About.jsx";
-import {ContactProvider} from "./contexts/ContactsContext.jsx";
+import {ContactProvider, useContacts} from "./contexts/ContactsContext.jsx";
 import {RolesProvider, useRoles} from "./contexts/PermissionContext.jsx";
 
 const RouterLayout = () => {
@@ -40,12 +40,14 @@ const RouterLayout = () => {
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
     const {fetchBadges, getBadges} = useBadges();
     const {fetchTasks, getTasks} = useTasks();
+    const {fetchContactTypes, getContactTypes} = useContacts();
 
     const organizations = getOrganizations();
     const resources = getResources();
     const roadmaps = getRoadmaps();
     const badges = getBadges();
     const tasks = getTasks();
+    const contactTypes = getContactTypes();
 
     useEffect(() => {
         fetchRoles();
@@ -56,6 +58,7 @@ const RouterLayout = () => {
             fetchRoadmaps();
             fetchBadges();
             fetchTasks();
+            fetchContactTypes();
         }
     }, [initialFetchesAreRequired]);
 
@@ -63,7 +66,8 @@ const RouterLayout = () => {
         && (resources && resources.length > 0)
         && (roadmaps && roadmaps.length > 0)
         && (badges && badges.length > 0)
-        && (tasks && tasks.length > 0);
+        && (tasks && tasks.length > 0)
+        && (contactTypes && contactTypes.length > 0);
 
     if (isStaffPage) {
         return <div className="w-100 pt-3 pb-5 bg-gray-200">

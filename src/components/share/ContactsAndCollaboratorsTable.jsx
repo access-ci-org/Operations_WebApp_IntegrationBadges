@@ -16,8 +16,8 @@ const CopyStatus = {
 
 export default function ContactsAndCollaboratorsTable(
     {
-        organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-        contactType = null, contactEmail = null
+        organizationId = null, resourceId = null, resourceIntegrationStatus = null,
+        roadmapId = null, badgeId = null, contactType = null, contactEmail = null
     } = {}
 ) {
     const {getOrganization} = useOrganizations();
@@ -28,16 +28,16 @@ export default function ContactsAndCollaboratorsTable(
     const [copyStatus, setCopyStatus] = useState("");
 
     const organization = getOrganization({organizationId});
-    let contacts = getContacts({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail});
+    let contacts = getContacts({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail});
 
     // if (contacts) contacts = sortJsonArrayAlphabetically(contacts, "contact_name");
 
     useEffect(() => {
         if (!contacts) {
-            fetchContacts({organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail})
+            fetchContacts({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail})
                 .catch(() => setError(true));
         }
-    }, [organizationId, resourceId, contactType, contactEmail]);
+    }, [organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail]);
 
     const copyEmailAddresses = () => {
         setCopyStatus(CopyStatus.inProgress)
