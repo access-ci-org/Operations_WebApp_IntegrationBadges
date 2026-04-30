@@ -16,7 +16,7 @@ export const IntegrationRoles = {
 }
 
 export const ResourceStatus = {
-    ANNOUNCEMENT: "coming soon",
+    ANNOUNCED: "coming soon",
     PRE_PRODUCTION: "pre-production",
     PRODUCTION: "production",
     POST_PRODUCTION: "post-production",
