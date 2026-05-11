@@ -193,25 +193,26 @@ export default function StaffDashboard() {
                                             <HtmlToText>{roadmap.executive_summary}</HtmlToText>
                                         </div>
                                     </div>
-                                    <RoadmapMaintainer>
-                                        <div className="align-content-center text-end" style={{minWidth: 80}}>
+
+                                    <div className="align-content-center text-end" style={{minWidth: 80}}>
+                                        <RoadmapMaintainer>
                                             <Link
                                                 to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
                                                 className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
-                                            <Link
-                                                to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
-                                                className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
-                                                <i className="bi bi-info-circle"></i>
-                                            </Link>
-                                            {/*<Link*/}
-                                            {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
-                                            {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
-                                            {/*    <i className="bi bi-trash"></i>*/}
-                                            {/*</Link>*/}
-                                        </div>
-                                    </RoadmapMaintainer>
+                                        </RoadmapMaintainer>
+                                        <Link
+                                            to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
+                                            className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                            <i className="bi bi-info-circle"></i>
+                                        </Link>
+                                        {/*<Link*/}
+                                        {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
+                                        {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
+                                        {/*    <i className="bi bi-trash"></i>*/}
+                                        {/*</Link>*/}
+                                    </div>
                                 </li>
                             })}
                         </ul>
@@ -252,19 +253,20 @@ export default function StaffDashboard() {
                                             {badge.name}
                                         </h3>
                                     </div>
-                                    <BadgeMaintainer>
-                                        <div className="align-content-center">
+
+                                    <div className="align-content-center">
+                                        <BadgeMaintainer>
                                             <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
                                                   className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
-                                            <Link
-                                                to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
-                                                className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
-                                                <i className="bi bi-info-circle"></i>
-                                            </Link>
-                                        </div>
-                                    </BadgeMaintainer>
+                                        </BadgeMaintainer>
+                                        <Link
+                                            to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
+                                            className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                            <i className="bi bi-info-circle"></i>
+                                        </Link>
+                                    </div>
                                 </li>
 
                             })}
