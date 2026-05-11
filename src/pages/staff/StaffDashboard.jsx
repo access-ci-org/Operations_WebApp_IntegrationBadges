@@ -200,6 +200,11 @@ export default function StaffDashboard() {
                                                 className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
+                                            <Link
+                                                to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
+                                                className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                <i className="bi bi-info-circle"></i>
+                                            </Link>
                                             {/*<Link*/}
                                             {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
                                             {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
@@ -252,6 +257,11 @@ export default function StaffDashboard() {
                                             <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
                                                   className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
+                                            </Link>
+                                            <Link
+                                                to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
+                                                className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                <i className="bi bi-info-circle"></i>
                                             </Link>
                                         </div>
                                     </BadgeMaintainer>
