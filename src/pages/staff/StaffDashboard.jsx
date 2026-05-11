@@ -10,6 +10,7 @@ import {StaffRouteUrls} from "./StaffRoute.jsx";
 import {HtmlToText} from "../../components/util/text-editors.jsx";
 import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
 import {BadgeMaintainer, RoadmapMaintainer} from "../../components/util/Permissions.jsx";
+import {DocumentationRouteUrls} from "../docs/DocumentationRoute.jsx";
 
 export default function StaffDashboard() {
     const {
@@ -60,6 +61,45 @@ export default function StaffDashboard() {
             status: BadgeWorkflowStatus.DEPRECATED,
             icon: <i className="bi bi-archive"></i>,
             variant: "secondary",
+        }
+    ];
+
+    const documents = [
+        {
+            title: "ACCESS Resource Badges Status",
+            description: "High-level view showing the status of features/badges on individual ACCESS pre-production, production, and post-production resources",
+            link: "https://operations-api.access-ci.org/wh2/integration_views/v1/resource_pivot/?roadmap=67",
+            icon: <i className="bi bi-file-earmark-bar-graph"></i>
+        },
+        {
+            title: "ACCESS Resource Group Badges",
+            description: "High-level view showing badge statistics for ACCESS pre-production, production, and post-production resource groups",
+            link: "https://operations-api.access-ci.org/wh2/integration_views/v1/group_pivot/",
+            icon: <i className="bi bi-collection"></i>
+        },
+        {
+            title: "ACCESS Integration News",
+            description: "News for resource providers about the ACCESS integration process, including significant roadmap, badge, task, and software releases",
+            link: "https://operations.access-ci.org/integration_news",
+            icon: <i className="bi bi-newspaper"></i>
+        },
+        {
+            title: "Integration Roadmap Information for RPs",
+            description: "View all RP facing information about ACCESS roadmaps, badges, and related tasks",
+            link: DocumentationRouteUrls.ROADMAPS,
+            icon: <i className="bi bi-list-columns"></i>
+        },
+        {
+            title: "Badge Availability Information for Researchers",
+            description: "View all researcher facing information about the badges available on ACCESS resources (for internal use)",
+            link: "https://operations-api.access-ci.org/wh2/integration_badges/v1/badge_review/?mode=badges",
+            icon: <i className="bi-stickies-fill"></i>
+        },
+        {
+            title: "Roadmap Management Playbook",
+            description: "ACCESS staff instructions for managing roadmap, badges, and tasks, and verifying RP badge completion",
+            link: "https://docs.google.com/document/d/1Pg1WMr64c-0ZBjjIACwK8kzkjYpcftWR8aWG21OPdxk/ ",
+            icon: <i className="bi bi-journals"></i>
         }
     ];
 
@@ -219,6 +259,40 @@ export default function StaffDashboard() {
 
                             })}
                         </ul>
+                    </div>
+                </div>
+
+                <div className="col-12 p-0 pb-4">
+                    <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                        <div className="w-100 d-flex flex-row p-0">
+                            <h2 className="text-medium">Documents & Views</h2>
+                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
+                            </div>
+                        </div>
+                        <div className="w-100 pt-4">
+                            <ul className="p-0 list-unstyled">
+                                {documents.map((document, documentIndex) => {
+                                    return <li key={documentIndex} className="w-100">
+
+                                        <Link to={document.link}
+                                              className="w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2">
+                                            <div className="align-content-start text-yellow fs-3">
+                                                {document.icon}
+                                            </div>
+                                            <div className="flex-fill ps-3 align-content-center text-start">
+                                                <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
+                                                    {document.title}
+                                                </h3>
+                                                <div
+                                                    className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
+                                                    {document.description}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                })}
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
