@@ -1,7 +1,8 @@
 import {StaffBadgeEditDetailsV2} from "./StaffBadgeEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import {useTasks} from "../../../contexts/TaskContext.jsx";
-import InlineWarningMessage from "../../util/InlineWarningMessage.jsx";
+import {InlineAlert} from "../../util/InlineAlerts.jsx";
+import React from "react";
 
 export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
     const {getBadge} = useBadges();
@@ -43,7 +44,7 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
                 Required Tasks
             </div>
             <div className="col-sm-6">
-                {requiredTasks.length === 0 && <InlineWarningMessage description="No associated required tasks"/>}
+                {requiredTasks.length === 0 && <InlineAlert variant="warning" title="WARNING" description="No associated required tasks"/>}
                 {requiredTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
             </div>
         </div>
@@ -53,7 +54,7 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
                 Optional Tasks
             </div>
             <div className="col-sm-6">
-                {recommendedTasks.length === 0 && <InlineWarningMessage description="No associated recommended tasks"/>}
+                {recommendedTasks.length === 0 && <InlineAlert variant="green" title="None"/>}
                 {recommendedTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
             </div>
         </div>
@@ -68,7 +69,7 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
                 Required Badges
             </div>
             <div className="col-sm-6">
-                {recommendedBadges.length === 0 && <InlineWarningMessage description="No associated prerequisite recommended badges"/>}
+                {recommendedBadges.length === 0 && <InlineAlert variant="green" title="None"/>}
                 {recommendedBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>

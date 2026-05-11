@@ -2,7 +2,7 @@ import React, {useContext, useRef, useState} from 'react';
 import Form from "react-bootstrap/Form";
 import {AccordionContext, useAccordionButton} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
-import InlineWarningMessage from "./InlineWarningMessage.jsx";
+import {InlineAlert} from "./InlineAlerts.jsx";
 
 /**
  * Multi select control with two lists
@@ -167,7 +167,7 @@ export default function MultiSelectControlTwoLists(
                 </div>
                 <div className="flex-fill overflow-auto">
                     {notSelectedItems.length === 0 &&
-                        <InlineWarningMessage description="There's nothing available to display" title=""/>}
+                        <InlineAlert variant="green" title="None"/>}
                     <ul className="list-unstyled ">
                         {notSelectedItems.map((item, sequenceNo) => {
                             return <li key={sequenceNo} className="p-0">
@@ -198,7 +198,7 @@ export default function MultiSelectControlTwoLists(
                 </div>
                 <Accordion defaultActiveKey="" className="flex-fill overflow-auto">
                     {selectedItems.length === 0 &&
-                        <InlineWarningMessage description="There's nothing available to display" title=""/>}
+                        <InlineAlert variant="green" title="None"/>}
                     <ul className="list-unstyled">
                         {selectedItems.map((item, sequenceNo) => <li
                             key={sequenceNo} className="p-0"
