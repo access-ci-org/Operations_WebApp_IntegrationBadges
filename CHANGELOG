@@ -7,6 +7,14 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+v1.12.7 2026-05-11 dinukadesilva
+    1 - [new] Adding the staff document links (CTT-879)
+        - /staff
+    2 - [new] Enabling info icons on roadmaps and badges that navigates to the detail pages (CTT-938)
+        - /staff
+    3 - Improve warning messages (CTT-805)
+        - /staff/badges/<badge_id>/edit
+        - /staff/roadmaps/<roadmap_id>/edit
 
 v1.12.6 2026-04-29 dinukadesilva
     1 - [fix] Enabling the "Contact Type" and "Resource Integrations Status" filters for contacts (CTT-871)
@@ -53,7 +61,7 @@ v1.11.11 2026-03-27 dinukadesilva
         - /about
 
 v1.11.10 2026-03-20 dinukadesilva
-    1 - [new] Making slight adjustment to the task worflow (CTT-826)
+    1 - [new] Making slight adjustment to the task workflow (CTT-826)
 
 v1.11.8 2026-03-20 dinukadesilva
     1 - [new] Fix the "permissions" endpoint renaming to "roles" (CTT-891)
