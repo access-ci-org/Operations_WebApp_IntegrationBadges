@@ -1,7 +1,6 @@
 import Translate from "../../locales/Translate.jsx";
 
-export default function BadgeStatus(props) {
-    const status = props.children
+export default function BadgeStatus({status}) {
 
     const badgeWorkflowStatusClass = {
         "undefined": "bg-secondary-subtle",

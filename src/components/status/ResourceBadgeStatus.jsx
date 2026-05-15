@@ -6,5 +6,5 @@ export default function ResourceBadgeStatus({resourceId, roadmapId, badgeId}) {
 
     const badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
 
-    return <BadgeStatus>{badge.status}</BadgeStatus>
+    return <BadgeStatus status={badge.status}/>
 }

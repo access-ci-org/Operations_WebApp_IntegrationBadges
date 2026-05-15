@@ -42,6 +42,8 @@ $green:   #198754 !default;
 $teal:    #20c997 !default;
 $cyan:    #0dcaf0 !default;
 
+$blue-800: #193CB8 !default;
+
 // scss-docs-start theme-color-variables
 $primary:       $blue !default;
 $secondary:     $gray-600 !default;
@@ -63,7 +65,10 @@ $theme-colors: (
   "orange": $access-orange,
 
   "white": $white,
+
   "blue": $blue,
+  "blue-800": $blue-800,
+
   "green": $green,
 
   "success":    #A4F4CF, // $success
@@ -85,6 +90,18 @@ $theme-colors: (
 $table-variants: (
   "dark": $access-dark,
   "light": $access-light,
+  "secondary": $access-secondary,
+
+
+  "gray-100": $gray-100,
+  "gray-200": $gray-200,
+  "gray-300": $gray-300,
+  "gray-400": $gray-400,
+  "gray-500": $gray-500,
+  "gray-600": $gray-600,
+  "gray-700": $gray-700,
+  "gray-800": $gray-800,
+  "gray-900": $gray-900
 );
 
 // custom-variables.scss

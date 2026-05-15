@@ -19,7 +19,8 @@ const ResourcesContext = createContext({
                                      resourceId = null,
                                      roadmapId = null,
                                      badgeId = null,
-                                     badgeWorkflowStatus = null
+                                     badgeWorkflowStatus = null,
+                                     orderBy = null
                                  } = {}) => {
     },
     fetchResourceRoadmapBadgeLogs: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
@@ -41,7 +42,8 @@ const ResourcesContext = createContext({
                                    resourceId = null,
                                    roadmapId = null,
                                    badgeId = null,
-                                   badgeWorkflowStatus = null
+                                   badgeWorkflowStatus = null,
+                                   orderBy = null
                                } = {}) => {
     },
     getResourceRoadmapBadge: ({resourceId, roadmapId, badgeId}) => {
@@ -97,7 +99,10 @@ export const ResourcesProvider = ({children}) => {
     };
 
     const getResourceRoadmapBadgesEndpointUrl = (
-        {organizationId = null, resourceId = null, roadmapId = null, badgeId = null, badgeWorkflowStatus = null} = {}
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            badgeWorkflowStatus = null, orderBy = null
+        } = {}
     ) => {
         let url = `/resource_roadmap_badges/?`;
 
@@ -105,17 +110,21 @@ export const ResourcesProvider = ({children}) => {
         if (!!resourceId) url += `info_resourceid=${resourceId}&`;
         if (!!roadmapId) url += `roadmap_id=${roadmapId}&`;
         if (!!badgeId) url += `badge_id=${badgeId}&`;
-        if (!!badgeWorkflowStatus) url += `badge_workflow_status=${badgeWorkflowStatus}`;
+        if (!!badgeWorkflowStatus) url += `badge_workflow_status=${badgeWorkflowStatus}&`;
+        if (!!orderBy) url += `order_by=${orderBy}`;
 
         return url;
     }
 
     const fetchResourceRoadmapBadges = async (
-        {organizationId = null, resourceId = null, roadmapId = null, badgeId = null, badgeWorkflowStatus = null} = {}
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            badgeWorkflowStatus = null, orderBy = null
+        } = {}
     ) => {
         try {
             const url = getResourceRoadmapBadgesEndpointUrl(
-                {organizationId, resourceId, roadmapId, badgeId, badgeWorkflowStatus});
+                {organizationId, resourceId, roadmapId, badgeId, badgeWorkflowStatus, orderBy});
             const response = await dashboardAxiosInstance.get(url);
 
             const badgeStatusMap = {...resourceRoadmapBadgeMap};
@@ -322,10 +331,13 @@ export const ResourcesProvider = ({children}) => {
     }
 
     const getResourceRoadmapBadges = (
-        {organizationId = null, resourceId = null, roadmapId = null, badgeId = null, badgeWorkflowStatus = null} = {}
+        {
+            organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
+            badgeWorkflowStatus = null, orderBy = null
+        } = {}
     ) => {
         const url = getResourceRoadmapBadgesEndpointUrl(
-            {organizationId, resourceId, roadmapId, badgeId, badgeWorkflowStatus});
+            {organizationId, resourceId, roadmapId, badgeId, badgeWorkflowStatus, orderBy});
 
         if (resourceRoadmapBadgeIds[url]) {
             return resourceRoadmapBadgeIds[url].map(({resourceId, roadmapId, badgeId}) =>

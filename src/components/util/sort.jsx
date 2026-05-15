@@ -1,4 +1,9 @@
-export function sortJsonArrayAlphabetically(array, fieldName) {
+export const SortOrder = {
+    Ascending: "Ascending",
+    Descending: "Descending"
+};
+
+export function sortJsonArrayAlphabetically(array, fieldName, order=SortOrder.Ascending) {
     array = [...array];
     array.sort((a, b) => {
         const nameA = a[fieldName].toLowerCase(); // Convert to lowercase for case-insensitive sorting
@@ -12,6 +17,8 @@ export function sortJsonArrayAlphabetically(array, fieldName) {
         }
         return 0; // names are equal
     });
+
+    if (order === SortOrder.Descending) array = Array.reverse(order);
 
     return array;
 }

@@ -11,6 +11,7 @@ import {HtmlToText} from "../../components/util/text-editors.jsx";
 import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
 import {BadgeMaintainer, RoadmapMaintainer} from "../../components/util/Permissions.jsx";
 import {DocumentationRouteUrls} from "../docs/DocumentationRoute.jsx";
+import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
 
 export default function StaffDashboard() {
     const {
@@ -35,34 +36,6 @@ export default function StaffDashboard() {
     useEffect(() => {
         fetchResourceRoadmapBadgeStatusSummary();
     }, []);
-
-    const verificationHighlightList = [
-        {
-            status: BadgeWorkflowStatus.TASK_COMPLETED,
-            icon: <i className="bi bi-clock"></i>,
-            variant: "orange",
-        },
-        {
-            status: BadgeWorkflowStatus.VERIFICATION_FAILED,
-            icon: <i className="bi bi-exclamation-circle"></i>,
-            variant: "danger",
-        },
-        {
-            status: BadgeWorkflowStatus.PLANNED,
-            icon: <i className="bi bi-activity"></i>,
-            variant: "blue",
-        },
-        {
-            status: BadgeWorkflowStatus.VERIFIED,
-            icon: <i className="bi bi-check2-circle"></i>,
-            variant: "green",
-        },
-        {
-            status: BadgeWorkflowStatus.DEPRECATED,
-            icon: <i className="bi bi-archive"></i>,
-            variant: "secondary",
-        }
-    ];
 
     const documents = [
         {
@@ -133,28 +106,7 @@ export default function StaffDashboard() {
                             </div>
                         </div>
                         <div className="w-100 pt-4">
-                            <ul className="row p-0 list-unstyled">
-                                {verificationHighlightList.map((verificationHighlight, verificationHighlightIndex) => {
-                                    const variantClass = `border-${verificationHighlight.variant} bg-${verificationHighlight.variant} text-${verificationHighlight.variant}`
-
-                                    return <li className="col p-2" key={verificationHighlightIndex}>
-                                        <Link
-                                            to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${verificationHighlight.status}`}
-                                            className={`btn w-100 h-100 p-2 bg-opacity-10 border border-2 border-opacity-10 rounded-3 ${variantClass}`}>
-                                            <div className="w-100 text-center fs-2">
-                                                {verificationHighlight.icon}
-                                            </div>
-                                            <div className="w-100 text-center fs-2 fw-bolder">
-                                                {resourceRoadmapBadgeStatusSummary[verificationHighlight.status] ?
-                                                    resourceRoadmapBadgeStatusSummary[verificationHighlight.status] : 0}
-                                            </div>
-                                            <div className="w-100 text-center text-secondary">
-                                                <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                })}
-                            </ul>
+                            <BadgeStatusSummaryHeader/>
                         </div>
                     </div>
                 </div>
