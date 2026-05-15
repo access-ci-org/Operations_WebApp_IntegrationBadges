@@ -44,8 +44,6 @@ export default function ResourceBadgeStatusListing() {
 
     const [orderByDirection, orderByColumnFieldName] = /(-)?(.*)/.exec(orderBy).slice(1);
 
-    console.log("##### orderBy ", [orderBy, orderByDirection, orderByColumnFieldName])
-
     const badges = getResourceRoadmapBadges({
         badgeWorkflowStatus: badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ? null : badgeWorkflowStatus,
         orderBy: orderBy
@@ -150,8 +148,6 @@ export default function ResourceBadgeStatusListing() {
 
     const onClickSort = (fieldName) => () => {
         let _orderBy = fieldName;
-
-        console.log("###### onClickSort ", [orderByColumnFieldName, orderByDirection]);
 
         if (orderByColumnFieldName === fieldName && !orderByDirection) {
             _orderBy = "-" + _orderBy;

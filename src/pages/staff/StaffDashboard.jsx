@@ -154,9 +154,9 @@ export default function StaffDashboard() {
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
                                         </RoadmapMaintainer>
-                                        <Link
-                                            to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
-                                            className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                        <Link target="_blank"
+                                              to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
+                                              className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
                                         </Link>
                                         {/*<Link*/}
@@ -213,7 +213,7 @@ export default function StaffDashboard() {
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
                                         </BadgeMaintainer>
-                                        <Link
+                                        <Link target="_blank"
                                             to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
                                             className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
