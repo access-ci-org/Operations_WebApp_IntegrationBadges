@@ -24,6 +24,8 @@ for (let i = 0; i < variableNames.length; i++) {
     }
 }
 
+if (!/\\$/.test(window.SETTINGS.APP_BASENAME)) window.SETTINGS.APP_BASENAME += "/";
+
 window.SETTINGS.DISABLE_DASHBOARD_AUTHENTICATION = window.SETTINGS.DISABLE_DASHBOARD_AUTHENTICATION === "true";
 
 window.SETTINGS.WEBAPP_VERSION = packageJson.version;

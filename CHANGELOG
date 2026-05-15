@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.13.1 2026-05-15 dinukadesilva
+    1 - Enabling the `APP_BASENAME` to handle when the ending slash is missing
+        - All the breadcrumbs
+
 v1.13.0 2026-05-15 dinukadesilva
     1 - [new] Badge status list view redesign (CTT-779)
         - /staff/badge-status
