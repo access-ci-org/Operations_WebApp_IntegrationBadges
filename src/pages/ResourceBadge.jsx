@@ -242,6 +242,7 @@ export default function ResourceBadge() {
                 </div>}
 
                 <Concierge>
+                    <h3 className="d-inline mb-5 mt-5 text-black mb-4">Activity Log</h3>
                     <ResourceBadgeLog resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                 </Concierge>
             </div>
