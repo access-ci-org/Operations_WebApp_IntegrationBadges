@@ -7,6 +7,13 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.13.0 2026-05-15 dinukadesilva
+    1 - [new] Badge status list view redesign (CTT-779)
+        - /staff/badge-status
+    2 - [new] Enhanced UI for resource badge activity log (CTT-936)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
 v1.12.8 2026-05-11 dinukadesilva
     2 - [fix] Fix the roadmap and badge info icon authorization (CTT-938)
         - /staff
