@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.14.0 2026-05-21 dinukadesilva
+    1 - Fixing the badge verification button on the resource badge page (CTT-970)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
 v1.13.1 2026-05-15 dinukadesilva
     1 - Enabling the `APP_BASENAME` to handle when the ending slash is missing
         - All the breadcrumbs

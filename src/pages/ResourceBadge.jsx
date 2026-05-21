@@ -55,7 +55,7 @@ export default function ResourceBadge() {
         fetchBadge({badgeId});
     }, [resourceId, badgeId]);
 
-    const clickBadgeAction = async (status) => {
+    const clickBadgeAction = (status) => async () => {
         setShowSaveConfirmationModal(false);
         setBadgeActionStatusProcessing(true);
         try {
@@ -225,8 +225,8 @@ export default function ResourceBadge() {
                             </button>}
                             {!badgeActionStatusProcessing && authorizedBadgeTransitions.map((transition, transitionIndex) => {
                                 let disabled = false;
-                                let onClick = clickBadgeAction.bind(this, transition.to);
-                                if ([BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED].indexOf(transition.to) >= 0) {
+                                let onClick = clickBadgeAction(transition.to);
+                                if ([BadgeWorkflowStatus.TASK_COMPLETED].indexOf(transition.to) >= 0) {
                                     disabled = !isReadyToSubmit;
                                     onClick = setShowSaveConfirmationModal.bind(this, true)
                                 }
@@ -262,7 +262,7 @@ export default function ResourceBadge() {
                         No
                     </button>
                     <button className="btn btn-medium rounded-1"
-                            onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
+                            onClick={clickBadgeAction(BadgeWorkflowStatus.TASK_COMPLETED)}>
                         Yes
                     </button>
                 </Modal.Footer>
