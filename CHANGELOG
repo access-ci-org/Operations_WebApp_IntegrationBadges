@@ -8,6 +8,16 @@ The general format of entries is:
         - *
 
 
+v1.15.0 2026-05-28 dinukadesilva
+    1 - [new] Enabling the exempt floor for badges (CTT-880)
+        - /staff
+        - /staff/badge-status
+        - /organizations/<organization_id>
+        - /resources/<resource_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/95
+
 v1.14.1 2026-05-21 dinukadesilva
     1 - [bug-fix] Fixing the `APP_BASENAME` to correctly validate url
         - *
