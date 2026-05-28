@@ -28,12 +28,6 @@ export default function ResourceBadgeStatusListing() {
     const {getBadge} = useBadges();
 
     const [badgeWorkflowStatus, setBadgeWorkflowStatus] = useState(null);
-    // const [sortField, setSortField] = useState({
-    //     fieldName: null,
-    //     order: null // "a" or "d"
-    // });
-
-    console.log("###### badgeWorkflowStatusParam ", {badgeWorkflowStatusParam, key: BadgeWorkflowStatus.EXEMPTED})
 
     const allowedBadgeWorkflowStatusParamSet = new Set([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
         BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED, BadgeWorkflowStatus.EXEMPTED,
@@ -98,9 +92,6 @@ export default function ResourceBadgeStatusListing() {
 
     useEffect(() => {
         if (badgeWorkflowStatus) {
-
-            console.log("###### badgeWorkflowStatus : ", badgeWorkflowStatus)
-
             fetchResourceRoadmapBadges({
                 badgeWorkflowStatus: badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ? null : badgeWorkflowStatus,
                 orderBy: orderBy
@@ -267,8 +258,9 @@ export default function ResourceBadgeStatusListing() {
                                         {badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ?
                                             "View All" :
                                             Array.isArray(badgeWorkflowStatus) ?
-                                                badgeWorkflowStatus.map(bws =>
-                                                    <span><Translate>badgeWorkflowStatus.{bws}</Translate><br/></span>) :
+                                                badgeWorkflowStatus.map((bws, bwsIndex) =>
+                                                    <span key={bwsIndex}>
+                                                        <Translate>badgeWorkflowStatus.{bws}</Translate><br/></span>) :
                                                 <Translate>badgeWorkflowStatus.{badgeWorkflowStatus}</Translate>}
                                     </div>
                                 </div>

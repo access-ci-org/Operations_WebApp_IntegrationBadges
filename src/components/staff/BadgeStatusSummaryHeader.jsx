@@ -61,6 +61,25 @@ export default function BadgeStatusSummaryHeader() {
         }
     ];
 
+    for (let i in verificationHighlightList) {
+        const verificationHighlight = verificationHighlightList[i];
+
+        if (Array.isArray(verificationHighlight.status)) {
+            verificationHighlight.count = Math.sumPrecise(verificationHighlight.status.map(s =>
+                resourceRoadmapBadgeStatusSummary[s]));
+        } else {
+            verificationHighlight.count = resourceRoadmapBadgeStatusSummary[verificationHighlight.status];
+        }
+
+        if (!verificationHighlight.title) {
+            verificationHighlight.title = <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>;
+        }
+
+        if (!verificationHighlight.variant) {
+            verificationHighlight.variant = StaffBadgeStatusVariant[verificationHighlight.status];
+        }
+    }
+
     const getBadgeStatusLink = (status) => {
         let url = StaffRouteUrls.BADGE_STATUS + "?";
 
@@ -75,8 +94,7 @@ export default function BadgeStatusSummaryHeader() {
     return <div className="w-100">
         <ul className="row p-0 list-unstyled">
             {verificationHighlightList.map((verificationHighlight, verificationHighlightIndex) => {
-                const variant = verificationHighlight.variant ? verificationHighlight.variant :
-                    StaffBadgeStatusVariant[verificationHighlight.status];
+                const variant = verificationHighlight.variant;
                 const variantClass = `border-${variant} bg-${variant} text-${variant}`
 
                 return <li className="col p-2" key={verificationHighlightIndex}>
@@ -87,13 +105,10 @@ export default function BadgeStatusSummaryHeader() {
                             {verificationHighlight.icon}
                         </div>
                         <div className="w-100 text-center fs-2 fw-bolder">
-                            {Array.isArray(verificationHighlight.status)}
-                            {resourceRoadmapBadgeStatusSummary[verificationHighlight.status] ?
-                                resourceRoadmapBadgeStatusSummary[verificationHighlight.status] : 0}
+                            {verificationHighlight.count}
                         </div>
                         <div className="w-100 text-center text-secondary">
-                            {verificationHighlight.title ? verificationHighlight.title :
-                                <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>}
+                            {verificationHighlight.title}
                         </div>
                     </Link>
                 </li>

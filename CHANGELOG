@@ -8,6 +8,11 @@ The general format of entries is:
         - *
 
 
+v1.15.1 2026-05-28 dinukadesilva
+    1 - [fix] Fixing the badge status summary counts in the staff dashboard (CTT-880)
+        - /staff
+        - /staff/badge-status
+
 v1.15.0 2026-05-28 dinukadesilva
     1 - [new] Enabling the exempt floor for badges (CTT-880)
         - /staff
