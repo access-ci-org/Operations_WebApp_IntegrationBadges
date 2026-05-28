@@ -2,7 +2,12 @@ import {Link, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus, IntegrationRoles} from "../contexts/constants.js";
+import {
+    BadgeTaskWorkflowStatus,
+    BadgeWorkflowStatus,
+    BadgeWorkflowTransitionType,
+    IntegrationRoles
+} from "../contexts/constants.js";
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
@@ -46,7 +51,13 @@ export default function ResourceBadge() {
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
-    const authorizedBadgeTransitions = getAuthorizedBadgeTransitions({resourceId, roadmapId, badgeId})
+    const authorizedBadgeVerificationTransitions = getAuthorizedBadgeTransitions({
+        resourceId, roadmapId, badgeId
+    });
+
+    // const authorizedBadgeExemptionTransitions = getAuthorizedBadgeTransitions({
+    //     resourceId, roadmapId, badgeId, transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION
+    // });
 
     useEffect(() => {
         fetchResource({resourceId});
@@ -187,7 +198,7 @@ export default function ResourceBadge() {
 
             </div>
 
-            <div className="row pb-5 mb-5">
+            <div className="row pb-2">
                 <Concierge>
                     <div className="w-100 pt-4">
                         <h3 className="text-black">Reviewer Notes Section</h3>
@@ -207,7 +218,7 @@ export default function ResourceBadge() {
                     </div>
                 </Concierge>
 
-                {authorizedBadgeTransitions.length > 0 && <div className="w-100 pt-5 pb-5">
+                {authorizedBadgeVerificationTransitions.length > 0 && <div className="w-100 pt-5 pb-5">
                     <div className="w-100">
                         <Form.Group className="mb-3" controlId="resource.roadmap.badge.workflow.comment">
                             <Form.Label>Comment / Question</Form.Label>
@@ -223,7 +234,7 @@ export default function ResourceBadge() {
                                                       aria-hidden="true"></span>
                                 Loading...
                             </button>}
-                            {!badgeActionStatusProcessing && authorizedBadgeTransitions.map((transition, transitionIndex) => {
+                            {!badgeActionStatusProcessing && authorizedBadgeVerificationTransitions.map((transition, transitionIndex) => {
                                 let disabled = false;
                                 let onClick = clickBadgeAction(transition.to);
                                 if ([BadgeWorkflowStatus.TASK_COMPLETED].indexOf(transition.to) >= 0) {
@@ -236,11 +247,40 @@ export default function ResourceBadge() {
                                     {transition.name}
                                 </button>
                             })}
-
                         </div>
                     </div>
                 </div>}
+            </div>
 
+
+            {/*<div className="w-100 bg-gray-200 p-3">*/}
+            {/*    {badge.status === BadgeWorkflowStatus.EXEMPTION_REQUESTED ?*/}
+            {/*        <div className="w-100">*/}
+            {/*            <h5 className="d-inline">Exemption Request is Under Review : </h5>*/}
+            {/*            A concierge may review your request and provide an exemption on case by case.*/}
+            {/*            Please allow 1-2 business days to hear back.*/}
+            {/*        </div> :*/}
+            {/*        <div className="w-100">*/}
+            {/*            <h5 className="d-inline">Request an exemption: </h5>*/}
+            {/*            If this badge is not related to your resource, you are able to request an exemption.*/}
+            {/*            A concierge may review your request and provide an exemption on case by case.*/}
+            {/*        </div>}*/}
+            {/*    {!badgeActionStatusProcessing && authorizedBadgeExemptionTransitions.map((transition, transitionIndex) => {*/}
+            {/*        let disabled = false;*/}
+            {/*        let onClick = clickBadgeAction(transition.to);*/}
+            {/*        if ([BadgeWorkflowStatus.TASK_COMPLETED].indexOf(transition.to) >= 0) {*/}
+            {/*            disabled = !isReadyToSubmit;*/}
+            {/*            onClick = setShowSaveConfirmationModal.bind(this, true)*/}
+            {/*        }*/}
+
+            {/*        return <button className="btn btn-sm btn-outline-medium rounded-3 ps-3 pe-3 m-1"*/}
+            {/*                       key={transitionIndex} disabled={disabled} onClick={onClick}>*/}
+            {/*            {transition.name}*/}
+            {/*        </button>*/}
+            {/*    })}*/}
+            {/*</div>*/}
+
+            <div className="row mt-5 mb-5">
                 <Concierge>
                     <h3 className="d-inline mb-5 mt-5 text-black mb-4">Activity Log</h3>
                     <ResourceBadgeLog resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>

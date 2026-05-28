@@ -4,7 +4,17 @@ export const BadgeWorkflowStatus = {
     TASK_COMPLETED: "tasks-completed",
     VERIFICATION_FAILED: "verification-failed",
     VERIFIED: "verified",
-    DEPRECATED: "deprecated"
+    DEPRECATED: "deprecated",
+    EXEMPTION_REQUESTED: "exemption-requested",
+    EXEMPTED: "exempted",
+    EXEMPTION_REJECTED: "exemption-rejected",
+}
+
+export const BadgeWorkflowStatus_VIEW_ALL = "*";
+
+export const BadgeWorkflowTransitionType = {
+    BADGE_VERIFICATION: "badge-verification",
+    BADGE_EXEMPTION: "badge-exemption",
 }
 
 export const IntegrationRoles = {

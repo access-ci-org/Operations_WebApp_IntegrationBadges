@@ -9,7 +9,10 @@ export default function BadgeStatus({status}) {
         "tasks-completed": "bg-warning-subtle",
         "verification-failed": "bg-danger-subtle",
         "verified": "bg-light",
-        "deprecated": "bg-secondary-subtle"
+        "deprecated": "bg-secondary-subtle",
+        "exemption-requested": "bg-warning-subtle",
+        "exempted": "bg-light",
+        "exemption-rejected": "bg-danger-subtle"
     };
 
     return <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap ${badgeWorkflowStatusClass[status]}`}>

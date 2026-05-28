@@ -7,3 +7,11 @@ export function fileToBase64(file) {
         reader.onerror = (error) => reject(error);
     });
 };
+
+/**
+ * @param {* | *[]} a
+ * @returns {*[] | null}
+ */
+export function toArrayOrNull(a) {
+    if (!!a && !Array.isArray(a)) return [a];
+}

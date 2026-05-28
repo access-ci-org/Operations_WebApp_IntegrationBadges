@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {useBadges} from "./BadgeContext";
-import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus} from "./constants.js"
+import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus, BadgeWorkflowStatus_VIEW_ALL} from "./constants.js"
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
@@ -60,7 +60,10 @@ const ResourcesContext = createContext({
     },
     getOrganizationResourceIds: ({organizationName}) => {
     },
-    getAuthorizedBadgeTransitions: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    getAuthorizedBadgeTransitions: ({
+                                        resourceId = null, roadmapId = null, badgeId = null,
+                                        transitionType = null
+                                    } = {}) => {
     },
     setResourceRoadmapBadgeWorkflowStatus: ({resourceId, roadmapId, badgeId, status, comment}) => {
     },
@@ -98,6 +101,15 @@ export const ResourcesProvider = ({children}) => {
         return fetchResources({resourceId, full: true});
     };
 
+    /**
+     * @param organizationId
+     * @param resourceId
+     * @param roadmapId
+     * @param badgeId
+     * @param {string | string[]} badgeWorkflowStatus
+     * @param orderBy
+     * @returns {string}
+     */
     const getResourceRoadmapBadgesEndpointUrl = (
         {
             organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
@@ -106,12 +118,15 @@ export const ResourcesProvider = ({children}) => {
     ) => {
         let url = `/resource_roadmap_badges/?`;
 
-        if (!!organizationId) url += `organization_id=${organizationId}&`;
-        if (!!resourceId) url += `info_resourceid=${resourceId}&`;
-        if (!!roadmapId) url += `roadmap_id=${roadmapId}&`;
-        if (!!badgeId) url += `badge_id=${badgeId}&`;
-        if (!!badgeWorkflowStatus) url += `badge_workflow_status=${badgeWorkflowStatus}&`;
-        if (!!orderBy) url += `order_by=${orderBy}`;
+        if (organizationId) url += `organization_id=${organizationId}&`;
+        if (resourceId) url += `info_resourceid=${resourceId}&`;
+        if (roadmapId) url += `roadmap_id=${roadmapId}&`;
+        if (badgeId) url += `badge_id=${badgeId}&`;
+        if (badgeWorkflowStatus && badgeWorkflowStatus !== BadgeWorkflowStatus_VIEW_ALL) {
+            if (!Array.isArray(badgeWorkflowStatus)) url += `badge_workflow_status=${badgeWorkflowStatus}&`;
+            else url += badgeWorkflowStatus.map(s => `badge_workflow_status=${s}&`).join("");
+        }
+        if (orderBy) url += `order_by=${orderBy}`;
 
         return url;
     }
@@ -430,10 +445,15 @@ export const ResourcesProvider = ({children}) => {
         return orgResourceIds;
     }
 
-    const getAuthorizedBadgeTransitions = ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    const getAuthorizedBadgeTransitions = ({
+                                               resourceId = null, roadmapId = null, badgeId = null,
+                                               transitionType = null
+                                           } = {}) => {
         const resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
 
-        return getAvailableTransitions(BADGE_WORKFLOW, resourceRoadmapBadge.status, {role: getAuthorizedRoles({resourceId})});
+        return getAvailableTransitions(BADGE_WORKFLOW, resourceRoadmapBadge.status, {
+            role: getAuthorizedRoles({resourceId}),
+        }, transitionType);
     };
 
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {

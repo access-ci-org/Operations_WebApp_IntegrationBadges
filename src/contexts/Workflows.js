@@ -1,4 +1,10 @@
-import {IntegrationRoles, BadgeWorkflowStatus, BadgeTaskWorkflowStatus} from "./constants.js";
+import {
+    IntegrationRoles,
+    BadgeWorkflowStatus,
+    BadgeWorkflowTransitionType,
+    BadgeTaskWorkflowStatus
+} from "./constants.js";
+import {toArrayOrNull} from "../components/util/util.jsx";
 
 export const BADGE_WORKFLOW = {
     name: "Badge Lifecycle Workflow",
@@ -12,13 +18,16 @@ export const BADGE_WORKFLOW = {
     transitions: [
         {
             name: "Start working on the badge",
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
             from: [],
             to: BadgeWorkflowStatus.PLANNED,
             type: "initial"
         },
         {
             name: "Submit for Verification",
-            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.VERIFICATION_FAILED],
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
+            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.VERIFICATION_FAILED,
+                BadgeWorkflowStatus.EXEMPTION_REJECTED],
             to: BadgeWorkflowStatus.TASK_COMPLETED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER]
@@ -26,6 +35,7 @@ export const BADGE_WORKFLOW = {
         },
         {
             name: "Mark as Verified",
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
             from: [BadgeWorkflowStatus.TASK_COMPLETED],
             to: BadgeWorkflowStatus.VERIFIED,
             conditions: {
@@ -34,6 +44,7 @@ export const BADGE_WORKFLOW = {
         },
         {
             name: "Mark as Verification Failed",
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
             from: [BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED],
             to: BadgeWorkflowStatus.VERIFICATION_FAILED,
             conditions: {
@@ -41,16 +52,8 @@ export const BADGE_WORKFLOW = {
             }
         },
         {
-            name: "Deprecate",
-            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED,
-                BadgeWorkflowStatus.VERIFICATION_FAILED],
-            to: BadgeWorkflowStatus.DEPRECATED,
-            conditions: {
-                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
-            }
-        },
-        {
             name: "Reopen",
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
             from: [BadgeWorkflowStatus.TASK_COMPLETED],
             to: BadgeWorkflowStatus.PLANNED,
             conditions: {
@@ -59,7 +62,77 @@ export const BADGE_WORKFLOW = {
         },
         {
             name: "Reopen",
-            from: [ BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED],
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
+            from: [BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED],
+            to: BadgeWorkflowStatus.PLANNED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+            }
+        },
+
+        {
+            name: "Deprecate",
+            transitionType: BadgeWorkflowTransitionType.BADGE_VERIFICATION,
+            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED,
+                BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.EXEMPTED,
+                BadgeWorkflowStatus.EXEMPTION_REQUESTED, BadgeWorkflowStatus.EXEMPTION_REJECTED],
+            to: BadgeWorkflowStatus.DEPRECATED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+            }
+        },
+        {
+            name: "Request Exemption",
+            transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION,
+            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED,
+                BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.EXEMPTION_REJECTED],
+            to: BadgeWorkflowStatus.EXEMPTION_REQUESTED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+            }
+        },
+        {
+            name: "Exempt",
+            transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION,
+            from: [BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFIED,
+                BadgeWorkflowStatus.VERIFICATION_FAILED,
+                BadgeWorkflowStatus.EXEMPTION_REQUESTED, BadgeWorkflowStatus.EXEMPTION_REJECTED],
+            to: BadgeWorkflowStatus.EXEMPTED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE]
+            }
+        },
+        {
+            name: "Approve Exemption",
+            transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION,
+            from: [BadgeWorkflowStatus.EXEMPTION_REQUESTED],
+            to: BadgeWorkflowStatus.EXEMPTED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE]
+            }
+        },
+        {
+            name: "Reject Exemption",
+            transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION,
+            from: [BadgeWorkflowStatus.EXEMPTION_REQUESTED, BadgeWorkflowStatus.EXEMPTED],
+            to: BadgeWorkflowStatus.EXEMPTION_REJECTED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE]
+            }
+        },
+        {
+            name: "Cancel Exemption Request",
+            transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION,
+            from: [BadgeWorkflowStatus.EXEMPTION_REQUESTED],
+            to: BadgeWorkflowStatus.PLANNED,
+            conditions: {
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+            }
+        },
+        {
+            name: "Cancel Exemption",
+            transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION,
+            from: [BadgeWorkflowStatus.EXEMPTED],
             to: BadgeWorkflowStatus.PLANNED,
             conditions: {
                 role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
@@ -170,9 +243,23 @@ function isEqualOrContains(source, value) {
     return value.some(v => source.has(v));
 }
 
-export function getAvailableTransitions(workflow, from, conditions) {
+/**
+ * @param workflow
+ * @param from
+ * @param conditions
+ * @param {string[]|Set<string>|string} transitionType
+ * @returns {object[]}
+ */
+export function getAvailableTransitions(workflow, from, conditions, transitionType = null) {
+
+    if (transitionType) transitionType = new Set(toArrayOrNull(transitionType));
+
     return workflow.transitions.filter(transition => {
         if (isEqualOrContains(transition.from, from)) {
+            if (!!transitionType && !!transition.transitionType && !transitionType.has(transition.transitionType)) {
+                return false;
+            }
+
             if (transition.conditions) {
                 for (let conditionKey in transition.conditions) {
                     if (!isEqualOrContains(transition.conditions[conditionKey], conditions[conditionKey])) {

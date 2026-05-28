@@ -7,7 +7,10 @@ export default {
         "tasks-completed": "Pending Verification",
         "verification-failed": "RP Attention Required",
         "verified": "Available",
-        "deprecated": "Deprecated"
+        "deprecated": "Deprecated",
+        "exemption-requested": "Exemption Requested",
+        "exempted": "Exemption Approved",
+        "exemption-rejected": "Exemption Rejected"
     },
     "badgeWorkflowVerificationStatus": {
         "": "Not Started",
@@ -17,7 +20,10 @@ export default {
         "tasks-completed": "Pending Verifications",
         "verification-failed": "RP Attention Required",
         "verified": "Available",
-        "deprecated": "Deprecated"
+        "deprecated": "Deprecated",
+        "exemption-requested": "Exemption Requested",
+        "exempted": "Exemption Approved",
+        "exemption-rejected": "Exemption Rejected"
     },
     "badgePrerequisiteActionLabel": {
         "": "Not Planned",
@@ -27,7 +33,10 @@ export default {
         "tasks-completed": "Pending Verification",
         "verification-failed": "RP attention needed",
         "verified": "Available",
-        "deprecated": "Deprecated"
+        "deprecated": "Deprecated",
+        "exemption-requested": "Exemption Requested",
+        "exempted": "Exemption Approved",
+        "exemption-rejected": "Exemption Rejected"
     },
     "badgeTaskWorkflowStatus": {
         "": "Incomplete",

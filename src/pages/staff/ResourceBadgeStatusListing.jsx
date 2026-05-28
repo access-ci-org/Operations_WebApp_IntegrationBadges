@@ -2,17 +2,14 @@ import React, {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
-import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Translate from "../../locales/Translate.jsx";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
 import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
 import {HideIfAuthorized, ShowIfAuthorized} from "../../components/util/Permissions.jsx";
 import {IntegrationRoles, BadgeWorkflowStatus} from "../../contexts/constants.js";
 import BadgeStatusSummaryHeader, {StaffBadgeStatusVariant} from "../../components/staff/BadgeStatusSummaryHeader.jsx";
-import {SortOrder} from "../../components/util/sort.jsx";
 
 export const BadgeWorkflowStatus_VIEW_ALL = "*";
 
@@ -20,15 +17,15 @@ export default function ResourceBadgeStatusListing() {
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
-    let badgeWorkflowStatusParam = queryParams.get('badgeWorkflowStatus');
+
+    let badgeWorkflowStatusParam = queryParams.getAll('badgeWorkflowStatus');
     const orderBy = queryParams.get('orderBy');
 
     const {
         fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeStatusSummary,
-        getResourceRoadmapBadges, getResourceRoadmapBadgeStatusSummary, getResource
+        getResourceRoadmapBadges, getResourceRoadmapBadgeStatusSummary
     } = useResources();
     const {getBadge} = useBadges();
-    const {getRoadmap} = useRoadmaps();
 
     const [badgeWorkflowStatus, setBadgeWorkflowStatus] = useState(null);
     // const [sortField, setSortField] = useState({
@@ -36,10 +33,20 @@ export default function ResourceBadgeStatusListing() {
     //     order: null // "a" or "d"
     // });
 
-    if ([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
-        BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED, BadgeWorkflowStatus_VIEW_ALL].indexOf(badgeWorkflowStatusParam) < 0) {
+    console.log("###### badgeWorkflowStatusParam ", {badgeWorkflowStatusParam, key: BadgeWorkflowStatus.EXEMPTED})
 
-        badgeWorkflowStatusParam = null;
+    const allowedBadgeWorkflowStatusParamSet = new Set([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
+        BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED, BadgeWorkflowStatus.EXEMPTED,
+        BadgeWorkflowStatus_VIEW_ALL]);
+    let badgeWorkflowStatusParamSet = new Set(badgeWorkflowStatusParam);
+
+    badgeWorkflowStatusParam = badgeWorkflowStatusParamSet.values().toArray();
+    if (allowedBadgeWorkflowStatusParamSet.intersection(badgeWorkflowStatusParamSet).size === 0) {
+        badgeWorkflowStatusParam = BadgeWorkflowStatus_VIEW_ALL;
+    }
+    if (badgeWorkflowStatusParamSet.size > 0 && badgeWorkflowStatusParamSet.has(BadgeWorkflowStatus_VIEW_ALL)) {
+        // Handle the view all scenario
+        badgeWorkflowStatusParam = BadgeWorkflowStatus_VIEW_ALL;
     }
 
     const [orderByDirection, orderByColumnFieldName] = /(-)?(.*)/.exec(orderBy).slice(1);
@@ -70,45 +77,12 @@ export default function ResourceBadgeStatusListing() {
         },
         {
             title: "Status",
-            sortable: false,
-            // sortableFieldName: "status"
+            sortable: true,
+            sortableFieldName: "status"
         },
         {
             title: "Action",
             sortable: false
-        }
-    ];
-
-    const tabs = [
-        {
-            title: "Pending Verification",
-            status: BadgeWorkflowStatus.TASK_COMPLETED,
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.TASK_COMPLETED]
-        },
-        {
-            title: "RP Attention Needed",
-            status: BadgeWorkflowStatus.VERIFICATION_FAILED,
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED]
-        },
-        {
-            title: "In Progress",
-            status: BadgeWorkflowStatus.PLANNED,
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.PLANNED]
-        },
-        {
-            title: "Available",
-            status: BadgeWorkflowStatus.VERIFIED,
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFIED]
-        },
-        {
-            title: "Deprecated",
-            status: BadgeWorkflowStatus.DEPRECATED,
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED]
-        },
-        {
-            title: "View All",
-            status: BadgeWorkflowStatus_VIEW_ALL,
-            count: () => resourceRoadmapBadgeStatusSummary["total"]
         }
     ];
 
@@ -118,24 +92,15 @@ export default function ResourceBadgeStatusListing() {
 
     useEffect(() => {
         if (resourceRoadmapBadgeStatusSummary) {
-
-            // If the tab is not specified, set it to the first tab with some entries. Or the "View All"
-            if (!badgeWorkflowStatusParam) {
-                badgeWorkflowStatusParam = BadgeWorkflowStatus_VIEW_ALL
-                // for (let tab of tabs) {
-                //     if (tab.count() > 0) {
-                //         badgeWorkflowStatusParam = tab.status;
-                //         break;
-                //     }
-                // }
-            }
-
             setBadgeWorkflowStatus(badgeWorkflowStatusParam);
         }
-    }, [!!resourceRoadmapBadgeStatusSummary, badgeWorkflowStatusParam]);
+    }, [!!resourceRoadmapBadgeStatusSummary, JSON.stringify(badgeWorkflowStatusParam)]);
 
     useEffect(() => {
         if (badgeWorkflowStatus) {
+
+            console.log("###### badgeWorkflowStatus : ", badgeWorkflowStatus)
+
             fetchResourceRoadmapBadges({
                 badgeWorkflowStatus: badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ? null : badgeWorkflowStatus,
                 orderBy: orderBy
@@ -154,7 +119,11 @@ export default function ResourceBadgeStatusListing() {
         }
 
         let url = StaffRouteUrls.BADGE_STATUS + "?";
-        if (badgeWorkflowStatusParam) url += `badgeWorkflowStatus=${badgeWorkflowStatusParam}&`;
+        if (badgeWorkflowStatusParam) {
+            if (!Array.isArray(badgeWorkflowStatusParam)) url += `badgeWorkflowStatus=${badgeWorkflowStatusParam}&`;
+            else url += badgeWorkflowStatusParam.map(s => `badgeWorkflowStatus=${s}&`).join("");
+        }
+
         url += `orderBy=${_orderBy}&`;
         navigate(url);
     }
@@ -199,14 +168,15 @@ export default function ResourceBadgeStatusListing() {
                                     {columns.map((column, columnIndex) => {
                                         const tooltip = <Tooltip>
                                             {column.sortableFieldName === orderByColumnFieldName && !orderByDirection ?
-                                            "Sort descending": "Sort ascending"}
+                                                "Sort descending" : "Sort ascending"}
                                         </Tooltip>
 
 
                                         return <th scope="col" key={columnIndex}
-                                                   className={column.sortableFieldName === orderByColumnFieldName && sortingActiveColumnClass}>
+                                                   className={column.sortableFieldName === orderByColumnFieldName ? sortingActiveColumnClass : ""}>
                                             {column.sortable ?
-                                                <OverlayTrigger overlay={tooltip} placement="bottom-start" delayShow={300}
+                                                <OverlayTrigger overlay={tooltip} placement="bottom-start"
+                                                                delayShow={300}
                                                                 delayHide={150}>
                                                     <button
                                                         className={`w-100 fs-7 pt-2 pb-2 border-0 text-start bg-transparent`}
@@ -296,7 +266,10 @@ export default function ResourceBadgeStatusListing() {
                                     <div className="d-inline ps-2 fs-7">
                                         {badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ?
                                             "View All" :
-                                            <Translate>badgeWorkflowStatus.{badgeWorkflowStatus}</Translate>}
+                                            Array.isArray(badgeWorkflowStatus) ?
+                                                badgeWorkflowStatus.map(bws =>
+                                                    <span><Translate>badgeWorkflowStatus.{bws}</Translate><br/></span>) :
+                                                <Translate>badgeWorkflowStatus.{badgeWorkflowStatus}</Translate>}
                                     </div>
                                 </div>
                                 <div className="col-sm-6 pb-2">

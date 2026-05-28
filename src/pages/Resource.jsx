@@ -52,13 +52,20 @@ export default function Resource() {
 
 
     let badgeGroups = {
-        [BadgeWorkflowStatus.NOT_PLANNED]: [],
-        [BadgeWorkflowStatus.PLANNED]: [],
-        [BadgeWorkflowStatus.TASK_COMPLETED]: [],
-        [BadgeWorkflowStatus.VERIFICATION_FAILED]: [],
-        [BadgeWorkflowStatus.VERIFIED]: [],
-        [BadgeWorkflowStatus.DEPRECATED]: [],
+        // [BadgeWorkflowStatus.NOT_PLANNED]: [],
+        // [BadgeWorkflowStatus.PLANNED]: [],
+        // [BadgeWorkflowStatus.TASK_COMPLETED]: [],
+        // [BadgeWorkflowStatus.VERIFICATION_FAILED]: [],
+        // [BadgeWorkflowStatus.VERIFIED]: [],
+        // [BadgeWorkflowStatus.DEPRECATED]: [],
+        // [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: [],
+        // [BadgeWorkflowStatus.EXEMPTED]: [],
+        // [BadgeWorkflowStatus.EXEMPTION_REJECTED]: [],
     };
+
+    for (let _badgeStatusKey in BadgeWorkflowStatus) {
+        badgeGroups[BadgeWorkflowStatus[_badgeStatusKey]] = [];
+    }
 
     if (badges && badges.length > 0) {
         for (let i = 0; i < badges.length; i++) {
@@ -85,6 +92,14 @@ export default function Resource() {
         {
             title: "Verification Failed",
             badges: badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
+        },
+        {
+            title: "Exempted",
+            badges: [
+                ...badgeGroups[BadgeWorkflowStatus.EXEMPTION_REQUESTED],
+                ...badgeGroups[BadgeWorkflowStatus.EXEMPTED],
+                ...badgeGroups[BadgeWorkflowStatus.EXEMPTION_REJECTED]
+            ]
         }
     ];
 

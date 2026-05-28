@@ -10,7 +10,10 @@ export const StaffBadgeStatusVariant = {
     [BadgeWorkflowStatus.VERIFICATION_FAILED]: "danger",
     [BadgeWorkflowStatus.PLANNED]: "blue",
     [BadgeWorkflowStatus.VERIFIED]: "green",
-    [BadgeWorkflowStatus.DEPRECATED]: "secondary"
+    [BadgeWorkflowStatus.DEPRECATED]: "secondary",
+    [BadgeWorkflowStatus.EXEMPTED]: "green",
+    [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: "orange",
+    [BadgeWorkflowStatus.EXEMPTION_REJECTED]: "danger"
 }
 
 export default function BadgeStatusSummaryHeader() {
@@ -48,12 +51,22 @@ export default function BadgeStatusSummaryHeader() {
         {
             status: BadgeWorkflowStatus.DEPRECATED,
             icon: <i className="bi bi-archive"></i>
+        },
+        {
+            status: [BadgeWorkflowStatus.EXEMPTED, BadgeWorkflowStatus.EXEMPTION_REQUESTED,
+                BadgeWorkflowStatus.EXEMPTION_REJECTED],
+            title: "Exemptions",
+            icon: <i className="bi bi-journal-check"></i>,
+            variant: "black"
         }
     ];
 
     const getBadgeStatusLink = (status) => {
         let url = StaffRouteUrls.BADGE_STATUS + "?";
-        url += `badgeWorkflowStatus=${status}&`;
+
+        if (!Array.isArray(status)) url += `badgeWorkflowStatus=${status}&`;
+        else url += status.map(s => `badgeWorkflowStatus=${s}&`).join("");
+
         if (orderBy) url += `orderBy=${orderBy}&`;
 
         return url;
@@ -62,7 +75,8 @@ export default function BadgeStatusSummaryHeader() {
     return <div className="w-100">
         <ul className="row p-0 list-unstyled">
             {verificationHighlightList.map((verificationHighlight, verificationHighlightIndex) => {
-                const variant = StaffBadgeStatusVariant[verificationHighlight.status];
+                const variant = verificationHighlight.variant ? verificationHighlight.variant :
+                    StaffBadgeStatusVariant[verificationHighlight.status];
                 const variantClass = `border-${variant} bg-${variant} text-${variant}`
 
                 return <li className="col p-2" key={verificationHighlightIndex}>
@@ -73,11 +87,13 @@ export default function BadgeStatusSummaryHeader() {
                             {verificationHighlight.icon}
                         </div>
                         <div className="w-100 text-center fs-2 fw-bolder">
+                            {Array.isArray(verificationHighlight.status)}
                             {resourceRoadmapBadgeStatusSummary[verificationHighlight.status] ?
                                 resourceRoadmapBadgeStatusSummary[verificationHighlight.status] : 0}
                         </div>
                         <div className="w-100 text-center text-secondary">
-                            <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>
+                            {verificationHighlight.title ? verificationHighlight.title :
+                                <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>}
                         </div>
                     </Link>
                 </li>
