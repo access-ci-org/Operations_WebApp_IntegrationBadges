@@ -18,6 +18,8 @@ import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadg
 import {Concierge, PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 import {HtmlToReact} from "../components/util/text-editors.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
+import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
+import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -38,6 +40,7 @@ export default function ResourceBadge() {
         setResourceRoadmapBadgeWorkflowStatus,
     } = useResources();
     const {fetchBadge} = useBadges();
+    const {getRoadmap} = useRoadmaps();
 
     const [comment, setComment] = useState("");
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
@@ -47,6 +50,7 @@ export default function ResourceBadge() {
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
+    const roadmap = getRoadmap({roadmapId})
     let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
@@ -135,7 +139,11 @@ export default function ResourceBadge() {
                     <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                 </div>
                 <div className="col mb-3">
-                    <h2>{badge.name}</h2>
+                    <div className="w-100">
+                        <h2 className="d-inline pe-3">{badge.name}</h2>
+                        {badge.required &&
+                            <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Required</span>}
+                    </div>
                     <div className="row">
                         <label className="text-secondary">RP Roles</label>
                         <div>{getImplementorRoles(tasks).join(", ")}</div>
@@ -217,6 +225,23 @@ export default function ResourceBadge() {
                         </p>
                     </div>
                 </Concierge>
+
+                {badge.required &&
+                    <div className="w-100 pt-4">
+                        <h3 className="text-black">Note</h3>
+                        <p className="pt-2 pb-2">
+                            This badge is required for completing the
+                            <Link className="btn btn-link ps-2 pe-2"
+                                  to={DocumentationRouteUrls.ROADMAPS + "?roadmapId=" + roadmapId}>{roadmap.name}</Link>
+                            roadmap.
+                            <br/><br/>
+                            If this badge is not relevant or applicable to your resource, you may request an exemption
+                            below. Please provide a detailed explanation when submitting the request. Only Resource
+                            Coordinators are authorized to submit exemption requests. All exemption requests are
+                            reviewed
+                            and approved by the concierge staff on a case-by-case basis.
+                        </p>
+                    </div>}
 
                 {authorizedBadgeVerificationTransitions.length > 0 && <div className="w-100 pt-5 pb-5">
                     <div className="w-100">

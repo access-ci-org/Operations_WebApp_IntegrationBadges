@@ -50,19 +50,7 @@ export default function Resource() {
         !!roadmapId && fetchRoadmap({roadmapId});
     }, [roadmapId]);
 
-
-    let badgeGroups = {
-        // [BadgeWorkflowStatus.NOT_PLANNED]: [],
-        // [BadgeWorkflowStatus.PLANNED]: [],
-        // [BadgeWorkflowStatus.TASK_COMPLETED]: [],
-        // [BadgeWorkflowStatus.VERIFICATION_FAILED]: [],
-        // [BadgeWorkflowStatus.VERIFIED]: [],
-        // [BadgeWorkflowStatus.DEPRECATED]: [],
-        // [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: [],
-        // [BadgeWorkflowStatus.EXEMPTED]: [],
-        // [BadgeWorkflowStatus.EXEMPTION_REJECTED]: [],
-    };
-
+    let badgeGroups = {};
     for (let _badgeStatusKey in BadgeWorkflowStatus) {
         badgeGroups[BadgeWorkflowStatus[_badgeStatusKey]] = [];
     }

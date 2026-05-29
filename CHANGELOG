@@ -8,6 +8,13 @@ The general format of entries is:
         - *
 
 
+v1.15.2 2026-05-29 dinukadesilva
+    1 - [new] Enabling to show the "required" status of badges in subsequent pages (CTT-880)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    2 - [new] Enabling the badge exemption actions only for required badges (CTT-880)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
 v1.15.1 2026-05-28 dinukadesilva
     1 - [fix] Fixing the badge status summary counts in the staff dashboard (CTT-880)
         - /staff
@@ -18,7 +25,6 @@ v1.15.0 2026-05-28 dinukadesilva
         - /staff
         - /staff/badge-status
         - /organizations/<organization_id>
-        - /resources/<resource_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
     2 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/95

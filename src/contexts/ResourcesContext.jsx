@@ -453,6 +453,7 @@ export const ResourcesProvider = ({children}) => {
 
         return getAvailableTransitions(BADGE_WORKFLOW, resourceRoadmapBadge.status, {
             role: getAuthorizedRoles({resourceId}),
+            required: resourceRoadmapBadge.required
         }, transitionType);
     };
 

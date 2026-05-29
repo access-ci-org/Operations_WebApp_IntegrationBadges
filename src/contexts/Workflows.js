@@ -88,7 +88,8 @@ export const BADGE_WORKFLOW = {
                 BadgeWorkflowStatus.VERIFICATION_FAILED, BadgeWorkflowStatus.EXEMPTION_REJECTED],
             to: BadgeWorkflowStatus.EXEMPTION_REQUESTED,
             conditions: {
-                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR],
+                required: true
             }
         },
         {
@@ -99,7 +100,8 @@ export const BADGE_WORKFLOW = {
                 BadgeWorkflowStatus.EXEMPTION_REQUESTED, BadgeWorkflowStatus.EXEMPTION_REJECTED],
             to: BadgeWorkflowStatus.EXEMPTED,
             conditions: {
-                role: [IntegrationRoles.CONCIERGE]
+                role: [IntegrationRoles.CONCIERGE],
+                required: true
             }
         },
         {
@@ -108,7 +110,8 @@ export const BADGE_WORKFLOW = {
             from: [BadgeWorkflowStatus.EXEMPTION_REQUESTED],
             to: BadgeWorkflowStatus.EXEMPTED,
             conditions: {
-                role: [IntegrationRoles.CONCIERGE]
+                role: [IntegrationRoles.CONCIERGE],
+                required: true
             }
         },
         {
@@ -117,7 +120,8 @@ export const BADGE_WORKFLOW = {
             from: [BadgeWorkflowStatus.EXEMPTION_REQUESTED, BadgeWorkflowStatus.EXEMPTED],
             to: BadgeWorkflowStatus.EXEMPTION_REJECTED,
             conditions: {
-                role: [IntegrationRoles.CONCIERGE]
+                role: [IntegrationRoles.CONCIERGE],
+                required: true
             }
         },
         {
@@ -126,7 +130,8 @@ export const BADGE_WORKFLOW = {
             from: [BadgeWorkflowStatus.EXEMPTION_REQUESTED],
             to: BadgeWorkflowStatus.PLANNED,
             conditions: {
-                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR],
+                required: true
             }
         },
         {
@@ -135,7 +140,8 @@ export const BADGE_WORKFLOW = {
             from: [BadgeWorkflowStatus.EXEMPTED],
             to: BadgeWorkflowStatus.PLANNED,
             conditions: {
-                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR]
+                role: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR],
+                required: true
             }
         }
     ]
