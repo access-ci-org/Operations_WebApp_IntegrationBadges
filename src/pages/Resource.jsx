@@ -82,7 +82,7 @@ export default function Resource() {
             badges: badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
         },
         {
-            title: "Exempted",
+            title: "Exemptions",
             badges: [
                 ...badgeGroups[BadgeWorkflowStatus.EXEMPTION_REQUESTED],
                 ...badgeGroups[BadgeWorkflowStatus.EXEMPTED],
