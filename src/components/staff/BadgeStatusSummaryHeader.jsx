@@ -49,16 +49,16 @@ export default function BadgeStatusSummaryHeader() {
             icon: <i className="bi bi-check2-circle"></i>
         },
         {
-            status: BadgeWorkflowStatus.DEPRECATED,
-            icon: <i className="bi bi-archive"></i>
-        },
-        {
             status: [BadgeWorkflowStatus.EXEMPTED, BadgeWorkflowStatus.EXEMPTION_REQUESTED,
                 BadgeWorkflowStatus.EXEMPTION_REJECTED],
             title: "Exemptions",
             icon: <i className="bi bi-journal-check"></i>,
             variant: "black"
-        }
+        },
+        {
+            status: BadgeWorkflowStatus.DEPRECATED,
+            icon: <i className="bi bi-archive"></i>
+        },
     ];
 
     for (let i in verificationHighlightList) {
