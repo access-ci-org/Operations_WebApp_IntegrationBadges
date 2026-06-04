@@ -9,7 +9,8 @@ import {StaffRouteUrls} from "./StaffRoute.jsx";
 import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
 import {HideIfAuthorized, ShowIfAuthorized} from "../../components/util/Permissions.jsx";
 import {IntegrationRoles, BadgeWorkflowStatus} from "../../contexts/constants.js";
-import BadgeStatusSummaryHeader, {StaffBadgeStatusVariant} from "../../components/staff/BadgeStatusSummaryHeader.jsx";
+import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
+import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 
 export const BadgeWorkflowStatus_VIEW_ALL = "*";
 
@@ -139,19 +140,6 @@ export default function ResourceBadgeStatusListing() {
                     </div>
 
                     <div className="w-100 pt-4">
-                        {/*<div className="w-100 d-flex flex-row">*/}
-                        {/*    <div className="flex-fill">*/}
-                        {/*        <Nav variant="underline" activeKey={badgeWorkflowStatus}*/}
-                        {/*             className="pe-3 border-bottom border-1 border-gray-200">*/}
-                        {/*            {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>*/}
-                        {/*                <Nav.Link eventKey={tab.status} as={Link} to={getTabLink(tab)}>*/}
-                        {/*                    {tab.title} ({tab.count()})*/}
-                        {/*                </Nav.Link>*/}
-                        {/*            </Nav.Item>)}*/}
-                        {/*        </Nav>*/}
-                        {/*    </div>*/}
-                        {/*    <GridAndListSwitch state="list"/>*/}
-                        {/*</div>*/}
                         <div className="w-100 mt-4 border border-1 rounded-2">
                             <table className="table sortable-table">
                                 <thead>
@@ -201,7 +189,6 @@ export default function ResourceBadgeStatusListing() {
                                     const badgeId = resourceBadge.badge_id;
                                     const roadmapId = resourceBadge.roadmap_id;
                                     const badge = getBadge({badgeId});
-                                    const badgeStatusVariant = StaffBadgeStatusVariant[resourceBadge.status];
 
                                     return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
                                         <td>
@@ -215,12 +202,8 @@ export default function ResourceBadgeStatusListing() {
                                                 <RoadmapName roadmapId={roadmapId} seperator=" "/></div>
                                         </td>
                                         <td>
-                                            <div className="fs-7 pt-2 pb-2">
-                                                {/*<BadgeStatus>{resourceBadge.status}</BadgeStatus>*/}
-                                                <small
-                                                    className={`ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-opacity-10 border border-1 border-opacity-10 bg-${badgeStatusVariant} border-${badgeStatusVariant} text-${badgeStatusVariant}`}>
-                                                    <Translate>badgeWorkflowStatus.{resourceBadge.status}</Translate>
-                                                </small>
+                                            <div className="pt-2 pb-2">
+                                                <BadgeStatus status={resourceBadge.status}/>
                                             </div>
                                         </td>
                                         <td>

@@ -4,17 +4,7 @@ import Translate from "../../locales/Translate.jsx";
 import React, {useEffect} from "react";
 import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-
-export const StaffBadgeStatusVariant = {
-    [BadgeWorkflowStatus.TASK_COMPLETED]: "orange",
-    [BadgeWorkflowStatus.VERIFICATION_FAILED]: "danger",
-    [BadgeWorkflowStatus.PLANNED]: "blue",
-    [BadgeWorkflowStatus.VERIFIED]: "green",
-    [BadgeWorkflowStatus.DEPRECATED]: "secondary",
-    [BadgeWorkflowStatus.EXEMPTED]: "green",
-    [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: "orange",
-    [BadgeWorkflowStatus.EXEMPTION_REJECTED]: "danger"
-}
+import {StaffBadgeStatusCssVariant} from "../status/BadgeStatus.jsx";
 
 export default function BadgeStatusSummaryHeader() {
     const location = useLocation();
@@ -76,7 +66,7 @@ export default function BadgeStatusSummaryHeader() {
         }
 
         if (!verificationHighlight.variant) {
-            verificationHighlight.variant = StaffBadgeStatusVariant[verificationHighlight.status];
+            verificationHighlight.variant = StaffBadgeStatusCssVariant[verificationHighlight.status];
         }
     }
 
