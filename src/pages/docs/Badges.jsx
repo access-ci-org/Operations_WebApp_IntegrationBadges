@@ -1,6 +1,5 @@
 import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
-import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
@@ -22,17 +21,12 @@ export default function Badges() {
     const queryParams = new URLSearchParams(location.search);
     let badgeId = queryParams.get('badgeId');
 
-    const {fetchBadges, getBadges, getBadge} = useBadges();
-    const {fetchTasks, getTasks} = useTasks();
+    const {getBadges, getBadge} = useBadges();
+    const {getTasks} = useTasks();
 
     const badges = getBadges();
     const tasks = getTasks();
     const selectedBadge = getBadge({badgeId});
-
-    useEffect(() => {
-        fetchBadges();
-        fetchTasks();
-    }, []);
 
     useEffect(() => {
         scrollToTop();

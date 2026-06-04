@@ -1,6 +1,8 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {
+    authorizedDashboardAxiosInstanceWithoutRedirect
+} from "./auth/DashboardAuthenticator.js";
 
 const RolesContext = createContext({
     // permissionMap: {},
@@ -23,7 +25,7 @@ export const RolesProvider = ({children}) => {
 
     const fetchRoles = async () => {
         try {
-            const response = await dashboardAxiosInstance.get('/roles');
+            const response = await authorizedDashboardAxiosInstanceWithoutRedirect.get('/roles');
             // const response = {
             //     "data": {
             //         "results": {

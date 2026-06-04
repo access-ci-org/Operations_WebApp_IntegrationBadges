@@ -21,8 +21,8 @@ export default function Roadmaps() {
     const queryParams = new URLSearchParams(location.search);
     let roadmapId = queryParams.get('roadmapId');
 
-    const {fetchBadges, getBadges} = useBadges();
-    const {fetchRoadmaps, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
+    const {getBadges} = useBadges();
+    const {getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
 
     let roadmaps = getRoadmaps();
     const badges = getBadges();
@@ -41,11 +41,6 @@ export default function Roadmaps() {
         }
     }
     roadmaps = productionRoadmaps.concat(draftRoadmaps);
-
-    useEffect(() => {
-        fetchRoadmaps();
-        fetchBadges();
-    }, []);
 
     useEffect(() => {
         scrollToTop();

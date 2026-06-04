@@ -51,16 +51,13 @@ const RouterLayout = () => {
 
     useEffect(() => {
         fetchRoles();
-
-        if (initialFetchesAreRequired) {
-            fetchOrganizations();
-            fetchResources();
-            fetchRoadmaps();
-            fetchBadges();
-            fetchTasks();
-            fetchContactTypes();
-        }
-    }, [initialFetchesAreRequired]);
+        fetchOrganizations();
+        fetchResources();
+        fetchRoadmaps();
+        fetchBadges();
+        fetchTasks();
+        fetchContactTypes();
+    }, []);
 
     let isDataReady = (organizations && organizations.length > 0)
         && (resources && resources.length > 0)

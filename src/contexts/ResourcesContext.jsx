@@ -5,7 +5,7 @@ import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus, BadgeWorkflowStatus_VIEW_A
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
-import {dashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {authorizedDashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 import {BADGE_WORKFLOW, getAvailableTransitions} from "./Workflows.js";
 import {useRoles} from "./PermissionContext.jsx";
 
@@ -140,7 +140,7 @@ export const ResourcesProvider = ({children}) => {
         try {
             const url = getResourceRoadmapBadgesEndpointUrl(
                 {organizationId, resourceId, roadmapId, badgeId, badgeWorkflowStatus, orderBy});
-            const response = await dashboardAxiosInstance.get(url);
+            const response = await authorizedDashboardAxiosInstance.get(url);
 
             const badgeStatusMap = {...resourceRoadmapBadgeMap};
             const badgeIds = [];
@@ -183,7 +183,7 @@ export const ResourcesProvider = ({children}) => {
                 url += `badge_id=${badgeId}`
             }
 
-            let resourceRoadmapBadgeLogs = await dashboardAxiosInstance.get(url);
+            let resourceRoadmapBadgeLogs = await authorizedDashboardAxiosInstance.get(url);
             const _resourceRoadmapBadgeLogMap = {...resourceRoadmapBadgeLogMap};
             const _resourceRoadmapBadgeLogIds = {};
             for (let j = 0; j < resourceRoadmapBadgeLogs.data.results.length; j++) {
@@ -216,7 +216,7 @@ export const ResourcesProvider = ({children}) => {
 
     const fetchResourceRoadmapBadgeTasks = async ({resourceId, roadmapId, badgeId}) => {
         try {
-            let res = await dashboardAxiosInstance.get(`/resource_roadmap_badge_tasks/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
+            let res = await authorizedDashboardAxiosInstance.get(`/resource_roadmap_badge_tasks/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
 
             const taskWorkflowMap = {};
             const taskIds = [];
@@ -265,7 +265,7 @@ export const ResourcesProvider = ({children}) => {
     ) => {
         try {
             let url = getResourceRoadmapBadgeStatusSummaryEndpointUrl({organizationId, resourceId, roadmapId, badgeId});
-            let res = await dashboardAxiosInstance.get(url);
+            let res = await authorizedDashboardAxiosInstance.get(url);
 
             let _resourceRoadmapBadgeStatusSummaryMap = {...resourceRoadmapBadgeStatusSummaryMap};
             _resourceRoadmapBadgeStatusSummaryMap[url] = res.data.results;
@@ -459,7 +459,7 @@ export const ResourcesProvider = ({children}) => {
 
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {
         try {
-            const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`, {comment});
+            const response = await authorizedDashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`, {comment});
             await fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId, badgeId});
 
             return response.data.results;
@@ -471,7 +471,7 @@ export const ResourcesProvider = ({children}) => {
 
     const setResourceRoadmapBadgeTaskWorkflowStatus = async ({resourceId, roadmapId, badgeId, taskId, status}) => {
         try {
-            const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/task/${taskId}/workflow/${status}/`,);
+            const response = await authorizedDashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/task/${taskId}/workflow/${status}/`,);
             await fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
 
             let resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
@@ -488,7 +488,7 @@ export const ResourcesProvider = ({children}) => {
 
     const setResourceRoadmap = async ({resourceId, roadmapId, badgeIds}) => {
         try {
-            const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/enrollments/`, {
+            const response = await authorizedDashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/enrollments/`, {
                 badge_ids: badgeIds
             });
 
