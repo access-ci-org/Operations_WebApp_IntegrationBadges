@@ -49,10 +49,10 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 dir: './build',
-                // Disable code splitting and create a single entry file
 
-                manualChunks: false,
-                inlineDynamicImports: true,
+                // Disable code splitting and create a single entry file
+                codeSplitting: false,
+
                 entryFileNames: `[name].js`, // Customize the output filename
                 assetFileNames: `[name].[ext]`, // Customize asset filenames (e.g., CSS)
             },
