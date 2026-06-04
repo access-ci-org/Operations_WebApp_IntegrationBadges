@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.15.4 2026-04-04 dinukadesilva
+    1 - [new] npm vulnerability fixes
+        - *
+
 v1.15.3 2026-04-04 dinukadesilva
     1 - [new] Style improvements to the badge activity log
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
