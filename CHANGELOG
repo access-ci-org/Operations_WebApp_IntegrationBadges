@@ -14,7 +14,7 @@ v1.15.3 2026-04-04 dinukadesilva
     1 - [new] Changing the order of badge statuses in the staff dashboard status highlight header (CTT-880)
         - /staff
         - /staff/badge-status
-    1 - [new] aking the badge status styles consistent across (CTT-1000)
+    1 - [new] Making the badge status styles consistent across (CTT-1000)
         - /staff
         - /staff/badge-status
         - /resources/<resource_id>/roadmaps/<roadmap_id>
