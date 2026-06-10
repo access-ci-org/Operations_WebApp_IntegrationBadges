@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {
-    authorizedDashboardAxiosInstanceWithoutRedirect, unauthorizedDashboardAxiosInstance
+    authorizedDashboardAxiosInstanceWithoutRedirect, dashboardAxiosInstance
 } from "./auth/DashboardAuthenticator.js";
 
 const ContactContext = createContext({
@@ -140,7 +140,7 @@ export const ContactProvider = ({children}) => {
 
     const fetchContactTypes = async () => {
         try {
-            const response = await unauthorizedDashboardAxiosInstance.get('/resource_contact_types');
+            const response = await dashboardAxiosInstance.get('/resource_contact_types');
             const _contactTypes = response.data.results;
             setContactTypesList(_contactTypes);
 

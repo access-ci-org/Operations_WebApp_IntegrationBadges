@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {authorizedDashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const BadgeContext = createContext({
     // badgeMap: {},
@@ -28,7 +28,7 @@ export const BadgeProvider = ({children}) => {
 
     const fetchBadges = async () => {
         try {
-            const response = await unauthorizedDashboardAxiosInstance.get('/badges');
+            const response = await dashboardAxiosInstance.get('/badges');
             const _badges = response.data.results;
             const _badgeIds = [];
             const _badgeMap = {};
@@ -55,7 +55,7 @@ export const BadgeProvider = ({children}) => {
 
     const fetchBadge = async ({badgeId}) => {
         try {
-            const response = await unauthorizedDashboardAxiosInstance.get(`/badge/${badgeId}`);
+            const response = await dashboardAxiosInstance.get(`/badge/${badgeId}`);
             const _badge = response.data.results;
 
             const _badgeMap = {

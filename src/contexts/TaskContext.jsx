@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {authorizedDashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const TaskContext = createContext({
     fetchTasks: () => {
@@ -25,7 +25,7 @@ export const TaskProvider = ({children}) => {
 
     const fetchTasks = async () => {
         try {
-            const response = await unauthorizedDashboardAxiosInstance.get(`/tasks`);
+            const response = await dashboardAxiosInstance.get(`/tasks`);
             const _tasks = response.data.results;
             const _taskMap = {}
             const _taskIds = [];

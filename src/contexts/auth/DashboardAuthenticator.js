@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const unauthorizedDashboardAxiosInstance = axios.create({
+export const dashboardAxiosInstance = axios.create({
     baseURL: window.SETTINGS.OPERATIONS_API_BASE_URL + window.SETTINGS.OPERATIONS_API_INTEGRATION_BADGES_PATH
 });
 
