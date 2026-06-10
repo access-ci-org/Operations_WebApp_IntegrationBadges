@@ -1,7 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {
-    authorizedDashboardAxiosInstance,
     authorizedDashboardAxiosInstanceWithoutRedirect, unauthorizedDashboardAxiosInstance
 } from "./auth/DashboardAuthenticator.js";
 
