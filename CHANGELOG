@@ -8,15 +8,25 @@ The general format of entries is:
         - *
 
 
-v1.15.5 2026-04-04 dinukadesilva
+v1.16.0 2026-06-10 dinukadesilva
+    1 - [new] Enabling page wise authorization and login redirections (CTT-969)
+        - /resources/<resource_id>/edit
+        - /resources/<resource_id>/roadmaps/:roadmapId/edit
+        - /staff/roadmaps/new
+        - /staff/roadmaps/<roadmap_id>/edit
+        - /staff/badges/new
+        - /staff/badges/<roadmap_id>/edit
+        - /staff/contacts
+
+v1.15.5 2026-06-04 dinukadesilva
     1 - [fix] Excluding the auth and redirect from exposed endpoints (CTT-969)
         - *
 
-v1.15.4 2026-04-04 dinukadesilva
+v1.15.4 2026-06-04 dinukadesilva
     1 - [new] npm vulnerability fixes
         - *
 
-v1.15.3 2026-04-04 dinukadesilva
+v1.15.3 2026-06-04 dinukadesilva
     1 - [new] Style improvements to the badge activity log
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
     1 - [new] Changing the order of badge statuses in the staff dashboard status highlight header (CTT-880)
