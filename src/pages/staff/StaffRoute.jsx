@@ -6,6 +6,8 @@ import StaffRoadmaps from "./StaffRoadmaps.jsx";
 import StaffRoadmapEdit from "./StaffRoadmapEdit.jsx";
 import StaffBadgeEdit from "./StaffBadgeEdit.jsx";
 import StaffContacts from "./StaffContacts.jsx";
+import {ProtectedRoute} from "../../components/util/Permissions.jsx";
+import {IntegrationRoles} from "../../contexts/constants.js";
 
 export const StaffRouteUrls = {
     INDEX: "/staff/dashboard",
@@ -44,12 +46,26 @@ const RouterLayout = () => {
 export const StaffRoute = <Route path="/staff" element={<RouterLayout/>}>
     <Route path={StaffRouteUrls.INDEX} element={<StaffDashboard/>}/>
     <Route path={StaffRouteUrls.ROADMAPS} element={<StaffRoadmaps/>}/>
-    <Route path={StaffRouteUrls.ROADMAP_EDIT} element={<StaffRoadmapEdit/>}/>
-    <Route path={StaffRouteUrls.ROADMAP_NEW} element={<StaffRoadmapEdit/>}/>
-    <Route path={StaffRouteUrls.BADGE_EDIT} element={<StaffBadgeEdit/>}/>
-    <Route path={StaffRouteUrls.BADGE_NEW} element={<StaffBadgeEdit/>}/>
+
+    <Route element={<ProtectedRoute
+        roles={[IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.CONCIERGE]}/>}>
+        <Route path={StaffRouteUrls.ROADMAP_EDIT} element={<StaffRoadmapEdit/>}/>
+        <Route path={StaffRouteUrls.ROADMAP_NEW} element={<StaffRoadmapEdit/>}/>
+    </Route>
+
+    <Route element={<ProtectedRoute
+        roles={[IntegrationRoles.BADGE_MAINTAINER, IntegrationRoles.CONCIERGE]}/>}>
+        <Route path={StaffRouteUrls.BADGE_EDIT} element={<StaffBadgeEdit/>}/>
+        <Route path={StaffRouteUrls.BADGE_NEW} element={<StaffBadgeEdit/>}/>
+    </Route>
+
     <Route path={StaffRouteUrls.BADGE_STATUS} element={<ResourceBadgeStatusListing/>}/>
-    <Route path={StaffRouteUrls.CONTACTS} element={<StaffContacts/>}/>
+
+    <Route element={<ProtectedRoute
+        roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR,
+            IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER, IntegrationRoles.CONCIERGE]}/>}>
+        <Route path={StaffRouteUrls.CONTACTS} element={<StaffContacts/>}/>
+    </Route>
 
     <Route path="/staff/*?" element={<Navigate to={StaffRouteUrls.INDEX} replace={true}/>}/>
 </Route>

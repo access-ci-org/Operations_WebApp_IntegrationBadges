@@ -1,7 +1,7 @@
-import {useLocation, useNavigate} from "react-router-dom";
-import Form from "react-bootstrap/Form";
+import {Navigate, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {useRoles} from "../../contexts/PermissionContext.jsx";
+import Unauthorized from "../Unauthorized.jsx";
 
 
 export function Concierge({children}) {
@@ -47,6 +47,27 @@ export function HideIfAuthorized({children, roles, resourceIds}) {
         return children;
     }
 }
+
+
+export function ProtectedRoute({ roles }) {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const {isAuthenticated, hasPermission} = useRoles();
+
+    const { resourceId } = useParams();
+    let resourceIds = queryParams.getAll('resourceId');
+    if (resourceId) resourceIds.push(resourceId);
+
+    if (!isAuthenticated()) {
+        window.location.replace("/login?next=" + window.location.pathname);
+    } if (!hasPermission({roles, resourceIds})) {
+        return <Unauthorized roles={roles} resourceIds={resourceIds} />;
+    }else {
+        return <Outlet />;
+    }
+}
+
 
 export function PermissionSwitch() {
     // const navigate = useNavigate();

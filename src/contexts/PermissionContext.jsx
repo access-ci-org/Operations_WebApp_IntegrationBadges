@@ -8,6 +8,8 @@ const RolesContext = createContext({
     // permissionMap: {},
     fetchRoles: () => {
     },
+    isAuthenticated: () => {
+    },
     hasPermission: ({roles = [], resourceIds = []} = {}) => {
     },
     getAuthorizedRoles: ({resourceId = null}) => {
@@ -22,6 +24,7 @@ export const useRoles = () => useContext(RolesContext);
  */
 export const RolesProvider = ({children}) => {
     const [roleMap, setRoleMap] = useReducer(DefaultReducer, {});
+    const [authenticated, setAuthenticated] = useReducer(DefaultReducer, false);
 
     const fetchRoles = async () => {
         try {
@@ -83,6 +86,8 @@ export const RolesProvider = ({children}) => {
             //     }
             // };
 
+            setAuthenticated(true);
+
             const _rolesMap = {};
 
             for (let i = 0; i < response.data.results.roles.length; i++) {
@@ -106,10 +111,19 @@ export const RolesProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            setAuthenticated(false);
+
             console.log(error)
             throw error;
         }
     };
+
+    /**
+     * @returns {boolean}
+     */
+    const isAuthenticated = () => {
+        return !!authenticated;
+    }
 
     /**
      * @param {string[]} roles
@@ -124,7 +138,7 @@ export const RolesProvider = ({children}) => {
 
                 if (authorizedResourceIdsMap === true) {
                     return true;
-                } else if (authorizedResourceIdsMap && !resourceIds) {
+                } else if (authorizedResourceIdsMap && (!resourceIds || resourceIds.length === 0)) {
                     return true;
                 } else if (authorizedResourceIdsMap) {
                     for (let j = 0; j < resourceIds.length; j++) {
@@ -159,7 +173,7 @@ export const RolesProvider = ({children}) => {
 
     return (
         <RolesContext.Provider
-            value={{roleMap, fetchRoles: fetchRoles, hasPermission, getAuthorizedRoles}}>
+            value={{roleMap, fetchRoles: fetchRoles, isAuthenticated, hasPermission, getAuthorizedRoles}}>
             {children}
         </RolesContext.Provider>
     );

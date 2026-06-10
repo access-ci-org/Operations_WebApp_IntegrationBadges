@@ -27,6 +27,8 @@ import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import About from "./pages/About.jsx";
 import {ContactProvider, useContacts} from "./contexts/ContactsContext.jsx";
 import {RolesProvider, useRoles} from "./contexts/PermissionContext.jsx";
+import {Concierge, ProtectedRoute, ShowIfAuthorized} from "./components/util/Permissions.jsx";
+import {IntegrationRoles} from "./contexts/constants.js";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -117,11 +119,16 @@ function App() {
                                                             <Route path="/resources/:resourceId/roadmaps/:roadmapId"
                                                                    element={<Resource/>}/>
 
-                                                            <Route path="/resources/:resourceId/edit"
-                                                                   element={<ResourceEdit/>}/>
-                                                            <Route
-                                                                path="/resources/:resourceId/roadmaps/:roadmapId/edit"
-                                                                element={<ResourceEdit/>}/>
+                                                            <Route element={<ProtectedRoute
+                                                                roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}/>}>
+
+                                                                <Route path="/resources/:resourceId/edit"
+                                                                       element={<ResourceEdit/>}/>
+                                                                <Route
+                                                                    path="/resources/:resourceId/roadmaps/:roadmapId/edit"
+                                                                    element={<ResourceEdit/>}/>
+
+                                                            </Route>
 
                                                             <Route
                                                                 path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"

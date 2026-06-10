@@ -140,7 +140,7 @@ export const ResourcesProvider = ({children}) => {
         try {
             const url = getResourceRoadmapBadgesEndpointUrl(
                 {organizationId, resourceId, roadmapId, badgeId, badgeWorkflowStatus, orderBy});
-            const response = await authorizedDashboardAxiosInstance.get(url);
+            const response = await unauthorizedDashboardAxiosInstance.get(url);
 
             const badgeStatusMap = {...resourceRoadmapBadgeMap};
             const badgeIds = [];
@@ -183,7 +183,7 @@ export const ResourcesProvider = ({children}) => {
                 url += `badge_id=${badgeId}`
             }
 
-            let resourceRoadmapBadgeLogs = await authorizedDashboardAxiosInstance.get(url);
+            let resourceRoadmapBadgeLogs = await unauthorizedDashboardAxiosInstance.get(url);
             const _resourceRoadmapBadgeLogMap = {...resourceRoadmapBadgeLogMap};
             const _resourceRoadmapBadgeLogIds = {};
             for (let j = 0; j < resourceRoadmapBadgeLogs.data.results.length; j++) {
@@ -216,7 +216,7 @@ export const ResourcesProvider = ({children}) => {
 
     const fetchResourceRoadmapBadgeTasks = async ({resourceId, roadmapId, badgeId}) => {
         try {
-            let res = await authorizedDashboardAxiosInstance.get(`/resource_roadmap_badge_tasks/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
+            let res = await unauthorizedDashboardAxiosInstance.get(`/resource_roadmap_badge_tasks/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
 
             const taskWorkflowMap = {};
             const taskIds = [];
@@ -265,7 +265,7 @@ export const ResourcesProvider = ({children}) => {
     ) => {
         try {
             let url = getResourceRoadmapBadgeStatusSummaryEndpointUrl({organizationId, resourceId, roadmapId, badgeId});
-            let res = await authorizedDashboardAxiosInstance.get(url);
+            let res = await unauthorizedDashboardAxiosInstance.get(url);
 
             let _resourceRoadmapBadgeStatusSummaryMap = {...resourceRoadmapBadgeStatusSummaryMap};
             _resourceRoadmapBadgeStatusSummaryMap[url] = res.data.results;

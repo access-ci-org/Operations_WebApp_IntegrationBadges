@@ -1,11 +1,10 @@
 import axios from "axios";
-import {redirect} from "react-router-dom";
 
 export const unauthorizedDashboardAxiosInstance = axios.create({
     baseURL: window.SETTINGS.OPERATIONS_API_BASE_URL + window.SETTINGS.OPERATIONS_API_INTEGRATION_BADGES_PATH
 });
 
-export const authorizedCiderAxiosInstance = axios.create({
+export const ciderAxiosInstance = axios.create({
     baseURL: window.SETTINGS.OPERATIONS_API_BASE_URL + window.SETTINGS.OPERATIONS_API_CIDER_PATH
 });
 
@@ -19,7 +18,6 @@ export const authorizedDashboardAxiosInstanceWithoutRedirect = axios.create({
 
 addDashboardAuthInterceptor(authorizedDashboardAxiosInstance);
 addDashboardAuthInterceptor(authorizedDashboardAxiosInstanceWithoutRedirect, false);
-addDashboardAuthInterceptor(authorizedCiderAxiosInstance);
 
 function addDashboardAuthInterceptor(axiosInstance, redirect = true) {
     axiosInstance.interceptors.request.use(
@@ -47,15 +45,6 @@ function addDashboardAuthInterceptor(axiosInstance, redirect = true) {
 }
 
 async function getNewToken() {
-    throw new Error()
-    try {
-        const res = await axios.get(`${window.SETTINGS.DASHBOARD_BASE_URL}/badgetoken/v1/token/`);
-        return res.data.token;
-    } catch (error) {
-        throw error;
-    }
+    const res = await axios.get(`${window.SETTINGS.DASHBOARD_BASE_URL}/badgetoken/v1/token/`);
+    return res.data.token;
 }
-
-
-
-
