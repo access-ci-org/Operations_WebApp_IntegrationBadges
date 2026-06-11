@@ -49,19 +49,24 @@ export function HideIfAuthorized({children, roles, resourceIds}) {
 }
 
 
-export function ProtectedRoute({ roles }) {
+export function ProtectedRoute({roles}) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
     const {isAuthenticated, hasPermission} = useRoles();
 
-    const { resourceId } = useParams();
+    const {resourceId} = useParams();
     let resourceIds = queryParams.getAll('resourceId');
     if (resourceId) resourceIds.push(resourceId);
 
+    debugger;
+    console.log("#### ProtectedRoute : ", {roles, resourceIds});
+    console.log("#### ProtectedRoute isAuthenticated() : ", isAuthenticated());
+    console.log("#### ProtectedRoute hasPermission({roles, resourceIds}) : ", hasPermission({roles, resourceIds}));
+
     if (!isAuthenticated()) {
         window.location.replace("/login?next=" + window.location.pathname);
-    } if (!hasPermission({roles, resourceIds})) {
+    } else if (!hasPermission({roles, resourceIds})) {
         return <Unauthorized roles={roles} resourceIds={resourceIds} />;
     }else {
         return <Outlet />;
