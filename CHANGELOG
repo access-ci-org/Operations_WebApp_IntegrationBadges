@@ -8,6 +8,13 @@ The general format of entries is:
         - *
 
 
+v1.16.9 2026-06-11 dinukadesilva
+    1 - [fix] Bug fix in the reducer to handle boolean values (CTT-969)
+        - Everything in v1.16.0
+
+v1.16.[1-8] 2026-06-11 dinukadesilva
+    1 - These were created for troubleshooting purposes and please disregard.
+
 v1.16.0 2026-06-10 dinukadesilva
     1 - [new] Enabling page wise authorization and login redirections (CTT-969)
         - /resources/<resource_id>/edit
