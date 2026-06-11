@@ -15,7 +15,7 @@ import ResourceBadge from "./pages/ResourceBadge";
 import {TaskProvider, useTasks} from "./contexts/TaskContext";
 import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import LoadingBlock from "./components/util/LoadingBlock.jsx";
 import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
@@ -36,7 +36,6 @@ const RouterLayout = () => {
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isStaffPage = !!(/^\/staff/i.exec(pathname));
 
-    const {fetchRoles} = useRoles();
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
@@ -52,7 +51,6 @@ const RouterLayout = () => {
     const contactTypes = getContactTypes();
 
     useEffect(() => {
-        fetchRoles();
         fetchOrganizations();
         fetchResources();
         fetchRoadmaps();
@@ -85,76 +83,95 @@ const RouterLayout = () => {
     }
 };
 
+const ProviderWrapper = ({children}) => {
+    return <OrganizationsProvider>
+        <RolesProvider>
+            <BadgeProvider>
+                <TaskProvider>
+                    <RoadmapProvider>
+                        <ContactProvider>
+                            <ResourcesProvider>
+                                <I18nextProvider i18n={i18n}>
+                                    {children}
+                                </I18nextProvider>
+                            </ResourcesProvider>
+                        </ContactProvider>
+                    </RoadmapProvider>
+                </TaskProvider>
+            </BadgeProvider>
+        </RolesProvider>
+    </OrganizationsProvider>
+}
+
+function ApplicationContainer() {
+    const {fetchRoles} = useRoles();
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+        fetchRoles()
+            .then(() => setReady(true))
+            .catch(() => setReady(true));
+    }, []);
+
+    if (ready) {
+        return <div className="w-100">
+            <div className="w-100">
+                <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
+                    <AlwaysScrollToTop/>
+                    <Routes>
+                        <Route path="/" element={<RouterLayout/>}>
+
+                            <Route path="/about" element={<About/>}/>
+
+                            <Route path="/organizations"
+                                   element={<IntegrationDashboard/>}/>
+                            <Route path="/organizations/:organizationId"
+                                   element={<Organization/>}/>
+                            <Route
+                                path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
+                                element={<OrganizationBadgeReview/>}/>
+
+                            <Route path="/resources/new" element={<NewResource/>}/>
+
+                            <Route path="/resources/:resourceId" element={<Resource/>}/>
+                            <Route path="/resources/:resourceId/roadmaps/:roadmapId"
+                                   element={<Resource/>}/>
+
+                            <Route element={<ProtectedRoute
+                                roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}/>}>
+
+                                <Route path="/resources/:resourceId/edit"
+                                       element={<ResourceEdit/>}/>
+                                <Route
+                                    path="/resources/:resourceId/roadmaps/:roadmapId/edit"
+                                    element={<ResourceEdit/>}/>
+
+                            </Route>
+
+                            <Route
+                                path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
+                                element={<ResourceBadge/>}/>
+
+                            {DocumentationRoute}
+                            {StaffRoute}
+
+                            <Route path="/*?"
+                                   element={<Navigate to="/organizations"
+                                                      replace={true}/>}/>
+
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            </div>
+        </div>;
+    } else {
+        return <LoadingBlock processing={true}/>
+    }
+}
 
 function App() {
-    return (
-        <OrganizationsProvider>
-            <RolesProvider>
-                <BadgeProvider>
-                    <TaskProvider>
-                        <RoadmapProvider>
-                            <ContactProvider>
-                                <ResourcesProvider>
-                                    <I18nextProvider i18n={i18n}>
-                                        <div className="w-100">
-                                            <div className="w-100">
-                                                <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
-                                                    <AlwaysScrollToTop/>
-                                                    <Routes>
-                                                        <Route path="/" element={<RouterLayout/>}>
-
-                                                            <Route path="/about" element={<About/>}/>
-
-                                                            <Route path="/organizations"
-                                                                   element={<IntegrationDashboard/>}/>
-                                                            <Route path="/organizations/:organizationId"
-                                                                   element={<Organization/>}/>
-                                                            <Route
-                                                                path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
-                                                                element={<OrganizationBadgeReview/>}/>
-
-                                                            <Route path="/resources/new" element={<NewResource/>}/>
-
-                                                            <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                                            <Route path="/resources/:resourceId/roadmaps/:roadmapId"
-                                                                   element={<Resource/>}/>
-
-                                                            <Route element={<ProtectedRoute
-                                                                roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}/>}>
-
-                                                                <Route path="/resources/:resourceId/edit"
-                                                                       element={<ResourceEdit/>}/>
-                                                                <Route
-                                                                    path="/resources/:resourceId/roadmaps/:roadmapId/edit"
-                                                                    element={<ResourceEdit/>}/>
-
-                                                            </Route>
-
-                                                            <Route
-                                                                path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
-                                                                element={<ResourceBadge/>}/>
-
-                                                            {DocumentationRoute}
-                                                            {StaffRoute}
-
-                                                            <Route path="/*?"
-                                                                   element={<Navigate to="/organizations"
-                                                                                      replace={true}/>}/>
-
-                                                        </Route>
-                                                    </Routes>
-                                                </BrowserRouter>
-                                            </div>
-                                        </div>
-                                    </I18nextProvider>
-                                </ResourcesProvider>
-                            </ContactProvider>
-                        </RoadmapProvider>
-                    </TaskProvider>
-                </BadgeProvider>
-            </RolesProvider>
-        </OrganizationsProvider>
-    );
+    return <ProviderWrapper>
+        <ApplicationContainer/>
+    </ProviderWrapper>
 }
 
 export default App;
