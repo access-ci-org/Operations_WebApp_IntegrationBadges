@@ -107,9 +107,7 @@ function ApplicationContainer() {
     const {fetchRoles} = useRoles();
     const [ready, setReady] = useState(false);
     useEffect(() => {
-        fetchRoles()
-            .then(() => setReady(true))
-            .catch(() => setReady(true));
+        fetchRoles().finally(() => setReady(true));
     }, []);
 
     if (ready) {
