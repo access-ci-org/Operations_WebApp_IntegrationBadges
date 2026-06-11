@@ -3,11 +3,11 @@ export default function DefaultReducer(state, newState) {
         return [
             ...newState
         ]
-    } else if (typeof state === "number" || typeof state === "string" || state === null || state === undefined) {
-        return newState
     } else if (typeof state === "object") {
         return {
             ...newState
         }
+    } else {
+        return newState
     }
 }
