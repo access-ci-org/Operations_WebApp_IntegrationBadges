@@ -86,6 +86,7 @@ export const RolesProvider = ({children}) => {
             //     }
             // };
 
+            console.log("#### fetchRoles - success", response);
             setAuthenticated(true);
 
             const _rolesMap = {};
@@ -111,6 +112,7 @@ export const RolesProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log("#### fetchRoles - failed", error);
             setAuthenticated(false);
 
             console.log(error)
