@@ -88,6 +88,7 @@ export const RolesProvider = ({children}) => {
 
             console.log("#### fetchRoles - success", response);
             setAuthenticated(true);
+            console.log("#### fetchRoles - authenticated", authenticated);
 
             const _rolesMap = {};
 
@@ -114,6 +115,7 @@ export const RolesProvider = ({children}) => {
         } catch (error) {
             console.log("#### fetchRoles - failed", error);
             setAuthenticated(false);
+            console.log("#### fetchRoles - authenticated", authenticated);
 
             console.log(error)
             throw error;
@@ -124,6 +126,7 @@ export const RolesProvider = ({children}) => {
      * @returns {boolean}
      */
     const isAuthenticated = () => {
+        console.log("#### isAuthenticated", authenticated);
         return !!authenticated;
     }
 
