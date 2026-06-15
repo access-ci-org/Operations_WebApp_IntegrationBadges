@@ -3,6 +3,7 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
 import {RoadmapMaintainer} from "../util/Permissions.jsx";
+import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
 
 export function StaffRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();
@@ -36,7 +37,13 @@ export function StaffRoadmapCard({roadmapId}) {
                         {roadmap.status && roadmap.status.toLowerCase() === "draft" &&
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Draft</span>}
                     </div>
-                    <h3 className="w-100 text-center fs-6"><RoadmapName roadmapId={roadmapId}/></h3>
+
+                    <Link className="btn btn-link text-decoration-none" to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmapId}`}>
+                        <h3 className="w-100 text-center fs-6">
+                            <RoadmapName roadmapId={roadmapId}/>
+                        </h3>
+                    </Link>
+
                 </div>
                 <div className="w-100 text-end p-1" style={{minHeight: 48}}>
                     <RoadmapMaintainer>
