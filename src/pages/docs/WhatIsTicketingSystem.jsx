@@ -17,7 +17,7 @@ export default function WhatIsTicketingSystem() {
                 If you already have an Atlassian account, you can use the email associated with that account for ACCESS.
                 Provide that email, and we'll link it to the project so you can start submitting tickets.
             </p>,
-            "icon": <i className="bi bi-check-circle text-success"></i>
+            "icon": <i className="bi bi-check-circle text-green-200"></i>
         },
         {
             "title": "I don't have an Atlassian account—what should I do?",
@@ -25,7 +25,7 @@ export default function WhatIsTicketingSystem() {
                 If you don't have an account, we will create one for you and add you to the project. This will give you
                 access to the ticketing system so you can submit and track requests.
             </p>,
-            "icon": <i className="bi bi-person-plus text-success"></i>
+            "icon": <i className="bi bi-person-plus text-green-200"></i>
         },
         {
             "title": "How do I submit a ticket?",
@@ -36,7 +36,7 @@ export default function WhatIsTicketingSystem() {
                 into Atlassian/Jira Service Management to access the RP form. This system allows the ACCESS team to
                 manage your requests efficiently and provide updates as needed.
             </p>,
-            "icon": <i className="bi bi-send text-success"></i>
+            "icon": <i className="bi bi-send text-green-200"></i>
         },
         {
             "title": "How can I learn more about ACCESS or Jira Service Management?",
@@ -45,7 +45,7 @@ export default function WhatIsTicketingSystem() {
                 Atlassian/Confluence to view them. These resources cover everything from navigation to ticket submission
                 and workflow details.
             </p>,
-            "icon": <i className="bi bi-book text-success"></i>
+            "icon": <i className="bi bi-book text-green-200"></i>
         },
         {
             "title": "When will I get access as a new Resource Provider?",
@@ -53,7 +53,7 @@ export default function WhatIsTicketingSystem() {
                 Access is granted during the integration process. You can track your progress via the Integration
                 Dashboard, and once your account is active, you'll be ready to submit tickets and manage your resources.
             </p>,
-            "icon": <i className="bi bi-clock text-success"></i>
+            "icon": <i className="bi bi-clock text-green-200"></i>
         }
     ];
 
@@ -95,7 +95,7 @@ export default function WhatIsTicketingSystem() {
                             </div>
                             <div className="p-1">
                                 <div
-                                    className="text-center bg-medium align-content-center small"
+                                    className="text-center bg-primary align-content-center small"
                                     style={{width: 25, height: 25, borderRadius: "50%"}}>
                                     {questionIndex + 1}</div>
                             </div>

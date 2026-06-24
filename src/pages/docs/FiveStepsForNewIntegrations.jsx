@@ -28,16 +28,16 @@ export default function FiveStepsForNewIntegrations() {
         </div>
         <div className="w-100 p-3 pt-5">
             <strong className="text-black d-block">Ready to start the process? </strong>
-            <Link className="btn btn-medium rounded-2 mt-2"
+            <Link className="btn btn-primary rounded-2 mt-2"
                   to="https://operations.access-ci.org/open-new-integration-request">
                 Register Your Resource</Link>
         </div>
         <div className="w-100 p-3 pt-5">
             <div className="w-100">
                 <h3 className="d-inline">REMINDER</h3>
-                <i className="d-inline ps-3 pe-3  text-yellow fs-3 bi bi-megaphone-fill"></i>
+                <i className="d-inline ps-3 pe-3  text-accent-primary fs-3 bi bi-megaphone-fill"></i>
             </div>
-            <p className="ps-5 pt-3 text-medium">
+            <p className="ps-5 pt-3 text-primary">
                 Once registration is complete, be sure to return to your integration dashboard in ACCESS to continue the
                 process. Once your resource is registered, it will appear in your integration dashboard, where you'll
                 find guidance on the next steps.

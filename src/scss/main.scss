@@ -1,0 +1,22 @@
+// Load Bootstrap's core functions
+@import "../../node_modules/bootstrap/scss/functions";
+
+@import "tokens";
+@import "variables";
+
+@import "../../node_modules/bootstrap/scss/variables";
+
+@import "variants";
+
+// Merge custom color map array cleanly into Bootstrap defaults
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+$table-variants: map-merge($table-variants, $custom-table-variants);
+
+// Compile everything
+@import "../../node_modules/bootstrap/scss/maps";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/utilities";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// ACCESS styles
+@import "styles_access";

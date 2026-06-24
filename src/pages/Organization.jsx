@@ -158,12 +158,12 @@ export default function Organization() {
                             <h2 className="d-inline me-4">
                                 {section.title} ({section.resources.filter(r => !!r).length})</h2>
                             <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
-                                <button className="btn btn-link text-yellow d-inline"><i
+                                <button className="btn btn-link text-accent-primary d-inline"><i
                                     className="bi bi-question-square-fill"></i></button>
                             </OverlayTrigger>
                         </div>
 
-                        <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+                        <div className="w-100 row row-cols-xl-3 row-cols-md-2 row-cols-1">
                             {section.resources.map((resource, resourceIndex) => {
                                 if (resource === null) {
                                     return <ShowIfAuthorized resourceIds={resourceIds}  key={resourceIndex}

@@ -62,7 +62,7 @@ export default function ContactsAndCollaboratorsTable(
         </div>
     } else if (contacts && contacts.length === 0) {
         return <div className="w-100 text-center">
-            <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>
+            <i className="bi bi-exclamation-triangle-fill text-accent-secondary pe-2"></i>
             <span className="text-secondary">No contacts found.</span>
         </div>
     } else {
@@ -70,7 +70,7 @@ export default function ContactsAndCollaboratorsTable(
             <div className="text-end pb-2">
 
                 <span className="ps-2 pe-2 fs-8">{copyStatus}</span>
-                {copyStatus === CopyStatus.success && <i className="pe-2 text-medium bi bi-check"></i>}
+                {copyStatus === CopyStatus.success && <i className="pe-2 text-primary bi bi-check"></i>}
                 {copyStatus === CopyStatus.error &&
                     <i className="pe-2 text-warning bi bi-exclamation-triangle-fill"></i>}
 
@@ -99,7 +99,7 @@ export default function ContactsAndCollaboratorsTable(
                             <div className="d-flex flex-row pt-2">
                                 <div className="pe-2">
                                     <CollaboratorProfileAvatarButton contact={contact}
-                                                                     profileAvatarClass="bg-orange text-white"/>
+                                                                     profileAvatarClass="bg-accent-secondary text-white"/>
                                 </div>
                                 <div className="flex-fill">
                                     <h5 className="fs-8 mb-0">{contact.contact_name}</h5>

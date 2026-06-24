@@ -21,7 +21,7 @@ export default function ResourceCard({organization, resource, inProgress = false
                 <ShowIfAuthorized resourceIds={[resource.info_resourceid]}
                                   roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
                     {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
-                                          className="btn btn-link text-medium">
+                                          className="btn btn-link text-primary">
                         Edit
                     </Link>}
                 </ShowIfAuthorized>
@@ -29,7 +29,7 @@ export default function ResourceCard({organization, resource, inProgress = false
             <h3 className="w-100 text-black">{resource.short_name}</h3>
         </div>
         <div className="w-100 p-1 resource-card-sub-header">
-            <strong className="text-medium">{resource.cider_type}</strong>
+            <strong className="text-primary">{resource.cider_type}</strong>
             <div className="resource-card-header-thumbnail">
                 <div className="bg-white background-image-center-no-repeat resource-icon-circle-small"
                      style={{backgroundImage: `url(${organization.other_attributes.organization_logo_url})`}}>
@@ -44,7 +44,7 @@ export default function ResourceCard({organization, resource, inProgress = false
         <div className="w-100">
             {showViewButton && !!inProgress &&
                 <div className="p-1">
-                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-medium rounded-5 w-100">
+                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-primary rounded-5 w-100">
                         Continue Setup
                     </Link>
                 </div>}
@@ -52,7 +52,7 @@ export default function ResourceCard({organization, resource, inProgress = false
             {showViewButton && !inProgress && resource.roadmaps && resource.roadmaps.map((roadmap, roadmapIndex) => {
                 return <div className="p-1" key={roadmapIndex}>
                     <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap.roadmap_id}`}
-                          className={`btn ${roadmapIndex === 0 ? 'btn-medium' : 'btn-outline-medium'} rounded-5 w-100`}>
+                          className={`btn ${roadmapIndex === 0 ? 'btn-primary' : 'btn-outline-primary'} rounded-5 w-100`}>
                         {roadmap.roadmap.name}
                     </Link>
                 </div>

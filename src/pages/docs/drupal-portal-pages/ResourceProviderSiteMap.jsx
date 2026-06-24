@@ -202,7 +202,7 @@ export default function ResourceProviderSiteMap() {
                     <ul className="list-unstyled ms-0">
                         {siteMapSection.links.map((link, linkIndex) => {
                             return <li key={linkIndex}>
-                                <Link to={link.url} className="btn btn-link fw-normal text-medium text-decoration-none mb-2">{link.name}</Link>
+                                <Link to={link.url} className="btn btn-link fw-normal text-primary text-decoration-none mb-2">{link.name}</Link>
                             </li>
                         })}
                     </ul>

@@ -114,21 +114,21 @@ export default function StaffRoadmapEdit() {
 
                     <div className="w-100 text-end pt-5 pb-5">
                         {activeSectionIndex === 0 ?
-                            <Link className="btn btn-outline-medium ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
+                            <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
                                 Back
                             </Link> :
-                            <button className="btn btn-outline-medium ps-3 pe-3 m-1"
+                            <button className="btn btn-outline-primary ps-3 pe-3 m-1"
                                     onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
                                 Back
                             </button>}
 
                         {activeSectionIndex === sections.length - 1 ?
-                            <button className="btn btn-medium ps-3 pe-3 m-1"
+                            <button className="btn btn-primary ps-3 pe-3 m-1"
                                     onClick={publishRoadmap}
                                     disabled={!areRoadmapDetailsValid}>
                                 Publish
                             </button> :
-                            <button className="btn btn-medium ps-3 pe-3 m-1"
+                            <button className="btn btn-primary ps-3 pe-3 m-1"
                                     onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
                                     disabled={!areRoadmapDetailsValid}>
                                 Continue
@@ -142,17 +142,17 @@ export default function StaffRoadmapEdit() {
             <Modal show={showSavedModal}>
                 <Modal.Header className="bg-light">
                     <Modal.Title>
-                        <i className="bi bi-check-circle text-medium center-and-large-icon"></i>
+                        <i className="bi bi-check-circle text-primary center-and-large-icon"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     The Roadmap “{roadmapData.name}” is Successfully Published.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link className="btn btn-outline-medium rounded-1" to={StaffRouteUrls.INDEX}>
+                    <Link className="btn btn-outline-primary rounded-1" to={StaffRouteUrls.INDEX}>
                         Go to Home Page
                     </Link>
-                    <Link className="btn btn-medium rounded-1" to={StaffRouteUrls.ROADMAPS}>
+                    <Link className="btn btn-primary rounded-1" to={StaffRouteUrls.ROADMAPS}>
                         Go to Roadmaps
                     </Link>
                 </Modal.Footer>
@@ -173,7 +173,7 @@ export default function StaffRoadmapEdit() {
                     <p>Integration Dashboard <strong>roadmap.maintainer</strong> permission</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
+                    <button className="btn btn-outline-primary rounded-1"
                             onClick={setShowErrorModal.bind(this, false)}>
                         Cancel
                     </button>

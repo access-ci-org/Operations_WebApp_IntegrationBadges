@@ -10,9 +10,9 @@ import {IntegrationRoles} from "../../contexts/constants.js";
 import {ShowIfAuthorized} from "../util/Permissions.jsx";
 
 const ContactAvatarClasses = [
-    "bg-orange text-white",
-    "bg-success text-dark",
-    "bg-yellow text-light",
+    "bg-accent-secondary text-white",
+    "bg-green-200 text-dark",
+    "bg-accent-primary text-light",
     "bg-info-subtle text-danger",
     "bg-info text-black",
 ];
@@ -73,8 +73,8 @@ function ShowMoreCollaboratorDetailsButton(
         return <div className="col align-content-center text-end ps-2">
             {contacts &&
                 <button className="btn btn-light rounded-3 border-0 fs-8" onClick={() => onClick && onClick()}>
-                        <span className="small text-medium fw-bold"> Contacts / Collaborator</span>
-                        <span className="ps-1 pe-1 ms-2 bg-medium text-white fw-bold rounded rounded-3">
+                        <span className="small text-primary fw-bold"> Contacts / Collaborator</span>
+                        <span className="ps-1 pe-1 ms-2 bg-primary text-white fw-bold rounded rounded-3">
                             {contacts.length - NumberOfContactDisplayOnSummary}</span>
                 </button>}
         </div>
@@ -108,8 +108,8 @@ export default function ContactsAndCollaboratorsSummary(
             IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
         <div className="w-100 p-2">
             {/*<div className="w-100">*/}
-            {/*    <h4 className="fs-10 fw-bold mb-1 pe-2 text-medium d-inline">Contacts / Collaborators</h4>*/}
-            {/*    <button className="btn btn-link text-medium d-inline">*/}
+            {/*    <h4 className="fs-10 fw-bold mb-1 pe-2 text-primary d-inline">Contacts / Collaborators</h4>*/}
+            {/*    <button className="btn btn-link text-primary d-inline">*/}
             {/*        <i className="bi bi-info-circle-fill fs-7"></i></button>*/}
             {/*</div>*/}
 
@@ -132,7 +132,7 @@ export default function ContactsAndCollaboratorsSummary(
                 {/*{!error && contacts && contacts.length === 0 &&*/}
                 {/*    <div className="col align-content-center ps-1">*/}
                 {/*        <div className="w-100 fs-8">*/}
-                {/*            <i className="bi bi-exclamation-triangle-fill text-orange pe-2"></i>*/}
+                {/*            <i className="bi bi-exclamation-triangle-fill text-accent-secondary pe-2"></i>*/}
                 {/*            <span className="text-secondary">No contacts found.</span>*/}
                 {/*        </div>*/}
                 {/*    </div>}*/}
@@ -166,7 +166,7 @@ export default function ContactsAndCollaboratorsSummary(
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
+                    <button className="btn btn-outline-primary rounded-1"
                             onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
                         Cancel
                     </button>

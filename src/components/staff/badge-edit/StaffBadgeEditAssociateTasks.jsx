@@ -133,7 +133,7 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                     <button className="btn btn-secondary ps-3 pe-3 m-1" onClick={resetTaskData}>
                         Cancel
                     </button>
-                    <button className="btn btn-medium ps-3 pe-3 m-1" onClick={saveTask} disabled={!isTaskFormValid}>
+                    <button className="btn btn-primary ps-3 pe-3 m-1" onClick={saveTask} disabled={!isTaskFormValid}>
                         Save
                     </button>
                 </div>
@@ -158,7 +158,7 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                 <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-outline-medium rounded-1"
+                <button className="btn btn-outline-primary rounded-1"
                         onClick={setShowErrorModal.bind(this, false)}>
                     Cancel
                 </button>

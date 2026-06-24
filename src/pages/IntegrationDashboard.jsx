@@ -50,7 +50,7 @@ export default function IntegrationDashboard() {
         <div className="row">
             {/*<h1>Integration Dashboard</h1>*/}
             <p className="mt-4">
-                <strong className="text-medium">Click on a Resource Provider (RP)</strong> to view their resources and
+                <strong className="text-primary">Click on a Resource Provider (RP)</strong> to view their resources and
                 integration statuses.
                 You can explore and manage the resources provided by various RPs. Each RP’s integration progress is
                 tracked in real-time, so you can monitor your active and pending integrations as you continue your

@@ -61,14 +61,14 @@ export default function FAQ1() {
             const icon = button.querySelector('i');
 
             if (isSuccess) {
-                icon.className = "bi bi-check-lg fs-5 text-medium";
+                icon.className = "bi bi-check-lg fs-5 text-primary";
             } else {
                 icon.className = "bi bi-x-lg fs-5 text-danger";
             }
 
             // Reset back to normal link icon after 1.5 seconds
             setTimeout(() => {
-                icon.className = "bi bi-link fs-5 text-medium";
+                icon.className = "bi bi-link fs-5 text-primary";
             }, 1500);
         }
     });
@@ -345,7 +345,7 @@ export default function FAQ1() {
                                 </li>
                                 <li className="list-unstyled d-flex flex-row pt-3">
                                     <div className="align-content-center pe-2">
-                                        <div className="bi bi-eye-fill fs-2 text-medium"></div>
+                                        <div className="bi bi-eye-fill fs-2 text-primary"></div>
                                     </div>
                                     <a className="align-content-center ms-2 btn btn-link flex-fill"
                                        href="https://support.access-ci.org/video-learning-center#video-ssh">
@@ -639,7 +639,7 @@ export default function FAQ1() {
                                                             className="copy-btn btn btn-sm btn-outline-gray-400 lh-1 border-0 rounded-5 ms-2"
                                                             type="button" title="Copy link"
                                                             data-link={`#${subsectionItemIndex}`}>
-                                                            <i className="bi bi-link fs-5 text-medium"></i>
+                                                            <i className="bi bi-link fs-5 text-primary"></i>
                                                         </button>
                                                     </div>
                                                 </div>

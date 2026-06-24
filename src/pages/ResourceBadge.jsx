@@ -164,10 +164,10 @@ export default function ResourceBadge() {
             </div>
 
             <div className="w-100 d-flex flex-row pt-3 pb-4">
-                <div className="ps-3 pe-3  text-yellow fs-3">
+                <div className="ps-3 pe-3  text-accent-primary fs-3">
                     <i className="bi bi-megaphone-fill"></i>
                 </div>
-                <p className="text-medium flex-fill fs-5">
+                <p className="text-primary flex-fill fs-5">
                     We recommend completing any prerequisite badges before starting the tasks for this badge. Please
                     note that some tasks may be informational—review the details, complete them as needed, and update
                     the status to 'Completed' or 'Not Applicable' based on your situation.</p>
@@ -182,7 +182,7 @@ export default function ResourceBadge() {
                                         Prerequisite badges must be completed before submitting this badge for concierge
                                         verification. Click badge details to view and complete the required tasks.
                                     </Tooltip>}>
-                        <button className="btn btn-link text-yellow d-inline">
+                        <button className="btn btn-link text-accent-primary d-inline">
                             <i className="bi bi-question-square-fill"></i></button>
                     </OverlayTrigger>
                 </div>
@@ -197,7 +197,7 @@ export default function ResourceBadge() {
                                         Some tasks are informational, while others require action. Review them, return
                                         here, and mark each as Complete or N/A.
                                     </Tooltip>}>
-                        <button className="btn btn-link text-yellow d-inline">
+                        <button className="btn btn-link text-accent-primary d-inline">
                             <i className="bi bi-question-square-fill"></i></button>
                     </OverlayTrigger>
                 </div>
@@ -217,10 +217,10 @@ export default function ResourceBadge() {
                             resource provider for guidance.
                         </p>
                         <p className="pt-2 pb-2">
-                            <strong className="text-medium">Verification Method : </strong> {badge.verification_method}
+                            <strong className="text-primary">Verification Method : </strong> {badge.verification_method}
                         </p>
                         <p>
-                            <strong className="text-medium">Verification Summary : </strong>
+                            <strong className="text-primary">Verification Summary : </strong>
                             {badge.verification_summary}
                         </p>
                     </div>
@@ -254,7 +254,7 @@ export default function ResourceBadge() {
                     <div className="w-100 d-flex flex-row">
                         <div className="flex-fill"></div>
                         <div style={{maxWidth: 600}} className="text-end">
-                            {badgeActionStatusProcessing && <button className="btn btn-medium rounded-3 ps-3 pe-3 m-1">
+                            {badgeActionStatusProcessing && <button className="btn btn-primary rounded-3 ps-3 pe-3 m-1">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
                                 Loading...
@@ -267,7 +267,7 @@ export default function ResourceBadge() {
                                     onClick = setShowSaveConfirmationModal.bind(this, true)
                                 }
 
-                                return <button className="btn btn-outline-medium rounded-3 ps-3 pe-3 m-1"
+                                return <button className="btn btn-outline-primary rounded-3 ps-3 pe-3 m-1"
                                                key={transitionIndex} disabled={disabled} onClick={onClick}>
                                     {transition.name}
                                 </button>
@@ -298,7 +298,7 @@ export default function ResourceBadge() {
             {/*            onClick = setShowSaveConfirmationModal.bind(this, true)*/}
             {/*        }*/}
 
-            {/*        return <button className="btn btn-sm btn-outline-medium rounded-3 ps-3 pe-3 m-1"*/}
+            {/*        return <button className="btn btn-sm btn-outline-primary rounded-3 ps-3 pe-3 m-1"*/}
             {/*                       key={transitionIndex} disabled={disabled} onClick={onClick}>*/}
             {/*            {transition.name}*/}
             {/*        </button>*/}
@@ -315,18 +315,18 @@ export default function ResourceBadge() {
             <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
                 <Modal.Header closeButton className="bg-light">
                     <Modal.Title>
-                        <i className="bi bi-question-octagon-fill text-medium center-and-large-icon"></i>
+                        <i className="bi bi-question-octagon-fill text-primary center-and-large-icon"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure that you want to submit this badge for verification?
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
+                    <button className="btn btn-outline-primary rounded-1"
                             onClick={setShowSaveConfirmationModal.bind(this, false)}>
                         No
                     </button>
-                    <button className="btn btn-medium rounded-1"
+                    <button className="btn btn-primary rounded-1"
                             onClick={clickBadgeAction(BadgeWorkflowStatus.TASK_COMPLETED)}>
                         Yes
                     </button>
@@ -336,14 +336,14 @@ export default function ResourceBadge() {
             <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
                 <Modal.Header closeButton className="bg-light">
                     <Modal.Title>
-                        <i className="bi bi-floppy-fill text-medium center-and-large-icon"></i>
+                        <i className="bi bi-floppy-fill text-primary center-and-large-icon"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Badge completion has been sent to a concierge for verification.
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-medium rounded-1"
+                    <button className="btn btn-primary rounded-1"
                             onClick={setShowSavedModal.bind(this, false)}>
                         Exit
                     </button>
@@ -367,7 +367,7 @@ export default function ResourceBadge() {
                         resource <strong>{resourceId}</strong></p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
+                    <button className="btn btn-outline-primary rounded-1"
                             onClick={setShowErrorModal.bind(this, false)}>
                         Cancel
                     </button>

@@ -25,7 +25,7 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
             <div className="row bg-gray-100 rounded-3 mt-4 p-2">
                 <div className="col p-2">
                     <div><strong>{resource.resource_descriptive_name}</strong></div>
-                    <div><strong className="text-medium">{organization.organization_name}</strong></div>
+                    <div><strong className="text-primary">{organization.organization_name}</strong></div>
                 </div>
                 <div className="col p-2">
                     <label className="text-secondary">Resource Type</label>
@@ -56,7 +56,7 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
 
             {!!resourceRoadmaps ?
                 <DropdownButton size="lg" title={roadmap.name}
-                                bsPrefix="w-100 text-start btn btn-lg btn-outline-medium rounded-2 p-4"
+                                bsPrefix="w-100 text-start btn btn-lg btn-outline-primary rounded-2 p-4"
                                 onSelect={handleResourceRoadmapSelect}>
                     {resourceRoadmaps.map(resourceRoadmap => <Dropdown.Item key={resourceRoadmap.roadmap_id}
                                                                             eventKey={resourceRoadmap.roadmap_id}>

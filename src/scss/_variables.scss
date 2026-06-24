@@ -1,0 +1,37 @@
+$btn-border-width:                 0.2rem !default;
+$btn-font-weight:                  700 !default;
+$btn-border-radius:                0rem !default;
+$btn-border-radius-sm:             0rem !default;
+$btn-border-radius-lg:             0rem !default;
+
+$accordion-padding-y:              0.7rem !default;
+$accordion-padding-x:              1rem !default;
+$accordion-bg:                     $light !default;
+$accordion-button-active-bg:       $light !default;
+
+$nav-link-color:                   $secondary !default;
+$nav-link-hover-color:             $primary !default;
+$nav-underline-gap:                1rem !default;
+$nav-underline-border-width:       .1rem !default;
+$nav-underline-link-active-color:  $primary !default;
+
+$component-active-color:           $white !default;
+$component-active-bg:              $primary !default;
+
+$table-cell-padding-y:             .75rem !default;
+$table-cell-padding-x:             .75rem !default;
+$table-cell-padding-y-sm:          .75rem !default;
+$table-cell-padding-x-sm:          .75rem !default;
+
+$modal-content-border-width:        0px !default;
+$modal-content-border-radius:       0px !default;
+$modal-content-inner-border-radius: 0px !default;
+$modal-header-border-width:         0px !default;
+$modal-footer-border-width:         0px !default;
+$modal-header-border-color:         transparent !default;
+$modal-header-padding-y:            50px !default;
+$modal-header-padding-x:            50px !default;
+
+// Checkbox Component Links
+$form-check-input-checked-bg-color:       $primary !default;
+$form-check-input-checked-border-color:   $primary !default;

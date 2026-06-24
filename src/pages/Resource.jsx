@@ -137,10 +137,10 @@ export default function Resource() {
             </div>
             <div className="w-100 pt-3 pb-3">
                 <p>{resource.resource_description}</p>
-                {/*<Link to={resource.user_guide_url} className="btn btn-medium">View User Guide</Link>*/}
+                {/*<Link to={resource.user_guide_url} className="btn btn-primary">View User Guide</Link>*/}
             </div>
 
-            <div className=" w-100 pt-5 pb-5 text-medium lead fst-italic">
+            <div className=" w-100 pt-5 pb-5 text-primary lead fst-italic">
                 Review the list of badges waiting for completion and start completing tasks to earn badges and track
                 your progress!
             </div>
@@ -163,7 +163,7 @@ export default function Resource() {
 
                 {tabs.map((tab, tabIndex) => {
                     return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
-                        <div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+                        <div className="w-100 pt-2 pb-5 row row-cols-xl-3 row-cols-md-2 row-cols-1">
                             {tab.badges && tab.badges.map((badge) => {
                                 return <div className="col p-3" key={badge.badge_id}>
                                     <ResourceBadgeCard resourceId={resourceId} roadmapId={roadmapId}

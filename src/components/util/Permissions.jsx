@@ -83,7 +83,7 @@ export function PermissionSwitch() {
     //     navigate(location.pathname + (concierge ? "" : "?concierge=true"), {replace: true})
     // }
     //
-    // return <nav className="navbar fixed-bottom navbar-light bg-light border-top border-3 border-medium p-2 d-flex">
+    // return <nav className="navbar fixed-bottom navbar-light bg-light border-top border-3 border-primary p-2 d-flex">
     //     <div className="flex-wrap"></div>
     //     <div className="ps-5 pe-5">
     //         <Form.Check type="switch" checked={!!concierge} id="concierge-switch"

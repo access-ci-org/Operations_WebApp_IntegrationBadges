@@ -53,20 +53,20 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
         }
 
         return <div className="w-100 text-end pt-3 pb-5">
-            <button className="btn btn-outline-medium rounded-1 m-1" onClick={prev}>
+            <button className="btn btn-outline-primary rounded-1 m-1" onClick={prev}>
                 Cancel
             </button>
 
             {!showSave ?
-                <button className="btn btn-medium rounded-1 m-1 ${}" disabled={selectedBadgeIds.length === 0}
+                <button className="btn btn-primary rounded-1 m-1 ${}" disabled={selectedBadgeIds.length === 0}
                         onClick={next}>
                     Continue with {selectedBadgeIds.length} Selected Badges
                 </button> :
                 saveProcessing ?
-                    <button className="btn btn-medium rounded-1 m-1">
+                    <button className="btn btn-primary rounded-1 m-1">
                         <span className="spinner-border spinner-border-sm me-3" role="status" aria-hidden="true"></span>
                         Loading...
-                    </button> : <button className="btn btn-medium rounded-1 m-1" disabled={selectedBadgeIds.length === 0}
+                    </button> : <button className="btn btn-primary rounded-1 m-1" disabled={selectedBadgeIds.length === 0}
                                         onClick={handleSave}>
                         Save Selection
                     </button>}
@@ -74,18 +74,18 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
             <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
                 <Modal.Header closeButton className="bg-light">
                     <Modal.Title>
-                        <i className="bi bi-floppy-fill text-medium center-and-large-icon"></i>
+                        <i className="bi bi-floppy-fill text-primary center-and-large-icon"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Changes Have Been Successfully Saved
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
+                    <button className="btn btn-outline-primary rounded-1"
                             onClick={navigateToDashboard}>
                         Go to Dashboard
                     </button>
-                    <button className="btn btn-medium rounded-1"
+                    <button className="btn btn-primary rounded-1"
                             onClick={navigateToResourcePage}>
                         Resource Overview
                     </button>
@@ -108,7 +108,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
                         resource <strong>{resourceId}</strong></p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-medium rounded-1"
+                    <button className="btn btn-outline-primary rounded-1"
                             onClick={setShowErrorModal.bind(this, false)}>
                         Cancel
                     </button>

@@ -28,16 +28,16 @@ export default function NewResource() {
         </div>
         <div class="w-100 pt-5">
             <strong class="text-black d-block">Ready to start the process? </strong>
-            <a href="#" class="btn btn-medium rounded-2 mt-2">Register Your Resource in CiDeR</a>
+            <a href="#" class="btn btn-primary rounded-2 mt-2">Register Your Resource in CiDeR</a>
         </div>
         <div class="w-100 pt-5">
             <div>
                 <h3 class="d-inline">REMINDER </h3>
-                <div class="d-inline ps-3 pe-3  text-yellow fs-3">
+                <div class="d-inline ps-3 pe-3  text-accent-primary fs-3">
                     <i class="bi bi-megaphone-fill"></i>
                 </div>
             </div>
-            <p class="ps-5 pt-3 text-medium">
+            <p class="ps-5 pt-3 text-primary">
                 CiDeR is an external system where you will register your resource. Once registration is complete, be
                 sure to return to your integration dashboard in ACCESS to continue the process. Once your resource is
                 registered in CiDeR, it will appear in your integration dashboard, where you'll find guidance on the

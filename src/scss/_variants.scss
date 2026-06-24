@@ -1,0 +1,84 @@
+// Breakpoints for responsive screens
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 768px,
+  lg: 900px,
+  xl: 1024px,
+  xxl: 1280px
+);
+
+// Maximum content widths for containers
+$container-max-widths: (
+  sm: 540px,
+  md: 712px,
+  lg: 840px,
+  xl: 940px,
+  xxl: 1180px
+);
+
+// Custom Typography
+$font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: $h7-font-size,
+  8: $h8-font-size,
+  9: $h9-font-size,
+  10: $h10-font-size
+);
+
+// Custom Theme Colors
+$custom-theme-colors: (
+  "primary":            $primary,
+  "dark":        $dark,
+  "primary-400":        $primary-400,
+  "light":        $light,
+
+  // Secondary Variants
+  "secondary":          $secondary,
+  "secondary-light":    $secondary-light,
+  "secondary-dark":     $secondary-dark,
+
+  // Accent variants
+  "accent-primary":     $accent-primary, // yellow
+  "accent-secondary":   $accent-secondary, // orange
+
+  // Specific color variants
+  "blue":          $blue,
+  "blue-800":      $blue-800,
+  "green":         $green,
+  "green-200":     $green-200,
+  "cyan":          $cyan,
+
+  // Grays Scale
+  "white":         $white,
+  "gray-100":      $gray-100,
+  "gray-200":      $gray-200,
+  "gray-300":      $gray-300,
+  "gray-400":      $gray-400,
+  "gray-500":      $gray-500,
+  "gray-600":      $gray-600,
+  "gray-700":      $gray-700,
+  "gray-800":      $gray-800,
+  "gray-900":      $gray-900
+);
+
+// Custom Table Variants
+$custom-table-variants: (
+  "dark":      $dark,
+  "light":     $light,
+  "secondary": $secondary,
+  "gray-100":  $gray-100,
+  "gray-200":  $gray-200,
+  "gray-300":  $gray-300,
+  "gray-400":  $gray-400,
+  "gray-500":  $gray-500,
+  "gray-600":  $gray-600,
+  "gray-700":  $gray-700,
+  "gray-800":  $gray-800,
+  "gray-900":  $gray-900
+);

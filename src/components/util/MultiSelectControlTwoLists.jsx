@@ -125,7 +125,7 @@ export default function MultiSelectControlTwoLists(
         return <div className="text-gray-400 align-content-center ps-1 pe-1 d-flex flex-row">
             {!!enableOrdering &&
                 <button className="btn btn-link ps-1 pe-1"><i className="bi bi-grip-vertical fs-5"></i></button>}
-            {!!enableViewMoreDetails && <button type="button" className="btn btn-link text-medium ps-1 pe-1"
+            {!!enableViewMoreDetails && <button type="button" className="btn btn-link text-primary ps-1 pe-1"
                                                 onClick={decoratedOnClick}>
                 {currentEventKey === eventKey ? <i className="bi bi-caret-down-fill"></i> :
                     <i className="bi bi-caret-up-fill"></i>}

@@ -128,7 +128,7 @@ export default function ResourceBadgeStatusListing() {
             <div className="row mt-2 p-3">
                 <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                     <div className="w-100 " style={{borderBottom: "1px dashed"}}>
-                        <h2 className="text-medium">Badge Verification Status</h2>
+                        <h2 className="text-primary">Badge Verification Status</h2>
                     </div>
 
                     <p className="w-100 pt-3 text-gray-600">
@@ -209,7 +209,7 @@ export default function ResourceBadgeStatusListing() {
                                         <td>
                                             <Link style={{minWidth: "175px"}}
                                                   to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}`}
-                                                  className="btn btn-link text-medium text-decoration-none fw-normal fs-7 pt-2 pb-2 text-start"
+                                                  className="btn btn-link text-primary text-decoration-none fw-normal fs-7 pt-2 pb-2 text-start"
                                                   target="_blank">
                                                 <ShowIfAuthorized
                                                     resourceIds={[resourceId]}

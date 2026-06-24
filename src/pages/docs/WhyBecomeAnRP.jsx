@@ -11,7 +11,7 @@ export default function WhyBecomeAnRP() {
             <strong>resource</strong> with <br/>
             ACCESS?
         </>,
-        "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-medium"></i>,
+        "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-primary"></i>,
         "description": "Learn how contributing your resource supports the national research community, expands your visibility, and opens opportunities for collaboration and program support.",
         "link": DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES
     }, {
@@ -21,7 +21,7 @@ export default function WhyBecomeAnRP() {
             resource <strong>into</strong> <br/>
             <strong>ACCESS?</strong>
         </>,
-        "icon": <i className="bi bi-stack fs-1 text-medium"></i>,
+        "icon": <i className="bi bi-stack fs-1 text-primary"></i>,
         "description": "Understand the process, what’s expected, and how our team supports you every step of the way.",
         "link": DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE
     }, {
@@ -32,7 +32,7 @@ export default function WhyBecomeAnRP() {
             do I <strong>choose the</strong> <br/>
             <strong>right one?</strong>
         </>,
-        "icon": <i className="bi bi-gear fs-1 text-medium"></i>,
+        "icon": <i className="bi bi-gear fs-1 text-primary"></i>,
         "description": "Find out how roadmaps structure the integration process and help you select the path that fits your system.",
         "link": DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP
     }, {
@@ -43,7 +43,7 @@ export default function WhyBecomeAnRP() {
             <strong>Atlassian</strong> <br/>
             <strong>account?</strong>
         </>,
-        "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-medium"></i>,
+        "icon": <i className="bi bi-rocket-takeoff-fill fs-1 text-primary"></i>,
         "description": "Learn how to access the ticketing system and set up your account to submit requests and support national research efforts.",
         "link": DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM
     }];
@@ -113,7 +113,7 @@ export default function WhyBecomeAnRP() {
                 <div className="col p-3" key={keyQuestionIndex} style={{minWidth: 270, maxWidth: 270}}>
                     <div className="w-100 h-100 border border-dark p-4 border-1 rounded-3 box-shadow-0-4-4-0">
                         {keyQuestion.icon}
-                        <Link className="w-100 btn btn-link text-medium text-center text-decoration-none fs-5 fw-normal"
+                        <Link className="w-100 btn btn-link text-primary text-center text-decoration-none fs-5 fw-normal"
                               to={keyQuestion.link} style={{height: 170}}>
                             {keyQuestion.title}
                         </Link>
@@ -130,7 +130,7 @@ export default function WhyBecomeAnRP() {
                 {additionalQuestions.map((additionalQuestion, additionalQuestionIndex) =>
                     <Accordion.Item eventKey={additionalQuestionIndex} key={additionalQuestionIndex} className="mb-2 rounded-3 border-top">
                         <Accordion.Button className="rounded-3">
-                            <span className="text-medium fw-bold">{additionalQuestion.title}</span>
+                            <span className="text-primary fw-bold">{additionalQuestion.title}</span>
                         </Accordion.Button>
                         <Accordion.Body>
                             <p className="fs-6 p-3 text-gray-700">{additionalQuestion.description}</p>
@@ -159,7 +159,7 @@ export function WhyBecomeAnRPFooter() {
                     </p>
                 </div>
                 <div className="text-center">
-                    <Link className="btn btn-primary btn-lg rounded-2 mt-2"
+                    <Link className="btn btn-accent-primary btn-lg rounded-2 mt-2"
                           to="https://support.access-ci.org/help-ticket">Open Help Ticket</Link>
                 </div>
             </div>
@@ -177,7 +177,7 @@ export function WhyBecomeAnRPFooter() {
                     </p>
                 </div>
                 <div className="text-center">
-                    <Link className="btn btn-medium btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
+                    <Link className="btn btn-primary btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
                 </div>
             </div>
         </div>

@@ -58,7 +58,7 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                     </div>}
 
                 {!roadmapId &&
-                    <Link className={`${actionButtonClasses} bg-primary`}
+                    <Link className={`${actionButtonClasses} bg-accent-primary`}
                           to="https://support.access-ci.org/help-ticket">
                         Open Help Ticket
                     </Link>}
@@ -71,7 +71,7 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                         Select the Roadmap
                     </button>}
                 {!!roadmapId && !!resource && !!selected &&
-                    <button className={`${actionButtonClasses} bg-medium`} onClick={toggle}>
+                    <button className={`${actionButtonClasses} bg-primary`} onClick={toggle}>
                         <i className="bi bi-check-circle-fill"></i>&nbsp;&nbsp;Selected
                     </button>}
             </div>
@@ -171,7 +171,7 @@ export function BadgeCardRowWithRequiredLabel({resourceId, roadmapId, badgeId, s
     </div>
 
     const body = <div className="text-center">
-        {!!required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-medium-subtle text-black">
+        {!!required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
                 Required</small> :
             <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
                 Not Required</small>}
@@ -183,7 +183,7 @@ export function BadgeCardRowWithRequiredLabel({resourceId, roadmapId, badgeId, s
 
 export function RequiredBadgeTooltip({children, required}) {
     const tooltip = <Tooltip>
-        <i className="bi bi-exclamation-triangle-fill text-yellow"></i>
+        <i className="bi bi-exclamation-triangle-fill text-accent-primary"></i>
         &nbsp;
         This is a required badge
     </Tooltip>

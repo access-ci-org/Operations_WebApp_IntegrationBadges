@@ -96,11 +96,11 @@ export default function StaffDashboard() {
                 <div className="col-12 p-0 pb-4">
                     <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row p-0">
-                            <h2 className="text-medium">Badge Verification Status</h2>
+                            <h2 className="text-primary">Badge Verification Status</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div style={{minWidth: 100}}>
-                                <Link className="btn btn-sm btn-medium rounded-2"
+                                <Link className="btn btn-sm btn-primary rounded-2"
                                       to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View
                                     All</Link>
                             </div>
@@ -114,12 +114,12 @@ export default function StaffDashboard() {
                 <div className="col-md-6 p-0 pb-4 pe-md-3 pe-sm-1">
                     <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row pb-4">
-                            <h2 className="text-medium">Roadmaps</h2>
+                            <h2 className="text-primary">Roadmaps</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <RoadmapMaintainer>
                                 <div style={{minWidth: 100}}>
-                                    <Link className="btn btn-sm btn-medium rounded-2"
+                                    <Link className="btn btn-sm btn-primary rounded-2"
                                           to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                                 </div>
                             </RoadmapMaintainer>
@@ -135,7 +135,7 @@ export default function StaffDashboard() {
                                            className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2 ${activeClassName}`}>
                                     <div>
                                         {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
-                                        <i className="bi bi-map text-medium"></i>
+                                        <i className="bi bi-map text-primary"></i>
                                     </div>
                                     <div className="flex-fill ps-3 align-content-center text-start">
                                         <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
@@ -175,8 +175,8 @@ export default function StaffDashboard() {
                     <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row pb-4">
                             <div className="align-content-center text-start" style={{minHeight: 40}}>
-                                {!selectedRoadmap && <h2 className="text-medium">Badges</h2>}
-                                {!!selectedRoadmap && <h2 className="text-medium fs-6">
+                                {!selectedRoadmap && <h2 className="text-primary">Badges</h2>}
+                                {!!selectedRoadmap && <h2 className="text-primary fs-6">
                                     {selectedRoadmap.name} Badges
                                 </h2>}
                             </div>
@@ -185,7 +185,7 @@ export default function StaffDashboard() {
                             </div>
                             <BadgeMaintainer>
                                 <div style={{minWidth: 100}}>
-                                    <Link className="btn btn-sm btn-medium rounded-2" to={StaffRouteUrls.BADGE_NEW}>
+                                    <Link className="btn btn-sm btn-primary rounded-2" to={StaffRouteUrls.BADGE_NEW}>
                                         Create New</Link>
                                 </div>
                             </BadgeMaintainer>
@@ -198,7 +198,7 @@ export default function StaffDashboard() {
                                 return <li key={badgeIndex} className={"d-flex flex-row pb-2 mb-2 " + borderClass}>
                                     <div className="align-content-center">
                                         {/*<BadgeIcon badgeId={badge.badge_id}/>*/}
-                                        <i className="bi bi-patch-check text-medium"></i>
+                                        <i className="bi bi-patch-check text-primary"></i>
                                     </div>
                                     <div className="flex-fill ps-3 align-content-center text-start">
                                         <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis fw-normal">
@@ -229,7 +229,7 @@ export default function StaffDashboard() {
                 <div className="col-12 p-0 pb-4">
                     <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
                         <div className="w-100 d-flex flex-row p-0">
-                            <h2 className="text-medium">Documents & Views</h2>
+                            <h2 className="text-primary">Documents & Views</h2>
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                         </div>
@@ -240,7 +240,7 @@ export default function StaffDashboard() {
 
                                         <Link to={document.link}
                                               className="w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2">
-                                            <div className="align-content-start text-yellow fs-3">
+                                            <div className="align-content-start text-accent-primary fs-3">
                                                 {document.icon}
                                             </div>
                                             <div className="flex-fill ps-3 align-content-center text-start">

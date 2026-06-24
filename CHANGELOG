@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.16.11 2026-xx-xx dinukadesilva
+    1 - [new] Style refactoring (CTT-1015)
+        - *
+
 v1.16.10 2026-06-15 dinukadesilva
     1 - [new] Enabling the roadmap links from staff roadmaps page
         - /staff/roadmaps

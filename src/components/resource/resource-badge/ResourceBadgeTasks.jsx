@@ -56,7 +56,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     let toggleButtonVariant = "medium";
     if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "outline-danger";
-    else if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-medium";
+    else if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-primary";
 
     const taskStatusLabel = (<span className="flex-fill text-start">
         <i className={taskStatusIcon[task.status]}></i>
@@ -77,7 +77,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         </div>
 
         <div className="col-sm-3 align-content-center text-center">
-            {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-medium-subtle text-black">
+            {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
                     Required</small> :
                 <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
                     Not Required</small>}
@@ -85,7 +85,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
 
         {badge.status && <div className="col-sm-3 pt-2 pb-2 align-content-center">
-            {availableTransitions.length === 0 && <span className="text-medium">{taskStatusLabel}</span>}
+            {availableTransitions.length === 0 && <span className="text-primary">{taskStatusLabel}</span>}
             {availableTransitions.length > 0 && <Dropdown>
                 <Dropdown.Toggle variant={toggleButtonVariant} id="dropdown-basic"
                                  bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
@@ -121,7 +121,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                     resource <strong>{resourceId}</strong></p>
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-outline-medium rounded-1"
+                <button className="btn btn-outline-primary rounded-1"
                         onClick={setShowErrorModal.bind(this, false)}>
                     Cancel
                 </button>

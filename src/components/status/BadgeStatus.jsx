@@ -4,13 +4,13 @@ import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 // bg-${variant} bg-opacity-10 text-${variant} border-${variant} border-opacity-10
 export const StaffBadgeStatusCssVariant = {
     [BadgeWorkflowStatus.NOT_PLANNED]: "secondary",
-    [BadgeWorkflowStatus.TASK_COMPLETED]: "orange",
+    [BadgeWorkflowStatus.TASK_COMPLETED]: "accent-secondary",
     [BadgeWorkflowStatus.VERIFICATION_FAILED]: "danger",
     [BadgeWorkflowStatus.PLANNED]: "blue",
     [BadgeWorkflowStatus.VERIFIED]: "green",
     [BadgeWorkflowStatus.DEPRECATED]: "secondary",
     [BadgeWorkflowStatus.EXEMPTED]: "green",
-    [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: "orange",
+    [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: "accent-secondary",
     [BadgeWorkflowStatus.EXEMPTION_REJECTED]: "danger"
 }
 

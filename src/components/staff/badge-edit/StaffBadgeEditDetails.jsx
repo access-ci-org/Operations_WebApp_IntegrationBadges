@@ -156,7 +156,7 @@ export function StaffBadgeEditDetailsV2({badgeData, setBadgeData}) {
                     <div className="align-content-start pe-3">
                         <div className="overflow-hidden" style={{width: "100px", height: "100px"}}>
                             {!badgeData.graphic || badgeData.graphic.length === 0 ?
-                                <i className="bi bi-image text-medium d-inline-flex" style={{fontSize: "90px"}}></i> :
+                                <i className="bi bi-image text-primary d-inline-flex" style={{fontSize: "90px"}}></i> :
                                 <div className="w-100 h-100 border border-1 border-gray-200">
                                     <img className="w-100" src={badgeData.graphic} alt="Roadmap graphic preview"/>
                                 </div>}

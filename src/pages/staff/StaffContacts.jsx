@@ -30,7 +30,7 @@ export default function StaffContacts() {
             <div className="col-12 p-0 pb-4">
                 <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
                     <div className="w-100 d-flex flex-row p-0" style={{borderBottom: "1px dashed"}}>
-                        <h2 className="text-medium">Contacts / Collaborators</h2>
+                        <h2 className="text-primary">Contacts / Collaborators</h2>
                         <div className="flex-fill">
                         </div>
                         <div className="p-2">

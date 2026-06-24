@@ -95,7 +95,7 @@ export default function WhyIntegrateResources() {
             </h4>
 
             {benefits.map((benefit, benefitIndex) => {
-                const explanationBlockClass = benefitIndex % 2 === 0 ? "bg-medium text-white" : "bg-light";
+                const explanationBlockClass = benefitIndex % 2 === 0 ? "bg-primary text-white" : "bg-light";
 
                 return <div className="w-100 p-2 pb-5" key={benefitIndex}>
                     <div className="w-100 border border-1 rounded-3 p-5">
@@ -124,7 +124,7 @@ export default function WhyIntegrateResources() {
 
 
         <div className="w-100 p-3 mt-3">
-            <div className="border-bottom border-medium border-1 ms-5 me-5 mb-5"></div>
+            <div className="border-bottom border-primary border-1 ms-5 me-5 mb-5"></div>
             <h4 className="fst-italic fw-bold text-dark fs-5 mb-3">
                 Examples of Visibility & Engagement Opportunities
             </h4>
@@ -145,7 +145,7 @@ export default function WhyIntegrateResources() {
                     <li>Exposure to educators developing classroom and training experiences</li>
                 </ul>
             </div>
-            <div className="border-bottom border-medium border-1 ms-5 me-5 mt-5 mb-5"></div>
+            <div className="border-bottom border-primary border-1 ms-5 me-5 mt-5 mb-5"></div>
         </div>
 
         <WhyBecomeAnRPFooter/>

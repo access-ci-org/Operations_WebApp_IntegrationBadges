@@ -10,7 +10,7 @@ export default function RoadmapName({roadmapId, seperator = <br/>, showStatus=fa
     return <span>
         <span className="text-black">{roadmapNameSegments[1]}</span>
         {seperator}
-        <span className="text-medium">
+        <span className="text-primary">
             {roadmapNameSegments[2]}
         </span>
 

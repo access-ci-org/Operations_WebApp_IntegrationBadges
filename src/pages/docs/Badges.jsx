@@ -65,7 +65,7 @@ export default function Badges() {
                                          let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
 
                                          if (activeKey === tab.link) {
-                                             className += " bg-light text-medium border-medium";
+                                             className += " bg-light text-primary border-primary";
                                          } else {
                                              className += " bg-gray-100 text-secondary border-gray-300";
                                          }
@@ -118,7 +118,7 @@ export default function Badges() {
                                     Access:</h4>
                                 <div className="col-sm-9 align-content-center">
                                     <Link to={selectedBadge.default_badge_access_url}
-                                          className="btn btn-outline-medium btn-sm">
+                                          className="btn btn-outline-primary btn-sm">
                                         {selectedBadge.default_badge_access_url_label}
                                     </Link>
                                 </div>
@@ -136,7 +136,7 @@ export default function Badges() {
                                                     verification. Click badge details to view and complete the required
                                                     tasks.
                                                 </Tooltip>}>
-                                    <button className="btn btn-link text-yellow d-inline">
+                                    <button className="btn btn-link text-accent-primary d-inline">
                                         <i className="bi bi-question-square-fill"></i></button>
                                 </OverlayTrigger>
                             </div>
@@ -152,7 +152,7 @@ export default function Badges() {
                                                     them, return
                                                     here, and mark each as Complete or N/A.
                                                 </Tooltip>}>
-                                    <button className="btn btn-link text-yellow d-inline">
+                                    <button className="btn btn-link text-accent-primary d-inline">
                                         <i className="bi bi-question-square-fill"></i></button>
                                 </OverlayTrigger>
                             </div>
