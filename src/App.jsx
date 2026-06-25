@@ -1,6 +1,5 @@
 import "bootstrap-icons/font/bootstrap-icons.min.css";
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import './scss/main.scss';
+import 'access-operations-custom-bootstrap';
 import './App.scss';
 import {Outlet, Route, Routes, BrowserRouter, Navigate, useLocation} from 'react-router-dom';
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
