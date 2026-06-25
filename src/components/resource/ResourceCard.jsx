@@ -42,12 +42,16 @@ export default function ResourceCard({organization, resource, inProgress = false
             </p>
         </div>
         <div className="w-100">
-            {showViewButton && !!inProgress &&
-                <div className="p-1">
-                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-primary rounded-5 w-100">
-                        Continue Setup
-                    </Link>
-                </div>}
+            <ShowIfAuthorized resourceIds={[resource.info_resourceid]}
+                              roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
+                {showViewButton && !!inProgress &&
+                    <div className="p-1">
+                        <Link to={`/resources/${resource.info_resourceid}/edit`}
+                              className="btn btn-primary rounded-5 w-100">
+                            Continue Setup
+                        </Link>
+                    </div>}
+            </ShowIfAuthorized>
 
             {showViewButton && !inProgress && resource.roadmaps && resource.roadmaps.map((roadmap, roadmapIndex) => {
                 return <div className="p-1" key={roadmapIndex}>
