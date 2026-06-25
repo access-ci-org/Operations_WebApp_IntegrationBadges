@@ -33,7 +33,7 @@ export default function NewResource() {
         <div class="w-100 pt-5">
             <div>
                 <h3 class="d-inline">REMINDER </h3>
-                <div class="d-inline ps-3 pe-3  text-accent-primary fs-3">
+                <div class="d-inline ps-3 pe-3 text-accent-primary fs-3">
                     <i class="bi bi-megaphone-fill"></i>
                 </div>
             </div>

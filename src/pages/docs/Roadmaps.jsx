@@ -116,7 +116,7 @@ export default function Roadmaps() {
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap RP Summary:</h4>
-                                <div className="col-sm-9">
+                                <div className="col-sm-9 pre-wrap-text">
                                     <HtmlToReact>{selectedRoadmap.executive_summary}</HtmlToReact>
                                 </div>
                             </div>

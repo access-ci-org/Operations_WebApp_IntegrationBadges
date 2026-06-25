@@ -55,7 +55,7 @@ function AddNewCollaboratorButton(
     let style = {maxWidth: 28, minWidth: 28, maxHeight: 28, minHeight: 28};
 
     return <div className="col p-0 me-1" style={style}>
-        <button className="btn btn-gray-400 fs-8 w-100 h-100 rounded-circle p-1" onClick={onClick}>
+        <button className="btn btn-gray-400 width-fit-content fs-8 w-100 h-100 rounded-circle p-1" onClick={onClick}>
             <i className="bi bi-person-plus"></i>
         </button>
     </div>

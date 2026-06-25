@@ -150,13 +150,13 @@ export default function StaffDashboard() {
                                         <RoadmapMaintainer>
                                             <Link
                                                 to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                                className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
                                         </RoadmapMaintainer>
                                         <Link target="_blank"
                                               to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
-                                              className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                              className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
                                         </Link>
                                         {/*<Link*/}
@@ -209,13 +209,13 @@ export default function StaffDashboard() {
                                     <div className="align-content-center">
                                         <BadgeMaintainer>
                                             <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
-                                                  className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                                  className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
                                         </BadgeMaintainer>
                                         <Link target="_blank"
                                             to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
-                                            className="btn btn-sm me-1 btn-outline-secondary rounded-1 border-0 text-center">
+                                            className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
                                         </Link>
                                     </div>

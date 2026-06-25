@@ -126,7 +126,7 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
         <div className="w-100 border border-black border-1 rounded-2 p-3">
             <div className="w-100 d-flex flex-row p-3 border-bottom border-1">
                 <div className="flex-fill align-content-center p-3">
-                    {!!taskData.task_id ? "EDIT " : "NEW "}
+                    {taskData.task_id ? "EDIT " : "NEW "}
                     TASK for {badgeData.name}
                 </div>
                 <div>

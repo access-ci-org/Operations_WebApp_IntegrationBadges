@@ -159,7 +159,7 @@ export default function ResourceBadge() {
                     </div>
                 </div>
             </div>
-            <div className="w-100 pt-5 pb-3">
+            <div className="w-100 pt-5 pb-3 pre-wrap-text">
                 <HtmlToReact>{badge.resource_provider_summary}</HtmlToReact>
             </div>
 
@@ -219,7 +219,7 @@ export default function ResourceBadge() {
                         <p className="pt-2 pb-2">
                             <strong className="text-primary">Verification Method : </strong> {badge.verification_method}
                         </p>
-                        <p>
+                        <p className="pre-wrap-text">
                             <strong className="text-primary">Verification Summary : </strong>
                             {badge.verification_summary}
                         </p>

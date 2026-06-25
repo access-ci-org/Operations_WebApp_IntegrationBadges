@@ -17,7 +17,7 @@ export default function RoadmapSelectionConfirmation({resourceId, roadmapId, pre
             <div className="row pt-4">
                 <div className="col-lg-8 d-flex flex-column pe-5">
                     <h1>{roadmap.name}</h1>
-                    <div className="flex-fill small"><HtmlToReact>{roadmap.executive_summary}</HtmlToReact></div>
+                    <div className="flex-fill small pre-wrap-text"><HtmlToReact>{roadmap.executive_summary}</HtmlToReact></div>
                     <div>
                         <button className="btn btn-primary rounded-1" onClick={next}>Select Your Resource-Specific Badges</button>
                     </div>

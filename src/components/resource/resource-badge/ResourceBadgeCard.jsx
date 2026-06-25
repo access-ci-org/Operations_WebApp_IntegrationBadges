@@ -24,7 +24,7 @@ export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
                 <h3 className="w-100">{badge.name}</h3>
             </div>
             <div className="w-100 badge-card-body">
-                <p className="w-100 small">
+                <p className="w-100 small text-three-line-overflow-ellipsis">
                     <HtmlToText>{badge.resource_provider_summary}</HtmlToText>
                 </p>
                 <div className="w-100 text-center">

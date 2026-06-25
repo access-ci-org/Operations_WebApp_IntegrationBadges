@@ -98,17 +98,17 @@ export default function Badges() {
                         <div className="w-100 pb-5">
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
-                                <div className="col-sm-9"><HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact>
+                                <div className="col-sm-9 pre-wrap-text"><HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact>
                                 </div>
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Resource Provider Summary:</h4>
-                                <div className="col-sm-9">
+                                <div className="col-sm-9 pre-wrap-text">
                                     <HtmlToReact>{selectedBadge.resource_provider_summary}</HtmlToReact></div>
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Verification:</h4>
-                                <div className="col-sm-9">
+                                <div className="col-sm-9 pre-wrap-text">
                                     <div><strong>[{selectedBadge.verification_method}]&nbsp;</strong></div>
                                     <HtmlToReact>{selectedBadge.verification_summary}</HtmlToReact>
                                 </div>
