@@ -17,9 +17,11 @@ v1.17.0 2026-06-25 dinukadesilva
     2 - [new] Fixing the new lines of long text contents in tasks, roadmaps, badges and badge
         - /docs/badges
         - /docs/roadmaps
+        - /staff/badges/new
         - /staff/roadmaps/new
-        - /staff/roadmaps/<roadmap_id>/edit
         - /staff/badges/<badge_id>/edit
+        - /staff/roadmaps/<roadmap_id>/edit
+        - /resources/<resource_id>/edit
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
 
 v1.16.10 2026-06-15 dinukadesilva
