@@ -7,6 +7,10 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.17.2 2026-07-02 dinukadesilva
+    1 - [fix] NPM package audit fixes
+
 v1.17.1 2026-06-25 dinukadesilva
     1 - [bug-fix] Set the authorization of "Continue Setup" button on resources to coordinators and concierge (CTT-969)
         - /organizations/<organization_id>
