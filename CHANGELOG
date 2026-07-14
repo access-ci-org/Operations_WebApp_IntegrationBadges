@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+
+v1.18.0 2026-07-14 dinukadesilva
+    1 - [fix] Lint fixes and source code refactoring (CTT-998)
+
 v1.17.2 2026-07-02 dinukadesilva
     1 - [fix] NPM package audit fixes
 
