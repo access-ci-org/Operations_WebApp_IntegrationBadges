@@ -1,5 +1,5 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
+import {StaffRouteUrls} from "../../pages/pages-config.js";
 import Translate from "../../locales/Translate.jsx";
 import React, {useEffect} from "react";
 import {BadgeWorkflowStatus} from "../../contexts/constants.js";

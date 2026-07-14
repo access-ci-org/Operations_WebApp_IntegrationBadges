@@ -5,7 +5,7 @@ import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Translate from "../../locales/Translate.jsx";
-import {StaffRouteUrls} from "./StaffRoute.jsx";
+import {StaffRouteUrls} from "../pages-config.js";
 import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
 import {HideIfAuthorized, ShowIfAuthorized} from "../../components/util/Permissions.jsx";
 import {IntegrationRoles, BadgeWorkflowStatus} from "../../contexts/constants.js";

@@ -2,7 +2,7 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useState} from "react";
 import {Link} from "react-router-dom";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
-import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "./pages-config.js";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 import {Concierge, PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";

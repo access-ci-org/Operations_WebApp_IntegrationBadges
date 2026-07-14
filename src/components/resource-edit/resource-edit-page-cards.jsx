@@ -5,7 +5,7 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx";
-import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../../pages/pages-config.js";
 import {HtmlToText} from "../util/text-editors.jsx";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
 import computeResourceIcon from "../../assets/integration_icon_compute.png";

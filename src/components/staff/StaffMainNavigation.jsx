@@ -1,5 +1,5 @@
 import {NavLink, useLocation} from "react-router-dom";
-import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
+import {StaffRouteUrls} from "../../pages/pages-config.js";
 
 export function StaffMainNavigation() {
 

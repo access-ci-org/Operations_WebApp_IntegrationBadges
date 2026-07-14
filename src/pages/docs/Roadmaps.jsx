@@ -3,7 +3,7 @@ import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Nav} from "react-bootstrap";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../pages-config.js";
 import {useEffect} from "react";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import {BadgeCardRowWithRequiredLabel} from "../../components/resource-edit/resource-edit-page-cards.jsx";

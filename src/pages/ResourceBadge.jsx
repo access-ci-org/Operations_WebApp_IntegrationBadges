@@ -19,7 +19,7 @@ import {Concierge, PermissionSwitch, ShowIfAuthorized} from "../components/util/
 import {HtmlToReact} from "../components/util/text-editors.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "./pages-config.js";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();

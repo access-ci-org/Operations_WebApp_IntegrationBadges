@@ -6,11 +6,11 @@ import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
-import {StaffRouteUrls} from "./StaffRoute.jsx";
+import {StaffRouteUrls} from "../pages-config.js";
 import {HtmlToText} from "../../components/util/text-editors.jsx";
 import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
 import {BadgeMaintainer, RoadmapMaintainer} from "../../components/util/Permissions.jsx";
-import {DocumentationRouteUrls} from "../docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../pages-config.js";
 import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
 
 export default function StaffDashboard() {

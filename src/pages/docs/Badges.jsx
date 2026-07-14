@@ -2,7 +2,7 @@ import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../pages-config.js";
 import {useEffect} from "react";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import {useTasks} from "../../contexts/TaskContext.jsx";

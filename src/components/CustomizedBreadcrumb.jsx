@@ -2,7 +2,7 @@ import {useLocation} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../pages/pages-config.js";
 import {useBadges} from "../contexts/BadgeContext.jsx";
 import {useEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
