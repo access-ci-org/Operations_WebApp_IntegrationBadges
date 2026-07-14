@@ -2,24 +2,12 @@ import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
-const TaskContext = createContext({
-    fetchTasks: () => {
-    },
-    setTask: ({taskId = null, taskData}) => {
-    },
-    getTasks: () => {
-    },
-    getTask: ({taskId}) => {
-    }
-});
+/** @type {React.Context<ReturnType<typeof useTaskValues> | null>} */
+const TaskContext = createContext(null);
 
 export const useTasks = () => useContext(TaskContext);
 
-/**
- * Context provider for tasks
- * @param children
- */
-export const TaskProvider = ({children}) => {
+function useTasksValues() {
     const [taskIds, setTaskIds] = useReducer(DefaultReducer, []);
     const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
 
@@ -76,9 +64,16 @@ export const TaskProvider = ({children}) => {
         return taskMap[taskId];
     };
 
+    return {fetchTasks, setTask, getTasks, getTask};
+}
+
+export const TaskProvider = ({children}) => {
+    const values = useTasksValues();
+
     return (
-        <TaskContext.Provider value={{fetchTasks, setTask, getTasks, getTask}}>
+        <TaskContext.Provider value={values}>
             {children}
         </TaskContext.Provider>
     );
 };
+

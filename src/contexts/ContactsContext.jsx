@@ -4,40 +4,19 @@ import {
     authorizedDashboardAxiosInstanceWithoutRedirect, dashboardAxiosInstance
 } from "./auth/DashboardAuthenticator.js";
 
-const ContactContext = createContext({
-    fetchContacts: (
-        {
-            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
-            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
-        } = {}
-    ) => {
-    },
-    getContacts: (
-        {
-            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
-            roadmapId = null, badgeId = null, contactType = null, contactEmail = null
-        } = {}
-    ) => {
-    },
-    fetchContactTypes: () => {
-    },
-    getContactTypes: () => {
-    }
-});
+
+/** @type {React.Context<ReturnType<typeof useContactsValues> | null>} */
+const ContactContext = createContext(null);
 
 export const useContacts = () => useContext(ContactContext);
 
-/**
- * Context provider for contacts
- * @param children
- */
-export const ContactProvider = ({children}) => {
+function useContactsValues() {
     const [contactListMap, setContactListMap] = useReducer(DefaultReducer, {});
     const [contactTypesList, setContactTypesList] = useReducer(DefaultReducer, null);
 
     const getContactsEndpointUrl = (
         {
-            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            organizationId = null, resourceId = null, resourceIntegrationStatus = null,
             roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
@@ -83,7 +62,7 @@ export const ContactProvider = ({children}) => {
 
     const fetchContacts = async (
         {
-            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            organizationId = null, resourceId = null, resourceIntegrationStatus = null,
             roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
@@ -129,11 +108,19 @@ export const ContactProvider = ({children}) => {
 
     const getContacts = (
         {
-            organizationId = null, resourceId = null, resourceIntegrationStatus=null,
+            organizationId = null, resourceId = null, resourceIntegrationStatus = null,
             roadmapId = null, badgeId = null, contactType = null, contactEmail = null
         } = {}
     ) => {
-        const url = getContactsEndpointUrl({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail});
+        const url = getContactsEndpointUrl({
+            organizationId,
+            resourceId,
+            resourceIntegrationStatus,
+            roadmapId,
+            badgeId,
+            contactType,
+            contactEmail
+        });
 
         return contactListMap[url];
     };
@@ -155,10 +142,14 @@ export const ContactProvider = ({children}) => {
         return contactTypesList;
     };
 
+    return {contactListMap, fetchContacts, getContacts, fetchContactTypes, getContactTypes};
+}
+
+export const ContactProvider = ({children}) => {
+    const values = useContactsValues();
 
     return (
-        <ContactContext.Provider
-            value={{contactListMap, fetchContacts, getContacts, fetchContactTypes, getContactTypes}}>
+        <ContactContext.Provider value={values}>
             {children}
         </ContactContext.Provider>
     );

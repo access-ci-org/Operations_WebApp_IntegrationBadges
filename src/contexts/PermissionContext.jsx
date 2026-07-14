@@ -4,25 +4,13 @@ import {
     authorizedDashboardAxiosInstanceWithoutRedirect
 } from "./auth/DashboardAuthenticator.js";
 
-const RolesContext = createContext({
-    // permissionMap: {},
-    fetchRoles: () => {
-    },
-    isAuthenticated: () => {
-    },
-    hasPermission: ({roles = [], resourceIds = []} = {}) => {
-    },
-    getAuthorizedRoles: ({resourceId = null}) => {
-    },
-});
+
+/** @type {React.Context<ReturnType<typeof useRolesValues> | null>} */
+const RolesContext = createContext(null);
 
 export const useRoles = () => useContext(RolesContext);
 
-/**
- * Context provider for roles
- * @param children
- */
-export const RolesProvider = ({children}) => {
+function useRolesValues() {
     const [roleMap, setRoleMap] = useReducer(DefaultReducer, {});
     const [authenticated, setAuthenticated] = useReducer(DefaultReducer, false);
 
@@ -175,10 +163,15 @@ export const RolesProvider = ({children}) => {
         return authorizedRoles;
     };
 
+    return {roleMap, fetchRoles: fetchRoles, isAuthenticated, hasPermission, getAuthorizedRoles};
+}
+
+
+export const RolesProvider = ({children}) => {
+    const values = useRolesValues();
 
     return (
-        <RolesContext.Provider
-            value={{roleMap, fetchRoles: fetchRoles, isAuthenticated, hasPermission, getAuthorizedRoles}}>
+        <RolesContext.Provider value={values}>
             {children}
         </RolesContext.Provider>
     );

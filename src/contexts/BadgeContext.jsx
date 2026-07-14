@@ -2,27 +2,13 @@ import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
-const BadgeContext = createContext({
-    // badgeMap: {},
-    fetchBadges: () => {
-    },
-    fetchBadge: ({badgeId}) => {
-    },
-    setBadge: ({badgeId, badgeData}) => {
-    },
-    getBadge: ({badgeId}) => {
-    },
-    getBadges: () => {
-    }
-});
+
+/** @type {React.Context<ReturnType<typeof useBadgesValues> | null>} */
+const BadgeContext = createContext(null);
 
 export const useBadges = () => useContext(BadgeContext);
 
-/**
- * Context provider for badges
- * @param children
- */
-export const BadgeProvider = ({children}) => {
+function useBadgesValues() {
     const [badgeIds, setBadgeIds] = useReducer(DefaultReducer, []);
     const [badgeMap, setBadgeMap] = useReducer(DefaultReducer, {});
 
@@ -117,10 +103,14 @@ export const BadgeProvider = ({children}) => {
         return badgeIds.map(badgeId => getBadge({badgeId}));
     };
 
+    return {badgeMap, fetchBadges, fetchBadge, setBadge, getBadge, getBadges};
+}
 
+export const BadgeProvider = ({children}) => {
+    const values = useBadgesValues();
 
     return (
-        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge, setBadge, getBadge, getBadges}}>
+        <BadgeContext.Provider value={values}>
             {children}
         </BadgeContext.Provider>
     );
