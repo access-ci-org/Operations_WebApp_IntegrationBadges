@@ -35,7 +35,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
         try {
             await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
-        } catch (e) {
+        } catch {
             setShowErrorModal(true);
         }
 

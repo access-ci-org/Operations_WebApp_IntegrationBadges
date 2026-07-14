@@ -26,7 +26,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
         try {
             await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
             setShowSavedModal(true);
-        } catch (e) {
+        } catch {
             setShowErrorModal(true);
         }
 
