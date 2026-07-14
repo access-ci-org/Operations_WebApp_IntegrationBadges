@@ -22,7 +22,7 @@ export default function About() {
 
     const availableThemes = ["default", "dracula", "monokai", "oceanicPark", "panda", "gruvboxMaterial", "tokyoNight", "remedy", "atlanticNight", "defaultLight", "defaultLight2", "slime", "spacegray", "blueberryDark", "nord", "nightOwl", "oneMonokai", "cobaltNext", "shadesOfPurple", "codeBlue", "softEra", "atomMaterial", "evaDark", "moonLight"];
 
-    if (!!format) format = format.toLowerCase();
+    if (format) format = format.toLowerCase();
     if (["json", "html"].indexOf(format) < 0) {
         format = "html";
     }

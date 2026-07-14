@@ -54,7 +54,7 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
                 contact the concierge team.
             </p>
 
-            {!!resourceRoadmaps ?
+            {resourceRoadmaps ?
                 <DropdownButton size="lg" title={roadmap.name}
                                 bsPrefix="w-100 text-start btn btn-lg btn-outline-primary rounded-2 p-4"
                                 onSelect={handleResourceRoadmapSelect}>

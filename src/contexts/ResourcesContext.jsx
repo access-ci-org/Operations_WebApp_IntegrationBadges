@@ -171,15 +171,15 @@ export const ResourcesProvider = ({children}) => {
         try {
             let url = `/resource_roadmap_badge_logs/?`;
 
-            if (!!resourceId) {
+            if (resourceId) {
                 url += `info_resourceid=${resourceId}&`
             }
 
-            if (!!roadmapId) {
+            if (roadmapId) {
                 url += `roadmap_id=${roadmapId}&`
             }
 
-            if (!!badgeId) {
+            if (badgeId) {
                 url += `badge_id=${badgeId}`
             }
 
@@ -195,7 +195,7 @@ export const ResourcesProvider = ({children}) => {
 
                 _resourceRoadmapBadgeLogIds[_resourceId] = {..._resourceRoadmapBadgeLogIds[_resourceId]};
                 _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId] = {..._resourceRoadmapBadgeLogIds[_resourceId][_roadmapId]};
-                if (!!_resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId]) {
+                if (_resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId]) {
                     _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId] = [..._resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId], _logId];
                 } else {
                     _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId] = [_logId];
@@ -232,7 +232,7 @@ export const ResourcesProvider = ({children}) => {
                 [resourceId]: {
                     ...resourceRoadmapBadgeTaskMap[resourceId],
                     [roadmapId]: {
-                        ...(!!resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[resourceId][roadmapId] : null),
+                        ...(resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[resourceId][roadmapId] : null),
                         [badgeId]: taskWorkflowMap
                     }
                 }

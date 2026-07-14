@@ -47,7 +47,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
             const badge = roadmapBadges[i];
             const badgeId = badge.badge_id;
 
-            if (!!selected(badgeId)) {
+            if (selected(badgeId)) {
                 selectedBadgeIds.push(badgeId);
             }
         }

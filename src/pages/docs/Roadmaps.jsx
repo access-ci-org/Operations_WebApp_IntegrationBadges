@@ -62,7 +62,7 @@ export default function Roadmaps() {
         });
 
         let activeKey = DocumentationRouteUrls.ROADMAPS;
-        if (!!roadmapId) activeKey += `?roadmapId=${roadmapId}`;
+        if (roadmapId) activeKey += `?roadmapId=${roadmapId}`;
 
         return <div className="container">
             <div className="row pt-4">
@@ -96,7 +96,7 @@ export default function Roadmaps() {
                         <div className="w-100 d-flex flex-row">
                             <div className="p-2">
                                 <div style={{width: "150px", height: "150px"}} className="overflow-hidden">
-                                    {!!selectedRoadmap.graphic ?
+                                    {selectedRoadmap.graphic ?
                                         <img alt="Roadmap graphic" src={selectedRoadmap.graphic}
                                              className="w-100"/> :
                                         <div
