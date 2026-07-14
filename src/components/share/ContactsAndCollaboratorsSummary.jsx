@@ -27,11 +27,11 @@ function getContactNameInitials(contactName) {
     return nameInitials.toUpperCase();
 }
 
-export function CollaboratorProfileAvatarButton({contact, contactIndex, profileAvatarClass}) {
+export function CollaboratorProfileAvatarButton({contact, profileAvatarClass}) {
     if (!profileAvatarClass) {
         profileAvatarClass = ContactAvatarClasses[0];
-        // profileAvatarClass = ContactAvatarClasses[contactIndex % ContactAvatarClasses.length];
     }
+
     let style = {maxWidth: 28, minWidth: 28, maxHeight: 28, minHeight: 28};
 
     const tooltip = <Tooltip id="tooltip">
@@ -47,19 +47,6 @@ export function CollaboratorProfileAvatarButton({contact, contactIndex, profileA
         </OverlayTrigger>
     </div>
 }
-
-function AddNewCollaboratorButton(
-    {organizationId = null, resourceId = null, contactType = null, contactEmail = null, onClick = null} = {}
-) {
-    let style = {maxWidth: 28, minWidth: 28, maxHeight: 28, minHeight: 28};
-
-    return <div className="col p-0 me-1" style={style}>
-        <button className="btn btn-gray-400 width-fit-content fs-8 w-100 h-100 rounded-circle p-1" onClick={onClick}>
-            <i className="bi bi-person-plus"></i>
-        </button>
-    </div>
-}
-
 
 function ShowMoreCollaboratorDetailsButton(
     {organizationId = null, resourceId = null, contactType = null, contactEmail = null, onClick = null} = {}

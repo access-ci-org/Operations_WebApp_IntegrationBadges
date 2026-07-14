@@ -1,8 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {
-    authorizedDashboardAxiosInstanceWithoutRedirect
-} from "./auth/DashboardAuthenticator.js";
 
 
 /** @type {React.Context<ReturnType<typeof useRolesValues> | null>} */

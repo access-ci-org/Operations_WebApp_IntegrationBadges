@@ -58,7 +58,7 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                     ]
                 });
             }
-        } catch (error) {
+        } catch {
             setShowErrorModal(true);
         }
     }

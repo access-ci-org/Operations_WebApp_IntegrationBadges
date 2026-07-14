@@ -1,4 +1,4 @@
-import {Navigate, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Outlet, useLocation, useParams} from 'react-router-dom';
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {useRoles} from "../../contexts/PermissionContext.jsx";
 import Unauthorized from "../Unauthorized.jsx";

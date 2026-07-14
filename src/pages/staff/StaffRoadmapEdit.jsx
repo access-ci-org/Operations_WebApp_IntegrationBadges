@@ -51,10 +51,12 @@ export default function StaffRoadmapEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        setRoadmapData({
-            ...roadmapData,
-            ...roadmap
-        })
+        (async () => {
+            setRoadmapData({
+                ...roadmapData,
+                ...roadmap
+            })
+        })()
     }, [roadmapId, !!roadmap]);
 
     useEffect(() => {
@@ -86,7 +88,7 @@ export default function StaffRoadmapEdit() {
             await setRoadmap({roadmapId, roadmapData});
             // navigate(StaffRouteUrls.ROADMAPS);
             setShowSavedModal(true);
-        } catch (error) {
+        } catch {
             setShowErrorModal(true);
         }
     };

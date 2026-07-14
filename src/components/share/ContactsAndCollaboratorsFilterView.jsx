@@ -19,8 +19,7 @@ const CopyStatus = {
 
 export default function ContactsAndCollaboratorsFilterView(
     {
-        organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-        contactType = null, contactEmail = null
+        organizationId = null, resourceId = null, roadmapId = null, badgeId = null
     } = {}
 ) {
     const {getOrganizations, getOrganization} = useOrganizations();

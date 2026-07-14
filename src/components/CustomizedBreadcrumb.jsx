@@ -4,7 +4,7 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "../pages/pages-config.js";
 import {useBadges} from "../contexts/BadgeContext.jsx";
-import {useEffect, useMemo, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
 
 const loadingIndicator = " - "; // <LoadingBlock processing={true}/>;

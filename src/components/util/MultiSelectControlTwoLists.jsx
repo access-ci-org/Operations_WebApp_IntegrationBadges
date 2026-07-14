@@ -114,7 +114,7 @@ export default function MultiSelectControlTwoLists(
     }
 
     function ItemLeftActions(
-        {item, sequenceNo, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
+        {item, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
 
         const eventKey = item.id;
         const currentEventKey = useContext(AccordionContext).activeEventKey;

@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
@@ -11,17 +11,11 @@ import RoadmapName from "../roadmap/RoadmapName.jsx";
 import computeResourceIcon from "../../assets/integration_icon_compute.png";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
-    const navigate = useNavigate();
-
     const {getResource} = useResources();
     const {getRoadmap} = useRoadmaps();
 
     const resource = getResource({resourceId});
     let roadmap = getRoadmap({roadmapId});
-
-    const navigateToRoadmap = () => {
-        navigate(DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmapId}`);
-    };
 
     const actionButtonClasses = "btn btn-link w-100 p-3 text-center rounded-bottom-3 text-decoration-none";
 
@@ -79,24 +73,11 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     }
 }
 
-export function BadgeCardRow({
-                                 resourceId,
-                                 roadmapId,
-                                 badgeId,
-                                 selected,
-                                 required,
-                                 toggle,
-                                 toggleComponent,
-                                 actions,
-                                 body
-                             }) {
-    const {getResource} = useResources();
-    const {getRoadmap} = useRoadmaps();
+export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
+
     const {getBadge} = useBadges();
 
-    const resource = getResource({resourceId});
     const badge = getBadge({badgeId});
-    const roadmap = getRoadmap({roadmapId});
 
     if (badge) {
         return <div className="w-100 p-1">

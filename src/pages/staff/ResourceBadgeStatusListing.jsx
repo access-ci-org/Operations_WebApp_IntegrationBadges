@@ -86,9 +86,11 @@ export default function ResourceBadgeStatusListing() {
     }, []);
 
     useEffect(() => {
-        if (resourceRoadmapBadgeStatusSummary) {
-            setBadgeWorkflowStatus(badgeWorkflowStatusParam);
-        }
+        (async () => {
+            if (resourceRoadmapBadgeStatusSummary) {
+                setBadgeWorkflowStatus(badgeWorkflowStatusParam);
+            }
+        })();
     }, [!!resourceRoadmapBadgeStatusSummary, JSON.stringify(badgeWorkflowStatusParam)]);
 
     useEffect(() => {

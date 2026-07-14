@@ -79,7 +79,7 @@ export default function ResourceBadge() {
             setComment("");
 
             if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
-        } catch (e) {
+        } catch {
             setShowErrorModal(true);
         }
         setBadgeActionStatusProcessing(false);

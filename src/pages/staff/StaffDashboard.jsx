@@ -76,7 +76,7 @@ export default function StaffDashboard() {
         }
     ];
 
-    const toggleSelectedRoadmap = ({roadmapId}) => (evt) => {
+    const toggleSelectedRoadmap = ({roadmapId}) => () => {
         if (selectedRoadmapId === roadmapId) {
             setSelectedRoadmapId(null);
         } else {

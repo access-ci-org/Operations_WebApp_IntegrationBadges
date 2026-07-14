@@ -328,7 +328,7 @@ function useResourcesValues() {
         let badge = getBadge({badgeId});
 
         if (badge.tasks) {
-            return badge.tasks.map(({task_id, required, sequence_no}) => {
+            return badge.tasks.map(({task_id, required}) => {
                 const taskId = task_id;
                 const task = getTask({taskId});
                 let resourceBadgeTaskWorkflow = null;
