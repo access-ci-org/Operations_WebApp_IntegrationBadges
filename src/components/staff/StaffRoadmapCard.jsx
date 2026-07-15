@@ -1,9 +1,9 @@
 import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
+import {StaffRouteUrls} from "../../pages/pages-config.js";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
 import {RoadmapMaintainer} from "../util/Permissions.jsx";
-import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../../pages/pages-config.js";
 
 export function StaffRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();

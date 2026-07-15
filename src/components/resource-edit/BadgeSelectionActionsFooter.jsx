@@ -26,7 +26,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
         try {
             await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
             setShowSavedModal(true);
-        } catch (e) {
+        } catch {
             setShowErrorModal(true);
         }
 
@@ -47,7 +47,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
             const badge = roadmapBadges[i];
             const badgeId = badge.badge_id;
 
-            if (!!selected(badgeId)) {
+            if (selected(badgeId)) {
                 selectedBadgeIds.push(badgeId);
             }
         }

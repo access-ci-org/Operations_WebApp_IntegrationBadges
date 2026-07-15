@@ -6,11 +6,11 @@ import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
-import {StaffRouteUrls} from "./StaffRoute.jsx";
+import {StaffRouteUrls} from "../pages-config.js";
 import {HtmlToText} from "../../components/util/text-editors.jsx";
 import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
 import {BadgeMaintainer, RoadmapMaintainer} from "../../components/util/Permissions.jsx";
-import {DocumentationRouteUrls} from "../docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../pages-config.js";
 import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
 
 export default function StaffDashboard() {
@@ -76,7 +76,7 @@ export default function StaffDashboard() {
         }
     ];
 
-    const toggleSelectedRoadmap = ({roadmapId}) => (evt) => {
+    const toggleSelectedRoadmap = ({roadmapId}) => () => {
         if (selectedRoadmapId === roadmapId) {
             setSelectedRoadmapId(null);
         } else {
@@ -125,46 +125,49 @@ export default function StaffDashboard() {
                             </RoadmapMaintainer>
                         </div>
 
-                        <ul className="w-100 p-0">
+                        <ul className="w-100 p-0 list-unstyled">
                             {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
                                 const roadmapId = roadmap.roadmap_id;
                                 let activeClassName = "";
                                 if (selectedRoadmapId === roadmapId) activeClassName = "bg-gray-200";
 
-                                return <li key={roadmapIndex} onClick={toggleSelectedRoadmap({roadmapId})}
-                                           className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2 ${activeClassName}`}>
-                                    <div>
-                                        {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
-                                        <i className="bi bi-map text-primary"></i>
-                                    </div>
-                                    <div className="flex-fill ps-3 align-content-center text-start">
-                                        <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
-                                            {roadmap.name}
-                                        </h3>
-                                        <div className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
-                                            <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+                                return <li key={roadmapIndex} className="w-100 pb-2">
+                                    <button onClick={toggleSelectedRoadmap({roadmapId})}
+                                            className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 ${activeClassName}`}>
+                                        <div>
+                                            {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
+                                            <i className="bi bi-map text-primary"></i>
                                         </div>
-                                    </div>
+                                        <div className="flex-fill ps-3 align-content-center text-start">
+                                            <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
+                                                {roadmap.name}
+                                            </h3>
+                                            <div
+                                                className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
+                                                <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+                                            </div>
+                                        </div>
 
-                                    <div className="align-content-center text-end" style={{minWidth: 80}}>
-                                        <RoadmapMaintainer>
-                                            <Link
-                                                to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                                className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
-                                                <i className="bi bi-pencil-square"></i>
+                                        <div className="align-content-center text-end" style={{minWidth: 80}}>
+                                            <RoadmapMaintainer>
+                                                <Link
+                                                    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
+                                                    className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                                    <i className="bi bi-pencil-square"></i>
+                                                </Link>
+                                            </RoadmapMaintainer>
+                                            <Link target="_blank"
+                                                  to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
+                                                  className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                                <i className="bi bi-info-circle"></i>
                                             </Link>
-                                        </RoadmapMaintainer>
-                                        <Link target="_blank"
-                                              to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
-                                              className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
-                                            <i className="bi bi-info-circle"></i>
-                                        </Link>
-                                        {/*<Link*/}
-                                        {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
-                                        {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
-                                        {/*    <i className="bi bi-trash"></i>*/}
-                                        {/*</Link>*/}
-                                    </div>
+                                            {/*<Link*/}
+                                            {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
+                                            {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
+                                            {/*    <i className="bi bi-trash"></i>*/}
+                                            {/*</Link>*/}
+                                        </div>
+                                    </button>
                                 </li>
                             })}
                         </ul>
@@ -214,8 +217,8 @@ export default function StaffDashboard() {
                                             </Link>
                                         </BadgeMaintainer>
                                         <Link target="_blank"
-                                            to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
-                                            className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                              to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
+                                              className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
                                         </Link>
                                     </div>

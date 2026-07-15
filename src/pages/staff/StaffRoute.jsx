@@ -8,18 +8,7 @@ import StaffBadgeEdit from "./StaffBadgeEdit.jsx";
 import StaffContacts from "./StaffContacts.jsx";
 import {ProtectedRoute} from "../../components/util/Permissions.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
-
-export const StaffRouteUrls = {
-    INDEX: "/staff/dashboard",
-    ROADMAPS: "/staff/roadmaps",
-    ROADMAP_NEW: "/staff/roadmaps/new",
-    ROADMAP_EDIT: "/staff/roadmaps/:roadmapId/edit",
-    BADGES: "/staff/badges",
-    BADGE_NEW: "/staff/badges/new",
-    BADGE_EDIT: "/staff/badges/:badgeId/edit",
-    BADGE_STATUS: "/staff/badge-status",
-    CONTACTS: "/staff/contacts",
-};
+import {StaffRouteUrls} from "../pages-config.js";
 
 const RouterLayout = () => {
     return (
@@ -43,6 +32,7 @@ const RouterLayout = () => {
         </div>
     );
 };
+
 export const StaffRoute = <Route path="/staff" element={<RouterLayout/>}>
     <Route path={StaffRouteUrls.INDEX} element={<StaffDashboard/>}/>
     <Route path={StaffRouteUrls.ROADMAPS} element={<StaffRoadmaps/>}/>

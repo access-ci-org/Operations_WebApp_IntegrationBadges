@@ -1,7 +1,7 @@
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {StaffRouteUrls} from "./StaffRoute.jsx";
+import {StaffRouteUrls} from "../pages-config.js";
 import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
 import {useEffect, useState} from "react";
 import StaffBadgeEditDetails from "../../components/staff/badge-edit/StaffBadgeEditDetails.jsx";
@@ -62,10 +62,12 @@ export default function StaffBadgeEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        setBadgeData({
-            ...badgeData,
-            ...badge
-        })
+        (async () => {
+            setBadgeData({
+                ...badgeData,
+                ...badge
+            })
+        })();
     }, [badgeId, !!badge]);
 
     useEffect(() => {
@@ -85,7 +87,7 @@ export default function StaffBadgeEdit() {
         {
             title: "Select Prerequisite Badges",
             component: <StaffBadgeEditAssociatePrerequisiteBadges badgeData={badgeData}
-                                                                      setBadgeData={setBadgeData}/>
+                                                                  setBadgeData={setBadgeData}/>
         },
         {
             title: "Review & Edit",
@@ -103,7 +105,7 @@ export default function StaffBadgeEdit() {
             await setBadge({badgeId, badgeData});
             // navigate(StaffRouteUrls.BADGES);
             setShowSavedModal(true);
-        } catch (error) {
+        } catch {
             setShowErrorModal(true);
         }
     };

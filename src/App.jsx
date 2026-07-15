@@ -4,7 +4,6 @@ import './App.scss';
 import {Outlet, Route, Routes, BrowserRouter, Navigate, useLocation} from 'react-router-dom';
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
 import {ResourcesProvider, useResources} from "./contexts/ResourcesContext";
-import NewResource from "./pages/NewResource";
 import IntegrationDashboard from "./pages/IntegrationDashboard";
 import {OrganizationsProvider, useOrganizations} from "./contexts/OrganizationsContext";
 import Organization from "./pages/Organization";
@@ -126,8 +125,6 @@ function ApplicationContainer() {
                             <Route
                                 path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
                                 element={<OrganizationBadgeReview/>}/>
-
-                            <Route path="/resources/new" element={<NewResource/>}/>
 
                             <Route path="/resources/:resourceId" element={<Resource/>}/>
                             <Route path="/resources/:resourceId/roadmaps/:roadmapId"

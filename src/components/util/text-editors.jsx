@@ -3,7 +3,7 @@ import {
 } from 'ckeditor5';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import 'ckeditor5/ckeditor5.css';
-import React, {useEffect, useState} from "react";
+import React from "react";
 import parseHtmlToReact from 'html-react-parser';
 import {htmlToText} from 'html-to-text';
 

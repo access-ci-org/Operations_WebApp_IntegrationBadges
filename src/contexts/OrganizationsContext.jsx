@@ -4,24 +4,13 @@ import {
     dashboardAxiosInstance, ciderAxiosInstance
 } from "./auth/DashboardAuthenticator.js";
 
-const OrganizationsContext = createContext({
-    fetchOrganizations: () => {
-    },
-    fetchOrganization: ({organizationId}) => {
-    },
-    getOrganization: ({organizationName = null, organizationId = null}) => {
-    },
-    getOrganizations: () => {
-    }
-});
+
+/** @type {React.Context<ReturnType<typeof useOrganizationsValues> | null>} */
+const OrganizationsContext = createContext(null);
 
 export const useOrganizations = () => useContext(OrganizationsContext);
 
-/**
- * Context provider for organizations
- * @param children
- */
-export const OrganizationsProvider = ({children}) => {
+function useOrganizationsValues() {
     const [organizationIds, setOrganizationIds] = useReducer(DefaultReducer, []);
     const [organizationMap, setOrganizationMap] = useReducer(DefaultReducer, {});
     const [organizationMapByName, setOrganizationMapByName] = useReducer(DefaultReducer, {});
@@ -97,16 +86,21 @@ export const OrganizationsProvider = ({children}) => {
         return organizationIds.map(organizationId => getOrganization({organizationId}));
     };
 
-    return (<OrganizationsContext.Provider
-        value={{
-            organizationIds,
-            organizationMap,
-            organizationMapByName,
-            fetchOrganizations,
-            fetchOrganization,
-            getOrganization,
-            getOrganizations
-        }}>
+    return {
+        organizationIds,
+        organizationMap,
+        organizationMapByName,
+        fetchOrganizations,
+        fetchOrganization,
+        getOrganization,
+        getOrganizations
+    };
+}
+
+export const OrganizationsProvider = ({children}) => {
+    const values = useOrganizationsValues();
+
+    return (<OrganizationsContext.Provider value={values}>
         {children}
     </OrganizationsContext.Provider>);
 };

@@ -118,20 +118,20 @@ export default function Resource() {
                 <h2>Overview</h2>
                 <div className="row">
                     <div className="col">
-                        <label className="text-secondary">Resource Type</label>
-                        <div>{resource.cider_type}</div>
+                        <label className="text-secondary" htmlFor="resource-type">Resource Type</label>
+                        <div id="resource-type">{resource.cider_type}</div>
                     </div>
                     <div className="col">
-                        <label className="text-secondary">Latest Status</label>
-                        <div>{resource.latest_status}</div>
+                        <label className="text-secondary" htmlFor="resource-latest-status">Latest Status</label>
+                        <div id="resource-latest-status">{resource.latest_status}</div>
                     </div>
                     <div className="col">
-                        <label className="text-secondary">Global Resource ID</label>
-                        <div>{resource.info_resourceid}</div>
+                        <label className="text-secondary" htmlFor="resource-id">Global Resource ID</label>
+                        <div id="resource-id">{resource.info_resourceid}</div>
                     </div>
                     <div className="col">
-                        <label className="text-secondary">Roadmap</label>
-                        <div>{roadmap.name}</div>
+                        <label className="text-secondary" htmlFor="resource-roadmap-name">Roadmap</label>
+                        <div id="resource-roadmap-name">{roadmap.name}</div>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,8 @@ import {InlineAlert} from "./InlineAlerts.jsx";
 export default function MultiSelectControlTwoLists(
     {
         items, value = [],
-        onChange, onItemExpand,
+        onChange,
+        // onItemExpand,
         filterLabel = "Filter",
         addedItemsLabel = "Added Items",
         icon = <i className="bi bi-circle-fill fs-3"></i>,
@@ -35,8 +36,8 @@ export default function MultiSelectControlTwoLists(
         showLeftPanelIcon = true,
         enableOrdering = false,
         enableViewMoreDetails = false,
-        getMoreDetailsComponent = (item) => null,
-        onEditClick = (item) => null
+        getMoreDetailsComponent = null, //(item) => null,
+        onEditClick = null // (item) => null
     }) {
 
     const [searchText, setSearchText] = useState("");
@@ -114,7 +115,7 @@ export default function MultiSelectControlTwoLists(
     }
 
     function ItemLeftActions(
-        {item, sequenceNo, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
+        {item, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
 
         const eventKey = item.id;
         const currentEventKey = useContext(AccordionContext).activeEventKey;
@@ -143,7 +144,9 @@ export default function MultiSelectControlTwoLists(
                             onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
             </div>}
             {!!allowEdit && <div style={{minWidth: "50px"}} className="pe-2 text-end">
-                <button className="btn btn-link fw-normal" onClick={onEditClick.bind(this, item)}>Edit</button>
+                <button className="btn btn-link fw-normal"
+                        onClick={onEditClick ? onEditClick.bind(this, item) : null}>Edit
+                </button>
             </div>}
             {!!allowRemove && <button className="btn btn-link"
                                       onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
@@ -170,9 +173,9 @@ export default function MultiSelectControlTwoLists(
                         <InlineAlert variant="green" title="None"/>}
                     <ul className="list-unstyled ">
                         {notSelectedItems.map((item, sequenceNo) => {
-                            return <li key={sequenceNo} className="p-0">
+                            return <li key={sequenceNo} className="p-0 pb-1">
                                 <div
-                                    className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
+                                    className="d-flex flex-row rounded-1 btn btn-outline-gray-300 bg-white pt-2 pb-2 ps-2 pe-3">
                                     <ItemLeftActions item={item} sequenceNo={sequenceNo}
                                                      showIcon={!!showLeftPanelIcon}/>
                                     {getItemNameJsx(item)}
@@ -201,14 +204,15 @@ export default function MultiSelectControlTwoLists(
                         <InlineAlert variant="green" title="None"/>}
                     <ul className="list-unstyled">
                         {selectedItems.map((item, sequenceNo) => <li
-                            key={sequenceNo} className="p-0"
-                            draggable={enableOrdering}
-                            onDragStart={(e) => handleDragStart(e, sequenceNo)}
-                            onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
-                            onDragEnd={handleSort}
-                            onDragOver={(e) => e.preventDefault()} // Allow dropping
+                            key={sequenceNo} className="pb-1"
                         >
-                            <div className="rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
+                            <button className="rounded-1 btn btn-outline-gray-300 pt-2 pb-2 ps-2 pe-3"
+                                    draggable={enableOrdering}
+                                    onDragStart={(e) => handleDragStart(e, sequenceNo)}
+                                    onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
+                                    onDragEnd={handleSort}
+                                    onDragOver={(e) => e.preventDefault()} // Allow dropping
+                            >
                                 <div className="w-100 d-flex flex-row">
                                     <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={!!showRightPanelIcon}
                                                      enableOrdering={!!enableOrdering}
@@ -217,10 +221,11 @@ export default function MultiSelectControlTwoLists(
                                     <ItemRightActions item={item} sequenceNo={sequenceNo}/>
                                 </div>
                                 <Accordion.Collapse eventKey={item.id}>
-                                    <div
-                                        className="w-100 p-3 mt-3 border-top border-1">{getMoreDetailsComponent(item)}</div>
+                                    <div className="w-100 p-3 mt-3 border-top border-1">
+                                        {getMoreDetailsComponent && getMoreDetailsComponent(item)}
+                                    </div>
                                 </Accordion.Collapse>
-                            </div>
+                            </button>
                         </li>)}
                     </ul>
                 </Accordion>

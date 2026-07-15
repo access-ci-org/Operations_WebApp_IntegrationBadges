@@ -1,6 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 import {Link} from "react-router-dom";
-import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../pages-config.js";
 
 export default function WhyBecomeAnRP() {
 

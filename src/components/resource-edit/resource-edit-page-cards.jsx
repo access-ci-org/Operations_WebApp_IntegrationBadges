@@ -1,27 +1,21 @@
 import Form from "react-bootstrap/Form";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx";
-import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
+import {DocumentationRouteUrls} from "../../pages/pages-config.js";
 import {HtmlToText} from "../util/text-editors.jsx";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
 import computeResourceIcon from "../../assets/integration_icon_compute.png";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
-    const navigate = useNavigate();
-
     const {getResource} = useResources();
     const {getRoadmap} = useRoadmaps();
 
     const resource = getResource({resourceId});
     let roadmap = getRoadmap({roadmapId});
-
-    const navigateToRoadmap = () => {
-        navigate(DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmapId}`);
-    };
 
     const actionButtonClasses = "btn btn-link w-100 p-3 text-center rounded-bottom-3 text-decoration-none";
 
@@ -79,24 +73,11 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     }
 }
 
-export function BadgeCardRow({
-                                 resourceId,
-                                 roadmapId,
-                                 badgeId,
-                                 selected,
-                                 required,
-                                 toggle,
-                                 toggleComponent,
-                                 actions,
-                                 body
-                             }) {
-    const {getResource} = useResources();
-    const {getRoadmap} = useRoadmaps();
+export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
+
     const {getBadge} = useBadges();
 
-    const resource = getResource({resourceId});
     const badge = getBadge({badgeId});
-    const roadmap = getRoadmap({roadmapId});
 
     if (badge) {
         return <div className="w-100 p-1">
@@ -111,7 +92,7 @@ export function BadgeCardRow({
                     </div>
                 </div>
 
-                {!!body ?
+                {body ?
                     <div className="col-sm-3 pt-2 pb-2 badge-card-row-description align-content-center">{body}</div> :
                     <div className="col pt-2 pb-2 badge-card-row-description align-content-center">
                         <p className="m-0 align-content-center small">
@@ -120,7 +101,7 @@ export function BadgeCardRow({
                     </div>}
 
                 <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                    {!!actions ? actions :
+                    {actions ? actions :
                         <Link
                             to={`${DocumentationRouteUrls.BADGES}?badgeId=${badgeId}`} target="_blank"
                             className="w-100 btn btn-secondary rounded-1 btn-sm">
@@ -132,32 +113,17 @@ export function BadgeCardRow({
     }
 }
 
-
-export function BadgeCardRowWithCheckboxes({resourceId, roadmapId, badgeId, selected, required, toggle}) {
-    let toggleComponent = <RequiredBadgeTooltip required={!!required}>
-        <div
-            className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center ${selected ? 'bg-light' : 'bg-gray-100'}`}
-            role="button" onClick={!required ? toggle : null}>
-            <Form.Check name="badges" type="checkbox" id={`badge-${badgeId}`} checked={!!selected}
-                        onChange={toggle} disabled={!!required}/>
-        </div>
-    </RequiredBadgeTooltip>;
-
-    return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}
-                         toggle={toggle} toggleComponent={toggleComponent}/>
-}
-
 export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selected, required, toggle}) {
     const toggleComponent = <RequiredBadgeTooltip required={!!required}>
-        <div
-            className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center bg-gray-100 fs-4`}
-            role="button" onClick={!required ? toggle : null}>
-            {!!required ?
+        <button
+            className={`p-3 h-100 btn btn-gray-100 width-fit-content border-gray-100 rounded-start-3 align-content-center text-center fs-4`}
+            onClick={!required ? toggle : null} >
+            {required ?
                 <i className="bi bi-slash-circle text-gray-200"></i> :
-                !!selected ?
+                selected ?
                     <i className="bi bi-dash"></i> :
                     <i className="bi bi-plus"></i>}
-        </div>
+        </button>
     </RequiredBadgeTooltip>
 
     return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}
@@ -171,7 +137,7 @@ export function BadgeCardRowWithRequiredLabel({resourceId, roadmapId, badgeId, s
     </div>
 
     const body = <div className="text-center">
-        {!!required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
+        {required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
                 Required</small> :
             <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
                 Not Required</small>}

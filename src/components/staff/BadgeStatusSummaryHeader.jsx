@@ -1,5 +1,5 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
+import {Link, useLocation} from "react-router-dom";
+import {StaffRouteUrls} from "../../pages/pages-config.js";
 import Translate from "../../locales/Translate.jsx";
 import React, {useEffect} from "react";
 import {BadgeWorkflowStatus} from "../../contexts/constants.js";
@@ -8,9 +8,7 @@ import {StaffBadgeStatusCssVariant} from "../status/BadgeStatus.jsx";
 
 export default function BadgeStatusSummaryHeader() {
     const location = useLocation();
-    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
-    let badgeWorkflowStatusParam = queryParams.get('badgeWorkflowStatus');
     const orderBy = queryParams.get('orderBy');
 
     const {fetchResourceRoadmapBadgeStatusSummary, getResourceRoadmapBadgeStatusSummary} = useResources();

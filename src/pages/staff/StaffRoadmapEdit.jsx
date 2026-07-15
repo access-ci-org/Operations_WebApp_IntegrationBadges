@@ -1,7 +1,7 @@
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {StaffRouteUrls} from "./StaffRoute.jsx";
+import {StaffRouteUrls} from "../pages-config.js";
 import {useEffect, useState} from "react";
 import StaffRoadmapEditDetails from "../../components/staff/roadmap-edit/StaffRoadmapEditDetails.jsx";
 import StaffRoadmapEditAssociateBadges
@@ -51,10 +51,12 @@ export default function StaffRoadmapEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        setRoadmapData({
-            ...roadmapData,
-            ...roadmap
-        })
+        (async () => {
+            setRoadmapData({
+                ...roadmapData,
+                ...roadmap
+            })
+        })()
     }, [roadmapId, !!roadmap]);
 
     useEffect(() => {
@@ -86,7 +88,7 @@ export default function StaffRoadmapEdit() {
             await setRoadmap({roadmapId, roadmapData});
             // navigate(StaffRouteUrls.ROADMAPS);
             setShowSavedModal(true);
-        } catch (error) {
+        } catch {
             setShowErrorModal(true);
         }
     };

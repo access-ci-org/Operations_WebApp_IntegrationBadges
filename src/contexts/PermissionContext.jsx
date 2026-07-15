@@ -1,28 +1,14 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {
-    authorizedDashboardAxiosInstanceWithoutRedirect
-} from "./auth/DashboardAuthenticator.js";
+import {authorizedDashboardAxiosInstanceWithoutRedirect} from "./auth/DashboardAuthenticator.js";
 
-const RolesContext = createContext({
-    // permissionMap: {},
-    fetchRoles: () => {
-    },
-    isAuthenticated: () => {
-    },
-    hasPermission: ({roles = [], resourceIds = []} = {}) => {
-    },
-    getAuthorizedRoles: ({resourceId = null}) => {
-    },
-});
+
+/** @type {React.Context<ReturnType<typeof useRolesValues> | null>} */
+const RolesContext = createContext(null);
 
 export const useRoles = () => useContext(RolesContext);
 
-/**
- * Context provider for roles
- * @param children
- */
-export const RolesProvider = ({children}) => {
+function useRolesValues() {
     const [roleMap, setRoleMap] = useReducer(DefaultReducer, {});
     const [authenticated, setAuthenticated] = useReducer(DefaultReducer, false);
 
@@ -71,14 +57,10 @@ export const RolesProvider = ({children}) => {
             //                     ]
             //                 },
             //                 {
-            //                     "role": "roadmap",
-            //                     "info_groupids": [
-            //                         "maintainer"
-            //                     ],
-            //                     "info_resourceids": [],
-            //                     "roles": [
-            //                         "roadmap_maintainer"
-            //                     ]
+            //                     "role": "roadmap.maintainer",
+            //                 },
+            //                 {
+            //                     "role": "badge.maintainer",
             //                 }
             //             ]
             //         },
@@ -86,9 +68,7 @@ export const RolesProvider = ({children}) => {
             //     }
             // };
 
-            console.log("#### fetchRoles - success", response);
             setAuthenticated(true);
-            console.log("#### fetchRoles - authenticated", authenticated);
 
             const _rolesMap = {};
 
@@ -113,11 +93,10 @@ export const RolesProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
-            console.log("#### fetchRoles - failed", error);
             setAuthenticated(false);
-            console.log("#### fetchRoles - authenticated", authenticated);
 
-            console.log(error)
+            console.log(error);
+
             throw error;
         }
     };
@@ -126,7 +105,6 @@ export const RolesProvider = ({children}) => {
      * @returns {boolean}
      */
     const isAuthenticated = () => {
-        console.log("#### isAuthenticated", authenticated);
         return !!authenticated;
     }
 
@@ -175,10 +153,15 @@ export const RolesProvider = ({children}) => {
         return authorizedRoles;
     };
 
+    return {roleMap, fetchRoles: fetchRoles, isAuthenticated, hasPermission, getAuthorizedRoles};
+}
+
+
+export const RolesProvider = ({children}) => {
+    const values = useRolesValues();
 
     return (
-        <RolesContext.Provider
-            value={{roleMap, fetchRoles: fetchRoles, isAuthenticated, hasPermission, getAuthorizedRoles}}>
+        <RolesContext.Provider value={values}>
             {children}
         </RolesContext.Provider>
     );

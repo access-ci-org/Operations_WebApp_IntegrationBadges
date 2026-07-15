@@ -1,12 +1,7 @@
-import {NavLink, useLocation} from "react-router-dom";
-import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
+import {NavLink} from "react-router-dom";
+import {StaffRouteUrls} from "../../pages/pages-config.js";
 
 export function StaffMainNavigation() {
-
-    const location = useLocation();
-
-    const pathname = location.pathname;
-
     const staffMenus = [
         {"name": "Home", "link": StaffRouteUrls.INDEX},
         {"name": "Roadmaps", "link": StaffRouteUrls.ROADMAPS},

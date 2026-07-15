@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
-import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
 import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";
 import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
 
@@ -41,15 +40,17 @@ export default function ResourceEdit() {
     }, [resourceId, roadmapId, isRoadmapNew]);
 
     useEffect(() => {
-        if (!!resourceId && !!roadmapId) {
-            if (isRoadmapNew) {
-                setWizardIndex(1);
+        (async () => {
+            if (!!resourceId && !!roadmapId) {
+                if (isRoadmapNew) {
+                    setWizardIndex(1);
+                } else {
+                    setWizardIndex(2);
+                }
             } else {
-                setWizardIndex(2);
+                setWizardIndex(0);
             }
-        } else {
-            setWizardIndex(0);
-        }
+        })();
     }, [resourceId, roadmapId, isRoadmapNew]);
 
     useEffect(() => {
@@ -57,23 +58,25 @@ export default function ResourceEdit() {
     }, [roadmapId]);
 
     useEffect(() => {
-        const _selectedBadgeIdMap = {};
+        (async () => {
+            const _selectedBadgeIdMap = {};
 
-        if (resourceRoadmapBadges) {
-            for (let i = 0; i < resourceRoadmapBadges.length; i++) {
-                _selectedBadgeIdMap[resourceRoadmapBadges[i].badge_id] = true;
-            }
-        }
-
-        if (roadmapBadges) {
-            for (let i = 0; i < roadmapBadges.length; i++) {
-                if (roadmapBadges[i].required) {
-                    _selectedBadgeIdMap[roadmapBadges[i].badge_id] = true;
+            if (resourceRoadmapBadges) {
+                for (let i = 0; i < resourceRoadmapBadges.length; i++) {
+                    _selectedBadgeIdMap[resourceRoadmapBadges[i].badge_id] = true;
                 }
             }
-        }
 
-        setSelectedBadgeIdMap(_selectedBadgeIdMap);
+            if (roadmapBadges) {
+                for (let i = 0; i < roadmapBadges.length; i++) {
+                    if (roadmapBadges[i].required) {
+                        _selectedBadgeIdMap[roadmapBadges[i].badge_id] = true;
+                    }
+                }
+            }
+
+            setSelectedBadgeIdMap(_selectedBadgeIdMap);
+        })();
     }, [roadmapId, resourceId, !!resourceRoadmapBadges, !!roadmapBadges]);
 
     useEffect(() => {
@@ -101,9 +104,7 @@ export default function ResourceEdit() {
         }
     };
     const handleNext = async () => {
-        if (wizardIndex === 2) {
-            await handleSave();
-        } else {
+        if (wizardIndex < 2) {
             setWizardIndex(wizardIndex + 1);
         }
     };

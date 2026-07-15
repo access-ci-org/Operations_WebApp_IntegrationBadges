@@ -17,7 +17,6 @@ export default function ResourceBadgeLog({resourceId, roadmapId, badgeId}) {
     return <div className="w-100">
 
         {logs && logs.map((log, logIndex) => {
-            const logId = log.id;
             const comment = log.comment;
             const status = log.status;
             const lastUpdatedAt = new Date(Date.parse(log.status_updated_at));

@@ -19,8 +19,7 @@ const CopyStatus = {
 
 export default function ContactsAndCollaboratorsFilterView(
     {
-        organizationId = null, resourceId = null, roadmapId = null, badgeId = null,
-        contactType = null, contactEmail = null
+        organizationId = null, resourceId = null, roadmapId = null, badgeId = null
     } = {}
 ) {
     const {getOrganizations, getOrganization} = useOrganizations();
@@ -44,20 +43,23 @@ export default function ContactsAndCollaboratorsFilterView(
     const [processing, setProcessing] = useState(true);
 
     useEffect(() => {
-        setProcessing(true);
+        (async () => {
+            const organization = getOrganization({organizationId});
+            const resource = getResource({resourceId});
+            const roadmap = getRoadmap({roadmapId});
+            const badge = getBadge({badgeId});
 
-        const organization = getOrganization({organizationId});
-        const resource = getResource({resourceId});
-        const roadmap = getRoadmap({roadmapId});
-        const badge = getBadge({badgeId});
+            organization && setSelectedOrganizationIds([{
+                value: organizationId,
+                label: organization.organization_name
+            }]);
+            resource && setSelectedResourceIds([{value: resourceId, label: resource.resource_descriptive_name}]);
+            roadmap && setSelectedRoadmapIds([{value: roadmapId, label: roadmap.name}]);
+            badge && setSelectedBadgeIds([{value: badgeId, label: badge.name}]);
 
-        organization && setSelectedOrganizationIds([{value: organizationId, label: organization.organization_name}]);
-        resource && setSelectedResourceIds([{value: resourceId, label: resource.resource_descriptive_name}]);
-        roadmap && setSelectedRoadmapIds([{value: roadmapId, label: roadmap.name}]);
-        badge && setSelectedBadgeIds([{value: badgeId, label: badge.name}]);
-
-        setProcessing(false);
-    }, [organizationId, resourceId, roadmapId, badgeId, contactType, contactEmail]);
+            setProcessing(false);
+        })();
+    }, [organizationId, resourceId, roadmapId, badgeId, getOrganization, getResource, getRoadmap, getBadge]);
 
     const contactFilters = [
         {
@@ -81,7 +83,10 @@ export default function ContactsAndCollaboratorsFilterView(
         {
             "title": "Resource Integration Status (s)",
             "options": [ResourceIntegrationStatus.NEW, ResourceIntegrationStatus.IN_PROGRESS,
-                ResourceIntegrationStatus.PRODUCTION, ResourceIntegrationStatus.POST_PRODUCTION].map(s => ({label: s, value: s})),
+                ResourceIntegrationStatus.PRODUCTION, ResourceIntegrationStatus.POST_PRODUCTION].map(s => ({
+                label: s,
+                value: s
+            })),
             get: () => selectedResourceStatuses,
             set: setSelectedResourceStatuses
         },
