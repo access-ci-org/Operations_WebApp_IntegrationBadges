@@ -1,4 +1,11 @@
 import {Link} from "react-router-dom";
+
+import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png"
+import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {useEffect} from "react";
+import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
+import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {WhyBecomeAnRPFooter} from "./WhyBecomeAnRP.jsx";
 
 export default function WhatIsTicketingSystem() {

@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 
-export default function RoadmapSelection({resourceId}) {
+export default function RoadmapSelection({resourceId, selected, toggle, prev, next}) {
     const navigate = useNavigate();
 
     const {getResource, isResourceRoadmapSelected} = useResources();

@@ -16,8 +16,6 @@ export default function FAQ1() {
             var accordionButton = accordionElementHeader.querySelector(".accordion-button");
             if (accordionElement) {
                 accordionElementHeader.scrollIntoView({behavior: "smooth"});
-
-                // eslint-disable-next-line no-undef
                 var accordion = new bootstrap.Collapse(accordionElement, {toggle: false});
 
                 if (accordion) accordion.show();
@@ -26,7 +24,10 @@ export default function FAQ1() {
         }
     }
 
-    function initAccordionActions() {
+    window.addEventListener('DOMContentLoaded', handleHashNavigation);
+    window.addEventListener('hashchange', handleHashNavigation);
+
+    window.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.accordion-header').forEach(accordionHeader => {
             accordionHeader.addEventListener('click', (e) => {
                 const copyButton = e.target.closest('.copy-btn');
@@ -45,8 +46,6 @@ export default function FAQ1() {
                     var accordionElementId = accordionHeader.getAttribute('id');
                     var accordionElement = document.getElementById(accordionElementId + "_body");
                     if (accordionElement) {
-
-                        // eslint-disable-next-line no-undef
                         var accordion = new bootstrap.Collapse(accordionElement, {toggle: false});
 
                         if (accordion) {
@@ -72,12 +71,7 @@ export default function FAQ1() {
                 icon.className = "bi bi-link fs-5 text-primary";
             }, 1500);
         }
-    }
-
-    window.addEventListener('DOMContentLoaded', handleHashNavigation);
-    window.addEventListener('hashchange', handleHashNavigation);
-
-    window.addEventListener('DOMContentLoaded', initAccordionActions);
+    });
 
     const [activeTabId, setActiveTabId] = useState("account-setup-and-management-tab");
 
@@ -642,10 +636,10 @@ export default function FAQ1() {
                                                         {subsectionItem.question}</h4>
                                                     <div>
                                                         <button
-                                                            className="copy-btn btn btn-sm btn-outline-gray-400 width-fit-content lh-1 border-0 rounded-5 ms-2"
+                                                            className="copy-btn btn btn-sm btn-outline-gray-400 lh-1 border-0 rounded-5 ms-2"
                                                             type="button" title="Copy link"
                                                             data-link={`#${subsectionItemIndex}`}>
-                                                            <i className="bi bi-link fs-5 text-primary">&nbsp;</i>
+                                                            <i className="bi bi-link fs-5 text-primary"></i>
                                                         </button>
                                                     </div>
                                                 </div>

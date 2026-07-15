@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import JSONGrid from '@redheadphone/react-json-grid'
 import pkg from '../../package.json';
 import {Nav} from "react-bootstrap";
@@ -18,11 +18,11 @@ export default function About() {
 
     const {roleMap} = useRoles();
 
-    const [theme] = useState("remedy");
+    const [theme, setTheme] = useState("remedy");
 
-    // const availableThemes = ["default", "dracula", "monokai", "oceanicPark", "panda", "gruvboxMaterial", "tokyoNight", "remedy", "atlanticNight", "defaultLight", "defaultLight2", "slime", "spacegray", "blueberryDark", "nord", "nightOwl", "oneMonokai", "cobaltNext", "shadesOfPurple", "codeBlue", "softEra", "atomMaterial", "evaDark", "moonLight"];
+    const availableThemes = ["default", "dracula", "monokai", "oceanicPark", "panda", "gruvboxMaterial", "tokyoNight", "remedy", "atlanticNight", "defaultLight", "defaultLight2", "slime", "spacegray", "blueberryDark", "nord", "nightOwl", "oneMonokai", "cobaltNext", "shadesOfPurple", "codeBlue", "softEra", "atomMaterial", "evaDark", "moonLight"];
 
-    if (format) format = format.toLowerCase();
+    if (!!format) format = format.toLowerCase();
     if (["json", "html"].indexOf(format) < 0) {
         format = "html";
     }

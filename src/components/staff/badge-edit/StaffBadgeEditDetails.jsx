@@ -3,13 +3,7 @@ import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from "react-dropzone";
 import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
-function useBadgeInputFields({badgeData, setBadgeData}) {
-    const MAX_UPLOAD_SIZE = 5 * 1024 * 1024;  // 5 MB
-    const ALLOWED_MIME_TYPES = {
-        'image/jpeg': ['.jpeg', '.jpg'],
-        'image/png': ['.png'],
-        'image/svg+xml': ['.svg']
-    };
+function getBadgeInputFields({badgeData, setBadgeData}) {
 
     const onInputValueChange = (fieldName) => (evt) => {
         setBadgeData({...badgeData, [fieldName]: evt.target.value});
@@ -24,32 +18,32 @@ function useBadgeInputFields({badgeData, setBadgeData}) {
         if (files && files.length > 0) setBadgeData({...badgeData, graphic: await fileToBase64(files[0])});
     };
 
-    const {
-        getRootProps,
-        getInputProps,
-        // isFocused,
-        isDragAccept,
-        // isDragReject,
-        open
-    } = useDropzone({
-        noClick: true,
-        onDrop: onGraphicInputValueChange,
-        accept: ALLOWED_MIME_TYPES,
-        maxSize: MAX_UPLOAD_SIZE,
-        multiple: false
-    });
-
     return {
         name: <Form.Control type="text" value={badgeData.name} onChange={onInputValueChange("name")}/>,
 
 
         researcher_summary: <BasicFormattedTextEditor data={badgeData.researcher_summary}
-                                                      onChange={onFormattedTextInputValueChange("researcher_summary")}/>,
+            onChange={onFormattedTextInputValueChange("researcher_summary")}/>,
 
         resource_provider_summary: <BasicFormattedTextEditor data={badgeData.resource_provider_summary}
-                                                             onChange={onFormattedTextInputValueChange("resource_provider_summary")}/>,
+            onChange={onFormattedTextInputValueChange("resource_provider_summary")}/>,
 
         graphic: (then) => {
+            const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
+            const ALLOWED_MIME_TYPES = {
+                'image/jpeg': ['.jpeg', '.jpg'],
+                'image/png': ['.png'],
+                'image/svg+xml': ['.svg']
+            }
+
+            const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open} = useDropzone({
+                noClick: true,
+                onDrop: onGraphicInputValueChange,
+                accept: ALLOWED_MIME_TYPES,
+                maxSize: MAX_UPLOAD_SIZE,
+                multiple: false
+            });
+
             return <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 {then(open, isDragAccept)}
@@ -64,7 +58,7 @@ function useBadgeInputFields({badgeData, setBadgeData}) {
         </Form.Select>,
 
         verification_summary: <BasicFormattedTextEditor data={badgeData.verification_summary}
-                                                        onChange={onFormattedTextInputValueChange("verification_summary")}/>,
+            onChange={onFormattedTextInputValueChange("verification_summary")}/>,
 
         default_badge_access_url_label: <Form.Control type="text" value={badgeData.default_badge_access_url_label}
                                                       onChange={onInputValueChange("default_badge_access_url_label")}/>,
@@ -79,7 +73,7 @@ export default function StaffBadgeEditDetails({badgeData, setBadgeData}) {
 }
 
 export function StaffBadgeEditDetailsV1({badgeData, setBadgeData}) {
-    const badgeInputFields = useBadgeInputFields({badgeData, setBadgeData});
+    const badgeInputFields = getBadgeInputFields({badgeData, setBadgeData});
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3">
@@ -135,7 +129,7 @@ export function StaffBadgeEditDetailsV1({badgeData, setBadgeData}) {
 
 
 export function StaffBadgeEditDetailsV2({badgeData, setBadgeData}) {
-    const badgeInputFields = useBadgeInputFields({badgeData, setBadgeData});
+    const badgeInputFields = getBadgeInputFields({badgeData, setBadgeData});
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3 row">

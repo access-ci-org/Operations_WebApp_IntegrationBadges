@@ -29,7 +29,7 @@ function addDashboardAuthInterceptor(axiosInstance, redirect = true) {
 
                     // Update the Authorization header
                     config.headers.Authorization = `Bearer ${newToken}`;
-                } catch {
+                } catch (e) {
                     // newToken = "<no-valid-token-received-from-dashboard>"
                     if (redirect) window.location = "/login?next=" + window.location.pathname;
                 }

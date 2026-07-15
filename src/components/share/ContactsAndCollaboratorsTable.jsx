@@ -1,9 +1,12 @@
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {useContacts} from "../../contexts/ContactsContext.jsx";
 import {useEffect, useState} from "react";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
+import {Link} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {CollaboratorProfileAvatarButton} from "./ContactsAndCollaboratorsSummary.jsx";
+import {sortJsonArrayAlphabetically} from "../util/sort.jsx";
 
 const CopyStatus = {
     success: "Copied to clipboard",
@@ -24,6 +27,7 @@ export default function ContactsAndCollaboratorsTable(
     const [error, setError] = useState(false);
     const [copyStatus, setCopyStatus] = useState("");
 
+    const organization = getOrganization({organizationId});
     let contacts = getContacts({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail});
 
     // if (contacts) contacts = sortJsonArrayAlphabetically(contacts, "contact_name");

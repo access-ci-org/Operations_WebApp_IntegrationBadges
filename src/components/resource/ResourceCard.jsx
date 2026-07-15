@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {DocumentationRouteUrls} from "../../pages/pages-config.js";
+import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {ShowIfAuthorized} from "../util/Permissions.jsx";
 

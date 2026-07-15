@@ -1,4 +1,4 @@
-import {Outlet, useLocation, useParams} from 'react-router-dom';
+import {Navigate, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {useRoles} from "../../contexts/PermissionContext.jsx";
 import Unauthorized from "../Unauthorized.jsx";
@@ -58,6 +58,10 @@ export function ProtectedRoute({roles}) {
     const {resourceId} = useParams();
     let resourceIds = queryParams.getAll('resourceId');
     if (resourceId) resourceIds.push(resourceId);
+
+    console.log("#### ProtectedRoute : ", {roles, resourceIds});
+    console.log("#### ProtectedRoute isAuthenticated() : ", isAuthenticated());
+    console.log("#### ProtectedRoute hasPermission({roles, resourceIds}) : ", hasPermission({roles, resourceIds}));
 
     if (!isAuthenticated()) {
         window.location.replace("/login?next=" + window.location.pathname);
