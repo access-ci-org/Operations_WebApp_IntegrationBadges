@@ -20,7 +20,11 @@ if (!window.SETTINGS) {
 for (let i = 0; i < variableNames.length; i++) {
     const variableName = variableNames[i];
     if (!window.SETTINGS[variableName]) {
-        window.SETTINGS[variableName] = import.meta.env[`VITE_${variableName}`];
+        try {
+            window.SETTINGS[variableName] = import.meta.env[`VITE_${variableName}`];
+        } catch (e) {
+            console.log("###### populate-env-variables.js Error : ", e)
+        }
     }
 }
 
