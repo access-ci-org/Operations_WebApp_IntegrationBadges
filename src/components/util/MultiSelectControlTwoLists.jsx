@@ -170,7 +170,7 @@ export default function MultiSelectControlTwoLists(
                 </div>
                 <div className="flex-fill overflow-auto">
                     {notSelectedItems.length === 0 &&
-                        <InlineAlert variant="green" title="None"/>}
+                        <InlineAlert variant="success" title="None"/>}
                     <ul className="list-unstyled ">
                         {notSelectedItems.map((item, sequenceNo) => {
                             return <li key={sequenceNo} className="p-0 pb-1">
@@ -201,7 +201,7 @@ export default function MultiSelectControlTwoLists(
                 </div>
                 <Accordion defaultActiveKey="" className="flex-fill overflow-auto">
                     {selectedItems.length === 0 &&
-                        <InlineAlert variant="green" title="None"/>}
+                        <InlineAlert variant="success" title="None"/>}
                     <ul className="list-unstyled">
                         {selectedItems.map((item, sequenceNo) => <li
                             key={sequenceNo} className="pb-1"

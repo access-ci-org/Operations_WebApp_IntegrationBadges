@@ -54,7 +54,7 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
                 Optional Tasks
             </div>
             <div className="col-sm-6">
-                {recommendedTasks.length === 0 && <InlineAlert variant="green" title="None"/>}
+                {recommendedTasks.length === 0 && <InlineAlert variant="success" title="None"/>}
                 {recommendedTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
             </div>
         </div>
@@ -69,7 +69,7 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
                 Required Badges
             </div>
             <div className="col-sm-6">
-                {recommendedBadges.length === 0 && <InlineAlert variant="green" title="None"/>}
+                {recommendedBadges.length === 0 && <InlineAlert variant="success" title="None"/>}
                 {recommendedBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>

@@ -7,9 +7,9 @@ export const StaffBadgeStatusCssVariant = {
     [BadgeWorkflowStatus.TASK_COMPLETED]: "accent-secondary",
     [BadgeWorkflowStatus.VERIFICATION_FAILED]: "danger",
     [BadgeWorkflowStatus.PLANNED]: "blue",
-    [BadgeWorkflowStatus.VERIFIED]: "green",
+    [BadgeWorkflowStatus.VERIFIED]: "success",
     [BadgeWorkflowStatus.DEPRECATED]: "secondary",
-    [BadgeWorkflowStatus.EXEMPTED]: "green",
+    [BadgeWorkflowStatus.EXEMPTED]: "success",
     [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: "accent-secondary",
     [BadgeWorkflowStatus.EXEMPTION_REJECTED]: "danger"
 }

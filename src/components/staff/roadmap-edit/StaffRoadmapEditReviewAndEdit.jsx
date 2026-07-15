@@ -32,7 +32,7 @@ export default function StaffRoadmapEditReviewAndEdit({roadmapData, setRoadmapDa
                 {requiredBadges.length === 0 && recommendedBadges.length === 0 ?
                     <InlineAlert variant="warning" title="WARNING" description="No associated required badges"/> :
                     requiredBadges.length === 0 ?
-                        <InlineAlert variant="green" title="None"/> :
+                        <InlineAlert variant="success" title="None"/> :
                         requiredBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>
@@ -45,7 +45,7 @@ export default function StaffRoadmapEditReviewAndEdit({roadmapData, setRoadmapDa
                 {requiredBadges.length === 0 && recommendedBadges.length === 0 ?
                     <InlineAlert variant="warning" title="WARNING" description="No associated recommended badges"/> :
                     recommendedBadges.length === 0 ?
-                        <InlineAlert variant="green" title="None"/> :
+                        <InlineAlert variant="success" title="None"/> :
                         recommendedBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>

@@ -8,6 +8,9 @@ The general format of entries is:
         - *
 
 
+v1.18.13 2026-07-15 dinukadesilva
+    1 - [fix] Fix variant colors.
+        - *
 
 v1.18.12 2026-07-15 dinukadesilva
     1 - [fix] Lint fixes and source code refactoring (CTT-998)
