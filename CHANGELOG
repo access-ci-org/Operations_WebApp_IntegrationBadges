@@ -9,7 +9,7 @@ The general format of entries is:
 
 
 
-v1.18.0 2026-07-15 dinukadesilva
+v1.18.12 2026-07-15 dinukadesilva
     1 - [fix] Lint fixes and source code refactoring (CTT-998)
         - *
     2 - [fix] Some accessibility fixes related form fields and focusable components (CTT-998)
@@ -18,6 +18,12 @@ v1.18.0 2026-07-15 dinukadesilva
         - /resources/<resource_id>/edit
         - /resources/<resource_id>/roadmaps/<roadmap_id>
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    3 - [new] The javascript dependency should be imported as a module from this version onwards
+        - This is due to certain dependencies are requiring that setting.
+        - Eg: <script type="module" .... ></script>
+
+v1.18.[0-11] 2026-07-15 dinukadesilva
+    1 - These versions were created for troubleshooting purposes and please disregard.
 
 v1.17.2 2026-07-02 dinukadesilva
     1 - [fix] NPM package audit fixes
