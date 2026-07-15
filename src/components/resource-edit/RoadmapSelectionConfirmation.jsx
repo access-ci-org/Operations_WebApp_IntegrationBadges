@@ -4,7 +4,7 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../util/LoadingBlock.jsx";
 import {HtmlToReact} from "../util/text-editors.jsx";
 
-export default function RoadmapSelectionConfirmation({resourceId, roadmapId, next}) {
+export default function RoadmapSelectionConfirmation({resourceId, roadmapId, prev, next}) {
     const {getResource, getResourceOrganization} = useResources();
     const {getRoadmap} = useRoadmaps();
 

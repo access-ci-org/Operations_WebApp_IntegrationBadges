@@ -3,7 +3,7 @@ import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Nav} from "react-bootstrap";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {DocumentationRouteUrls} from "../pages-config.js";
+import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
 import {useEffect} from "react";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import {BadgeCardRowWithRequiredLabel} from "../../components/resource-edit/resource-edit-page-cards.jsx";
@@ -62,7 +62,7 @@ export default function Roadmaps() {
         });
 
         let activeKey = DocumentationRouteUrls.ROADMAPS;
-        if (roadmapId) activeKey += `?roadmapId=${roadmapId}`;
+        if (!!roadmapId) activeKey += `?roadmapId=${roadmapId}`;
 
         return <div className="container">
             <div className="row pt-4">
@@ -96,7 +96,7 @@ export default function Roadmaps() {
                         <div className="w-100 d-flex flex-row">
                             <div className="p-2">
                                 <div style={{width: "150px", height: "150px"}} className="overflow-hidden">
-                                    {selectedRoadmap.graphic ?
+                                    {!!selectedRoadmap.graphic ?
                                         <img alt="Roadmap graphic" src={selectedRoadmap.graphic}
                                              className="w-100"/> :
                                         <div

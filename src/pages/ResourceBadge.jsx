@@ -19,7 +19,7 @@ import {Concierge, PermissionSwitch, ShowIfAuthorized} from "../components/util/
 import {HtmlToReact} from "../components/util/text-editors.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-import {DocumentationRouteUrls} from "./pages-config.js";
+import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -79,7 +79,7 @@ export default function ResourceBadge() {
             setComment("");
 
             if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
-        } catch {
+        } catch (e) {
             setShowErrorModal(true);
         }
         setBadgeActionStatusProcessing(false);
@@ -145,14 +145,14 @@ export default function ResourceBadge() {
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Required</span>}
                     </div>
                     <div className="row">
-                        <label className="text-secondary" htmlFor="resource-badge-rp-roles">RP Roles</label>
-                        <div id="resource-badge-rp-roles">{getImplementorRoles(tasks).join(", ")}</div>
+                        <label className="text-secondary">RP Roles</label>
+                        <div>{getImplementorRoles(tasks).join(", ")}</div>
                     </div>
                 </div>
                 <div className="col-sm-3 ps-1 mb-3">
                     <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
-                        <label className="text-black d-inline fw-bold" htmlFor="resource-badge-status">Badge Status : </label>
-                        <div className="ps-2 d-inline" id="resource-badge-status">
+                        <label className="text-black d-inline fw-bold">Badge Status : </label>
+                        <div className="ps-2 d-inline">
                             <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId}
                                                  badgeId={badgeId}/>
                         </div>
