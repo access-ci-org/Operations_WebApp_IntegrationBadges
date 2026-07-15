@@ -28,16 +28,16 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
                     <div><strong className="text-primary">{organization.organization_name}</strong></div>
                 </div>
                 <div className="col p-2">
-                    <label className="text-secondary" htmlFor="resource-type">Resource Type</label>
-                    <div id="resource-type">{resource.cider_type}</div>
+                    <label className="text-secondary">Resource Type</label>
+                    <div>{resource.cider_type}</div>
                 </div>
                 <div className="col p-2">
-                    <label className="text-secondary" htmlFor="resource-id">Global Resource ID</label>
-                    <div id="resource-id">{resource.info_resourceid}</div>
+                    <label className="text-secondary">Global Resource ID</label>
+                    <div>{resource.info_resourceid}</div>
                 </div>
                 <div className="col p-2">
-                    <label className="text-secondary" htmlFor="resource-latest-status">Latest Status</label>
-                    <div id="resource-latest-status">{resource.latest_status}</div>
+                    <label className="text-secondary">Latest Status</label>
+                    <div>{resource.latest_status}</div>
                 </div>
                 {/*{isRoadmapNew ? <div className="col p-2">*/}
                 {/*    <label className="text-secondary">Roadmap</label>*/}
@@ -54,7 +54,7 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
                 contact the concierge team.
             </p>
 
-            {resourceRoadmaps ?
+            {!!resourceRoadmaps ?
                 <DropdownButton size="lg" title={roadmap.name}
                                 bsPrefix="w-100 text-start btn btn-lg btn-outline-primary rounded-2 p-4"
                                 onSelect={handleResourceRoadmapSelect}>

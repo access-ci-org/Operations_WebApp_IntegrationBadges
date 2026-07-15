@@ -3,13 +3,28 @@ import DefaultReducer from "./reducers/DefaultReducer";
 import {useBadges} from "./BadgeContext.jsx";
 import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
-
-/** @type {React.Context<ReturnType<typeof useRoadmapsValues> | null>} */
-const RoadmapContext = createContext(null);
+const RoadmapContext = createContext({
+    fetchRoadmaps: () => {
+    },
+    fetchRoadmap: ({roadmapId}) => {
+    },
+    setRoadmap: ({roadmapId, roadmapData}) => {
+    },
+    getRoadmap: ({roadmapId}) => {
+    },
+    getRoadmapBadges: ({roadmapId}) => {
+    },
+    getRoadmaps: () => {
+    }
+});
 
 export const useRoadmaps = () => useContext(RoadmapContext);
 
-function useRoadmapsValues() {
+/**
+ * Context provider for roadmaps
+ * @param children
+ */
+export const RoadmapProvider = ({children}) => {
     const {getBadge} = useBadges();
 
     const [roadmapIds, setRoadmapIds] = useReducer(DefaultReducer, []);
@@ -115,14 +130,10 @@ function useRoadmapsValues() {
         return roadmapIds.map(roadmapId => getRoadmap({roadmapId}));
     };
 
-    return {roadmapMap, fetchRoadmaps, fetchRoadmap, setRoadmap, getRoadmap, getRoadmapBadges, getRoadmaps};
-}
-
-export const RoadmapProvider = ({children}) => {
-    const values = useRoadmapsValues();
 
     return (
-        <RoadmapContext.Provider value={values}>
+        <RoadmapContext.Provider
+            value={{roadmapMap, fetchRoadmaps, fetchRoadmap, setRoadmap, getRoadmap, getRoadmapBadges, getRoadmaps}}>
             {children}
         </RoadmapContext.Provider>
     );

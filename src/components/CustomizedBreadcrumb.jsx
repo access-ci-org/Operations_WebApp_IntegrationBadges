@@ -2,30 +2,29 @@ import {useLocation} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-import {DocumentationRouteUrls} from "../pages/pages-config.js";
+import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
 import {useBadges} from "../contexts/BadgeContext.jsx";
 import {useEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
 
 const loadingIndicator = " - "; // <LoadingBlock processing={true}/>;
 
-
 function CustomizedBreadcrumb() {
     const location = useLocation();
     const {t} = useTranslation();
 
     const pathname = location.pathname.replace(/\/$/, "");
+    const search = location.search;
+    const queryParams = new URLSearchParams(search);
 
+    const pathSegments = pathname.split("/")
+    const breadcrumbLinks = []
     const {organizationMap, organizationMapByName} = useOrganizations();
     const {getResource} = useResources();
     const {getRoadmap} = useRoadmaps();
     const {getBadge} = useBadges();
 
     const breadcrumbsRef = useRef(null);
-
-    const breadcrumbLinks = [];
-
-    const pathSegments = pathname.split("/")
 
     if (pathSegments[1] && pathSegments[1].length > 0) {
         breadcrumbLinks.push({name: "RP Home", href: "https://access-ci.org/get-started/for-resource-providers/"});
@@ -142,7 +141,7 @@ function CustomizedBreadcrumb() {
                     target: host // document.getElementById("breadcrumbs")
                 });
         }
-    }, [JSON.stringify(breadcrumbLinks)]);
+    }, [breadcrumbLinks]);
 
     return <div id="my-breadcrumb" className="w-100" ref={breadcrumbsRef}></div>;
 }

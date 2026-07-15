@@ -9,13 +9,79 @@ import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/D
 import {BADGE_WORKFLOW, getAvailableTransitions} from "./Workflows.js";
 import {useRoles} from "./PermissionContext.jsx";
 
-/** @type {React.Context<ReturnType<typeof useResourcesValues> | null>} */
-const ResourcesContext = createContext(null);
+const ResourcesContext = createContext({
+    fetchResources: ({organizationId = null, resourceId = null, full = false} = {}) => {
+    },
+    fetchResource: ({resourceId}) => {
+    },
+    fetchResourceRoadmapBadges: ({
+                                     organizationId = null,
+                                     resourceId = null,
+                                     roadmapId = null,
+                                     badgeId = null,
+                                     badgeWorkflowStatus = null,
+                                     orderBy = null
+                                 } = {}) => {
+    },
+    fetchResourceRoadmapBadgeLogs: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    },
+    fetchResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
+    },
+    fetchResourceRoadmapBadgeStatusSummary: ({resourceId = null, roadmapId = null, badgeId = null} = null) => {
+    },
+    getResource: ({resourceId}) => {
+    },
+    getResources: (organizationId = null, resourceId = null, full = false) => {
+    },
+    getResourceRoadmaps: ({resourceId}) => {
+    },
+    isResourceRoadmapSelected: ({resourceId, roadmapId}) => {
+    },
+    getResourceRoadmapBadges: ({
+                                   organizationId = null,
+                                   resourceId = null,
+                                   roadmapId = null,
+                                   badgeId = null,
+                                   badgeWorkflowStatus = null,
+                                   orderBy = null
+                               } = {}) => {
+    },
+    getResourceRoadmapBadge: ({resourceId, roadmapId, badgeId}) => {
+    },
+    getResourceRoadmapBadgeLogs: ({resourceId, roadmapId, badgeId}) => {
+    },
+    getResourceRoadmapBadgePrerequisites: ({resourceId, roadmapId, badgeId}) => {
+    },
+    getResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
+    },
+    getResourceRoadmapBadgeStatusSummary: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    },
+    getResourceOrganization: ({resourceId}) => {
+    },
+    getOrganizationResourceIds: ({organizationName}) => {
+    },
+    getAuthorizedBadgeTransitions: ({
+                                        resourceId = null, roadmapId = null, badgeId = null,
+                                        transitionType = null
+                                    } = {}) => {
+    },
+    setResourceRoadmapBadgeWorkflowStatus: ({resourceId, roadmapId, badgeId, status, comment}) => {
+    },
+    setResourceRoadmapBadgeTaskWorkflowStatus: ({resourceId, roadmapId, badgeId, taskId, status}) => {
+    },
+    setResourceRoadmap: ({resourceId, roadmapIds, badgeIds}) => {
+    }
+});
 
 export const useResources = () => useContext(ResourcesContext);
 
-function useResourcesValues() {
-    const {getAuthorizedRoles} = useRoles();
+
+/**
+ * Context provider for resources
+ * @param children
+ */
+export const ResourcesProvider = ({children}) => {
+    const {hasPermission, getAuthorizedRoles} = useRoles();
     const {getBadge} = useBadges();
     const {getTask} = useTasks();
     const {getOrganization} = useOrganizations();
@@ -105,15 +171,15 @@ function useResourcesValues() {
         try {
             let url = `/resource_roadmap_badge_logs/?`;
 
-            if (resourceId) {
+            if (!!resourceId) {
                 url += `info_resourceid=${resourceId}&`
             }
 
-            if (roadmapId) {
+            if (!!roadmapId) {
                 url += `roadmap_id=${roadmapId}&`
             }
 
-            if (badgeId) {
+            if (!!badgeId) {
                 url += `badge_id=${badgeId}`
             }
 
@@ -129,7 +195,7 @@ function useResourcesValues() {
 
                 _resourceRoadmapBadgeLogIds[_resourceId] = {..._resourceRoadmapBadgeLogIds[_resourceId]};
                 _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId] = {..._resourceRoadmapBadgeLogIds[_resourceId][_roadmapId]};
-                if (_resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId]) {
+                if (!!_resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId]) {
                     _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId] = [..._resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId], _logId];
                 } else {
                     _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId] = [_logId];
@@ -166,7 +232,7 @@ function useResourcesValues() {
                 [resourceId]: {
                     ...resourceRoadmapBadgeTaskMap[resourceId],
                     [roadmapId]: {
-                        ...(resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[resourceId][roadmapId] : null),
+                        ...(!!resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[resourceId][roadmapId] : null),
                         [badgeId]: taskWorkflowMap
                     }
                 }
@@ -328,7 +394,7 @@ function useResourcesValues() {
         let badge = getBadge({badgeId});
 
         if (badge.tasks) {
-            return badge.tasks.map(({task_id, required}) => {
+            return badge.tasks.map(({task_id, required, sequence_no}) => {
                 const taskId = task_id;
                 const task = getTask({taskId});
                 let resourceBadgeTaskWorkflow = null;
@@ -433,7 +499,9 @@ function useResourcesValues() {
         }
     }
 
-    return {            resourceIds,
+    return (<ResourcesContext.Provider
+        value={{
+            resourceIds,
             resourceMap,
             resourceRoadmapBadgeMap,
             resourceRoadmapBadgeTaskMap,
@@ -459,14 +527,7 @@ function useResourcesValues() {
             setResourceRoadmapBadgeWorkflowStatus,
             setResourceRoadmapBadgeTaskWorkflowStatus,
             setResourceRoadmap
-    };
-}
-
-
-export const ResourcesProvider = ({children}) => {
-    const values = useResourcesValues();
-
-    return (<ResourcesContext.Provider value={values}>
+        }}>
         {children}
     </ResourcesContext.Provider>);
 };

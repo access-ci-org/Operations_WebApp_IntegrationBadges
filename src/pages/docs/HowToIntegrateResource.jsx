@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png"
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useEffect} from "react";
-import {DocumentationRouteUrls} from "../pages-config.js";
+import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {WhyBecomeAnRPFooter} from "./WhyBecomeAnRP.jsx";
@@ -188,8 +188,7 @@ export default function HowToIntegrateResource() {
 
             <div className="row pt-5">
                 {highlightedFeatures.map((highlightedFeature, highlightedFeatureIndex) =>
-                    <div className="col d-flex flex-row" style={{minWidth: 240, maxWidth: 240}}
-                         key={highlightedFeatureIndex}>
+                    <div className="col d-flex flex-row" style={{minWidth: 240, maxWidth: 240}}>
                         <div className="p-1">
                             <div className="bg-primary text-center align-content-center rounded-3"
                                  style={{width: 35, height: 35}}>
@@ -273,8 +272,7 @@ export default function HowToIntegrateResource() {
                     </div>
                 </div>
                 <div className="flex-fill">
-                    <h4 className="text-white mt-1 mb-4 fw-normal align-content-center">Once your resource is
-                        integrated:</h4>
+                    <h4 className="text-white mt-1 mb-4 fw-normal align-content-center">Once your resource is integrated:</h4>
 
                     <div className="row">
                         {outcomes.map((outcome, outcomeIndex) =>

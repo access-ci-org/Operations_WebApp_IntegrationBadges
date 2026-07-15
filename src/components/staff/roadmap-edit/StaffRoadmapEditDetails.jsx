@@ -4,7 +4,7 @@ import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from 'react-dropzone'
 import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
-function useRoadmapInputFields({roadmapData, setRoadmapData}) {
+function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
     const onInputValueChange = (fieldName) => (evt) => {
         setRoadmapData({...roadmapData, [fieldName]: evt.target.value});
@@ -19,32 +19,25 @@ function useRoadmapInputFields({roadmapData, setRoadmapData}) {
         if (files && files.length > 0) setRoadmapData({...roadmapData, graphic: await fileToBase64(files[0])});
     };
 
-    const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
-    const ALLOWED_MIME_TYPES = {
-        'image/jpeg': ['.jpeg', '.jpg'],
-        'image/png': ['.png'],
-        'image/svg+xml': ['.svg']
-    }
-
-    const {
-        getRootProps,
-        getInputProps,
-        // isFocused,
-        isDragAccept,
-        // isDragReject,
-        open
-    } = useDropzone({
-        noClick: true,
-        onDrop: onGraphicInputValueChange,
-        accept: ALLOWED_MIME_TYPES,
-        maxSize: MAX_UPLOAD_SIZE,
-        multiple: false
-    });
-
     return {
         name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
 
         graphic: (then) => {
+            const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
+            const ALLOWED_MIME_TYPES = {
+                'image/jpeg': ['.jpeg', '.jpg'],
+                'image/png': ['.png'],
+                'image/svg+xml': ['.svg']
+            }
+
+            const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open} = useDropzone({
+                noClick: true,
+                onDrop: onGraphicInputValueChange,
+                accept: ALLOWED_MIME_TYPES,
+                maxSize: MAX_UPLOAD_SIZE,
+                multiple: false
+            });
+
             return <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 {then(open, isDragAccept)}
@@ -52,7 +45,7 @@ function useRoadmapInputFields({roadmapData, setRoadmapData}) {
         },
 
         executive_summary: <BasicFormattedTextEditor data={roadmapData.executive_summary}
-                                                     onChange={onFormattedTextInputValueChange("executive_summary")}/>,
+            onChange={onFormattedTextInputValueChange("executive_summary")}/>,
 
         infrastructure_types: <Form.Select aria-label="Default select example" value={roadmapData.infrastructure_types}
                                            onChange={onInputValueChange("infrastructure_types")}>
@@ -80,7 +73,7 @@ export default function StaffRoadmapEditDetails({roadmapData, setRoadmapData}) {
 }
 
 export function StaffRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
-    const roadmapInputFields = useRoadmapInputFields({roadmapData, setRoadmapData});
+    const roadmapInputFields = getRoadmapInputFields({roadmapData, setRoadmapData});
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3">
@@ -131,7 +124,7 @@ export function StaffRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
 export function StaffRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
     const {roadmapId} = useParams();
 
-    const roadmapInputFields = useRoadmapInputFields({roadmapData, setRoadmapData});
+    const roadmapInputFields = getRoadmapInputFields({roadmapData, setRoadmapData});
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3 row">

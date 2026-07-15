@@ -2,7 +2,7 @@ import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {DocumentationRouteUrls} from "../pages-config.js";
+import {DocumentationRouteUrls} from "./DocumentationRoute.jsx";
 import {useEffect} from "react";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import {useTasks} from "../../contexts/TaskContext.jsx";
@@ -48,7 +48,7 @@ export default function Badges() {
         });
 
         let activeKey = DocumentationRouteUrls.BADGES;
-        if (badgeId) activeKey += `?badgeId=${badgeId}`;
+        if (!!badgeId) activeKey += `?badgeId=${badgeId}`;
 
         return <div className="container">
             <div className="row pt-4">
@@ -82,7 +82,7 @@ export default function Badges() {
                         <div className="w-100 pb-5 d-flex flex-row">
                             <div className="p-2">
                                 <div style={{width: "100px", height: "125px"}} className="overflow-hidden">
-                                    {selectedBadge.graphic ?
+                                    {!!selectedBadge.graphic ?
                                         <img alt="Roadmap graphic" src={selectedBadge.graphic}
                                              className="w-100"/> :
                                         <div
