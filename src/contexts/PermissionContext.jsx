@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
+import {authorizedDashboardAxiosInstanceWithoutRedirect} from "./auth/DashboardAuthenticator.js";
 
 
 /** @type {React.Context<ReturnType<typeof useRolesValues> | null>} */
@@ -56,14 +57,10 @@ function useRolesValues() {
             //                     ]
             //                 },
             //                 {
-            //                     "role": "roadmap",
-            //                     "info_groupids": [
-            //                         "maintainer"
-            //                     ],
-            //                     "info_resourceids": [],
-            //                     "roles": [
-            //                         "roadmap_maintainer"
-            //                     ]
+            //                     "role": "roadmap.maintainer",
+            //                 },
+            //                 {
+            //                     "role": "badge.maintainer",
             //                 }
             //             ]
             //         },
@@ -71,9 +68,7 @@ function useRolesValues() {
             //     }
             // };
 
-            console.log("#### fetchRoles - success", response);
             setAuthenticated(true);
-            console.log("#### fetchRoles - authenticated", authenticated);
 
             const _rolesMap = {};
 
@@ -98,11 +93,10 @@ function useRolesValues() {
 
             return response.data.results;
         } catch (error) {
-            console.log("#### fetchRoles - failed", error);
             setAuthenticated(false);
-            console.log("#### fetchRoles - authenticated", authenticated);
 
-            console.log(error)
+            console.log(error);
+
             throw error;
         }
     };
@@ -111,7 +105,6 @@ function useRolesValues() {
      * @returns {boolean}
      */
     const isAuthenticated = () => {
-        console.log("#### isAuthenticated", authenticated);
         return !!authenticated;
     }
 

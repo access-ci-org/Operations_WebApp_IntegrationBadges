@@ -67,12 +67,13 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col ps-0 d-flex flex-row align-items-center">
-            <div
-                className="p-4 ps-3 pe-3 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-                role="button" onClick={decoratedOnClick}>
+
+            <button
+                className="p-4 ps-3 pe-3 h-100 btn btn-gray-100 width-fit-content border-0 rounded-start-3 align-content-center text-center"
+                onClick={decoratedOnClick}>
                 {isCurrentEventKey ? <i className="bi bi-caret-down-fill"></i> :
                     <i className="bi bi-caret-right-fill"></i>}
-            </div>
+            </button>
             <h4 className="flex-fill p-2 ps-3 m-0 fs-6">{task.name}</h4>
         </div>
 

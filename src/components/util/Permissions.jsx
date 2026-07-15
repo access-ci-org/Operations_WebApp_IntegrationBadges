@@ -59,10 +59,6 @@ export function ProtectedRoute({roles}) {
     let resourceIds = queryParams.getAll('resourceId');
     if (resourceId) resourceIds.push(resourceId);
 
-    console.log("#### ProtectedRoute : ", {roles, resourceIds});
-    console.log("#### ProtectedRoute isAuthenticated() : ", isAuthenticated());
-    console.log("#### ProtectedRoute hasPermission({roles, resourceIds}) : ", hasPermission({roles, resourceIds}));
-
     if (!isAuthenticated()) {
         window.location.replace("/login?next=" + window.location.pathname);
     } else if (!hasPermission({roles, resourceIds})) {

@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
@@ -113,32 +113,17 @@ export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
     }
 }
 
-
-export function BadgeCardRowWithCheckboxes({resourceId, roadmapId, badgeId, selected, required, toggle}) {
-    let toggleComponent = <RequiredBadgeTooltip required={!!required}>
-        <div
-            className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center ${selected ? 'bg-light' : 'bg-gray-100'}`}
-            role="button" onClick={!required ? toggle : null}>
-            <Form.Check name="badges" type="checkbox" id={`badge-${badgeId}`} checked={!!selected}
-                        onChange={toggle} disabled={!!required}/>
-        </div>
-    </RequiredBadgeTooltip>;
-
-    return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}
-                         toggle={toggle} toggleComponent={toggleComponent}/>
-}
-
 export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selected, required, toggle}) {
     const toggleComponent = <RequiredBadgeTooltip required={!!required}>
-        <div
-            className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center bg-gray-100 fs-4`}
-            role="button" onClick={!required ? toggle : null}>
+        <button
+            className={`p-3 h-100 btn btn-gray-100 width-fit-content border-gray-100 rounded-start-3 align-content-center text-center fs-4`}
+            onClick={!required ? toggle : null} >
             {required ?
                 <i className="bi bi-slash-circle text-gray-200"></i> :
                 selected ?
                     <i className="bi bi-dash"></i> :
                     <i className="bi bi-plus"></i>}
-        </div>
+        </button>
     </RequiredBadgeTooltip>
 
     return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}

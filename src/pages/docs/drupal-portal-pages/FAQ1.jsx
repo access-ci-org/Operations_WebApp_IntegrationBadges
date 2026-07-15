@@ -16,6 +16,8 @@ export default function FAQ1() {
             var accordionButton = accordionElementHeader.querySelector(".accordion-button");
             if (accordionElement) {
                 accordionElementHeader.scrollIntoView({behavior: "smooth"});
+
+                // eslint-disable-next-line no-undef
                 var accordion = new bootstrap.Collapse(accordionElement, {toggle: false});
 
                 if (accordion) accordion.show();
@@ -43,6 +45,8 @@ export default function FAQ1() {
                     var accordionElementId = accordionHeader.getAttribute('id');
                     var accordionElement = document.getElementById(accordionElementId + "_body");
                     if (accordionElement) {
+
+                        // eslint-disable-next-line no-undef
                         var accordion = new bootstrap.Collapse(accordionElement, {toggle: false});
 
                         if (accordion) {

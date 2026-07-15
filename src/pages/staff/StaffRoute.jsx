@@ -10,7 +10,6 @@ import {ProtectedRoute} from "../../components/util/Permissions.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {StaffRouteUrls} from "../pages-config.js";
 
-// eslint-disable-next-line react-refresh/only-export-components
 const RouterLayout = () => {
     return (
         <div className="row">

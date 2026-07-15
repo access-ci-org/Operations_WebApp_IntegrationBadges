@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --format eslint-formatter-html > eslint-report.html",
+    "lint": "eslint . ",
+    "lint-report": "eslint . --format eslint-formatter-html > eslint-report.html",
     "preview": "vite preview",
     "preversion": "mkdir -p .git",
     "version": "npm run build && git add -A ./build -f",

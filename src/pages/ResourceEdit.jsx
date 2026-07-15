@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
-import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
 import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";
 import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
 
@@ -113,7 +112,6 @@ export default function ResourceEdit() {
     if (resource && organization) {
 
         return <div className="container">
-            Dinukakkkkkkk
             {wizardIndex === 0 &&
                 <RoadmapSelection resourceId={resourceId}
                                   prev={handlePrev} next={handleNext}/>}
