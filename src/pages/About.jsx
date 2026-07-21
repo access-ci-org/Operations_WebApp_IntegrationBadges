@@ -4,6 +4,7 @@ import JSONGrid from '@redheadphone/react-json-grid'
 import pkg from '../../package.json';
 import {Nav} from "react-bootstrap";
 import {useRoles} from "../contexts/PermissionContext.jsx";
+import ApplicationRoutesConfig from "./application-routes-config.jsx";
 
 
 /**
@@ -71,6 +72,33 @@ export default function About() {
 
             {format === "json" && <pre>{JSON.stringify(data, null, 2)}</pre>}
         </div>
+        <div className="w-100 pt-4">
+            <h2>Application Route Summary</h2>
+            <ApplicationRouteSummary/>
+        </div>
     </div>
         ;
+}
+
+function ApplicationRouteSummary() {
+    const getRouteListItemsBFSList = (config, listOfRouteListItems = []) => {
+        for (let route of Object.values(config)) {
+            if (route.index) continue;
+
+            if (route.name) listOfRouteListItems.push(<li key={route.path}>
+                <strong>{route.name}:</strong> <span>{route.path}</span>
+            </li>);
+
+            if (route.children) getRouteListItemsBFSList(route.children, listOfRouteListItems);
+        }
+
+        return listOfRouteListItems;
+    };
+
+
+    return (
+        <div className="w-100">
+            <ul>{getRouteListItemsBFSList(ApplicationRoutesConfig)}</ul>
+        </div>
+    );
 }

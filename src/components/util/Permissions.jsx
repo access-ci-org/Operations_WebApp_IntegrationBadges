@@ -49,7 +49,7 @@ export function HideIfAuthorized({children, roles, resourceIds}) {
 }
 
 
-export function ProtectedRoute({roles}) {
+export function ProtectedRouteElement({roles, children}) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -64,7 +64,7 @@ export function ProtectedRoute({roles}) {
     } else if (!hasPermission({roles, resourceIds})) {
         return <Unauthorized roles={roles} resourceIds={resourceIds} />;
     }else {
-        return <Outlet />;
+        return children;
     }
 }
 

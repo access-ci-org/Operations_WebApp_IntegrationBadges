@@ -1,4 +1,4 @@
-import {Link, Outlet, Route} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import FiveStepsForNewIntegrations from "./FiveStepsForNewIntegrations.jsx";
 import WhyBecomeAnRP from "./WhyBecomeAnRP.jsx";
 import HowToIntegrateResource from "./HowToIntegrateResource.jsx";
@@ -57,13 +57,20 @@ const RouterLayout = () => {
         </div>
     );
 };
-export const DocumentationRoute = <Route path="/docs" element={<RouterLayout/>}>
-    <Route path={DocumentationRouteUrls.INDEX} element={<FiveStepsForNewIntegrations/>}/>
-    <Route path={DocumentationRouteUrls.WHY_BECOME_AN_RP} element={<WhyBecomeAnRP/>}/>
-    <Route path={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE} element={<HowToIntegrateResource/>}/>
-    <Route path={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP} element={<HowToChooseRoadmap/>}/>
-    <Route path={DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES} element={<WhyIntegrateResources/>}/>
-    <Route path={DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM} element={<WhatIsTicketingSystem/>}/>
-    <Route path={DocumentationRouteUrls.ROADMAPS} element={<Roadmaps/>}/>
-    <Route path={DocumentationRouteUrls.BADGES} element={<Badges/>}/>
-</Route>
+const DocumentationRoutesConfig = {
+    name: "Doc: Five steps for new resource integrations",
+    path: DocumentationRouteUrls.INDEX,
+    element: <RouterLayout/>,
+    children: [
+        {index: true, element: <FiveStepsForNewIntegrations/>},
+        {name: "Doc: Why become an RP", path: DocumentationRouteUrls.WHY_BECOME_AN_RP, element: <WhyBecomeAnRP/>},
+        {name: "Doc: How to integrate resource", path: DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE, element: <HowToIntegrateResource/>},
+        {name: "Doc: How to choose roadmap", path: DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP, element: <HowToChooseRoadmap/>},
+        {name: "Doc: Why integrate resources", path: DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES, element: <WhyIntegrateResources/>},
+        {name: "Doc: What is ticketing system", path: DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM, element: <WhatIsTicketingSystem/>},
+        {name: "Doc: Available roadmaps", path: DocumentationRouteUrls.ROADMAPS, element: <Roadmaps/>},
+        {name: "Doc: Available badges", path: DocumentationRouteUrls.BADGES, element: <Badges/>}
+    ]
+};
+
+export default DocumentationRoutesConfig;

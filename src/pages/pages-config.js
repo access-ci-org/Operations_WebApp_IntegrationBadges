@@ -1,3 +1,16 @@
+export const AppRouteUrls = {
+    ROOT: "/",
+    ABOUT: "/about",
+    ORGANIZATIONS: "/organizations",
+    ORGANIZATION: "/organizations/:organizationId",
+    ORGANIZATION_BADGE_REVIEW: "/organizations/:organizationId/badge-review/:badgeWorkflowStatus",
+    RESOURCE: "/resources/:resourceId",
+    RESOURCE_ROADMAP: "/resources/:resourceId/roadmaps/:roadmapId",
+    RESOURCE_EDIT: "/resources/:resourceId/edit",
+    RESOURCE_ROADMAP_EDIT: "/resources/:resourceId/roadmaps/:roadmapId/edit",
+    RESOURCE_BADGE: "/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId",
+};
+
 export const StaffRouteUrls = {
     INDEX: "/staff/dashboard",
     ROADMAPS: "/staff/roadmaps",
