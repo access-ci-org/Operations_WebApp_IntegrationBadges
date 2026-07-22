@@ -91,25 +91,16 @@ export default function FAQ1() {
                     "title": "Getting Started",
                     "items": [
                         {
-                            "question": "How can I register for an ACCESS ID?",
+                            "question": "How can I create an ACCESS account?",
                             "anchorHash": "register_access_id",
                             "content": <ul className="mb-0">
                                 <li>
-                                    To register and create an ACCESS ID, please visit the ACCESS registration page:
-                                    <a className="ms-2 me-2" href='https://registry.access-ci.org/registry/auth/login'>
-                                        https://registry.access-ci.org/registry/auth/login</a>
-                                </li>
-                                <li>
-                                    Already have an <strong>XSEDE account?</strong> Use the
-                                    <strong>“ACCESS CI (XSEDE)”</strong> option to log in, no new
-                                    account or password change needed.
-                                </li>
-                                <li>
-                                    Avoid creating duplicate accounts. If you need help recovering your username or
-                                    password, use the reminder/reset links (<a
-                                    href='https://registry.access-ci.org/registry/krb_authenticator/krbs/ssr/authenticatorid:1'>
-                                    https://registry.access-ci.org/registry/krb_authenticator/krbs/ssr/authenticatorid:1</a>)
-                                    or contact support.
+                                    To create an ACCESS account you must first
+                                    <a className="ms-2" href="https://account.access-ci.org/register">register for
+                                        an ACCESS ID</a>.
+                                    Do not create more than one ACCESS ID. If you have trouble registering, please
+                                    <a className="ms-2" href="https://support.access-ci.org/open-a-ticket">open a
+                                        ticket</a>.
                                 </li>
                             </ul>
                         },
@@ -118,38 +109,8 @@ export default function FAQ1() {
                             "anchorHash": "xsede_access_account",
                             "content": <ul className="mb-0">
                                 <li>
-                                    Yes, your ACCESS ID is the same as your XSEDE Portal account. Please do not create a
-                                    new ACCESS ID. You do not need to change your password or your Duo registration
-                                    during the transition from XSEDE to ACCESS.
-                                </li>
-                            </ul>
-                        },
-                        {
-                            "question": "Which identity provider should I choose when logging in?",
-                            "anchorHash": "idp_login_choice",
-                            "content": <ul className="mb-0">
-                                <li>
-                                    Select the “ACCESS CI” identity provider to log in with your ACCESS/XSEDE username
-                                    and password.
-                                </li>
-                                <li>
-                                    If you would like to log in to ACCESS using an identity provider other than “ACCESS
-                                    CI”, you need to link your identity from that other identity provider with your
-                                    ACCESS ID. Please proceed to the
-                                    <a className="ms-2 me-2" href="https://identity.access-ci.org/id-linking">
-                                        identity linking</a> page for details.
-                                </li>
-                            </ul>
-                        },
-                        {
-                            "question": "Why doesn’t my university appear in the list of identity providers?",
-                            "anchorHash": "univ_idp_missing",
-                            "content": <ul className="mb-0">
-                                <li>
-                                    ACCESS uses identity providers from CILogon. Please visit
-                                    <a className="ms-2 me-2"
-                                       href='https://www.cilogon.org/faq'>https://www.cilogon.org/faq</a>
-                                    for details.
+                                    Yes, your ACCESS ID is the same as your XSEDE Portal account username. Please do not
+                                    create a new ACCESS ID. See below if you need to reset your password.
                                 </li>
                             </ul>
                         }
@@ -159,14 +120,38 @@ export default function FAQ1() {
                     "title": "Logging In & Authentication",
                     "items": [
                         {
-                            "question": "How can I request a reminder of my ACCESS username?",
+                            "question": "Which identity provider should I choose when logging in to ACCESS?",
+                            "anchorHash": "idp_login_choice",
+                            "content": <ul className="mb-0">
+                                <li>
+                                    Select the same identity provider you used when you registered for your ACCESS
+                                    account. If you usually log in with your university user name and password, select
+                                    your university as the identity provider. If you usually log in with your ACCESS ID
+                                    and password, select "ACCESS CI (XSEDE)".
+                                </li>
+                            </ul>
+                        },
+                        {
+                            "question": "Why doesn’t my university appear in the list of identity providers?",
+                            "anchorHash": "univ_idp_missing",
+                            "content": <ul className="mb-0">
+                                <li>
+                                    ACCESS uses identity providers from
+                                    <a className="ms-2" href="https://www.cilogon.org/">CILogon</a>.
+                                    If your university is not listed, simply choose “ACCESS CI (XSEDE)”.
+                                </li>
+                            </ul>
+                        },
+                        {
+                            "question": "How can I request a reminder of my ACCESS ID?",
                             "anchorHash": "username_reminder",
                             "content": <ul className="mb-0">
                                 <li>
                                     Please visit
-                                    <a className="ms-2 me-2" href='https://identity.access-ci.org/username-reminder'>
-                                        https://identity.access-ci.org/username-reminder</a>
-                                    to request a username reminder by email.
+                                    <a className="ms-2 me-2" href="https://account.access-ci.org/register">
+                                        ACCESS Registration</a>
+                                    and enter your email address. If there is an existing ACCESS account associated with
+                                    your email address, you will be shown your ACCESS ID after verifying your email.
                                 </li>
                             </ul>
                         },
@@ -176,9 +161,9 @@ export default function FAQ1() {
                             "content": <ul className="mb-0">
                                 <li>
                                     Please visit
-                                    <a className="ms-2 me-2" href='https://identity.access-ci.org/password-reset'>
-                                        https://identity.access-ci.org/password-reset</a>
-                                    to reset your ACCESS password.
+                                    <a className="ms-2 me-2" href="https://account.access-ci.org/password">
+                                        Change ACCESS Password</a>
+                                    to reset your password.
                                 </li>
                             </ul>
                         },
@@ -187,62 +172,37 @@ export default function FAQ1() {
                             "anchorHash": "mfa_management",
                             "content": <ul className="mb-0">
                                 <li>
-                                    You can manage Multi-Factor Authentication (MFA) for your ACCESS account at
-                                    <a className="ms-2" href='https://identity.access-ci.org/manage-mfa'>
-                                        https://identity.access-ci.org/manage-mfa</a>.
-                                    This page walks you through updating or managing your Duo Security settings, which
-                                    many ACCESS services use to provide an additional layer of protection beyond your
-                                    username and password.
+                                    If you are using “ACCESS CI (XSEDE)” to login you will be using Duo for MFA. If you
+                                    login with your university account you will use your university MFA.
                                 </li>
                             </ul>
                         },
                         {
-                            "question": "I’m having trouble with Duo. How do I update my Duo configuration?",
+                            "question": "How do I update my Duo configuration?",
                             "anchorHash": "duo_config",
                             "content": <ul className="mb-0">
                                 <li>
-                                    Please visit
-                                    <a className="ms-2 me-2" href="https://identity.access-ci.org/manage-mfa">
-                                        https://identity.access-ci.org/manage-mfa</a>
                                     for instructions on managing your Duo configuration for ACCESS.
+                                    ACCESS uses Duo for MFA. Learn how to
+                                    <a className="ms-2" href="https://identity.access-ci.org/manage-mfa">
+                                        manage your Duo configuration</a>.
                                 </li>
                             </ul>
                         },
                         {
-                            "question": "How do I clear or reset my CILogon browser cookies?",
-                            "anchorHash": "cilogon_cookie_reset",
-                            "content": <ul className="mb-0">
-                                <li>
-                                    If you are having trouble logging in, it may help to click the "Delete ALL" button
-                                    at
-                                    <a className="ms-2 me-2" href="https://cilogon.org/me/">https://cilogon.org/me/</a>
-                                    to reset your CILogon browser cookies, then try again to log in.
-                                </li>
-                            </ul>
-                        },
-                        {
-                            "question": "How do I log out?",
-                            "anchorHash": "logout",
-                            "content": <ul className="mb-0">
-                                <li>
-                                    Please visit <a className="ms-2 me-2" href="https://cilogon.org/logout">
-                                    https://cilogon.org/logout</a> to log out of your CILogon session.
-                                </li>
-                            </ul>
-                        },
-                        {
-                            "question": "I’m having trouble logging in to an ACCESS Resource Provider. How can I get assistance?",
+                            "question": "I’m having trouble logging into an ACCESS Resource. How can I get assistance?",
                             "anchorHash": "rp_login_trouble",
                             "content": <ul className="mb-0">
                                 <li>
                                     Please review
-                                    <a className="ms-2 me-2" href="https://access-ci.atlassian.net/wiki/x/n4qyBw">
+                                    <a className="ms-2 me-2"
+                                       href="https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview">
                                         ACCESS RP Documentation</a>
                                     for login details and support contacts for each resource provider.
                                 </li>
                                 <li>
                                     If you’re not able to get assistance directly from the resource provider, please
-                                    <a className="ms-2 me-2" href="https://support.access-ci.org/open-a-ticket">
+                                    <a className="ms-2" href="https://support.access-ci.org/open-a-ticket">
                                         open a ticket</a> with ACCESS.
                                 </li>
                             </ul>
@@ -256,33 +216,10 @@ export default function FAQ1() {
                             "question": "How do I update my profile information (name, email, organization)?",
                             "anchorHash": "update_profile_info",
                             "content": <ul>
-                                <li>You can view and update your profile by logging into the ACCESS Registry and
-                                    selecting “Profile: View and edit your profile.” To modify your name or email
-                                    address, click on the gear icon next to the respective information. If you change
-                                    your email, you will need to verify it by checking your inbox for a confirmation
-                                    email.
-                                </li>
-                                <li>To modify the organization associated with your ACCESS ID, you have two options:
-                                    <ul>
-                                        <li>Open a support ticket to request the change.</li>
-                                        <li>Log into ACCESS Allocations and visit your profile under the "Additional
-                                            Information" section to select a new organization. Note that this change may
-                                            take up to 24 hours to be reflected.
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>For further details, you can visit: <a
-                                    href='https://operations.access-ci.org/identity/profile-update'>https://operations.access-ci.org/identity/profile-update</a>
-                                </li>
-                            </ul>
-                        },
-                        {
-                            "question": "How do I change the organization listed in my ACCESS profile?",
-                            "anchorHash": "change_access_org",
-                            "content": <ul>
                                 <li>
-                                    Please <a className="ms-2 me-2" href="https://support.access-ci.org/open-a-ticket">
-                                    open a ticket</a> to request the change.
+                                    You can view and update your profile by logging into
+                                    <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
+                                    and choosing "Profile".
                                 </li>
                             </ul>
                         },
@@ -290,38 +227,11 @@ export default function FAQ1() {
                             "question": "How can I link or unlink external accounts (e.g., GitHub, Google, Microsoft, ORCID, or University account)?",
                             "anchorHash": "link_unlink_external_accounts",
                             "content": <ul>
-                                <li><strong>To link an external account:</strong>
-                                    <ul>
-                                        <li>
-                                            Log in to the ACCESS
-                                            <a className="ms-2" href="https://registry.access-ci.org/">
-                                                COmanage Registry</a>.
-                                        </li>
-                                        <li>Click on your name in the upper-right corner.</li>
-                                        <li>Select “Link another account” from the dropdown menu.</li>
-                                        <li>Click the "BEGIN" button on the "Link another account" page.</li>
-                                        <li>Choose the appropriate identity provider (e.g., university, GitHub, Google,
-                                            etc.). Do NOT choose "ACCESS CI (XSEDE)".
-                                        </li>
-                                        <li>Log in with that provider and follow the prompts to complete the linking
-                                            process.
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><strong>To unlink an external account:</strong>
-                                    <ul>
-                                        <li>Log in to ACCESS Support.</li>
-                                        <li>Open a support ticket and provide your ACCESS ID along with details of the
-                                            linked account you wish to unlink.
-                                        </li>
-                                        <li>For detailed instructions and to initiate these actions, you can visit the
-                                            identity
-                                            linking page:
-                                            <a className="ms-2"
-                                               href='https://operations.access-ci.org/identity/id-linking'>
-                                                https://operations.access-ci.org/identity/id-linking</a>.
-                                        </li>
-                                    </ul>
+                                <li>
+                                    Linked accounts allow you to log into ACCESS using an external account. To manage
+                                    your linked accounts or link a new account, log into
+                                    <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
+                                    and choose "Linked Accounts".
                                 </li>
                             </ul>
                         },
@@ -332,7 +242,7 @@ export default function FAQ1() {
                                 <li>
                                     Yes, please
                                     <a className="ms-2 me-2" href="https://support.access-ci.org/open-a-ticket">
-                                        open a ticket</a>
+                                        open a help ticket</a>
                                     indicating which ACCESS ID you want to continue using and which one(s) you want
                                     marked as duplicate.
                                 </li>
@@ -343,33 +253,26 @@ export default function FAQ1() {
                             "anchorHash": "ssh_keys_management",
                             "content": <ul>
                                 <li>
-                                    You can view and update your SSH Keys by logging into the
-                                    <a className="ms-2 me-2" href="https://registry.access-ci.org/">ACCESS Registry</a>
-                                    and selecting “SSH Key: Manage your SSH keys for Resource Providers.” Click "+ Add
-                                    SSH Key" in the upper-right corner. Then click the "Browse…" button to select your
-                                    public SSH key. Finally, click the "UPLOAD" button.
-                                </li>
-                                <li className="list-unstyled d-flex flex-row pt-3">
-                                    <div className="align-content-center pe-2">
-                                        <div className="bi bi-eye-fill fs-2 text-primary"></div>
-                                    </div>
-                                    <a className="align-content-center ms-2 btn btn-link flex-fill"
-                                       href="https://support.access-ci.org/video-learning-center#video-ssh">
-                                        Watch Video <br/>
-                                        Introduction to SSH Keys
-                                    </a>
+                                    You can view and update your SSH keys by logging into
+                                    <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
+                                    and choosing "SSH Keys".
                                 </li>
                             </ul>
-                        },
+                        }
+                    ]
+                },
+                {
+                    "title": "Ticketing System",
+                    "items": [
                         {
-                            "question": "How do I view information about my authenticated identity?",
-                            "anchorHash": "view_auth_identity",
-                            "content": <ul>
+                            "question": "How do I submit a ticket?",
+                            "anchorHash": "submit_ticket",
+                            "content": <ul className="mb-0">
                                 <li>
-                                    Visit
-                                    <a className="ms-2 me-2" href='https://cilogon.org/me/'>https://cilogon.org/me/</a>
-                                    to view the "Session Variables" associated with your authenticated identity,
-                                    including your selected identity provider.
+                                    You may submit a ticket to the ACCESS ticketing system by following the directions
+                                    on our
+                                    <a className="ms-2" href="https://support.access-ci.org/help-ticket">
+                                        support page</a>.
                                 </li>
                             </ul>
                         }
@@ -379,26 +282,13 @@ export default function FAQ1() {
                     "title": "Support & Troubleshooting",
                     "items": [
                         {
-                            "question": "How can I report an account issue?",
-                            "anchorHash": "report_account_issue",
-                            "content": <ul className="mb-0">
-                                <li>
-                                    You can open a support ticket through the ACCESS ticketing system at
-                                    <a className="ms-2" href='https://support.access-ci.org/open-a-ticket'>
-                                        https://support.access-ci.org/open-a-ticket</a>.
-                                    Include detailed information about your issue to help the team respond quickly and
-                                    effectively.
-                                </li>
-                            </ul>
-                        },
-                        {
-                            "question": "How can I request support with my ACCESS ID?",
+                            "question": "How can I request support with my account?",
                             "anchorHash": "support_access_id",
                             "content": <ul className="mb-0">
                                 <li>
-                                    You can open a support ticket through the ACCESS ticketing system at
-                                    <a className="ms-2 me-2" href='https://support.access-ci.org/open-a-ticket'>
-                                        https://support.access-ci.org/open-a-ticket</a>.
+                                    Please
+                                    <a className="ms-2" href="https://support.access-ci.org/open-a-ticket">
+                                        open a help ticket</a>.
                                     Include detailed information about your issue to help the team respond quickly and
                                     effectively.
                                 </li>
@@ -414,19 +304,21 @@ export default function FAQ1() {
                             "anchorHash": "oidc_access_idp",
                             "content": <ul className="mb-0">
                                 <li>
-                                    By default, when you
+                                    When you
                                     <a className="ms-2" href="https://identity.access-ci.org/register-app">
-                                        register your web application</a>, ACCESS users will be able to log
-                                    in using any identity provider supported by CILogon that is linked to their ACCESS
-                                    ID, and the resulting id_token will contain the user’s ACCESS ID (i.e., “sub”:
-                                    “username@access-ci.org”). This is the recommended configuration, because it allows
-                                    users to log in without needing an ACCESS-specific username and password.
+                                        register your web application</a>,
+                                    ACCESS users will be able to log in using any identity provider supported by CILogon
+                                    that is linked to their ACCESS ID, and the resulting id_token will contain the
+                                    user’s ACCESS ID (i.e., “sub”: “username@access-ci.org”). This is the recommended
+                                    configuration, because it allows users to log in without needing an ACCESS-specific
+                                    username and password.
                                 </li>
-                                <li>However, if you want to require authentication using the ACCESS CI IdP (e.g., to
-                                    require ACCESS multi-factor authentication), please contact <a
-                                        href='mailto:help@cilogon.org' className="ms-2">help@cilogon.org</a> to request
-                                    this configuration to be applied to your client. Include your registered client_id
-                                    in your request.
+                                <li>
+                                    If you want to restrict authentication of the ACCESS CI IdP (to require ACCESS
+                                    multi-factor authentication), please contact
+                                    <a href="mailto:help@cilogon.org" className="ms-2 me-2">help@cilogon.org</a>
+                                    to request this configuration to be applied to your client. Include your registered
+                                    client_id in your request.
                                 </li>
                             </ul>
                         },
@@ -464,8 +356,7 @@ export default function FAQ1() {
                                     the initial IdP for new visitors to the site. However, your OIDC client might have a
                                     redirect_uri in some other domain. In this case, the ACCESS “skin” would not be
                                     applied. To fix this, please contact
-                                    <a href='mailto:help@cilogon.org'
-                                       className="ms-2">help@cilogon.org</a>
+                                    <a href="mailto:help@cilogon.org" className="ms-2 me-2">help@cilogon.org</a>
                                     with your registered client_id and request that the ACCESS “skin” be applied to your
                                     client.
                                 </li>
@@ -477,7 +368,7 @@ export default function FAQ1() {
                             "content": <ul className="mb-0">
                                 <li>
                                     Yes, please send a list of DNs to
-                                    <a href='mailto:help@cilogon.org' className="ms-2">help@cilogon.org</a>,
+                                    <a href="mailto:help@cilogon.org" className="ms-2">help@cilogon.org</a>,
                                     and the CILogon team can provide the mapping.
                                 </li>
                             </ul>
@@ -491,7 +382,7 @@ export default function FAQ1() {
                                     <a className="ms-2" href="https://github.com/zmartzone/mod_auth_openidc">
                                         mod_auth_openidc</a>,
                                     please be sure to configure OIDCSessionInactivityTimeout. Visit
-                                    <a className="ms-2 me-2" href='https://www.cilogon.org/oidc#h.p_1_IG_eaP90Ty'>
+                                    <a className="ms-2 me-2" href="https://www.cilogon.org/oidc#h.p_1_IG_eaP90Ty">
                                         https://www.cilogon.org/oidc#h.p_1_IG_eaP90Ty</a> for details.
                                 </li>
                                 <li>You may also need to enable Refresh Tokens in your web app registration.</li>
@@ -511,29 +402,32 @@ export default function FAQ1() {
                     "title": "Acceptable Use",
                     "items": [
                         {
-                            "question": "What is an Acceptable Use Policy?",
+                            "question": "How can I review and agree with the Acceptable Use Policy (AUP)?",
                             "anchorHash": "aup_definition",
                             "content": <ul className="mb-0">
                                 <li>
                                     An Acceptable Use Policy (AUP) defines the guidelines and rules for using ACCESS
                                     resources responsibly and ethically. All users must agree to
-                                    <a className="ms-2" href="https://access-ci.org/acceptable-use/">these terms</a>.
+                                    <a className="ms-2 me-2" href="https://access-ci.org/acceptable-use/">
+                                        these terms</a>
+                                    when setting up an account and registering for an ACCESS ID.
                                 </li>
                             </ul>
-                        },
+                        }
+                    ]
+                },
+                {
+                    "title": "Allocations",
+                    "items": [
                         {
-                            "question": "How can I review and agree with the Acceptable Use Policy (AUP)?",
-                            "anchorHash": "review_agree_aup",
+                            "question": "Where can I find ACCESS Allocation policies?",
+                            "anchorHash": "allocation_policies",
                             "content": <ul className="mb-0">
                                 <li>
-                                    You can review and agree to the Acceptable Use Policy by logging into your ACCESS
-                                    account and following the prompts.
-                                    <a className="ms-2 me-2" href="https://access-ci.org/acceptable-use/">The policy</a>
-                                    outlines your responsibilities and the
-                                    terms of service. Here is a link to step-by-step instructions:
-                                    <a className="ms-2 me-2"
-                                       href='https://operations.access-ci.org/identity/review-aup'>
-                                        https://operations.access-ci.org/identity/review-aup</a>
+                                    If you are looking for policies related to your specific ACCESS Allocation you can
+                                    find them
+                                    <a className="ms-2"
+                                       href="https://allocations.access-ci.org/allocations-policy">here</a>.
                                 </li>
                             </ul>
                         }
@@ -548,34 +442,9 @@ export default function FAQ1() {
                             "content": <ul className="mb-0">
                                 <li>
                                     ACCESS is committed to protecting your privacy. Please review our
-                                    <a className="ms-2 me-2"
-                                       href='https://access-ci.org/privacy-policy/'>privacy policy</a>
+                                    <a className="ms-2 me-2" href="https://access-ci.org/privacy-policy/">
+                                        privacy policy</a>
                                     for detailed information about how we collect, use, and protect your personal data.
-                                </li>
-                            </ul>
-                        }
-                    ]
-                }
-            ]
-        },
-
-        {
-            "tabId": "ticketing-system-tab",
-            "tabPanelId": "ticketing-system-panel",
-            "title": "Ticketing System",
-            "subsections": [
-                {
-                    "title": "For Researchers",
-                    "items": [
-                        {
-                            "question": "How do I submit a ticket?",
-                            "anchorHash": "submit_ticket",
-                            "content": <ul className="mb-0">
-                                <li>
-                                    You may submit a ticket to the ACCESS ticketing system by following the directions
-                                    on our
-                                    <a className="ms-2 me-2" href='https://support.access-ci.org/help-ticket'>
-                                        support page</a>.
                                 </li>
                             </ul>
                         }
