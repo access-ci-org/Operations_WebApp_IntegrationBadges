@@ -82,7 +82,8 @@ const StaffRoutesConfig = {
             ]}>
                 <StaffContacts/>
             </ProtectedRouteElement>
-        }
+        },
+        {path: '*', element: <Navigate to={StaffRouteUrls.INDEX} replace={true}/>},
     ]
 };
 

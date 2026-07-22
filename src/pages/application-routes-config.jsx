@@ -80,6 +80,7 @@ const ApplicationRoutesConfig = [
         path: AppRouteUrls.ROOT,
         element: <RouterLayout/>,
         children: [
+            {index: true, element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>},
             {name: "About page for Developers", path: AppRouteUrls.ABOUT, element: <About/>},
             {name: "Integration Dashboard Home", path: AppRouteUrls.ORGANIZATIONS, element: <IntegrationDashboard/>},
             {name: "Resource Provider Dashboard", path: AppRouteUrls.ORGANIZATION, element: <Organization/>},
@@ -113,7 +114,7 @@ const ApplicationRoutesConfig = [
             },
             DocumentationRoutesConfig,
             StaffRoutesConfig,
-            {index: true, element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>}
+            {path: '*', element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>},
         ]
     }
 ];

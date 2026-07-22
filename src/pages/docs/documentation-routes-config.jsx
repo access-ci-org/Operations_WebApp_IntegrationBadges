@@ -1,4 +1,4 @@
-import {Link, Outlet} from "react-router-dom";
+import {Link, Navigate, Outlet} from "react-router-dom";
 import FiveStepsForNewIntegrations from "./FiveStepsForNewIntegrations.jsx";
 import WhyBecomeAnRP from "./WhyBecomeAnRP.jsx";
 import HowToIntegrateResource from "./HowToIntegrateResource.jsx";
@@ -69,7 +69,8 @@ const DocumentationRoutesConfig = {
         {name: "Doc: Why integrate resources", path: DocumentationRouteUrls.WHY_INTEGRATE_RESOURCES, element: <WhyIntegrateResources/>},
         {name: "Doc: What is ticketing system", path: DocumentationRouteUrls.WHAT_IS_TICKETING_SYSTEM, element: <WhatIsTicketingSystem/>},
         {name: "Doc: Available roadmaps", path: DocumentationRouteUrls.ROADMAPS, element: <Roadmaps/>},
-        {name: "Doc: Available badges", path: DocumentationRouteUrls.BADGES, element: <Badges/>}
+        {name: "Doc: Available badges", path: DocumentationRouteUrls.BADGES, element: <Badges/>},
+        {path: '*', element: <Navigate to={DocumentationRouteUrls.INDEX} replace={true}/>},
     ]
 };
 
