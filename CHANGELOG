@@ -8,9 +8,12 @@ The general format of entries is:
         - *
 
 
-v1.19.0 2026-07-21 dinukadesilva
+v1.19.0 2026-07-23 dinukadesilva
     1 - [fix] Enabling to view the available routes from about page (CTT-1052)
         - /about
+    2 - [fix] Refactoring the resource-roadmap-badge-task context functions
+        - *
+    3 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/98
 
 v1.18.13 2026-07-15 dinukadesilva
     1 - [fix] Fix variant colors.

@@ -336,8 +336,6 @@ function useResourcesValues() {
     }
 
     const getResourceRoadmapBadgeTasks = ({resourceId, roadmapId, badgeId} = {}) => {
-        console.log("####### getResourceRoadmapBadgeTasks")
-
         const url = getResourceRoadmapBadgeTasksEndpointUrl({resourceId, roadmapId, badgeId});
 
         if (resourceRoadmapBadgeTaskIds[url]) {
