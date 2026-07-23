@@ -28,6 +28,7 @@ function useResourcesValues() {
     const [resourceRoadmapBadgeMap, setResourceRoadmapBadgeMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeLogIds, setResourceRoadmapBadgeLogIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeLogMap, setResourceRoadmapBadgeLogMap] = useReducer(DefaultReducer, {});
+    const [resourceRoadmapBadgeTaskIds, setResourceRoadmapBadgeTaskIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeTaskMap, setResourceRoadmapBadgeTaskMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeStatusSummaryMap, setResourceRoadmapBadgeStatusSummaryMap] = useReducer(DefaultReducer, {});
 
@@ -148,33 +149,43 @@ function useResourcesValues() {
         }
     };
 
-    const fetchResourceRoadmapBadgeTasks = async ({resourceId, roadmapId, badgeId}) => {
+    const getResourceRoadmapBadgeTasksEndpointUrl = ({resourceId, roadmapId, badgeId} = {}) => {
+        let url = `/resource_roadmap_badge_tasks/?`;
+
+        if (resourceId) url += `info_resourceid=${resourceId}&`;
+        if (roadmapId) url += `roadmap_id=${roadmapId}&`;
+        if (badgeId) url += `badge_id=${badgeId}&`;
+
+        return url;
+    }
+
+
+    const fetchResourceRoadmapBadgeTasks = async ({resourceId, roadmapId, badgeId} = {}) => {
         try {
-            let res = await dashboardAxiosInstance.get(`/resource_roadmap_badge_tasks/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
+            const url = getResourceRoadmapBadgeTasksEndpointUrl({resourceId, roadmapId, badgeId});
+            const response = await dashboardAxiosInstance.get(url);
 
-            const taskWorkflowMap = {};
+            const taskStatusMap = {...resourceRoadmapBadgeTaskMap};
             const taskIds = [];
-            for (let j = 0; j < res.data.results.length; j++) {
-                const taskWorkflow = res.data.results[j];
-                const taskId = taskWorkflow.task_id;
-                taskIds.push(taskId);
-                taskWorkflowMap[taskId] = taskWorkflow;
+            for (let j = 0; j < response.data.results.length; j++) {
+                const taskStatus = response.data.results[j];
+                const _taskId = taskStatus.task_id;
+                const _badgeId = taskStatus.badge_id;
+                const _resourceId = taskStatus.info_resourceid;
+                const _roadmapId = taskStatus.roadmap_id;
+
+                taskIds.push({resourceId: _resourceId, roadmapId: _roadmapId, badgeId: _badgeId, taskId: _taskId});
+
+                taskStatusMap[_resourceId] = {...taskStatusMap[_resourceId]};
+                taskStatusMap[_resourceId][_roadmapId] = {...taskStatusMap[_resourceId][_roadmapId]};
+                taskStatusMap[_resourceId][_roadmapId][_badgeId] = {...taskStatusMap[_resourceId][_roadmapId][_badgeId]};
+                taskStatusMap[_resourceId][_roadmapId][_badgeId][_taskId] = taskStatus;
             }
 
-            const _resourceRoadmapBadgeTaskMap = {
-                ...resourceRoadmapBadgeTaskMap,
-                [resourceId]: {
-                    ...resourceRoadmapBadgeTaskMap[resourceId],
-                    [roadmapId]: {
-                        ...(resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[resourceId][roadmapId] : null),
-                        [badgeId]: taskWorkflowMap
-                    }
-                }
-            }
+            setResourceRoadmapBadgeTaskMap(taskStatusMap);
+            setResourceRoadmapBadgeTaskIds({...resourceRoadmapBadgeTaskIds, [url]: taskIds});
 
-            setResourceRoadmapBadgeTaskMap(_resourceRoadmapBadgeTaskMap);
-
-            return res;
+            return response;
         } catch (error) {
             console.log(error)
             throw error;
@@ -324,14 +335,17 @@ function useResourcesValues() {
         }
     }
 
-    const getResourceRoadmapBadgeTasks = ({resourceId, roadmapId, badgeId}) => {
-        let badge = getBadge({badgeId});
+    const getResourceRoadmapBadgeTasks = ({resourceId, roadmapId, badgeId} = {}) => {
+        console.log("####### getResourceRoadmapBadgeTasks")
 
-        if (badge.tasks) {
-            return badge.tasks.map(({task_id, required}) => {
-                const taskId = task_id;
+        const url = getResourceRoadmapBadgeTasksEndpointUrl({resourceId, roadmapId, badgeId});
+
+        if (resourceRoadmapBadgeTaskIds[url]) {
+            return resourceRoadmapBadgeTaskIds[url].map(({resourceId, roadmapId, badgeId, taskId}) =>{
+
                 const task = getTask({taskId});
                 let resourceBadgeTaskWorkflow = null;
+
                 if (resourceRoadmapBadgeTaskMap[resourceId] && resourceRoadmapBadgeTaskMap[resourceId][roadmapId]
                     && resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId]) {
 
@@ -340,12 +354,33 @@ function useResourcesValues() {
 
                 return {
                     ...task,
-                    required,
                     status: BadgeTaskWorkflowStatus.NOT_COMPLETED,
                     ...resourceBadgeTaskWorkflow
                 }
             });
         }
+
+        // let badge = getBadge({badgeId});
+        //
+        // if (badge.tasks) {
+        //     return badge.tasks.map(({task_id, required}) => {
+        //         const taskId = task_id;
+        //         const task = getTask({taskId});
+        //         let resourceBadgeTaskWorkflow = null;
+        //         if (resourceRoadmapBadgeTaskMap[resourceId] && resourceRoadmapBadgeTaskMap[resourceId][roadmapId]
+        //             && resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId]) {
+        //
+        //             resourceBadgeTaskWorkflow = resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId][taskId];
+        //         }
+        //
+        //         return {
+        //             ...task,
+        //             required,
+        //             status: BadgeTaskWorkflowStatus.NOT_COMPLETED,
+        //             ...resourceBadgeTaskWorkflow
+        //         }
+        //     });
+        // }
     };
 
     const getResourceRoadmapBadgeStatusSummary = (
@@ -433,32 +468,33 @@ function useResourcesValues() {
         }
     }
 
-    return {            resourceIds,
-            resourceMap,
-            resourceRoadmapBadgeMap,
-            resourceRoadmapBadgeTaskMap,
-            fetchResources,
-            fetchResource,
-            fetchResourceRoadmapBadges,
-            fetchResourceRoadmapBadgeLogs,
-            fetchResourceRoadmapBadgeTasks,
-            fetchResourceRoadmapBadgeStatusSummary,
-            getResource,
-            getResources,
-            isResourceRoadmapSelected,
-            getResourceRoadmaps,
-            getResourceRoadmapBadges,
-            getResourceRoadmapBadge,
-            getResourceRoadmapBadgeLogs,
-            getResourceRoadmapBadgePrerequisites,
-            getResourceRoadmapBadgeTasks,
-            getResourceRoadmapBadgeStatusSummary,
-            getResourceOrganization,
-            getOrganizationResourceIds,
-            getAuthorizedBadgeTransitions,
-            setResourceRoadmapBadgeWorkflowStatus,
-            setResourceRoadmapBadgeTaskWorkflowStatus,
-            setResourceRoadmap
+    return {
+        resourceIds,
+        resourceMap,
+        resourceRoadmapBadgeMap,
+        resourceRoadmapBadgeTaskMap,
+        fetchResources,
+        fetchResource,
+        fetchResourceRoadmapBadges,
+        fetchResourceRoadmapBadgeLogs,
+        fetchResourceRoadmapBadgeTasks,
+        fetchResourceRoadmapBadgeStatusSummary,
+        getResource,
+        getResources,
+        isResourceRoadmapSelected,
+        getResourceRoadmaps,
+        getResourceRoadmapBadges,
+        getResourceRoadmapBadge,
+        getResourceRoadmapBadgeLogs,
+        getResourceRoadmapBadgePrerequisites,
+        getResourceRoadmapBadgeTasks,
+        getResourceRoadmapBadgeStatusSummary,
+        getResourceOrganization,
+        getOrganizationResourceIds,
+        getAuthorizedBadgeTransitions,
+        setResourceRoadmapBadgeWorkflowStatus,
+        setResourceRoadmapBadgeTaskWorkflowStatus,
+        setResourceRoadmap
     };
 }
 

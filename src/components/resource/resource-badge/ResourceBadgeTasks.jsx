@@ -4,10 +4,11 @@ import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
-import {Concierge} from "../../util/Permissions.jsx";
 import {HtmlToReact} from "../../util/text-editors.jsx";
 import {getAvailableTransitions, TASK_WORKFLOW} from "../../../contexts/Workflows.js";
 import {useRoles} from "../../../contexts/PermissionContext.jsx";
+import {useBadges} from "../../../contexts/BadgeContext.jsx";
+import {useTasks} from "../../../contexts/TaskContext.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
@@ -134,9 +135,15 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
 export default function ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
     const {getResourceRoadmapBadgeTasks, getResourceRoadmapBadge} = useResources();
+    const {getBadge, getBadgeTasks} = useBadges();
 
-    const badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
-    let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+    let badge = getBadge({badgeId});
+    let tasks = getBadgeTasks({badgeId});
+
+    if (resourceId && roadmapId) {
+        badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+        tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+    }
 
     if (badge && tasks) {
         return <div className="w-100">
@@ -144,12 +151,14 @@ export default function ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
                 No Tasks Available
             </div>}
             <Accordion defaultActiveKey={['0']} alwaysOpen>
-                {tasks && tasks.map((task, taskIndex) => {
-                    return <div key={taskIndex} className="w-100 p-1">
+                {tasks && tasks.map((task) => {
+                    const taskAccordionEventKey = `${resourceId}-${roadmapId}-${badgeId}-${task.task_id}`;
+
+                    return <div key={taskAccordionEventKey} className="w-100 p-1">
                         <TaskAccordionHeader resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}
-                                             eventKey={taskIndex} badge={badge}
+                                             eventKey={taskAccordionEventKey} badge={badge}
                                              task={task}>{task.name}</TaskAccordionHeader>
-                        <Accordion.Collapse eventKey={taskIndex} bsPrefix="row">
+                        <Accordion.Collapse eventKey={taskAccordionEventKey} bsPrefix="row">
                             <div
                                 className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1 small pre-wrap-text">
                                 <HtmlToReact>{task.technical_summary}</HtmlToReact>&nbsp;

@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {authorizedDashboardAxiosInstance, dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {useTasks} from "./TaskContext.jsx";
 
 
 /** @type {React.Context<ReturnType<typeof useBadgesValues> | null>} */
@@ -11,6 +12,8 @@ export const useBadges = () => useContext(BadgeContext);
 function useBadgesValues() {
     const [badgeIds, setBadgeIds] = useReducer(DefaultReducer, []);
     const [badgeMap, setBadgeMap] = useReducer(DefaultReducer, {});
+
+    const {getTask} = useTasks();
 
     const fetchBadges = async () => {
         try {
@@ -103,7 +106,17 @@ function useBadgesValues() {
         return badgeIds.map(badgeId => getBadge({badgeId}));
     };
 
-    return {badgeMap, fetchBadges, fetchBadge, setBadge, getBadge, getBadges};
+    const getBadgeTasks = ({badgeId}) => {
+       const badge = getBadge({badgeId});
+       if (badge) {
+           return badge.tasks.map(({task_id, required, sequence_no}) => {
+                const task = getTask({taskId: task_id});
+                return {task_id, required, sequence_no, ...task};
+            });
+       }
+    };
+
+    return {badgeMap, fetchBadges, fetchBadge, setBadge, getBadge, getBadges, getBadgeTasks};
 }
 
 export const BadgeProvider = ({children}) => {
