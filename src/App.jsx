@@ -1,7 +1,7 @@
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'access-operations-custom-bootstrap';
 import './App.scss';
-import {BrowserRouter,useRoutes} from 'react-router-dom';
+import {BrowserRouter, useRoutes} from 'react-router-dom';
 import {BadgeProvider} from "./contexts/BadgeContext";
 import {ResourcesProvider} from "./contexts/ResourcesContext";
 import {OrganizationsProvider} from "./contexts/OrganizationsContext";
@@ -20,8 +20,8 @@ import ApplicationRoutesConfig from "./pages/application-routes-config.jsx";
 const ProviderWrapper = ({children}) => {
     return <OrganizationsProvider>
         <RolesProvider>
-            <BadgeProvider>
-                <TaskProvider>
+            <TaskProvider>
+                <BadgeProvider>
                     <RoadmapProvider>
                         <ContactProvider>
                             <ResourcesProvider>
@@ -31,8 +31,8 @@ const ProviderWrapper = ({children}) => {
                             </ResourcesProvider>
                         </ContactProvider>
                     </RoadmapProvider>
-                </TaskProvider>
-            </BadgeProvider>
+                </BadgeProvider>
+            </TaskProvider>
         </RolesProvider>
     </OrganizationsProvider>
 }

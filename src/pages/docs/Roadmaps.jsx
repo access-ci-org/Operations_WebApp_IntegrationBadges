@@ -74,7 +74,7 @@ export default function Roadmaps() {
                     <Nav variant="pills" activeKey={activeKey}
                          className="d-flex flex-column">
                         {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                            <NavLink eventKey={tab.link} to={tab.link} as={Link}
+                            <NavLink to={tab.link} as={Link}
                                      className={() => {
                                          let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
 

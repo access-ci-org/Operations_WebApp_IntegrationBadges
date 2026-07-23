@@ -81,7 +81,7 @@ const ApplicationRoutesConfig = [
         element: <RouterLayout/>,
         children: [
             {index: true, element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>},
-            {name: "About page for Developers", path: AppRouteUrls.ABOUT, element: <About/>},
+            {path: AppRouteUrls.ABOUT, element: <About/>},
             {name: "Integration Dashboard Home", path: AppRouteUrls.ORGANIZATIONS, element: <IntegrationDashboard/>},
             {name: "Resource Provider Dashboard", path: AppRouteUrls.ORGANIZATION, element: <Organization/>},
             {
@@ -92,7 +92,7 @@ const ApplicationRoutesConfig = [
             {name: "Resource", path: AppRouteUrls.RESOURCE, element: <Resource/>},
             {name: "Resource Roadmap", path: AppRouteUrls.RESOURCE_ROADMAP, element: <Resource/>},
             {
-                name: "New Roadmap Integration",
+                name: "Resource Roadmap Integration - NEW",
                 description: "Currently this is available only if the selected resource is not integrated to any roadmap",
                 path: AppRouteUrls.RESOURCE_EDIT,
                 element: <ProtectedRouteElement roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
@@ -100,7 +100,7 @@ const ApplicationRoutesConfig = [
                 </ProtectedRouteElement>
             },
             {
-                name: "Edit Roadmap Integration",
+                name: "Resource Roadmap Integration - EDIT",
                 description: "This is where the selection of badges can be altered for the selected roadmap integration",
                 path: AppRouteUrls.RESOURCE_ROADMAP_EDIT,
                 element: <ProtectedRouteElement roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
@@ -108,12 +108,12 @@ const ApplicationRoutesConfig = [
                 </ProtectedRouteElement>
             },
             {
-                name: "Resource Roadmap Badge",
+                name: "Resource Roadmap Integration Badge",
                 description: "This is the detailed page for an individual badge within the selected resource roadmap integration",
                 path: AppRouteUrls.RESOURCE_BADGE, element: <ResourceBadge/>
             },
-            DocumentationRoutesConfig,
             StaffRoutesConfig,
+            DocumentationRoutesConfig,
             {path: '*', element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>},
         ]
     }
