@@ -64,3 +64,47 @@ This would build the react code and put them to the static folder of the Django 
         href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.3.0/build/index.css"/>
 <div id="Operations_WebApp_IntegrationBadges"></div>
 ```
+
+## Upgrade Dependencies
+
+### Safe Upgrade (within allowed semver in the package.json)
+
+https://docs.npmjs.com/about-semantic-versioning
+
+1. Check for available updates:
+
+   This outputs a table displaying *Current*, *Wanted*, and *Latest* versions.
+   ```bash
+   npm outdated
+   ```
+
+2. Upgrade to the "Wanted" version:
+
+   Run this to update all packages, or target a single package safely.
+   ```bash
+   npm update
+   ```
+   *Or for a single package:*
+   ```bash
+   npm update <package-name>
+   ```
+
+### Force Upgrade (to latest major versions)
+
+1. Modify the `package.json` file:
+
+   This overwrites your existing version rules with the absolute newest versions.
+   ```bash
+   npx npm-check-updates -u
+   ```
+
+2. Install the new versions:
+
+   Download the rewritten dependencies and refresh your lockfile.
+   ```bash
+   npm install
+   ```
+    *Or for a single package:*
+   ```bash
+   npm install <package-name>@latest --save
+   ```
