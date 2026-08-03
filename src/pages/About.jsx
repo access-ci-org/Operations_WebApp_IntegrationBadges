@@ -136,7 +136,7 @@ function ApplicationRouteSummary() {
                                 urlCount = resourceRoadmapBadges.length;
                             }
                         } else {
-                            urlCount = `Ideally ${resources.length}, Max ${resources.length * roadmaps.length}`;
+                            urlCount = resources.length;
                         }
                     } else {
                         urlCount = resources.length;

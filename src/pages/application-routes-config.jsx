@@ -90,7 +90,11 @@ const ApplicationRoutesConfig = [
                 element: <OrganizationBadgeReview/>
             },
             {name: "Resource", path: AppRouteUrls.RESOURCE, element: <Resource/>},
-            {name: "Resource Roadmap", path: AppRouteUrls.RESOURCE_ROADMAP, element: <Resource/>},
+            {
+                name: "Resource Roadmap",
+                path: AppRouteUrls.RESOURCE_ROADMAP,
+                element: <Resource/>
+            },
             {
                 name: "Resource Roadmap Integration - NEW",
                 description: "Currently this is available only if the selected resource is not integrated to any roadmap",
