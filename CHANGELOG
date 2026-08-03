@@ -8,7 +8,7 @@ The general format of entries is:
         - *
 
 
-v1.19.0 2026-07-23 dinukadesilva
+v1.19.1 2026-08-03 dinukadesilva
     1 - [fix] Fix the default status of task workflows to "not-completed"
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
     1 - [fix] Make the roadmap enrolments count to the number of resources (CTT-1052)
