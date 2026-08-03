@@ -39,7 +39,6 @@ export default {
         "exemption-rejected": "Exemption Rejected"
     },
     "badgeTaskWorkflowStatus": {
-        "": "Incomplete",
         "completed": "Completed",
         "not-completed": "Incomplete",
         "not-applicable": "Not Applicable",

@@ -9,6 +9,10 @@ The general format of entries is:
 
 
 v1.19.0 2026-07-23 dinukadesilva
+    1 - [fix] Fix the default status of task workflows to "not-completed"
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+
+v1.19.0 2026-07-23 dinukadesilva
     1 - [fix] Enabling to view the available routes from about page (CTT-1052)
         - /about
     2 - [fix] Refactoring the resource-roadmap-badge-task context functions

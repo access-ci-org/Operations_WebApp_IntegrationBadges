@@ -168,18 +168,20 @@ function useResourcesValues() {
             const taskStatusMap = {...resourceRoadmapBadgeTaskMap};
             const taskIds = [];
             for (let j = 0; j < response.data.results.length; j++) {
-                const taskStatus = response.data.results[j];
-                const _taskId = taskStatus.task_id;
-                const _badgeId = taskStatus.badge_id;
-                const _resourceId = taskStatus.info_resourceid;
-                const _roadmapId = taskStatus.roadmap_id;
+                const taskWorkflow = response.data.results[j];
+                const _taskId = taskWorkflow.task_id;
+                const _badgeId = taskWorkflow.badge_id;
+                const _resourceId = taskWorkflow.info_resourceid;
+                const _roadmapId = taskWorkflow.roadmap_id;
 
                 taskIds.push({resourceId: _resourceId, roadmapId: _roadmapId, badgeId: _badgeId, taskId: _taskId});
+
+                if (!taskWorkflow.status) taskWorkflow.status = BadgeTaskWorkflowStatus.NOT_COMPLETED;
 
                 taskStatusMap[_resourceId] = {...taskStatusMap[_resourceId]};
                 taskStatusMap[_resourceId][_roadmapId] = {...taskStatusMap[_resourceId][_roadmapId]};
                 taskStatusMap[_resourceId][_roadmapId][_badgeId] = {...taskStatusMap[_resourceId][_roadmapId][_badgeId]};
-                taskStatusMap[_resourceId][_roadmapId][_badgeId][_taskId] = taskStatus;
+                taskStatusMap[_resourceId][_roadmapId][_badgeId][_taskId] = taskWorkflow;
             }
 
             setResourceRoadmapBadgeTaskMap(taskStatusMap);
@@ -352,33 +354,10 @@ function useResourcesValues() {
 
                 return {
                     ...task,
-                    status: BadgeTaskWorkflowStatus.NOT_COMPLETED,
                     ...resourceBadgeTaskWorkflow
                 }
             });
         }
-
-        // let badge = getBadge({badgeId});
-        //
-        // if (badge.tasks) {
-        //     return badge.tasks.map(({task_id, required}) => {
-        //         const taskId = task_id;
-        //         const task = getTask({taskId});
-        //         let resourceBadgeTaskWorkflow = null;
-        //         if (resourceRoadmapBadgeTaskMap[resourceId] && resourceRoadmapBadgeTaskMap[resourceId][roadmapId]
-        //             && resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId]) {
-        //
-        //             resourceBadgeTaskWorkflow = resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId][taskId];
-        //         }
-        //
-        //         return {
-        //             ...task,
-        //             required,
-        //             status: BadgeTaskWorkflowStatus.NOT_COMPLETED,
-        //             ...resourceBadgeTaskWorkflow
-        //         }
-        //     });
-        // }
     };
 
     const getResourceRoadmapBadgeStatusSummary = (

@@ -55,7 +55,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         [BadgeTaskWorkflowStatus.ACTION_NEEDED]: "bi bi-exclamation-triangle-fill"
     };
 
-    let toggleButtonVariant = "medium";
+    let toggleButtonVariant = "primary";
     if (task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED) toggleButtonVariant = "outline-danger";
     else if (!!task.status && task.status !== BadgeTaskWorkflowStatus.NOT_COMPLETED) toggleButtonVariant = "outline-primary";
 
