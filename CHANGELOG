@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.19.2 2026-08-04 dinukadesilva
+    1 - [fix] Rename the routes summary table column headers (CTT-1052)
+        - /about
+
 v1.19.1 2026-08-03 dinukadesilva
     1 - [fix] Fix the default status of task workflows to "not-completed"
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
