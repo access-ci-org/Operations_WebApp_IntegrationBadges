@@ -184,7 +184,7 @@ function ApplicationRouteSummary() {
                     <th scope="col">#</th>
                     <th scope="col">Route</th>
                     <th scope="col">Path</th>
-                    <th scope="col">Count</th>
+                    <th scope="col">Page Count</th>
                 </tr>
                 </thead>
                 <tbody>
