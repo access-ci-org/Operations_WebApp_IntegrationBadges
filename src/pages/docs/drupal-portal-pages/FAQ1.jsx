@@ -93,7 +93,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I create an ACCESS account?",
                             "anchorHash": "register_access_id",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     To create an ACCESS account you must first
                                     <a className="ms-2" href="https://account.access-ci.org/register">register for
@@ -107,7 +107,7 @@ export default function FAQ1() {
                         {
                             "question": "Can I use my existing XSEDE account with ACCESS?",
                             "anchorHash": "xsede_access_account",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Yes, your ACCESS ID is the same as your XSEDE Portal account username. Please do not
                                     create a new ACCESS ID. See below if you need to reset your password.
@@ -122,7 +122,7 @@ export default function FAQ1() {
                         {
                             "question": "Which identity provider should I choose when logging in to ACCESS?",
                             "anchorHash": "idp_login_choice",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Select the same identity provider you used when you registered for your ACCESS
                                     account. If you usually log in with your university user name and password, select
@@ -134,7 +134,7 @@ export default function FAQ1() {
                         {
                             "question": "Why doesn’t my university appear in the list of identity providers?",
                             "anchorHash": "univ_idp_missing",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     ACCESS uses identity providers from
                                     <a className="ms-2" href="https://www.cilogon.org/">CILogon</a>.
@@ -145,7 +145,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I request a reminder of my ACCESS ID?",
                             "anchorHash": "username_reminder",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Please visit
                                     <a className="ms-2 me-2" href="https://account.access-ci.org/register">
@@ -158,7 +158,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I reset my ACCESS password?",
                             "anchorHash": "password_reset",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Please visit
                                     <a className="ms-2 me-2" href="https://account.access-ci.org/password">
@@ -170,7 +170,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I manage ACCESS Multi-Factor Authentication (MFA)?",
                             "anchorHash": "mfa_management",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     If you are using “ACCESS CI (XSEDE)” to login you will be using Duo for MFA. If you
                                     login with your university account you will use your university MFA.
@@ -180,9 +180,8 @@ export default function FAQ1() {
                         {
                             "question": "How do I update my Duo configuration?",
                             "anchorHash": "duo_config",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
-                                    for instructions on managing your Duo configuration for ACCESS.
                                     ACCESS uses Duo for MFA. Learn how to
                                     <a className="ms-2" href="https://identity.access-ci.org/manage-mfa">
                                         manage your Duo configuration</a>.
@@ -192,7 +191,7 @@ export default function FAQ1() {
                         {
                             "question": "I’m having trouble logging into an ACCESS Resource. How can I get assistance?",
                             "anchorHash": "rp_login_trouble",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Please review
                                     <a className="ms-2 me-2"
@@ -215,7 +214,7 @@ export default function FAQ1() {
                         {
                             "question": "How do I update my profile information (name, email, organization)?",
                             "anchorHash": "update_profile_info",
-                            "content": <ul>
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     You can view and update your profile by logging into
                                     <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
@@ -226,7 +225,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I link or unlink external accounts (e.g., GitHub, Google, Microsoft, ORCID, or University account)?",
                             "anchorHash": "link_unlink_external_accounts",
-                            "content": <ul>
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Linked accounts allow you to log into ACCESS using an external account. To manage
                                     your linked accounts or link a new account, log into
@@ -238,7 +237,7 @@ export default function FAQ1() {
                         {
                             "question": "I accidentally created multiple ACCESS IDs. Can I merge them?",
                             "anchorHash": "merge_access_ids",
-                            "content": <ul>
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Yes, please
                                     <a className="ms-2 me-2" href="https://support.access-ci.org/open-a-ticket">
@@ -251,7 +250,7 @@ export default function FAQ1() {
                         {
                             "question": "How do I manage my SSH keys?",
                             "anchorHash": "ssh_keys_management",
-                            "content": <ul>
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     You can view and update your SSH keys by logging into
                                     <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
@@ -267,7 +266,7 @@ export default function FAQ1() {
                         {
                             "question": "How do I submit a ticket?",
                             "anchorHash": "submit_ticket",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     You may submit a ticket to the ACCESS ticketing system by following the directions
                                     on our
@@ -284,7 +283,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I request support with my account?",
                             "anchorHash": "support_access_id",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Please
                                     <a className="ms-2" href="https://support.access-ci.org/open-a-ticket">
@@ -347,7 +346,7 @@ export default function FAQ1() {
                         {
                             "question": "Why does my OIDC Client not show the ACCESS “skin” (i.e. CSS) when authenticating?",
                             "anchorHash": "oidc_skin_issue",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     There is a server-side configuration which automatically applies the
                                     <a className="ms-2 me-2" href="https://cilogon.org/?skin=access">ACCESS skin</a>
@@ -365,7 +364,7 @@ export default function FAQ1() {
                         {
                             "question": "Can I get a mapping from CILogon DNs to ePPN values to help with the GCSv4 to GCSv5 transition?",
                             "anchorHash": "cilogon_dn_eppn_map",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     Yes, please send a list of DNs to
                                     <a href="mailto:help@cilogon.org" className="ms-2">help@cilogon.org</a>,
@@ -404,7 +403,7 @@ export default function FAQ1() {
                         {
                             "question": "How can I review and agree with the Acceptable Use Policy (AUP)?",
                             "anchorHash": "aup_definition",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     An Acceptable Use Policy (AUP) defines the guidelines and rules for using ACCESS
                                     resources responsibly and ethically. All users must agree to
@@ -422,7 +421,7 @@ export default function FAQ1() {
                         {
                             "question": "Where can I find ACCESS Allocation policies?",
                             "anchorHash": "allocation_policies",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     If you are looking for policies related to your specific ACCESS Allocation you can
                                     find them
@@ -439,7 +438,7 @@ export default function FAQ1() {
                         {
                             "question": "How does ACCESS handle my personal information?",
                             "anchorHash": "access_privacy_info",
-                            "content": <ul className="mb-0">
+                            "content": <ul className="mb-0 list-unstyled">
                                 <li>
                                     ACCESS is committed to protecting your privacy. Please review our
                                     <a className="ms-2 me-2" href="https://access-ci.org/privacy-policy/">
@@ -496,6 +495,11 @@ export default function FAQ1() {
                                 <div className="accordion" id={accordionId}>
 
                                     {subsection.items.map((subsectionItem, subsectionItemIndex) => {
+                                        let accordionBodyCSSClass = "bg-white fs-8 text-gray-600 font-family-inter lh-lg pt-3 pe-5";
+                                        if (subsectionItemIndex === (subsection.items.length - 1)) {
+                                            accordionBodyCSSClass += " rounded-bottom-2";
+                                        }
+
                                         subsectionItemIndex = subsectionItem.anchorHash;
 
                                         return <div className="accordion-item" key={subsectionItemIndex}>
@@ -514,7 +518,7 @@ export default function FAQ1() {
                                                             className="copy-btn btn btn-sm btn-outline-gray-400 width-fit-content lh-1 border-0 rounded-5 ms-2"
                                                             type="button" title="Copy link"
                                                             data-link={`#${subsectionItemIndex}`}>
-                                                            <i className="bi bi-link fs-5 text-primary">&nbsp;</i>
+                                                            <i className="bi bi-link fs-5 text-medium">&nbsp;</i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -523,7 +527,7 @@ export default function FAQ1() {
                                                  className="accordion-collapse collapse"
                                                  aria-labelledby={`${subsectionItemIndex}`}>
                                                 <div
-                                                    className="accordion-body bg-white fs-8 text-gray-600 font-family-inter lh-lg pt-3 pe-5">
+                                                    className={`accordion-body ${accordionBodyCSSClass}`}>
                                                     {subsectionItem.content}
                                                 </div>
                                             </div>
