@@ -150,8 +150,8 @@ function ApplicationRouteSummary() {
                             const roadmapEnrolledResources = resources.filter(r => r.roadmaps && r.roadmaps.length > 0);
                             urlCount = Math.sumPrecise(roadmapEnrolledResources.map(r => r.roadmaps.length));
                             if (urlCount) example = {
-                                info_resourceid: resources[0].info_resourceid,
-                                roadmap_id: resources[0].roadmaps[0].roadmap_id
+                                info_resourceid: roadmapEnrolledResources[0].info_resourceid,
+                                roadmap_id: roadmapEnrolledResources[0].roadmaps[0].roadmap_id
                             };
                         }
                     } else {
