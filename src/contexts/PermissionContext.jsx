@@ -114,7 +114,7 @@ function useRolesValues() {
      * @returns {boolean}
      */
     const hasPermission = ({roles = null, resourceIds = null} = {}) => {
-        if (roles) {
+        if (roles && roles.length > 0) {
             for (let i = 0; i < roles.length; i++) {
                 const role = roles[i];
                 const authorizedResourceIdsMap = roleMap[role];
@@ -132,9 +132,9 @@ function useRolesValues() {
                     }
                 }
             }
+        } else {
+            return true;
         }
-
-        return false;
     };
 
 

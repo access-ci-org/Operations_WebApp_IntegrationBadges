@@ -226,9 +226,8 @@ function useResourcesValues() {
         }
     }
 
-    const getResourcesEndpointUrl = ({organizationId = null, resourceId = null, full = false} = {}) => {
+    const getResourcesEndpointUrl = ({organizationId = null, resourceId = null} = {}) => {
         let url = '/resources?';
-        if (full) url = '/resources_full?';
         if (organizationId) url += `organization_id=${organizationId}&`;
         if (resourceId) url += `info_resourceid=${resourceId}`;
 
@@ -237,9 +236,14 @@ function useResourcesValues() {
 
     const fetchResources = async ({organizationId = null, resourceId = null, full = false} = {}) => {
         try {
-            let url = getResourcesEndpointUrl({organizationId, resourceId, full});
+            let url = getResourcesEndpointUrl({organizationId, resourceId});
 
-            const response = await dashboardAxiosInstance.get(url);
+            // Keeping the modified url only to fetch.
+            // And leaving the common url for state mappings
+            let modifiedUrlForFullResponse = url;
+            if (full) modifiedUrlForFullResponse = url.replace("resources?", "resources_full?");
+
+            const response = await dashboardAxiosInstance.get(modifiedUrlForFullResponse);
             const _resources = response.data.results;
             const _resourceIds = [];
             const _resourceMap = {...resourceMap};
@@ -275,8 +279,8 @@ function useResourcesValues() {
         return resourceMap[resourceId];
     }
 
-    const getResources = ({organizationId = null, resourceId = null, full = false} = {}) => {
-        let url = getResourcesEndpointUrl({organizationId, resourceId, full});
+    const getResources = ({organizationId = null, resourceId = null} = {}) => {
+        let url = getResourcesEndpointUrl({organizationId, resourceId});
         if (resourceIds[url]) {
             return resourceIds[url].map(resourceId => getResource({resourceId}));
         }
@@ -341,7 +345,7 @@ function useResourcesValues() {
         const url = getResourceRoadmapBadgeTasksEndpointUrl({resourceId, roadmapId, badgeId});
 
         if (resourceRoadmapBadgeTaskIds[url]) {
-            return resourceRoadmapBadgeTaskIds[url].map(({resourceId, roadmapId, badgeId, taskId}) =>{
+            return resourceRoadmapBadgeTaskIds[url].map(({resourceId, roadmapId, badgeId, taskId}) => {
 
                 const task = getTask({taskId});
                 let resourceBadgeTaskWorkflow = null;
