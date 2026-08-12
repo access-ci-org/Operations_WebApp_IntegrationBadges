@@ -38,8 +38,16 @@ const StaffRoutesConfig = {
     element: <RouterLayout/>,
     children: [
         {index: true, element: <Navigate to={StaffRouteUrls.INDEX} replace={true}/>},
-        {name: "Staff: Dashboard", path: StaffRouteUrls.INDEX, element: <StaffDashboard/>},
-        {name: "Staff: Roadmap list and administration", path: StaffRouteUrls.ROADMAPS, element: <StaffRoadmaps/>},
+        {
+            name: "Staff: Dashboard",
+            path: StaffRouteUrls.INDEX,
+            element: <ProtectedRouteElement><StaffDashboard/></ProtectedRouteElement>
+        },
+        {
+            name: "Staff: Roadmap list and administration",
+            path: StaffRouteUrls.ROADMAPS,
+            element: <ProtectedRouteElement><StaffRoadmaps/></ProtectedRouteElement>
+        },
         {
             name: "Staff: Roadmap Edit",
             path: StaffRouteUrls.ROADMAP_EDIT,
@@ -71,7 +79,7 @@ const StaffRoutesConfig = {
         {
             name: "Staff: Resource Roadmap Badge status listing",
             path: StaffRouteUrls.BADGE_STATUS,
-            element: <ResourceBadgeStatusListing/>
+            element: <ProtectedRouteElement><ResourceBadgeStatusListing/></ProtectedRouteElement>
         },
         {
             name: "Staff: Resource Provider Contacts",
