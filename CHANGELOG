@@ -8,6 +8,15 @@ The general format of entries is:
         - *
 
 
+v1.20.0 2026-08-12 dinukadesilva
+    1 - [fix] Fixed the styles and some content of the drupal portal FAQ (CTT-1046)
+        - https://operations.access-ci.org/faqs
+    2 - [new] Adding the authentication required for all the routes except "/docs" (ATS-31580)
+        - *
+    3 - [new] Adding utilities for optimising and generalizing the error handling (CTT-1003)
+        - None yet
+    4 - [new] Improving the routes invetory to show the required authentication, roles and examples (CTT-1052)
+
 v1.19.2 2026-08-04 dinukadesilva
     1 - [fix] Rename the routes summary table column headers (CTT-1052)
         - /about
