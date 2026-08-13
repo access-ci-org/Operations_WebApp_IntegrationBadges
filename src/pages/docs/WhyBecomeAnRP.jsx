@@ -80,6 +80,17 @@ export default function WhyBecomeAnRP() {
         {
             "title": "What if my resource doesn’t fit neatly into one of the existing roadmaps?",
             "description": "That’s completely okay. We understand that not all resources are the same, and our existing roadmaps may not cover every use case. One of ACCESS’s goals is to expand the types of research infrastructure available to researchers. If your resource doesn’t align with one of the current integration pathways, we’ll work closely with you to adapt or co-develop a roadmap that fits your specific needs and goals. Our team is here to ensure your integration journey is both effective and meaningful, regardless of where you’re starting from.",
+        },
+        {
+            "title": "What should I do if there are staff changes on my team?",
+            "description": <p>
+                If there are changes to the staff supporting or managing your ACCESS resource or project,
+                please submit the
+                <Link className="ms-2 me-2" to="https://operations.access-ci.org/open-staff-change-request">
+                    Staff Change Request form</Link>.
+                This will help ACCESS teams update the appropriate records, roles, and access permissions.
+                The request will be reviewed and routed to the appropriate teams
+            </p>
         }
     ];
 
@@ -113,8 +124,9 @@ export default function WhyBecomeAnRP() {
                 <div className="col p-3" key={keyQuestionIndex} style={{minWidth: 270, maxWidth: 270}}>
                     <div className="w-100 h-100 border border-dark p-4 border-1 rounded-3 box-shadow-0-4-4-0">
                         {keyQuestion.icon}
-                        <Link className="w-100 btn btn-link text-primary text-center text-decoration-none fs-5 fw-normal"
-                              to={keyQuestion.link} style={{height: 170}}>
+                        <Link
+                            className="w-100 btn btn-link text-primary text-center text-decoration-none fs-5 fw-normal"
+                            to={keyQuestion.link} style={{height: 170}}>
                             {keyQuestion.title}
                         </Link>
                         <p className="mb-0 text-gray-600 text-center small">{keyQuestion.description}</p>
@@ -128,7 +140,8 @@ export default function WhyBecomeAnRP() {
             </div>
             <Accordion defaultActiveKey={[]}>
                 {additionalQuestions.map((additionalQuestion, additionalQuestionIndex) =>
-                    <Accordion.Item eventKey={additionalQuestionIndex} key={additionalQuestionIndex} className="mb-2 rounded-3 border-top">
+                    <Accordion.Item eventKey={additionalQuestionIndex} key={additionalQuestionIndex}
+                                    className="mb-2 rounded-3 border-top">
                         <Accordion.Button className="rounded-3">
                             <span className="text-primary fw-bold">{additionalQuestion.title}</span>
                         </Accordion.Button>

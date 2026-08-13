@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.20.2 2026-08-13 dinukadesilva
+    1 - [new] Adding an entry to "Become an RP" page FAQ for staff change requests (CTT-1043)
+        - /docs/why-become-an-rp
+
 v1.20.1 2026-08-12 dinukadesilva
     1 - [fix] Fixing the examples of "Resource Roadmap" amd "Resource Roadmap Integration - EDIT" routes (CTT-1052)
         - /about
