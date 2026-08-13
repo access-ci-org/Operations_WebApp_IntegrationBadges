@@ -8,6 +8,9 @@ The general format of entries is:
         - *
 
 
+v1.20.3 2026-08-13 dinukadesilva
+    1 - [new] : Enable the filter dropdowns of the contacts page to be sorted alphabetically (CTT-1038)
+
 v1.20.2 2026-08-13 dinukadesilva
     1 - [new] Adding an entry to "Become an RP" page FAQ for staff change requests (CTT-1043)
         - /docs/why-become-an-rp

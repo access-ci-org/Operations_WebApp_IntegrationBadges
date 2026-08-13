@@ -9,6 +9,7 @@ import Select from 'react-select';
 import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useContacts} from "../../contexts/ContactsContext.jsx";
 import {ResourceIntegrationStatus} from "../../contexts/constants.js";
+import {sortJsonArrayAlphabetically} from "../util/sort.jsx";
 
 
 const CopyStatus = {
@@ -64,26 +65,30 @@ export default function ContactsAndCollaboratorsFilterView(
     const contactFilters = [
         {
             "title": "Organization (s)",
-            "options": organizations.map(organization => ({
-                label: organization.organization_name,
-                value: organization.organization_id
-            })),
+            "options": sortJsonArrayAlphabetically(organizations, "organization_name")
+                .map(organization => ({
+                    label: organization.organization_name,
+                    value: organization.organization_id
+                })),
             state: selectedOrganizationIds,
             set: setSelectedOrganizationIds
         },
         {
             "title": "Resource (s)",
-            "options": resources.map(resource => ({
-                label: resource.resource_descriptive_name,
-                value: resource.info_resourceid
-            })),
+            "options": sortJsonArrayAlphabetically(resources, "resource_descriptive_name")
+                .map(resource => ({
+                    label: resource.resource_descriptive_name,
+                    value: resource.info_resourceid
+                })),
             state: selectedResourceIds,
             set: setSelectedResourceIds
         },
         {
             "title": "Resource Integration Status (s)",
-            "options": [ResourceIntegrationStatus.NEW, ResourceIntegrationStatus.IN_PROGRESS,
-                ResourceIntegrationStatus.PRODUCTION, ResourceIntegrationStatus.POST_PRODUCTION].map(s => ({
+            "options": sortJsonArrayAlphabetically([
+                ResourceIntegrationStatus.NEW, ResourceIntegrationStatus.IN_PROGRESS,
+                ResourceIntegrationStatus.PRODUCTION, ResourceIntegrationStatus.POST_PRODUCTION
+            ]).map(s => ({
                 label: s,
                 value: s
             })),
@@ -92,19 +97,27 @@ export default function ContactsAndCollaboratorsFilterView(
         },
         {
             "title": "Roadmaps (s)",
-            "options": roadmaps.map(roadmap => ({label: roadmap.name, value: roadmap.roadmap_id})),
+            "options": sortJsonArrayAlphabetically(roadmaps, "name")
+                .map(roadmap => ({label: roadmap.name, value: roadmap.roadmap_id})),
             state: selectedRoadmapIds,
             set: setSelectedRoadmapIds
         },
         {
             "title": "Badge (s)",
-            "options": badges.map(badge => ({label: badge.name, value: badge.badge_id})),
+            "options": sortJsonArrayAlphabetically(badges, "name").map(badge => ({
+                label: badge.name,
+                value: badge.badge_id
+            })),
             state: selectedBadgeIds,
             set: setSelectedBadgeIds
         },
         {
             "title": "Contact Type (s)",
-            "options": contactTypes.map(contactType => ({label: contactType, value: contactType})),
+            "options": sortJsonArrayAlphabetically(contactTypes)
+                .map(contactType => ({
+                    label: contactType,
+                    value: contactType
+                })),
             state: selectedContactTypes,
             set: setSelectedContactTypes
         }

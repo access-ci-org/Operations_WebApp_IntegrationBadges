@@ -3,11 +3,13 @@ export const SortOrder = {
     Descending: "Descending"
 };
 
-export function sortJsonArrayAlphabetically(array, fieldName, order=SortOrder.Ascending) {
+export function sortJsonArrayAlphabetically(array, fieldName = null, order=SortOrder.Ascending) {
+    if (!array) return null;
+
     array = [...array];
     array.sort((a, b) => {
-        const nameA = a[fieldName].toLowerCase(); // Convert to lowercase for case-insensitive sorting
-        const nameB = b[fieldName].toLowerCase();
+        const nameA = (fieldName ? a[fieldName] : a).toLowerCase(); // Convert to lowercase for case-insensitive sorting
+        const nameB = (fieldName ? b[fieldName] : b).toLowerCase();
 
         if (nameA < nameB) {
             return -1; // nameA comes before nameB
