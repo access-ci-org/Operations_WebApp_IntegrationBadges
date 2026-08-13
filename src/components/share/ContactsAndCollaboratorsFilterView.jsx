@@ -123,7 +123,7 @@ export default function ContactsAndCollaboratorsFilterView(
         }
     ];
 
-    return <div className="w-100">
+    return <div className="w-100 text-start fs-7">
         <div className="w-100">
             <div className="row pb-3 ps-3 pe-3">
                 {contactFilters.map((contactFilter, contactFilterIndex) => {

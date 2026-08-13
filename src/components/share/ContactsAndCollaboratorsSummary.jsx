@@ -145,7 +145,7 @@ export default function ContactsAndCollaboratorsSummary(
                         </Link>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="p-0 fs-8">
+                <Modal.Body bsPrefix="pt-0">
                     <div className="w-100 pt-4 pb-5 ps-2 pe-2">
                         <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}
                                                             contactEmail={contactEmail} contactType={contactType}/>
