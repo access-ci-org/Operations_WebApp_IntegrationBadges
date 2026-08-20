@@ -18,8 +18,19 @@ export default function ApplicationRouteDetails() {
         <div className="w-100 mb-5 mt-5">
             <ReadmeRenderer editUrl={getRouteDetailsGithubEditUrl(route)}>{route.detailedMarkdown}</ReadmeRenderer>
         </div>
+
         <div className="w-100 mb-3">
-            <h6 className="d-inline">Total page count : </h6>
+            <h6 className="d-inline pe-3">Authentication:</h6>
+            {route.authenticationRequired ? <span>Required <i className="ps-1 bi bi-lock-fill"></i></span> : "NA"}
+        </div>
+
+        <div className="w-100 mb-3">
+            <h6 className="d-inline pe-3">Authorized Roles:</h6>
+            {route.authorizedRoles && route.authorizedRoles.length > 0 ? route.authorizedRoles.join(" ,") : "NA"}
+        </div>
+
+        <div className="w-100 mb-3">
+            <h6 className="d-inline pe-3">Total page count : </h6>
             {route.urlCount}
         </div>
         <div className="w-100 mb-3">
