@@ -43,6 +43,9 @@ function ReadmeRenderer({children, editUrl, showNotMentionedRoutsList = false}) 
                     h4: ({node, hasInjectedHtml, ...validProps}) => {
                         return <h5 {...validProps}/>;
                     },
+                    img: ({node, hasInjectedHtml, width, height, ...validProps}) => {
+                        return <img {...validProps} className="w-100"/>;
+                    },
                     code: ({node, hasInjectedHtml, children, className, ...validProps}) => {
                         if (applicationRoutesMap[children]) {
                             return <RouteDetailLink
