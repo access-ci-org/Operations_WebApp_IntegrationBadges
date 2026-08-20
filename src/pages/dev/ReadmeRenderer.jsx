@@ -4,13 +4,14 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 
 import {
-    getApplicationRoutesMap,
+    getApplicationRoutesMap, getRouteDetailsGithubEditUrl,
     getRoutesListNotMentionedInMarkdownContent
 } from "./application-routes-util.jsx";
 import RouteDetailLink from "./RouteDetailsLink.jsx";
+import {Link} from "react-router-dom";
 
 
-function ReadmeRenderer({children, showNotMentionedRoutsList = false}) {
+function ReadmeRenderer({children, editUrl, showNotMentionedRoutsList = false}) {
     let markdownContent = "";
     if (children) markdownContent = children;
 
@@ -21,6 +22,12 @@ function ReadmeRenderer({children, showNotMentionedRoutsList = false}) {
 
     return (
         <div className="w-100">
+            {editUrl && <div className="w-100 text-end fs-8">
+                <Link to={editUrl} target="_blank" className="btn btn-sm btn-outline-dark">
+                    Edit on github
+                    <i className="bi bi-github ps-2"></i>
+                </Link>
+            </div>}
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}
                 components={{
@@ -36,9 +43,14 @@ function ReadmeRenderer({children, showNotMentionedRoutsList = false}) {
                     h4: ({node, hasInjectedHtml, ...validProps}) => {
                         return <h5 {...validProps}/>;
                     },
-                    code: ({node, hasInjectedHtml, children, ...validProps}) => {
+                    code: ({node, hasInjectedHtml, children, className, ...validProps}) => {
                         if (applicationRoutesMap[children]) {
-                            return <RouteDetailLink route={applicationRoutesMap[children]} {...validProps} />;
+                            return <RouteDetailLink
+                                {...validProps}
+                                route={applicationRoutesMap[children]}
+                                showPrivacy={true} showPageCount={true}
+                                className={className + " fs-7"}
+                            />;
                         } else {
                             return <code {...validProps}>{children}</code>;
                         }

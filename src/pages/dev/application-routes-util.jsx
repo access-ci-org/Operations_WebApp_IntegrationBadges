@@ -8,19 +8,12 @@ import ApplicationRoutesConfig from "../application-routes-config.jsx";
 let applicationRoutesDetailsMarkdownFilesMap = import.meta.glob(
     './application-routes-details/*.md', {query: '?raw', import: 'default', eager: true});
 
-// applicationRoutesDetailsMarkdownFilesMap = Object.fromEntries(
-//     Object.entries(applicationRoutesDetailsMarkdownFilesMap)
-//         .map(([markdownFilePath, markdownRawContent]) =>
-//             [
-//                 markdownFilePath.replace("./application-routes-details/", ""),
-//                 markdownRawContent
-//             ]
-//         ));
-
-console.log("####### applicationRoutesDetailsMarkdownFilesMap ", applicationRoutesDetailsMarkdownFilesMap);
-
 export function getRouteMarkdownFilePath(route) {
     return "./application-routes-details/" + getRouteDetailsPath(route) + ".md";
+}
+
+export function getRouteDetailsGithubEditUrl(route) {
+    return `https://github.com/access-ci-org/Operations_WebApp_IntegrationBadges/edit/main/src/pages/dev/application-routes-details/${getRouteDetailsPath(route)}.md`
 }
 
 export function getRouteDetailsPath(route) {

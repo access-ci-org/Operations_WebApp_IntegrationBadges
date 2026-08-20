@@ -1,6 +1,8 @@
 import ReadmeRenderer from "./ReadmeRenderer.jsx";
-import {useParams} from "react-router-dom";
-import {getRouteFromDetailsPath} from "./application-routes-util.jsx";
+import {Link, useParams} from "react-router-dom";
+import {getRouteDetailsGithubEditUrl, getRouteFromDetailsPath} from "./application-routes-util.jsx";
+import React from "react";
+import RouteDetailLink from "./RouteDetailsLink.jsx";
 
 export default function ApplicationRouteDetails() {
 
@@ -9,8 +11,12 @@ export default function ApplicationRouteDetails() {
     const route = getRouteFromDetailsPath(routeDetailsPath);
 
     return <div className="w-100">
-        <div className="w-100 mb-5">
-            <ReadmeRenderer>{route.detailedMarkdown}</ReadmeRenderer>
+        <h2>
+            <span className="pe-4">Route :</span>
+            <RouteDetailLink route={route}/>
+        </h2>
+        <div className="w-100 mb-5 mt-5">
+            <ReadmeRenderer editUrl={getRouteDetailsGithubEditUrl(route)}>{route.detailedMarkdown}</ReadmeRenderer>
         </div>
         <div className="w-100 mb-3">
             <h6 className="d-inline">Total page count : </h6>

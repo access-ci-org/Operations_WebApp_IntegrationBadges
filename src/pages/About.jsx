@@ -251,8 +251,6 @@ EOF
 `
     }).join("\n");
 
-    console.log("##### scriptToCreateTheMarkdownFilesForRoutes \n\n", scriptToCreateTheMarkdownFilesForRoutes)
-
     return (
         <div className="w-100">
             <table className="table table-sm">

@@ -36,9 +36,6 @@ const RouterLayout = () => {
     );
 };
 
-// console.log("####### ApplicationRoutesConfig ", ApplicationRoutesConfig)
-// const applicationRoutesList = getRouteListItemsBFSList(ApplicationRoutesConfig);
-
 const DevRoutesConfig = {
     path: '/dev', // Base structural path wrapper
     element: <RouterLayout/>,
@@ -55,7 +52,12 @@ const DevRoutesConfig = {
             name: "Dev: Routes",
             path: DevRouteUrls.ROUTES,
             element: <ProtectedRouteElement>
-                <ReadmeRenderer showNotMentionedRoutsList={true}>{applicationRoutesSummaryMarkdown}</ReadmeRenderer>
+                <ReadmeRenderer
+                    showNotMentionedRoutsList={true}
+                    editUrl="https://github.com/access-ci-org/Operations_WebApp_IntegrationBadges/edit/main/src/pages/dev/application-routes-summary.md">
+
+                    {applicationRoutesSummaryMarkdown}
+                </ReadmeRenderer>
             </ProtectedRouteElement>
         },
         {
