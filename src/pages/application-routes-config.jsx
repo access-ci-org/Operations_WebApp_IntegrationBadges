@@ -21,6 +21,7 @@ import {IntegrationRoles} from "../contexts/constants.js";
 import ResourceEdit from "./ResourceEdit.jsx";
 import DocumentationRoutesConfig from "./docs/documentation-routes-config.jsx";
 import StaffRoutesConfig from "./staff/staff-routes-config.jsx";
+import DevRoutesConfig from "./dev/dev-routes-config.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -131,6 +132,7 @@ const ApplicationRoutesConfig = [
             },
             StaffRoutesConfig,
             DocumentationRoutesConfig,
+            DevRoutesConfig,
             {path: '*', element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>},
         ]
     }

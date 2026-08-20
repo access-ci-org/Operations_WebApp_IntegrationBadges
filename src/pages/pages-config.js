@@ -34,3 +34,11 @@ export const DocumentationRouteUrls = {
     BADGES: "/docs/badges",
 };
 
+export const DevRouteUrls = {
+    INDEX: "/dev",
+    CONFIG: "/dev/application-configs",
+    ROUTES: "/dev/application-routes",
+    ROUTE_DETAILS: "/dev/application-routes/:routeDetailsPath",
+    CHANGELOG: "/dev/changelog"
+};
+

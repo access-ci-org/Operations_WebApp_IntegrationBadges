@@ -12,6 +12,8 @@ import {useBadges} from "../contexts/BadgeContext.jsx";
 import {useTasks} from "../contexts/TaskContext.jsx";
 import {ProtectedRouteElement} from "../components/util/Permissions.jsx";
 import {AppRouteUrls} from "./pages-config.js";
+import {BadgeWorkflowStatus} from "../contexts/constants.js";
+import {getRouteMarkdownFilePath} from "./dev/application-routes-util.jsx";
 
 
 /**
@@ -92,7 +94,8 @@ function ApplicationRouteSummary() {
     const {getOrganizations} = useOrganizations();
     const {
         fetchResources, fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeTasks,
-        getResourceRoadmapBadges, getResourceRoadmapBadgeTasks,
+        fetchResourceRoadmapBadgeStatusSummary,
+        getResourceRoadmapBadges, getResourceRoadmapBadgeTasks, getResourceRoadmapBadgeStatusSummary,
         getResources
     } = useResources();
     const {getRoadmaps} = useRoadmaps();
@@ -114,14 +117,18 @@ function ApplicationRouteSummary() {
         fetchResourceRoadmapBadgeTasks();
     }, []);
 
+    useEffect(() => {
+        for (let organization in organizations) {
+            fetchResourceRoadmapBadgeStatusSummary({organizationId: organization.organization_id});
+        }
+    }, [organizations.length]);
+
     const getRouteListItemsBFSList = (config, listOfRouteListItems = []) => {
         for (let route of Object.values(config)) {
             if (route.index) continue;
 
             let urlCount = 1;
 
-            // Replacing to "verification-failed" because the webapp uses only that route
-            route.path = route.path.replace(":badgeWorkflowStatus", "verification-failed")
 
             const organizationId = route.path.indexOf(":organizationId") >= 0;
             const resourceId = route.path.indexOf(":resourceId") >= 0;
@@ -134,8 +141,26 @@ function ApplicationRouteSummary() {
 
             try {
                 if (organizationId) {
-                    urlCount = organizations.length;
-                    if (urlCount) example = organizations[0];
+                    if (route.path === AppRouteUrls.ORGANIZATION_BADGE_REVIEW) {
+
+                        // Replacing to "verification-failed" because the webapp uses only that route
+                        route.path = route.path.replace(":badgeWorkflowStatus", "verification-failed")
+
+                        const orgsWithBadgesWaitingForVerification = organizations.filter(org => {
+                            const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary({
+                                organizationId: org.organization_id
+                            });
+
+                            return resourceRoadmapBadgeStatusSummary &&
+                                resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED] > 0;
+                        });
+
+                        urlCount = orgsWithBadgesWaitingForVerification.length;
+                        if (urlCount) example = orgsWithBadgesWaitingForVerification[0];
+                    } else {
+                        urlCount = organizations.length;
+                        if (urlCount) example = organizations[0];
+                    }
                 } else if (resourceId) {
                     if (roadmapId) {
                         if (badgeId) {
@@ -213,6 +238,20 @@ function ApplicationRouteSummary() {
     };
 
     const data = getRouteListItemsBFSList(ApplicationRoutesConfig);
+
+    const scriptToCreateTheMarkdownFilesForRoutes = data.map(route => {
+        let markdownFileName = getRouteMarkdownFilePath(route);
+        return `
+touch "./src/pages/dev/application-routes-details/${markdownFileName}.md"
+cat << 'EOF' > "./src/pages/dev/application-routes-details/${markdownFileName}.md"
+# ${route.name}
+
+${route.description ? route.description : ""}
+EOF
+`
+    }).join("\n");
+
+    console.log("##### scriptToCreateTheMarkdownFilesForRoutes \n\n", scriptToCreateTheMarkdownFilesForRoutes)
 
     return (
         <div className="w-100">
