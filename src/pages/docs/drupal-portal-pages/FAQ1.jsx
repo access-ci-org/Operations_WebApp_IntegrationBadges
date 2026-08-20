@@ -518,7 +518,7 @@ export default function FAQ1() {
                                                             className="copy-btn btn btn-sm btn-outline-gray-400 width-fit-content lh-1 border-0 rounded-5 ms-2"
                                                             type="button" title="Copy link"
                                                             data-link={`#${subsectionItemIndex}`}>
-                                                            <i className="bi bi-link fs-5 text-medium">&nbsp;</i>
+                                                            <i className="bi bi-link fs-5 text-medium text-primary">&nbsp;</i>
                                                         </button>
                                                     </div>
                                                 </div>
