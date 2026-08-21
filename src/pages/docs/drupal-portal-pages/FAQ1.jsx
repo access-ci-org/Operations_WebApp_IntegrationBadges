@@ -223,7 +223,7 @@ export default function FAQ1() {
                             </ul>
                         },
                         {
-                            "question": "How can I link or unlink external accounts (e.g., GitHub, Google, Microsoft, ORCID, or University account)?",
+                            "question": "How can I link or unlink external accounts (e.g. ORCID, or University account)?",
                             "anchorHash": "link_unlink_external_accounts",
                             "content": <ul className="mb-0 list-unstyled">
                                 <li>
