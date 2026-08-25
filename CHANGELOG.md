@@ -8,6 +8,12 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.21.1 2026-08-25 dinukadesilva
+
+1. [new] Including the page counts, examples and some documentation for routes (CTT-1052)
+    - `/dev/application-routes`
+    - `/dev/application-routes/:routeDetailsPath`
+
 ## v1.21.0 2026-08-20 dinukadesilva
 
 1. [new] Splitting the about page for four pages for better organization(CTT-1052)

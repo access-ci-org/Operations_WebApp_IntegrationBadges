@@ -7,9 +7,11 @@ export default function DefaultReducer(state, newState) {
         ]
     } else if (typeof state === "object") {
         return {
+            ...state,
             ...newState
         }
     } else {
         return newState;
     }
 }
+

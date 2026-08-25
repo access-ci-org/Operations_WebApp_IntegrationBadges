@@ -283,6 +283,11 @@ function useResourcesValues() {
         let url = getResourcesEndpointUrl({organizationId, resourceId});
         if (resourceIds[url]) {
             return resourceIds[url].map(resourceId => getResource({resourceId}));
+        } else if (organizationId && !resourceId) {
+            const allResources = getResources();
+            if (allResources) {
+                return allResources.filter(r => r.organization_id === organizationId);
+            }
         }
     }
 

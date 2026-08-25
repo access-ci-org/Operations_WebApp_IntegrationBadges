@@ -7,6 +7,7 @@ import {
     getRouteDetailsPath,
     getRouteMarkdownFilePath
 } from "./application-routes-util.jsx";
+import ApplicationRoutePageCount from "./ApplicationRoutePageCount.jsx";
 
 export default function RouteDetailLink({className, route, showPrivacy=false, showPageCount=false}) {
     return <div className="d-inline">
@@ -25,7 +26,11 @@ export default function RouteDetailLink({className, route, showPrivacy=false, sh
             </span>
         </Link>
 
-        {showPageCount && <span className="ms-2 fs-9 badge bg-gray-300">{route.urlCount} page(s)</span>}
+        {showPageCount && <span className="ms-2 fs-9 badge bg-gray-300">
+            <ApplicationRoutePageCount route={route} renderComponent={(pageCount) => pageCount} />
+            &nbsp;
+            page(s)
+        </span>}
 
         {/*<div>getRouteDetailsGithubEditUrl : {getRouteDetailsGithubEditUrl(route)}</div>*/}
         {/*<div>getRouteDetailsPath : {getRouteDetailsPath(route)}</div>*/}

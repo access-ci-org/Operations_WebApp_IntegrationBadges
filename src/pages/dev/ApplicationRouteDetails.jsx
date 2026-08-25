@@ -3,6 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import {getRouteDetailsGithubEditUrl, getRouteFromDetailsPath} from "./application-routes-util.jsx";
 import React from "react";
 import RouteDetailLink from "./RouteDetailsLink.jsx";
+import ApplicationRoutePageCount from "./ApplicationRoutePageCount.jsx";
 
 export default function ApplicationRouteDetails() {
 
@@ -35,9 +36,12 @@ export default function ApplicationRouteDetails() {
         </div>
         <div className="w-100 mb-3">
             <h6>Examples:</h6>
-            <ul>
-                <li>{route.example}</li>
-            </ul>
+            <ApplicationRoutePageCount route={route} renderComponent={(pageCount, examples) => <ol>
+                {examples.map((example, exampleIndex) => <li>
+                    {example.label && <div className="d-inline pe-2">{example.label}</div>}
+                    <Link to={example.href} key={exampleIndex}>{example.href}</Link>
+                </li>)}
+            </ol>}/>
         </div>
     </div>;
 }

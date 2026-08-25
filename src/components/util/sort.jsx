@@ -8,19 +8,25 @@ export function sortJsonArrayAlphabetically(array, fieldName = null, order=SortO
 
     array = [...array];
     array.sort((a, b) => {
-        const nameA = (fieldName ? a[fieldName] : a).toLowerCase(); // Convert to lowercase for case-insensitive sorting
-        const nameB = (fieldName ? b[fieldName] : b).toLowerCase();
-
-        if (nameA < nameB) {
-            return -1; // nameA comes before nameB
+        if (fieldName) {
+            a = a[fieldName];
+            b = b[fieldName];
         }
-        if (nameA > nameB) {
-            return 1; // nameA comes after nameB
+
+        // Convert to lowercase for case-insensitive sorting
+        if (typeof a === "string") a = a.toLowerCase();
+        if (typeof b === "string") b = b.toLowerCase();
+
+        if (a < b) {
+            return -1; // "a" comes before "b"
+        }
+        if (a > b) {
+            return 1; // "a" comes after "b"
         }
         return 0; // names are equal
     });
 
-    if (order === SortOrder.Descending) array = Array.reverse(order);
+    if (order === SortOrder.Descending) array = array.reverse();
 
     return array;
 }
