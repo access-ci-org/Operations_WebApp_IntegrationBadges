@@ -94,7 +94,11 @@ export default function ApplicationRoutePageCount({
                     return resourceRoadmapBadgeStatusSummary &&
                         resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED] > 0;
                 }).map(org => {
-                    return {"href": AppRouteUrls.ORGANIZATION_BADGE_REVIEW.replace(":organizationId", org.organization_id)}
+                    return {
+                        "href": AppRouteUrls.ORGANIZATION_BADGE_REVIEW
+                            .replace(":organizationId", org.organization_id)
+                            .replace(":badgeWorkflowStatus", "verification-failed")
+                    }
                 });
         },
 

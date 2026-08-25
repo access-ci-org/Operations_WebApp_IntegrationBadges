@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.21.3 2026-08-25 dinukadesilva
+
+1. [fix] Fix RP Badge Review Route page example links (CTT-1052)
+    - `/dev/application-routes/:routeDetailsPath`
+
 ## v1.21.2 2026-08-25 dinukadesilva
 
 1. [new] Including the page counts, examples and some documentation for routes (CTT-1052)
