@@ -1,7 +1,6 @@
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {useEffect} from "react";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
-import About from "./About.jsx";
 import IntegrationDashboard from "./IntegrationDashboard.jsx";
 import Organization from "./Organization.jsx";
 import Resource from "./Resource.jsx";
@@ -82,7 +81,6 @@ const ApplicationRoutesConfig = [
         element: <RouterLayout/>,
         children: [
             {index: true, element: <Navigate to={AppRouteUrls.ORGANIZATIONS} replace={true}/>},
-            {path: AppRouteUrls.ABOUT, element: <About/>},
             {
                 name: "Integration Dashboard Home",
                 path: AppRouteUrls.ORGANIZATIONS,
