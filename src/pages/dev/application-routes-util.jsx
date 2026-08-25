@@ -1,29 +1,13 @@
-import {AppRouteUrls} from "../pages-config.js";
-import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {ProtectedRouteElement} from "../../components/util/Permissions.jsx";
 import {Link, Navigate} from "react-router-dom";
 import ApplicationRoutesConfig from "../application-routes-config.jsx";
 
-// Map all the available Markdown files about routes details
-let applicationRoutesDetailsMarkdownFilesMap = import.meta.glob(
-    './application-routes-details/*.md', {query: '?raw', import: 'default', eager: true});
-
-export function getRouteMarkdownFilePath(route) {
-    return "./application-routes-details/" + getRouteDetailsPath(route) + ".md";
-}
-
 export function getRouteDetailsGithubEditUrl(route) {
-    return `https://github.com/access-ci-org/Operations_WebApp_IntegrationBadges/edit/main/src/pages/dev/application-routes-details/${getRouteDetailsPath(route)}.md`
+    return `/src/pages/dev/application-routes-details/${getRouteDetailsPath(route)}.md`
 }
 
 export function getRouteDetailsPath(route) {
     return route.path.replaceAll(/^\//ig, "").replaceAll("/", "__");
-}
-
-export function getRoutePathFromMarkdownFilePath(routeMarkdownFileName) {
-    return "/" + routeMarkdownFileName.replaceAll("__", "/")
-        .replace("./application-routes-details/", "")
-        .replaceAll(".md", "");
 }
 
 export function getRouteFromDetailsPath(routeDetailsPath) {
@@ -52,8 +36,7 @@ export function getRouteListItemsBFSList(config, listOfRouteListItems = []) {
                 authenticationRequired: route.element.type === ProtectedRouteElement,
                 authorizedRoles: route.element.props.roles,
                 urlCount: urlCount,
-                example: <Link to={exampleUrl}>{exampleUrl}</Link>,
-                detailedMarkdown: applicationRoutesDetailsMarkdownFilesMap[getRouteMarkdownFilePath({path: routePath})],
+                example: <Link to={exampleUrl}>{exampleUrl}</Link>
             });
         }
 

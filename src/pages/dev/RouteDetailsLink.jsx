@@ -1,12 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
-import ReadmeRenderer from "./ReadmeRenderer.jsx";
 import {DevRouteUrls} from "../pages-config.js";
-import {
-    getRouteDetailsGithubEditUrl,
-    getRouteDetailsPath,
-    getRouteMarkdownFilePath
-} from "./application-routes-util.jsx";
+import {getRouteDetailsPath} from "./application-routes-util.jsx";
 import ApplicationRoutePageCount from "./ApplicationRoutePageCount.jsx";
 
 export default function RouteDetailLink({className, route, showPrivacy=false, showPageCount=false}) {

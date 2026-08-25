@@ -3,10 +3,6 @@ import {ProtectedRouteElement} from "../../components/util/Permissions.jsx";
 import {DevRouteUrls} from "../pages-config.js";
 import ReadmeRenderer from "./ReadmeRenderer.jsx";
 
-// '?raw' tells Vite to import text, not a module
-import applicationRoutesSummaryMarkdown from "./application-routes-summary.md?raw";
-import changelogMarkdown from "../../../CHANGELOG.md?raw";
-
 import ApplicationConfigsOverview from "./ApplicationConfigsOverview.jsx";
 import ApplicationRouteDetails from "./ApplicationRouteDetails.jsx";
 
@@ -54,10 +50,7 @@ const DevRoutesConfig = {
             element: <ProtectedRouteElement>
                 <ReadmeRenderer
                     showNotMentionedRoutsList={true}
-                    editUrl="https://github.com/access-ci-org/Operations_WebApp_IntegrationBadges/edit/main/src/pages/dev/application-routes-summary.md">
-
-                    {applicationRoutesSummaryMarkdown}
-                </ReadmeRenderer>
+                    markdownFileUrl="/src/pages/dev/application-routes-summary.md"/>
             </ProtectedRouteElement>
         },
         {
@@ -71,7 +64,8 @@ const DevRoutesConfig = {
             name: "Dev: Changelog",
             path: DevRouteUrls.CHANGELOG,
             element: <ProtectedRouteElement>
-                <ReadmeRenderer>{changelogMarkdown}</ReadmeRenderer>
+                <ReadmeRenderer
+                    markdownFileUrl="/CHANGELOG.md"/>
             </ProtectedRouteElement>
         },
         {path: '*', element: <Navigate to={DevRouteUrls.INDEX} replace={true}/>},

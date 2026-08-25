@@ -17,7 +17,7 @@ export default function ApplicationRouteDetails() {
             <RouteDetailLink route={route}/>
         </h2>
         <div className="w-100 mb-5 mt-5">
-            <ReadmeRenderer editUrl={getRouteDetailsGithubEditUrl(route)}>{route.detailedMarkdown}</ReadmeRenderer>
+            <ReadmeRenderer markdownFileUrl={getRouteDetailsGithubEditUrl(route)} />
         </div>
 
         <div className="w-100 mb-3">
@@ -37,9 +37,9 @@ export default function ApplicationRouteDetails() {
         <div className="w-100 mb-3">
             <h6>Examples:</h6>
             <ApplicationRoutePageCount route={route} renderComponent={(pageCount, examples) => <ol>
-                {examples.map((example, exampleIndex) => <li>
+                {examples.map((example, exampleIndex) => <li key={exampleIndex}>
                     {example.label && <div className="d-inline pe-2">{example.label}</div>}
-                    <Link to={example.href} key={exampleIndex}>{example.href}</Link>
+                    <Link to={example.href}>{example.href}</Link>
                 </li>)}
             </ol>}/>
         </div>

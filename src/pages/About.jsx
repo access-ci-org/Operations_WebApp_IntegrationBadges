@@ -13,7 +13,6 @@ import {useTasks} from "../contexts/TaskContext.jsx";
 import {ProtectedRouteElement} from "../components/util/Permissions.jsx";
 import {AppRouteUrls} from "./pages-config.js";
 import {BadgeWorkflowStatus} from "../contexts/constants.js";
-import {getRouteMarkdownFilePath} from "./dev/application-routes-util.jsx";
 
 
 /**
@@ -239,17 +238,17 @@ function ApplicationRouteSummary() {
 
     const data = getRouteListItemsBFSList(ApplicationRoutesConfig);
 
-    const scriptToCreateTheMarkdownFilesForRoutes = data.map(route => {
-        let markdownFileName = getRouteMarkdownFilePath(route);
-        return `
-touch "./src/pages/dev/application-routes-details/${markdownFileName}.md"
-cat << 'EOF' > "./src/pages/dev/application-routes-details/${markdownFileName}.md"
-# ${route.name}
-
-${route.description ? route.description : ""}
-EOF
-`
-    }).join("\n");
+//     const scriptToCreateTheMarkdownFilesForRoutes = data.map(route => {
+//         let markdownFileName = getRouteMarkdownFilePath(route);
+//         return `
+// touch "./src/pages/dev/application-routes-details/${markdownFileName}.md"
+// cat << 'EOF' > "./src/pages/dev/application-routes-details/${markdownFileName}.md"
+// # ${route.name}
+//
+// ${route.description ? route.description : ""}
+// EOF
+// `
+//     }).join("\n");
 
     return (
         <div className="w-100">
