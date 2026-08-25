@@ -8,7 +8,7 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
-## v1.21.6 2026-08-25 dinukadesilva
+## v1.21.7 2026-08-25 dinukadesilva
 
 1. [new] Enabling the documentation pages to fetch the latest markdown from the repo `main` branch (CTT-1052)
     - `/dev/application-routes`
