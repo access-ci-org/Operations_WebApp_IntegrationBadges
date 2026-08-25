@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.21.4 2026-08-25 dinukadesilva
+
+1. [new] Adding resource status labels to individual resource route examples (CTT-1052)
+    - `/dev/application-routes/:routeDetailsPath`
+
 ## v1.21.3 2026-08-25 dinukadesilva
 
 1. [fix] Fix RP Badge Review Route page example links (CTT-1052)

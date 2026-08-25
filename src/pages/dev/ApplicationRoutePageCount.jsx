@@ -103,10 +103,15 @@ export default function ApplicationRoutePageCount({
         },
 
         [AppRouteUrls.RESOURCE]: () => {
-            return resources
+            const pageRoutes = resources
                 .map(resource => {
-                    return {"href": AppRouteUrls.RESOURCE.replace(":resourceId", resource.info_resourceid)}
-                })
+                    return {
+                        "label": `[${resource.resource_integration_status}]`,
+                        "href": AppRouteUrls.RESOURCE.replace(":resourceId", resource.info_resourceid)
+                    }
+                });
+
+            return sortJsonArrayAlphabetically(pageRoutes, "label");
         },
 
         [AppRouteUrls.RESOURCE_EDIT]: () => {
