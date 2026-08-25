@@ -1,4 +1,16 @@
 export default {
+    "resourceIntegrationStatus": {
+        "new": "New",
+        "pre-production": "In-Progress",
+        "production": "Production",
+        "post-production": "Post-Production"
+    },
+    "resourceIntegrationStatusDescription": {
+        "new": "Defined in CiDeR; no roadmap or badges selected",
+        "pre-production": "Roadmap selected; currently earning required badges OR awaiting production start date. Optional badges do not affect this status",
+        "production": "Production start date reached; all required badges completed. Optional badges can be managed dynamically",
+        "post-production": "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use"
+    },
     "badgeWorkflowStatus": {
         "": "Not Started",
         "undefined": "Not Started",

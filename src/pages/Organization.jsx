@@ -10,6 +10,7 @@ import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificatio
 import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 import {PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
+import Translate from "../locales/Translate.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -41,29 +42,21 @@ export default function Organization() {
     // If conditions in the order
     let sections = [
         {
-            title: "New",
-            description: "Defined in CiDeR; no roadmap or badges selected",
             showContinueSetup: true,
             resources: [],
             resourceIntegrationStatus: ResourceIntegrationStatus.NEW
         },
         {
-            title: "In-Progress",
-            description: "Roadmap selected; currently earning required badges OR awaiting production start date. Optional badges do not affect this status",
             showContinueSetup: false,
             resources: [],
             resourceIntegrationStatus: ResourceIntegrationStatus.IN_PROGRESS
         },
         {
-            title: "Production",
-            description: "Production start date reached; all required badges completed. Optional badges can be managed dynamically",
             showContinueSetup: false,
             resources: [],
             resourceIntegrationStatus: ResourceIntegrationStatus.PRODUCTION
         },
         {
-            title: "Post-Production",
-            description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
             showContinueSetup: false,
             resources: [],
             resourceIntegrationStatus: ResourceIntegrationStatus.POST_PRODUCTION
@@ -150,13 +143,14 @@ export default function Organization() {
 
                 {!resourcesProcessing && sections.map((section, sectionIndex) => {
                     const tooltip = <Tooltip id="tooltip">
-                        {section.description}
+                        <Translate>resourceIntegrationStatusDescription.{section.resourceIntegrationStatus}</Translate>
                     </Tooltip>;
 
                     return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
                         <div className="w-100 text-start pb-2">
                             <h2 className="d-inline me-4">
-                                {section.title} ({section.resources.filter(r => !!r).length})</h2>
+                                <Translate>resourceIntegrationStatus.{section.resourceIntegrationStatus}</Translate>
+                                ({section.resources.filter(r => !!r).length})</h2>
                             <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
                                 <button className="btn btn-link text-accent-primary d-inline"><i
                                     className="bi bi-question-square-fill"></i></button>
@@ -166,7 +160,7 @@ export default function Organization() {
                         <div className="w-100 row row-cols-xl-3 row-cols-md-2 row-cols-1">
                             {section.resources.map((resource, resourceIndex) => {
                                 if (resource === null) {
-                                    return <ShowIfAuthorized resourceIds={resourceIds}  key={resourceIndex}
+                                    return <ShowIfAuthorized resourceIds={resourceIds} key={resourceIndex}
                                                              roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
                                         <div className="col p-3">
                                             <ResourceCard organization={organization} resource={null}/>

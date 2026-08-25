@@ -25,14 +25,6 @@ export const IntegrationRoles = {
     BADGE_MAINTAINER: "badge.maintainer"
 }
 
-export const ResourceStatus = {
-    ANNOUNCED: "coming soon",
-    PRE_PRODUCTION: "pre-production",
-    PRODUCTION: "production",
-    POST_PRODUCTION: "post-production",
-    RETIRED: "decommissioned"
-}
-
 export const ResourceIntegrationStatus = {
     NEW: "new",
     IN_PROGRESS: "pre-production",

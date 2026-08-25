@@ -8,6 +8,8 @@ import applicationRoutesConfig from "../application-routes-config.jsx";
 import {AppRouteUrls, StaffRouteUrls} from "../pages-config.js";
 import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {sortJsonArrayAlphabetically, SortOrder} from "../../components/util/sort.jsx";
+import BadgeStatus from "../../components/status/BadgeStatus.jsx";
+import Translate from "../../locales/Translate.jsx";
 
 let fetchOncePromiseForResourcesBadgesTasks = false;
 let fetchOncePromiseForOrgBadgeStatusSummary = false;
@@ -74,7 +76,18 @@ export default function ApplicationRoutePageCount({
                         }, {});
 
                     return {
-                        "label": `[${Object.keys(resourceIntegrationStatusSummaryMap).join(", ")}]`,
+                        "label": <div className="d-inline">
+                            <span>[</span>
+                            <ul className="list-unstyled list-inline d-inline">
+                                {Object.keys(resourceIntegrationStatusSummaryMap).map((resourceIntegrationStatus, resourceIntegrationStatusIndex) =>
+                                    <li key={resourceIntegrationStatus} className="list-inline-item">
+                                        <Translate key={resourceIntegrationStatus}>
+                                            resourceIntegrationStatus.{resourceIntegrationStatus}</Translate>
+                                        {resourceIntegrationStatusIndex < resourceIntegrationStatus.length - 1 && " , "}
+                                    </li>)}
+                            </ul>
+                            <span>]</span>
+                        </div>,
                         "href": AppRouteUrls.ORGANIZATION.replace(":organizationId", org.organization_id),
                         "count_of_available_resource_integration_statuses": Object.keys(resourceIntegrationStatusSummaryMap).length
                     }
@@ -106,12 +119,17 @@ export default function ApplicationRoutePageCount({
             const pageRoutes = resources
                 .map(resource => {
                     return {
-                        "label": `[${resource.resource_integration_status}]`,
-                        "href": AppRouteUrls.RESOURCE.replace(":resourceId", resource.info_resourceid)
+                        "label": <div className="d-inline">
+                            <span>[</span>
+                            <Translate>resourceIntegrationStatus.{resource.resource_integration_status}</Translate>
+                            <span>]</span>
+                        </div>,
+                        "href": AppRouteUrls.RESOURCE.replace(":resourceId", resource.info_resourceid),
+                        "resourceIntegrationStatus": resource.resource_integration_status
                     }
                 });
 
-            return sortJsonArrayAlphabetically(pageRoutes, "label");
+            return sortJsonArrayAlphabetically(pageRoutes, "resourceIntegrationStatus");
         },
 
         [AppRouteUrls.RESOURCE_EDIT]: () => {
@@ -151,7 +169,7 @@ export default function ApplicationRoutePageCount({
                 const routePages = resourceRoadmapBadges
                     .map(resourceRoadmapBadge => {
                         return {
-                            "label": resourceRoadmapBadge.status,
+                            "label": <BadgeStatus status={resourceRoadmapBadge.status}/>,
                             "href": AppRouteUrls.RESOURCE_BADGE
                                 .replace(":resourceId", resourceRoadmapBadge.info_resourceid)
                                 .replace(":roadmapId", resourceRoadmapBadge.roadmap_id)

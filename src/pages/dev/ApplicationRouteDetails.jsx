@@ -37,7 +37,7 @@ export default function ApplicationRouteDetails() {
         <div className="w-100 mb-3">
             <h6>Examples:</h6>
             <ApplicationRoutePageCount route={route} renderComponent={(pageCount, examples) => <ol>
-                {examples.map((example, exampleIndex) => <li key={exampleIndex}>
+                {examples.map((example, exampleIndex) => <li key={exampleIndex} className="p-1">
                     {example.label && <div className="d-inline pe-2">{example.label}</div>}
                     <Link to={example.href}>{example.href}</Link>
                 </li>)}
