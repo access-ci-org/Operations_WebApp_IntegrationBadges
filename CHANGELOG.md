@@ -10,10 +10,18 @@ The general format of entries is:
 
 ## v1.21.8 2026-08-25 dinukadesilva
 
+1. [new] Improving the examples of the routes (CTT-1052)
+    - `/dev/application-routes`
+    - `/dev/application-routes/:routeDetailsPath`
+2. [new] Fixing the formating of badge verification summary
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+
+## v1.21.8 2026-08-25 dinukadesilva
+
 1. [new] Adding the resource integration status and descriptions to the localization file (CTT-1052)
     - `/dev/application-routes/:routeDetailsPath`
-    - `/organizations`
-   
+    - `/organizations/:organizationId`
+
 ## v1.21.7 2026-08-25 dinukadesilva
 
 1. [new] Enabling the documentation pages to fetch the latest markdown from the repo `main` branch (CTT-1052)
