@@ -17,7 +17,7 @@ export default function ApplicationRouteDetails() {
             <RouteDetailLink route={route}/>
         </h2>
         <div className="w-100 mb-5 mt-5">
-            <ReadmeRenderer markdownFileUrl={getRouteDetailsGithubEditUrl(route)} />
+            <ReadmeRenderer markdownFileUrl={getRouteDetailsGithubEditUrl(route)}/>
         </div>
 
         <div className="w-100 mb-3">
@@ -32,16 +32,23 @@ export default function ApplicationRouteDetails() {
 
         <div className="w-100 mb-3">
             <h6 className="d-inline pe-3">Total page count : </h6>
-            {route.urlCount}
+            <ApplicationRoutePageCount route={route} renderComponent={(pageCount) => pageCount}/>
         </div>
         <div className="w-100 mb-3">
             <h6>Examples:</h6>
-            <ApplicationRoutePageCount route={route} renderComponent={(pageCount, examples) => <ol>
-                {examples.map((example, exampleIndex) => <li key={exampleIndex} className="p-1">
-                    {example.label && <div className="d-inline pe-2">{example.label}</div>}
-                    <Link to={example.href}>{example.href}</Link>
-                </li>)}
-            </ol>}/>
+            <ApplicationRoutePageCount route={route} renderComponent={(pageCount, examples) => <div>
+                {(!examples || examples.length === 0) &&
+                    <span className="text-secondary p-2">Examples are not available</span>}
+                <ol>
+                    {examples.map((example, exampleIndex) => <li key={exampleIndex} className="p-1">
+                        {example.label && <div className="d-inline pe-2">{example.label} - </div>}
+
+                        {example.href ?
+                            <Link to={example.href}>{example.href}</Link> :
+                            <span className="text-secondary p-2 small">(No available examples)</span>}
+                    </li>)}
+                </ol>
+            </div>}/>
         </div>
     </div>;
 }

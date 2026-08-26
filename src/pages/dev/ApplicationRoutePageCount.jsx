@@ -6,18 +6,23 @@ import {useTasks} from "../../contexts/TaskContext.jsx";
 import {useEffect} from "react";
 import applicationRoutesConfig from "../application-routes-config.jsx";
 import {AppRouteUrls, StaffRouteUrls} from "../pages-config.js";
-import {BadgeWorkflowStatus} from "../../contexts/constants.js";
+import {BadgeWorkflowStatus, ResourceIntegrationStatus} from "../../contexts/constants.js";
 import {sortJsonArrayAlphabetically, SortOrder} from "../../components/util/sort.jsx";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import Translate from "../../locales/Translate.jsx";
+import {useTranslation} from "react-i18next";
 
 let fetchOncePromiseForResourcesBadgesTasks = false;
 let fetchOncePromiseForOrgBadgeStatusSummary = false;
 
-export default function ApplicationRoutePageCount({
-                                                      route, renderComponent = (pageCount, examples) => {
-    }
-                                                  }) {
+export default function ApplicationRoutePageCount(
+    {
+        route,
+        renderComponent = (pageCount, examples) => null
+    }) {
+
+    const {t} = useTranslation();
+
     const {getOrganizations} = useOrganizations();
     const {
         fetchResources, fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeTasks,
@@ -75,19 +80,10 @@ export default function ApplicationRoutePageCount({
                             return obj;
                         }, {});
 
+
                     return {
-                        "label": <div className="d-inline">
-                            <span>[</span>
-                            <ul className="list-unstyled list-inline d-inline">
-                                {Object.keys(resourceIntegrationStatusSummaryMap).map((resourceIntegrationStatus, resourceIntegrationStatusIndex) =>
-                                    <li key={resourceIntegrationStatus} className="list-inline-item">
-                                        <Translate key={resourceIntegrationStatus}>
-                                            resourceIntegrationStatus.{resourceIntegrationStatus}</Translate>
-                                        {resourceIntegrationStatusIndex < resourceIntegrationStatus.length - 1 && " , "}
-                                    </li>)}
-                            </ul>
-                            <span>]</span>
-                        </div>,
+                        "label": sortJsonArrayAlphabetically(Object.keys(resourceIntegrationStatusSummaryMap))
+                            .map(s => `${t("resourceIntegrationStatus." + s)} (${resourceIntegrationStatusSummaryMap[s]})`).join(', '),
                         "href": AppRouteUrls.ORGANIZATION.replace(":organizationId", org.organization_id),
                         "count_of_available_resource_integration_statuses": Object.keys(resourceIntegrationStatusSummaryMap).length
                     }
@@ -141,27 +137,59 @@ export default function ApplicationRoutePageCount({
         },
 
         [AppRouteUrls.RESOURCE_ROADMAP]: () => {
-            return resources
+            const routePages = resources
                 .filter(resource => resource.roadmaps && resource.roadmaps.length > 0)
                 .map(resource => {
                     return {
+                        "label": t("resourceIntegrationStatus." + resource.resource_integration_status),
+                        "resourceIntegrationStatus": resource.resource_integration_status,
                         "href": AppRouteUrls.RESOURCE_ROADMAP
                             .replace(":resourceId", resource.info_resourceid)
                             .replace(":roadmapId", resource.roadmaps[0].roadmap_id)
                     }
-                })
+                });
+
+            return {
+                "all": routePages,
+                "examples": Object.values(ResourceIntegrationStatus)
+                    .filter(resourceIntegrationStatus => resourceIntegrationStatus !== ResourceIntegrationStatus.NEW)
+                    .map(resourceIntegrationStatus => {
+                        const filteredRoutePages = routePages.filter(res => resourceIntegrationStatus === res.resourceIntegrationStatus);
+                        return {
+                            "label": t("resourceIntegrationStatus." + resourceIntegrationStatus),
+                            "resourceRoadmapBadgeStatus": resourceIntegrationStatus,
+                            "href": filteredRoutePages.length > 0 ? filteredRoutePages[0].href : null,
+                        }
+                    })
+            }
         },
 
         [AppRouteUrls.RESOURCE_ROADMAP_EDIT]: () => {
-            return resources
+            const routePages = resources
                 .filter(resource => resource.roadmaps && resource.roadmaps.length > 0)
                 .map(resource => {
                     return {
+                        "label": t("resourceIntegrationStatus." + resource.resource_integration_status),
+                        "resourceIntegrationStatus": resource.resource_integration_status,
                         "href": AppRouteUrls.RESOURCE_ROADMAP_EDIT
                             .replace(":resourceId", resource.info_resourceid)
                             .replace(":roadmapId", resource.roadmaps[0].roadmap_id)
                     }
-                })
+                });
+
+            return {
+                "all": routePages,
+                "examples": Object.values(ResourceIntegrationStatus)
+                    .filter(resourceIntegrationStatus => resourceIntegrationStatus !== ResourceIntegrationStatus.NEW)
+                    .map(resourceIntegrationStatus => {
+                        const filteredRoutePages = routePages.filter(res => resourceIntegrationStatus === res.resourceIntegrationStatus);
+                        return {
+                            "label": t("resourceIntegrationStatus." + resourceIntegrationStatus),
+                            "resourceRoadmapBadgeStatus": resourceIntegrationStatus,
+                            "href": filteredRoutePages.length > 0 ? filteredRoutePages[0].href : null,
+                        }
+                    })
+            }
         },
 
         [AppRouteUrls.RESOURCE_BADGE]: () => {
@@ -170,6 +198,7 @@ export default function ApplicationRoutePageCount({
                     .map(resourceRoadmapBadge => {
                         return {
                             "label": <BadgeStatus status={resourceRoadmapBadge.status}/>,
+                            "resourceRoadmapBadgeStatus": resourceRoadmapBadge.status,
                             "href": AppRouteUrls.RESOURCE_BADGE
                                 .replace(":resourceId", resourceRoadmapBadge.info_resourceid)
                                 .replace(":roadmapId", resourceRoadmapBadge.roadmap_id)
@@ -177,7 +206,17 @@ export default function ApplicationRoutePageCount({
                         }
                     });
 
-                return sortJsonArrayAlphabetically(routePages, "label");
+                return {
+                    "all": routePages,
+                    "examples": Object.values(BadgeWorkflowStatus).map(badgeStatus => {
+                        const filteredRoutePages = routePages.filter(({resourceRoadmapBadgeStatus}) => resourceRoadmapBadgeStatus === badgeStatus);
+                        return {
+                            "label": <BadgeStatus status={badgeStatus}/>,
+                            "resourceRoadmapBadgeStatus": badgeStatus,
+                            "href": filteredRoutePages.length > 0 ? filteredRoutePages[0].href : null,
+                        }
+                    })
+                };
             }
         },
 
@@ -205,7 +244,11 @@ export default function ApplicationRoutePageCount({
     if (routePagesMap[routePath]) {
         const routePages = routePagesMap[routePath]();
         if (routePages) {
-            return renderComponent(routePages.length, routePages);
+            if (Array.isArray(routePages)) {
+                return renderComponent(routePages.length, routePages);
+            } else {
+                return renderComponent(routePages["all"].length, routePages["examples"]);
+            }
         }
     } else {
         return renderComponent(1, [{"href": routePath}]);
