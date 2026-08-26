@@ -415,7 +415,7 @@ function useResourcesValues() {
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {
         try {
             const response = await authorizedDashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`, {comment});
-            await fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId, badgeId});
+            await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId});
 
             return response.data.results;
         } catch (error) {
@@ -431,7 +431,7 @@ function useResourcesValues() {
 
             let resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
             if ([BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED].indexOf(resourceRoadmapBadge.status) >= 0) {
-                await fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId, badgeId})
+                await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId})
             }
 
             return response.data.results;
