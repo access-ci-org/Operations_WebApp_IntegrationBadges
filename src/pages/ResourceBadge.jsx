@@ -221,7 +221,7 @@ export default function ResourceBadge() {
                         </p>
                         <p className="pre-wrap-text">
                             <strong className="text-primary">Verification Summary : </strong>
-                            {badge.verification_summary}
+                            <HtmlToReact>{badge.verification_summary}</HtmlToReact>
                         </p>
                     </div>
                 </Concierge>
