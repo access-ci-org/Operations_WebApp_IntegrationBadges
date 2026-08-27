@@ -8,7 +8,12 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
-## v1.21.9 2026-08-25 dinukadesilva
+## v1.21.10 2026-08-27 dinukadesilva
+
+1. [new] Reducing the number of examples of staff roadmap and badge edit and new roadmap enrollment pages (CTT-1052)
+    - `/dev/application-routes/:routeDetailsPath`
+
+## v1.21.9 2026-08-26 dinukadesilva
 
 1. [new] Improving the examples of the routes (CTT-1052)
     - `/dev/application-routes`
