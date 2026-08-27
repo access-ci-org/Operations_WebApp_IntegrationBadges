@@ -129,11 +129,22 @@ export default function ApplicationRoutePageCount(
         },
 
         [AppRouteUrls.RESOURCE_EDIT]: () => {
-            return resources
+            const routePages = resources
                 .filter(resource => !resource.roadmaps || resource.roadmaps.length === 0)
                 .map(resource => {
-                    return {"href": AppRouteUrls.RESOURCE_EDIT.replace(":resourceId", resource.info_resourceid)}
-                })
+                    const filteredRoadmaps = roadmaps
+                        .filter(({infrastructure_types}) => infrastructure_types === resource.cider_type)
+                        .map(({name}) => name);
+                    const label = `${filteredRoadmaps.length} Option(s) [${filteredRoadmaps.join(" , ")}]`;
+
+                    return {
+                        "label": label,
+                        "numberOfOptions": filteredRoadmaps.length,
+                        "href": AppRouteUrls.RESOURCE_EDIT.replace(":resourceId", resource.info_resourceid)
+                    }
+                });
+
+            return sortJsonArrayAlphabetically(routePages, "numberOfOptions", SortOrder.Descending);
         },
 
         [AppRouteUrls.RESOURCE_ROADMAP]: () => {
@@ -221,23 +232,33 @@ export default function ApplicationRoutePageCount(
         },
 
         [StaffRouteUrls.ROADMAP_EDIT]: () => {
-            return roadmaps
+            const routePages = roadmaps
                 .map(roadmap => {
                     return {
                         "href": StaffRouteUrls.ROADMAP_EDIT
                             .replace(":roadmapId", roadmap.roadmap_id)
                     }
                 });
+
+            return {
+                "all": routePages,
+                "examples": [routePages[1]]
+            }
         },
 
         [StaffRouteUrls.BADGE_EDIT]: () => {
-            return badges
+            const routePages = badges
                 .map(badge => {
                     return {
                         "href": StaffRouteUrls.BADGE_EDIT
                             .replace(":badgeId", badge.badge_id)
                     }
                 });
+
+            return {
+                "all": routePages,
+                "examples": [routePages[1]]
+            }
         },
     };
 
