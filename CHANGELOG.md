@@ -8,6 +8,21 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.23.0 2026-09-01 dinukadesilva
+
+1. [new] Initial implementation of DialogProvider (CTT-1003)
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+2. [new] Enabling DialogProvider on the resource roadmap edit page (CTT-1003)
+    - `/resources/:resourceId/roadmaps/:roadmapId/edit`
+3. [new] Enabling DialogProvider on resource roadmap badge task transitions (CTT-1003)
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+4. [new] Some style improvements in the contacts modal (CTT-1003)
+    - `/organizations/`
+    - `/organizations/:organizationId`
+    - `/resources/:resourceId/roadmaps/:roadmapId`
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+
+
 ## v1.22.0 2026-09-01 dinukadesilva
 
 1. [bug-fix] Fixing the "Submit for Verification" button to check exempted badges (CTT-1089)
