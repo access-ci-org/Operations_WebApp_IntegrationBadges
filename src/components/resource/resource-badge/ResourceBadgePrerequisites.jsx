@@ -8,10 +8,16 @@ const badgePrerequisiteActionIconClass = {
     "": "bi-info-circle-fill",
     "undefined": "bi-info-circle-fill",
     [BadgeWorkflowStatus.NOT_PLANNED]: "bi-info-circle-fill",
+
     [BadgeWorkflowStatus.PLANNED]: "bi-layers",
     [BadgeWorkflowStatus.TASK_COMPLETED]: "bi-layers",
     [BadgeWorkflowStatus.VERIFICATION_FAILED]: "bi-layers",
     [BadgeWorkflowStatus.VERIFIED]: "bi-check-circle-fill",
+
+    [BadgeWorkflowStatus.EXEMPTION_REQUESTED]: "bi-layers",
+    [BadgeWorkflowStatus.EXEMPTION_REJECTED]: "bi-layers",
+    [BadgeWorkflowStatus.EXEMPTED]: "bi-check-circle-fill",
+
     [BadgeWorkflowStatus.DEPRECATED]: "bi-info-circle-fill"
 };
 

@@ -91,7 +91,10 @@ export default function ResourceBadge() {
         const isReadyToSubmit = requiredTasks
                 .filter(t => [BadgeTaskWorkflowStatus.COMPLETED]
                     .indexOf(t.status) >= 0).length === requiredTasks.length
-            && prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
+            && prerequisiteBadges
+                .filter(pb => [
+                    BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.EXEMPTED
+                ].indexOf(pb.status) < 0).length === 0;
 
         const lastUpdatedAt = new Date(Date.parse(badge.status_updated_at));
         const lastUpdatedBy = badge.status_updated_by;
