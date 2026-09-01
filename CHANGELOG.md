@@ -8,7 +8,7 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
-## v1.22.1 2026-09-01 dinukadesilva
+## v1.22.0 2026-09-01 dinukadesilva
 
 1. [bug-fix] Fixing the "Submit for Verification" button to check exempted badges (CTT-1089)
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
