@@ -1,7 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {Modal} from "react-bootstrap";
-import {BadgeWorkflowStatus} from "./constants.js";
 
 /** @type {React.Context<ReturnType<typeof useDialogsValues> | null>} */
 const DialogContext = createContext(null);
@@ -11,103 +10,91 @@ export const useDialogs = () => useContext(DialogContext);
 function useDialogsValues() {
     const [dialogState, setDialogState] = useReducer(DefaultReducer, {
         isOpen: false,
-        type: 'alert', // 'alert' or 'confirm'
-        message: '',
-        variant: 'info', // 'success', 'danger', 'warning', 'info',
-        options: {
-            title: '',
-            icon: '',
-            buttons: [
+        resolve: null,
+        reject: null,
+
+        title: "",
+        message: "",
+        icon: "",
+        variant: "info",
+        buttons: [
+            {label: "No", answer: false},
+            {label: "Yes", answer: true}
+        ]
+    });
+
+    const showDialog = (
+        {
+            variant = 'info',
+            title, icon, message,
+            buttons = [
                 {label: "No", answer: false},
                 {label: "Yes", answer: true}
             ]
-        },
-        resolvePromise: null
-    });
-
-    const showAlert = (message, variant = 'info', options = {}) => {
-        setDialogState({
-            isOpen: true,
-            type: 'alert',
-            message,
-            variant,
-            options,
-            resolvePromise: null
-        });
-    };
-
-    const showConfirm = (message, variant = 'warning', options = {}) => {
-        return new Promise((resolve) => {
+        }
+    ) => {
+        return new Promise((resolve, reject) => {
             setDialogState({
                 isOpen: true,
-                type: 'confirm',
-                message,
-                variant,
-                options,
-                resolvePromise: resolve
+                resolve,
+                reject,
+
+                title: title,
+                message: message,
+                icon: icon,
+                variant: variant,
+                buttons: buttons
             });
         });
     };
 
-    const closeDialog = (confirmed = false) => {
-        if (dialogState.resolvePromise) {
-            dialogState.resolvePromise(confirmed);
-        }
+    const closeDialog = ({answer}) => {
+        dialogState.resolve(answer);
+
         setDialogState({
             isOpen: false,
-            type: 'alert',
-            message: '',
-            variant: 'info',
-            options: {},
-            resolvePromise: null
+            resolve: null,
+            reject: null
         });
     };
 
-    return {dialogState, showAlert, showConfirm, closeDialog};
+    return {dialogState, showDialog, closeDialog};
 }
 
 export const DialogProvider = ({children}) => {
     const values = useDialogsValues();
     const {dialogState, closeDialog} = values;
+    const {isOpen, resolve, reject, variant, title, icon, message, buttons} = dialogState;
+
 
     return (
         <DialogContext.Provider value={values}>
             {children}
 
-            {/* Modal markup rendered dynamically from the central context state */}
-            {dialogState.isOpen && (
-                <Modal show={dialogState.isOpen} onHide={closeDialog.bind(this, false)}>
-                    <Modal.Header closeButton className={`bg-${dialogState.variant}-subtle`}>
-                        <Modal.Title>
-                            {dialogState.options.icon &&
-                                <i className={`bi ${dialogState.options.icon} text-${dialogState.variant} center-and-large-icon`}></i>}
-                            {dialogState.options.title && <span>{dialogState.options.title}</span>}
-                        </Modal.Title>
+            {isOpen &&
+                (<Modal className={`modal-${variant}`} show={isOpen} onHide={closeDialog.bind(this, {answer: false})}>
+                    <Modal.Header closeButton className={icon ? "modal-icon-header" : ""}>
+                        <Modal.Title>{title}</Modal.Title>
+                        {icon && <i className={`bi ${icon}`}></i>}
                     </Modal.Header>
                     <Modal.Body>
-                        {dialogState.message}
+                        {message}
                     </Modal.Body>
                     <Modal.Footer>
-                        {dialogState.type === 'confirm' ? (
-                            <>
-                                <button className="btn btn-outline-primary rounded-1"
-                                        onClick={() => closeDialog(false)}>
-                                    {dialogState.options.cancelButtonText || 'No'}
-                                </button>
-                                <button className="btn btn-primary rounded-1" onClick={() => closeDialog(true)}>
-                                    {dialogState.options.yesButtonText || 'Yes'}
-                                </button>
-                            </>
-                        ) : (
-                            <button className="btn btn-outline-primary rounded-1" onClick={() => closeDialog(false)}>
-                                {dialogState.options.okButtonText || 'OK'}
-                            </button>
-                        )}
-                    </Modal.Footer>
-                </Modal>
+                        {buttons.map((button, buttonIndex) => {
+                            const {
+                                label = `Button ${buttonIndex + 1}`,
+                                answer = false,
+                                className = "btn btn-outline-primary"
+                            } = button;
 
-            )
-            }
+                            return <button key={buttonIndex} className={"rounded-1 " + className}
+                                           onClick={closeDialog.bind(null, {answer})}>
+                                {label}
+                            </button>;
+                        })}
+                    </Modal.Footer>
+                </Modal>)}
         </DialogContext.Provider>
     );
 };

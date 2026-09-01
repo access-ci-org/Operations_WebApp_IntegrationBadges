@@ -15,26 +15,29 @@ import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import {ContactProvider} from "./contexts/ContactsContext.jsx";
 import {RolesProvider, useRoles} from "./contexts/PermissionContext.jsx";
 import ApplicationRoutesConfig from "./pages/application-routes-config.jsx";
+import {DialogProvider} from "./contexts/DialogContext.jsx";
 
 
 const ProviderWrapper = ({children}) => {
-    return <OrganizationsProvider>
-        <RolesProvider>
-            <TaskProvider>
-                <BadgeProvider>
-                    <RoadmapProvider>
-                        <ContactProvider>
-                            <ResourcesProvider>
-                                <I18nextProvider i18n={i18n}>
-                                    {children}
-                                </I18nextProvider>
-                            </ResourcesProvider>
-                        </ContactProvider>
-                    </RoadmapProvider>
-                </BadgeProvider>
-            </TaskProvider>
-        </RolesProvider>
-    </OrganizationsProvider>
+    return <DialogProvider>
+        <OrganizationsProvider>
+            <RolesProvider>
+                <TaskProvider>
+                    <BadgeProvider>
+                        <RoadmapProvider>
+                            <ContactProvider>
+                                <ResourcesProvider>
+                                    <I18nextProvider i18n={i18n}>
+                                        {children}
+                                    </I18nextProvider>
+                                </ResourcesProvider>
+                            </ContactProvider>
+                        </RoadmapProvider>
+                    </BadgeProvider>
+                </TaskProvider>
+            </RolesProvider>
+        </OrganizationsProvider>
+    </DialogProvider>
 }
 
 function ApplicationRoutesWrapper() {

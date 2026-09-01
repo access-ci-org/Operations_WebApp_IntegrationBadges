@@ -5,10 +5,9 @@ import {useEffect, useState} from "react";
 import {
     BadgeTaskWorkflowStatus,
     BadgeWorkflowStatus,
-    BadgeWorkflowTransitionType,
     IntegrationRoles
 } from "../contexts/constants.js";
-import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBadgeTasks.jsx";
@@ -20,6 +19,7 @@ import {HtmlToReact} from "../components/util/text-editors.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "./pages-config.js";
+import {useDialogs} from "../contexts/DialogContext.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -41,12 +41,10 @@ export default function ResourceBadge() {
     } = useResources();
     const {fetchBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
+    const {showDialog} = useDialogs();
 
     const [comment, setComment] = useState("");
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
-    const [showSaveConfirmationModal, setShowSaveConfirmationModal] = useState(false);
-    const [showSavedModal, setShowSavedModal] = useState(false);
-    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
@@ -71,18 +69,63 @@ export default function ResourceBadge() {
     }, [resourceId, badgeId]);
 
     const clickBadgeAction = (status) => async () => {
-        setShowSaveConfirmationModal(false);
-        setBadgeActionStatusProcessing(true);
-        try {
-            await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status, comment})
-            await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
-            setComment("");
-
-            if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
-        } catch {
-            setShowErrorModal(true);
+        let confirmationReceived;
+        if (status === BadgeWorkflowStatus.TASK_COMPLETED) {
+            confirmationReceived = await showDialog({
+                variant: 'primary',
+                title: "",
+                icon: "bi-question-octagon-fill",
+                message: "Are you sure that you want to submit this badge for verification?",
+                buttons: [
+                    {label: "No", answer: false, className: "btn btn-outline-primary"},
+                    {label: "Yes", answer: true, className: "btn btn-primary"}
+                ]
+            });
+        } else {
+            confirmationReceived = true;
         }
-        setBadgeActionStatusProcessing(false);
+
+        if (confirmationReceived) {
+            setBadgeActionStatusProcessing(true);
+            try {
+                await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status, comment})
+                await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
+                setComment("");
+
+
+                if (status === BadgeWorkflowStatus.TASK_COMPLETED) {
+                    await showDialog({
+                        variant: 'primary',
+                        title: "",
+                        icon: "bi-floppy-fill",
+                        message: "Badge completion has been sent to a concierge for verification.",
+                        buttons: [
+                            {label: "Exit", answer: false, className: "btn btn-primary"}
+                        ]
+                    });
+                }
+            } catch {
+                await showDialog({
+                    variant: 'danger',
+                    title: "",
+                    icon: "bi-exclamation-triangle-fill",
+                    message: <div>
+                        <p>
+                            You don't have permissions to make this change. If you should have it, please submit
+                            an
+                            ACCESS ticket requesting:</p>
+
+                        <p>
+                            Integration Dashboard <strong>implementor</strong> permission for the
+                            resource <strong>{resourceId}</strong></p>
+                    </div>,
+                    buttons: [
+                        {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
+                    ]
+                });
+            }
+            setBadgeActionStatusProcessing(false);
+        }
     };
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
@@ -154,7 +197,8 @@ export default function ResourceBadge() {
                 </div>
                 <div className="col-sm-3 ps-1 mb-3">
                     <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
-                        <label className="text-black d-inline fw-bold" htmlFor="resource-badge-status">Badge Status : </label>
+                        <label className="text-black d-inline fw-bold" htmlFor="resource-badge-status">
+                            Badge Status : </label>
                         <div className="ps-2 d-inline" id="resource-badge-status">
                             <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId}
                                                  badgeId={badgeId}/>
@@ -219,13 +263,13 @@ export default function ResourceBadge() {
                             it’s not complete or needs corrections, mark it as Needs Action and send a message to the
                             resource provider for guidance.
                         </p>
-                        <p className="pt-2 pb-2">
+                        <div className="pt-2 pb-2">
                             <strong className="text-primary">Verification Method : </strong> {badge.verification_method}
-                        </p>
-                        <p className="pre-wrap-text">
+                        </div>
+                        <div className="pre-wrap-text">
                             <strong className="text-primary">Verification Summary : </strong>
                             <HtmlToReact>{badge.verification_summary}</HtmlToReact>
-                        </p>
+                        </div>
                     </div>
                 </Concierge>
 
@@ -267,7 +311,6 @@ export default function ResourceBadge() {
                                 let onClick = clickBadgeAction(transition.to);
                                 if ([BadgeWorkflowStatus.TASK_COMPLETED].indexOf(transition.to) >= 0) {
                                     disabled = !isReadyToSubmit;
-                                    onClick = setShowSaveConfirmationModal.bind(this, true)
                                 }
 
                                 return <button className="btn btn-outline-primary rounded-3 ps-3 pe-3 m-1"
@@ -280,103 +323,12 @@ export default function ResourceBadge() {
                 </div>}
             </div>
 
-
-            {/*<div className="w-100 bg-gray-200 p-3">*/}
-            {/*    {badge.status === BadgeWorkflowStatus.EXEMPTION_REQUESTED ?*/}
-            {/*        <div className="w-100">*/}
-            {/*            <h5 className="d-inline">Exemption Request is Under Review : </h5>*/}
-            {/*            A concierge may review your request and provide an exemption on case by case.*/}
-            {/*            Please allow 1-2 business days to hear back.*/}
-            {/*        </div> :*/}
-            {/*        <div className="w-100">*/}
-            {/*            <h5 className="d-inline">Request an exemption: </h5>*/}
-            {/*            If this badge is not related to your resource, you are able to request an exemption.*/}
-            {/*            A concierge may review your request and provide an exemption on case by case.*/}
-            {/*        </div>}*/}
-            {/*    {!badgeActionStatusProcessing && authorizedBadgeExemptionTransitions.map((transition, transitionIndex) => {*/}
-            {/*        let disabled = false;*/}
-            {/*        let onClick = clickBadgeAction(transition.to);*/}
-            {/*        if ([BadgeWorkflowStatus.TASK_COMPLETED].indexOf(transition.to) >= 0) {*/}
-            {/*            disabled = !isReadyToSubmit;*/}
-            {/*            onClick = setShowSaveConfirmationModal.bind(this, true)*/}
-            {/*        }*/}
-
-            {/*        return <button className="btn btn-sm btn-outline-primary rounded-3 ps-3 pe-3 m-1"*/}
-            {/*                       key={transitionIndex} disabled={disabled} onClick={onClick}>*/}
-            {/*            {transition.name}*/}
-            {/*        </button>*/}
-            {/*    })}*/}
-            {/*</div>*/}
-
             <div className="row mt-5 mb-5">
                 <Concierge>
                     <h3 className="d-inline mb-5 mt-5 text-black mb-4">Activity Log</h3>
                     <ResourceBadgeLog resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                 </Concierge>
             </div>
-
-            <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-light">
-                    <Modal.Title>
-                        <i className="bi bi-question-octagon-fill text-primary center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure that you want to submit this badge for verification?
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-outline-primary rounded-1"
-                            onClick={setShowSaveConfirmationModal.bind(this, false)}>
-                        No
-                    </button>
-                    <button className="btn btn-primary rounded-1"
-                            onClick={clickBadgeAction(BadgeWorkflowStatus.TASK_COMPLETED)}>
-                        Yes
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-light">
-                    <Modal.Title>
-                        <i className="bi bi-floppy-fill text-primary center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Badge completion has been sent to a concierge for verification.
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-primary rounded-1"
-                            onClick={setShowSavedModal.bind(this, false)}>
-                        Exit
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-danger-subtle">
-                    <Modal.Title>
-                        <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>
-                        You don't have permissions to make this change. If you should have it, please submit
-                        an
-                        ACCESS ticket requesting:</p>
-
-                    <p>
-                        Integration Dashboard <strong>implementor</strong> permission for the
-                        resource <strong>{resourceId}</strong></p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-outline-primary rounded-1"
-                            onClick={setShowErrorModal.bind(this, false)}>
-                        Cancel
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
         </div>
     }
 }
