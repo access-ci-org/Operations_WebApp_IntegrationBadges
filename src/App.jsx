@@ -19,25 +19,27 @@ import {DialogProvider} from "./contexts/DialogContext.jsx";
 
 
 const ProviderWrapper = ({children}) => {
-    return <DialogProvider>
-        <OrganizationsProvider>
-            <RolesProvider>
-                <TaskProvider>
-                    <BadgeProvider>
-                        <RoadmapProvider>
-                            <ContactProvider>
-                                <ResourcesProvider>
-                                    <I18nextProvider i18n={i18n}>
-                                        {children}
-                                    </I18nextProvider>
-                                </ResourcesProvider>
-                            </ContactProvider>
-                        </RoadmapProvider>
-                    </BadgeProvider>
-                </TaskProvider>
-            </RolesProvider>
-        </OrganizationsProvider>
-    </DialogProvider>
+    return <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
+        <DialogProvider>
+            <OrganizationsProvider>
+                <RolesProvider>
+                    <TaskProvider>
+                        <BadgeProvider>
+                            <RoadmapProvider>
+                                <ContactProvider>
+                                    <ResourcesProvider>
+                                        <I18nextProvider i18n={i18n}>
+                                            {children}
+                                        </I18nextProvider>
+                                    </ResourcesProvider>
+                                </ContactProvider>
+                            </RoadmapProvider>
+                        </BadgeProvider>
+                    </TaskProvider>
+                </RolesProvider>
+            </OrganizationsProvider>
+        </DialogProvider>
+    </BrowserRouter>
 }
 
 function ApplicationRoutesWrapper() {
@@ -54,10 +56,8 @@ function ApplicationContainer() {
     if (ready) {
         return <div className="w-100">
             <div className="w-100">
-                <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
-                    <AlwaysScrollToTop/>
-                    <ApplicationRoutesWrapper/>
-                </BrowserRouter>
+                <AlwaysScrollToTop/>
+                <ApplicationRoutesWrapper/>
             </div>
         </div>;
     } else {

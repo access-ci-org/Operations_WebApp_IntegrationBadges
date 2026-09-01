@@ -1,37 +1,40 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {Modal} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 /** @type {React.Context<ReturnType<typeof useDialogsValues> | null>} */
 const DialogContext = createContext(null);
 
 export const useDialogs = () => useContext(DialogContext);
 
+const defaultDialogObject = {
+    variant: "primary",
+    title: "",
+    icon: "",
+    message: "",
+    buttons: [
+        {label: "No", answer: false, className: "btn btn-outline-primary", to: null},
+        {label: "Yes", answer: true, className: "btn btn-primary", to: null}
+    ]
+};
+
 function useDialogsValues() {
     const [dialogState, setDialogState] = useReducer(DefaultReducer, {
         isOpen: false,
         resolve: null,
         reject: null,
-
-        title: "",
-        message: "",
-        icon: "",
-        variant: "info",
-        buttons: [
-            {label: "No", answer: false},
-            {label: "Yes", answer: true}
-        ]
+        ...defaultDialogObject
     });
 
     const showDialog = (
         {
-            variant = 'info',
-            title, icon, message,
-            buttons = [
-                {label: "No", answer: false},
-                {label: "Yes", answer: true}
-            ]
-        }
+            variant = defaultDialogObject.variant,
+            title = defaultDialogObject.title,
+            icon = defaultDialogObject.icon,
+            message = defaultDialogObject.message,
+            buttons = defaultDialogObject.buttons
+        } = defaultDialogObject
     ) => {
         return new Promise((resolve, reject) => {
             setDialogState({
@@ -85,13 +88,21 @@ export const DialogProvider = ({children}) => {
                             const {
                                 label = `Button ${buttonIndex + 1}`,
                                 answer = false,
-                                className = "btn btn-outline-primary"
+                                className = "btn btn-outline-primary",
+                                to = null
                             } = button;
 
-                            return <button key={buttonIndex} className={"rounded-1 " + className}
-                                           onClick={closeDialog.bind(null, {answer})}>
-                                {label}
-                            </button>;
+                            if (to) {
+                                return <Link key={buttonIndex} to={to} className={"rounded-1 " + className}
+                                             onClick={closeDialog.bind(null, {answer})}>
+                                    {label}
+                                </Link>
+                            } else {
+                                return <button key={buttonIndex} className={"rounded-1 " + className}
+                                               onClick={closeDialog.bind(null, {answer})}>
+                                    {label}
+                                </button>;
+                            }
                         })}
                     </Modal.Footer>
                 </Modal>)}
