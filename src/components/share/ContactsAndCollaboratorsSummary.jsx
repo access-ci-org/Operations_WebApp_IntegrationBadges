@@ -134,9 +134,9 @@ export default function ContactsAndCollaboratorsSummary(
                 {/*                          onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>*/}
             </div>
 
-            <Modal size="xl" show={showContactsAndCollaboratorsModal}
+            <Modal className="modal-light" size="xl" show={showContactsAndCollaboratorsModal}
                    onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-light">
+                <Modal.Header closeButton >
                     <Modal.Title className="">
                         Contacts / Collaborators
 
@@ -145,8 +145,8 @@ export default function ContactsAndCollaboratorsSummary(
                         </Link>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body bsPrefix="pt-0">
-                    <div className="w-100 pt-4 pb-5 ps-2 pe-2">
+                <Modal.Body>
+                    <div >
                         <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}
                                                             contactEmail={contactEmail} contactType={contactType}/>
                     </div>
