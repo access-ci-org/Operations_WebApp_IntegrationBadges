@@ -1,5 +1,5 @@
-import {AccordionContext, Dropdown, Modal, useAccordionButton} from "react-bootstrap";
-import {BadgeTaskWorkflowStatus, BadgeWorkflowStatus} from "../../../contexts/constants.js";
+import {AccordionContext, Dropdown, useAccordionButton} from "react-bootstrap";
+import {BadgeTaskWorkflowStatus} from "../../../contexts/constants.js";
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
@@ -8,7 +8,7 @@ import {HtmlToReact} from "../../util/text-editors.jsx";
 import {getAvailableTransitions, TASK_WORKFLOW} from "../../../contexts/Workflows.js";
 import {useRoles} from "../../../contexts/PermissionContext.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
-import {useTasks} from "../../../contexts/TaskContext.jsx";
+import {useDialogs} from "../../../contexts/DialogContext.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
@@ -16,9 +16,9 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     const {setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
     const {getAuthorizedRoles} = useRoles();
+    const {showDialog} = useDialogs();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
-    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const taskId = task.task_id;
 
@@ -37,7 +37,23 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         try {
             await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
         } catch {
-            setShowErrorModal(true);
+            await showDialog({
+                variant: 'danger',
+                title: "",
+                icon: "bi-exclamation-triangle-fill",
+                message: <div>
+                    <p>
+                        You don't have permissions to make this change. If you should have it, please submit an ACCESS
+                        ticket requesting:</p>
+
+                    <p>
+                        Integration Dashboard <strong>implementor</strong> permission for the
+                        resource <strong>{resourceId}</strong></p>
+                </div>,
+                buttons: [
+                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
+                ]
+            });
         }
 
         setTaskActionStatusProcessing({
@@ -106,29 +122,6 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                 </Dropdown.Menu>
             </Dropdown>}
         </div>}
-
-        <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
-            <Modal.Header closeButton className="bg-danger-subtle">
-                <Modal.Title>
-                    <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <p>
-                    You don't have permissions to make this change. If you should have it, please submit an
-                    ACCESS ticket requesting:</p>
-
-                <p>
-                    Integration Dashboard <strong>implementor</strong> permission for the
-                    resource <strong>{resourceId}</strong></p>
-            </Modal.Body>
-            <Modal.Footer>
-                <button className="btn btn-outline-primary rounded-1"
-                        onClick={setShowErrorModal.bind(this, false)}>
-                    Cancel
-                </button>
-            </Modal.Footer>
-        </Modal>
     </div>
 }
 
