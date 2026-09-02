@@ -8,6 +8,20 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.23.1 2026-09-02 dinukadesilva
+
+1. [new] Enabling DialogProvider on the staff task edit screen (CTT-1003)
+    - `/staff/badges/:badgeId/edit`
+2. [new] Some alignment improvements in the multi-select component (CTT-1003)
+    - `/staff/badges/:badgeId/edit`
+    - `/staff/roadmaps/:roadmapId/edit`
+3. [new] Some style improvements of the drag and drop items in multi-select component (CTT-1003)
+    - `/staff/badges/:badgeId/edit`
+    - `/staff/roadmaps/:roadmapId/edit`
+4. [new] Enabling DialogProvider on the staff roadmap and badge edit screens (CTT-1003)
+    - `/staff/badges/:badgeId/edit`
+    - `/staff/roadmaps/:roadmapId/edit`
+
 ## v1.23.0 2026-09-01 dinukadesilva
 
 1. [new] Initial implementation of DialogProvider (CTT-1003)
@@ -21,7 +35,6 @@ The general format of entries is:
     - `/organizations/:organizationId`
     - `/resources/:resourceId/roadmaps/:roadmapId`
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
-
 
 ## v1.22.0 2026-09-01 dinukadesilva
 

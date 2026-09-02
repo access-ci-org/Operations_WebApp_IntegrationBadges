@@ -8,15 +8,16 @@ import StaffRoadmapEditAssociateBadges
     from "../../components/staff/roadmap-edit/StaffRoadmapEditAssociateBadges.jsx";
 import StaffRoadmapEditReviewAndEdit
     from "../../components/staff/roadmap-edit/StaffRoadmapEditReviewAndEdit.jsx";
-import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
+import {useDialogs} from "../../contexts/DialogContext.jsx";
 
 export default function StaffRoadmapEdit() {
     const {roadmapId} = useParams();
 
     const navigate = useNavigate();
     const {fetchRoadmap, setRoadmap, getRoadmap} = useRoadmaps();
+    const {showDialog} = useDialogs();
 
     const roadmap = getRoadmap({roadmapId});
 
@@ -36,9 +37,6 @@ export default function StaffRoadmapEdit() {
             // }
         ]
     });
-
-    const [showSavedModal, setShowSavedModal] = useState(false);
-    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const areRoadmapDetailsValid = roadmapData.name.trim().length > 0
         && roadmapData.executive_summary.trim().length > 0
@@ -86,10 +84,36 @@ export default function StaffRoadmapEdit() {
     const publishRoadmap = async () => {
         try {
             await setRoadmap({roadmapId, roadmapData});
-            // navigate(StaffRouteUrls.ROADMAPS);
-            setShowSavedModal(true);
+            await showDialog({
+                variant: 'primary',
+                title: "",
+                icon: "bi-check-circle",
+                message: <div>The Roadmap “{roadmapData.name}” is Successfully Published.</div>,
+                buttons: [
+                    {
+                        label: "Go to Home Page",
+                        answer: false,
+                        className: "btn btn-outline-primary",
+                        to: StaffRouteUrls.INDEX
+                    },
+                    {label: "Go to Roadmaps", answer: false, className: "btn btn-primary", to: StaffRouteUrls.ROADMAPS},
+                ]
+            });
         } catch {
-            setShowErrorModal(true);
+            await showDialog({
+                variant: 'danger',
+                title: "",
+                icon: "bi-exclamation-triangle-fill",
+                message: <div>
+                    <p>
+                        You don't have permissions to make this change. If you should have it, please submit
+                        an ACCESS ticket requesting:</p>
+                    <p>Integration Dashboard <strong>roadmap.maintainer</strong> permission</p>
+                </div>,
+                buttons: [
+                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
+                ]
+            });
         }
     };
 
@@ -135,53 +159,9 @@ export default function StaffRoadmapEdit() {
                                     disabled={!areRoadmapDetailsValid}>
                                 Continue
                             </button>}
-
                     </div>
-
                 </div>
             </div>
-
-            <Modal show={showSavedModal}>
-                <Modal.Header className="bg-light">
-                    <Modal.Title>
-                        <i className="bi bi-check-circle text-primary center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    The Roadmap “{roadmapData.name}” is Successfully Published.
-                </Modal.Body>
-                <Modal.Footer>
-                    <Link className="btn btn-outline-primary rounded-1" to={StaffRouteUrls.INDEX}>
-                        Go to Home Page
-                    </Link>
-                    <Link className="btn btn-primary rounded-1" to={StaffRouteUrls.ROADMAPS}>
-                        Go to Roadmaps
-                    </Link>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-danger-subtle">
-                    <Modal.Title>
-                        <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>
-                        You don't have permissions to make this change. If you should have it, please submit
-                        an
-                        ACCESS ticket requesting:</p>
-
-                    <p>Integration Dashboard <strong>roadmap.maintainer</strong> permission</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-outline-primary rounded-1"
-                            onClick={setShowErrorModal.bind(this, false)}>
-                        Cancel
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
         </div>
     } else {
         return <div className="container">

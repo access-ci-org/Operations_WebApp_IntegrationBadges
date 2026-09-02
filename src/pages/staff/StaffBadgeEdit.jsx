@@ -9,16 +9,17 @@ import StaffBadgeEditAssociatePrerequisiteBadges
     from "../../components/staff/badge-edit/StaffBadgeEditAssociatePrerequisiteBadges.jsx";
 import StaffBadgeEditReviewAndEdit
     from "../../components/staff/badge-edit/StaffBadgeEditReviewAndEdit.jsx";
-import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import StaffBadgeEditAssociateTasks
     from "../../components/staff/badge-edit/StaffBadgeEditAssociateTasks.jsx";
+import {useDialogs} from "../../contexts/DialogContext.jsx";
 
 export default function StaffBadgeEdit() {
     const {badgeId} = useParams();
 
     const navigate = useNavigate();
     const {fetchBadge, setBadge, getBadge} = useBadges();
+    const {showDialog} = useDialogs();
 
     const badge = getBadge({badgeId});
 
@@ -47,9 +48,6 @@ export default function StaffBadgeEdit() {
             // },
         ]
     });
-
-    const [showSavedModal, setShowSavedModal] = useState(false);
-    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const areBadgeDetailsValid = badgeData.name.trim().length > 0
         && badgeData.researcher_summary.trim().length > 0
@@ -103,10 +101,32 @@ export default function StaffBadgeEdit() {
     const publishBadge = async () => {
         try {
             await setBadge({badgeId, badgeData});
-            // navigate(StaffRouteUrls.BADGES);
-            setShowSavedModal(true);
+            await showDialog({
+                variant: 'primary',
+                title: "",
+                icon: "bi-check-circle",
+                message: <div>The Badge “{badgeData.name}” is Successfully Published.</div>,
+                buttons: [
+                    {label: "Go to Home Page", answer: false, className: "btn btn-outline-primary", to: StaffRouteUrls.INDEX},
+                    {label: "Go to Badges", answer: false, className: "btn btn-primary", to: StaffRouteUrls.BADGES},
+                ]
+            });
         } catch {
-            setShowErrorModal(true);
+            await showDialog({
+                variant: 'danger',
+                title: "",
+                icon: "bi-exclamation-triangle-fill",
+                message: <div>
+                    <p>
+                        You don't have permissions to make this change. If you should have it,
+                        please submit an ACCESS ticket requesting:</p>
+
+                    <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
+                </div>,
+                buttons: [
+                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
+                ]
+            });
         }
     };
 
@@ -157,47 +177,6 @@ export default function StaffBadgeEdit() {
 
                 </div>
             </div>
-
-            <Modal show={showSavedModal}>
-                <Modal.Header className="bg-light">
-                    <Modal.Title>
-                        <i className="bi bi-check-circle text-primary center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    The Badge “{badgeData.name}” is Successfully Published.
-                </Modal.Body>
-                <Modal.Footer>
-                    <Link className="btn btn-outline-primary rounded-1" to={StaffRouteUrls.INDEX}>
-                        Go to Home Page
-                    </Link>
-                    <Link className="btn btn-primary rounded-1" to={StaffRouteUrls.BADGES}>
-                        Go to Badges
-                    </Link>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
-                <Modal.Header closeButton className="bg-danger-subtle">
-                    <Modal.Title>
-                        <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>
-                        You don't have permissions to make this change. If you should have it,
-                        please submit an ACCESS ticket requesting:</p>
-
-                    <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-outline-primary rounded-1"
-                            onClick={setShowErrorModal.bind(this, false)}>
-                        Cancel
-                    </button>
-                </Modal.Footer>
-            </Modal>
-
         </div>
     } else {
         return <div className="container">
