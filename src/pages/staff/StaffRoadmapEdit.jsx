@@ -49,13 +49,11 @@ export default function StaffRoadmapEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        (async () => {
-            setRoadmapData({
-                ...roadmapData,
-                ...roadmap
-            })
-        })()
-    }, [roadmapId, !!roadmap]);
+        setRoadmapData({
+            ...roadmapData,
+            ...roadmap
+        });
+    }, [roadmapId, roadmap]);
 
     useEffect(() => {
         !!roadmapId && fetchRoadmap({roadmapId})

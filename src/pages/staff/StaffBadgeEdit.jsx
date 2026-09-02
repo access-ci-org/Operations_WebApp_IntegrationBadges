@@ -60,13 +60,11 @@ export default function StaffBadgeEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        (async () => {
-            setBadgeData({
-                ...badgeData,
-                ...badge
-            })
-        })();
-    }, [badgeId, !!badge]);
+        setBadgeData({
+            ...badgeData,
+            ...badge
+        })
+    }, [badgeId, badge]);
 
     useEffect(() => {
         !!badgeId && fetchBadge({badgeId})
@@ -107,7 +105,12 @@ export default function StaffBadgeEdit() {
                 icon: "bi-check-circle",
                 message: <div>The Badge “{badgeData.name}” is Successfully Published.</div>,
                 buttons: [
-                    {label: "Go to Home Page", answer: false, className: "btn btn-outline-primary", to: StaffRouteUrls.INDEX},
+                    {
+                        label: "Go to Home Page",
+                        answer: false,
+                        className: "btn btn-outline-primary",
+                        to: StaffRouteUrls.INDEX
+                    },
                     {label: "Go to Badges", answer: false, className: "btn btn-primary", to: StaffRouteUrls.BADGES},
                 ]
             });
