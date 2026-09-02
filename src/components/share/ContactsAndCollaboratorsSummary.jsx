@@ -137,7 +137,7 @@ export default function ContactsAndCollaboratorsSummary(
             <Modal className="modal-light" size="xl" show={showContactsAndCollaboratorsModal}
                    onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
                 <Modal.Header closeButton >
-                    <Modal.Title className="">
+                    <Modal.Title>
                         Contacts / Collaborators
 
                         <Link className="btn btn-link ps-3" to={externalLink} target="_blank">

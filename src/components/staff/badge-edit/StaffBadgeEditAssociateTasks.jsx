@@ -4,9 +4,11 @@ import taskAddIcon from "../../../assets/tdesign_task-add.png"
 import React, {useState} from "react";
 import StaffTaskEditDetails from "../task-edit/StaffTaskEditDetails.jsx";
 import {Modal} from "react-bootstrap";
+import {useDialogs} from "../../../contexts/DialogContext.jsx";
 
 export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {setTask, getTasks, getTask} = useTasks();
+    const {showDialog} = useDialogs();
 
     const [taskData, setTaskData] = useState({
         "task_id": null,
@@ -16,7 +18,6 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
         "task_experts": "",
         "detailed_instructions_url": ""
     });
-    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const items = getTasks().map(task => ({id: task.task_id, label: task.name}));
     const value = badgeData.tasks.map(({task_id, required}) => {
@@ -58,8 +59,24 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                     ]
                 });
             }
+
+            throw new Error();
         } catch {
-            setShowErrorModal(true);
+            await showDialog({
+                variant: 'danger',
+                title: "",
+                icon: "bi-exclamation-triangle-fill",
+                message: <div>
+                    <p>
+                        You don't have permissions to make this change. If you should have it,
+                        please submit an ACCESS ticket requesting:</p>
+
+                    <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
+                </div>,
+                buttons: [
+                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
+                ]
+            });
         }
     }
 
@@ -142,27 +159,5 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                 <StaffTaskEditDetails taskData={taskData} setTaskData={setTaskData}/>
             </div>
         </div>
-
-
-        <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
-            <Modal.Header closeButton className="bg-danger-subtle">
-                <Modal.Title>
-                    <i className="bi bi-exclamation-triangle-fill text-danger center-and-large-icon"></i>
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <p>
-                    You don't have permissions to make this change. If you should have it,
-                    please submit an ACCESS ticket requesting:</p>
-
-                <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
-            </Modal.Body>
-            <Modal.Footer>
-                <button className="btn btn-outline-primary rounded-1"
-                        onClick={setShowErrorModal.bind(this, false)}>
-                    Cancel
-                </button>
-            </Modal.Footer>
-        </Modal>
     </div>
 }
