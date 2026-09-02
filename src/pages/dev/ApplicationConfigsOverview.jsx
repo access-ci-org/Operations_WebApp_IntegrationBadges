@@ -1,63 +1,27 @@
-import {Link, useLocation} from "react-router-dom";
 import {useRoles} from "../../contexts/PermissionContext.jsx";
-import {useState} from "react";
 import pkg from "../../../package.json";
-import {Nav} from "react-bootstrap";
-import JSONGrid from "@redheadphone/react-json-grid";
-import DevRoutesConfig from "./dev-routes-config.jsx";
-import {DevRouteUrls} from "../pages-config.js";
 
 export default function ApplicationConfigsOverview() {
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    let format = queryParams.get('display-format');
-
     const {roleMap} = useRoles();
-
-    const [theme] = useState("remedy");
-
-    // const availableThemes = ["default", "dracula", "monokai", "oceanicPark", "panda", "gruvboxMaterial", "tokyoNight", "remedy", "atlanticNight", "defaultLight", "defaultLight2", "slime", "spacegray", "blueberryDark", "nord", "nightOwl", "oneMonokai", "cobaltNext", "shadesOfPurple", "codeBlue", "softEra", "atomMaterial", "evaDark", "moonLight"];
-
-    if (format) format = format.toLowerCase();
-    if (["json", "html"].indexOf(format) < 0) {
-        format = "html";
-    }
-
-    const activeTabKey = DevRouteUrls.CONFIG +  (format ? `?display-format=${format}` : "")
-
-    const data = {
-        "Settings Variables": window.SETTINGS,
-        "Roles": roleMap,
-        "Webapp NPM Package": pkg
-    }
-
-    const tabs = [
-        {"title": "HTML", link: DevRouteUrls.CONFIG + "?display-format=html"},
-        {"title": "JSON", link: DevRouteUrls.CONFIG + "?display-format=json"},
-    ]
 
     return <div className="container">
         <div className="row">
             <h2>Application Configs</h2>
         </div>
-        <div className="row">
-            <div className="w-100 d-flex flex-row pt-2 pb-4">
 
-                <div className="flex-fill">
-                    <Nav variant="underline" activeKey={activeTabKey}
-                         className="pe-3 border-bottom border-1 border-gray-200">
-                        {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                            <Nav.Link eventKey={tab.link} to={tab.link} as={Link}>
-                                {tab.title}
-                            </Nav.Link>
-                        </Nav.Item>)}
-                    </Nav>
-                </div>
-            </div>
+        <div className="w-100 pt-3 pb-3">
+            <h3>Operations API Settings</h3>
+            <pre>{JSON.stringify(window.SETTINGS, null, 2)}</pre>
+        </div>
 
-            {format === "html" && <JSONGrid data={data} defaultExpandDepth={100} theme={theme}/>}
+        <div className="w-100 pt-3 pb-3">
+            <h3>Your Authorized Roles</h3>
+            <pre>{JSON.stringify(roleMap, null, 2)}</pre>
+        </div>
 
-            {format === "json" && <pre>{JSON.stringify(data, null, 2)}</pre>}
+        <div className="w-100 pt-3 pb-3">
+            <h3>package.json</h3>
+            <pre>{JSON.stringify(pkg, null, 2)}</pre>
         </div>
     </div>;
 }
