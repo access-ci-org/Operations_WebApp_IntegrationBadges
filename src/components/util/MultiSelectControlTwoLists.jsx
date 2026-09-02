@@ -11,7 +11,7 @@ import {InlineAlert} from "./InlineAlerts.jsx";
  * @param onChange
  * @param onItemExpand
  * @param filterLabel
- * @returns {JSX.Element}
+ * @returns {React.JSX.Element}
  * @constructor
  */
 export default function MultiSelectControlTwoLists(
@@ -21,7 +21,7 @@ export default function MultiSelectControlTwoLists(
         // onItemExpand,
         filterLabel = "Filter",
         addedItemsLabel = "Added Items",
-        icon = <i className="bi bi-circle-fill fs-3"></i>,
+        icon = <i className="bi bi-circle-fill fs-4"></i>,
         allowAdd = true,
         allowRemove = true,
         allowEdit = false,
@@ -44,8 +44,14 @@ export default function MultiSelectControlTwoLists(
 
     const dragItem = useRef(null);
     const draggedOverItem = useRef(null);
+    const customDragListItemRefMap = useRef(new Map());
 
     const handleDragStart = (e, index) => {
+        const customDragListItemRef = customDragListItemRefMap.current.get(index);
+        if (customDragListItemRef) {
+            e.dataTransfer.setDragImage(customDragListItemRef, 20, 20);
+        }
+
         dragItem.current = index;
     };
 
@@ -117,17 +123,21 @@ export default function MultiSelectControlTwoLists(
     }
 
     function ItemLeftActions(
-        {item, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
+        {item, sequenceNo, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
 
         const eventKey = item.id;
         const currentEventKey = useContext(AccordionContext).activeEventKey;
-        const decoratedOnClick = useAccordionButton(eventKey, () =>
-            console.log('totally custom!', [eventKey]),
-        );
+        const decoratedOnClick = useAccordionButton(eventKey);
 
-        return <div className="text-gray-400 align-content-center ps-1 pe-1 d-flex flex-row">
+        return <div className="text-gray-400 align-items-center ps-1 pe-1 d-flex flex-row">
             {!!enableOrdering &&
-                <button className="btn btn-link ps-1 pe-1"><i className="bi bi-grip-vertical fs-5"></i></button>}
+                <button className="btn btn-link ps-1 pe-1"
+                        draggable={enableOrdering}
+                        onDragStart={(e) => handleDragStart(e, sequenceNo)}
+                        onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
+                        onDragEnd={handleSort}
+                        onDragOver={(e) => e.preventDefault()} // Allow dropping
+                ><i className="bi bi-grip-vertical fs-5"></i></button>}
             {!!enableViewMoreDetails && <button type="button" className="btn btn-link text-primary ps-1 pe-1"
                                                 onClick={decoratedOnClick}>
                 {currentEventKey === eventKey ? <i className="bi bi-caret-down-fill"></i> :
@@ -202,18 +212,15 @@ export default function MultiSelectControlTwoLists(
                         </div>}
                 </div>
                 <Accordion defaultActiveKey="" className="flex-fill overflow-auto">
+
                     {selectedItems.length === 0 &&
                         <InlineAlert variant="success" title="None"/>}
+
                     <ul className="w-100 list-unstyled">
-                        {selectedItems.map((item, sequenceNo) =>
-                            <li key={sequenceNo} className="w-100 pb-1">
-                                <button className="w-100 rounded-1 btn btn-outline-gray-300 pt-2 pb-2 ps-2 pe-3"
-                                        draggable={enableOrdering}
-                                        onDragStart={(e) => handleDragStart(e, sequenceNo)}
-                                        onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
-                                        onDragEnd={handleSort}
-                                        onDragOver={(e) => e.preventDefault()} // Allow dropping
-                                >
+                        {selectedItems.map((item, sequenceNo) => {
+
+                            return <li key={sequenceNo} className="w-100 pb-1 position-relative">
+                                <div className="w-100 rounded-1 btn btn-outline-gray-300 pt-2 pb-2 ps-2 pe-3">
                                     <div className="w-100 d-flex flex-row">
                                         <ItemLeftActions item={item} sequenceNo={sequenceNo}
                                                          showIcon={!!showRightPanelIcon}
@@ -222,13 +229,27 @@ export default function MultiSelectControlTwoLists(
                                         {getItemNameJsx(item)}
                                         <ItemRightActions item={item} sequenceNo={sequenceNo}/>
                                     </div>
-                                    <Accordion.Collapse eventKey={item.id}>
-                                        <div className="w-100 p-3 mt-3 border-top border-1">
-                                            {getMoreDetailsComponent && getMoreDetailsComponent(item)}
-                                        </div>
-                                    </Accordion.Collapse>
-                                </button>
-                            </li>)}
+                                </div>
+                                <div
+                                    ref={(elementRef) => {
+                                        if (elementRef) customDragListItemRefMap.current.set(sequenceNo, elementRef);
+                                    }}
+                                    style={{
+                                        position: 'absolute',
+                                        zIndex: -99999,
+                                        top: 200 * sequenceNo,
+                                        left: -200
+                                    }}
+                                    className="w-100 bg-primary text-white rounded p-2">
+                                    {item.label}
+                                </div>
+                                <Accordion.Collapse eventKey={item.id}>
+                                    <div className="w-100 p-3 border-bottom border-start border-end border-1 rounded-bottom-1 bg-white">
+                                        {getMoreDetailsComponent && getMoreDetailsComponent(item)}
+                                    </div>
+                                </Accordion.Collapse>
+                            </li>
+                        })}
                     </ul>
                 </Accordion>
             </div>

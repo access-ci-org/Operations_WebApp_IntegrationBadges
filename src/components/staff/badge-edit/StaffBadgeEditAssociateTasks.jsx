@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import StaffTaskEditDetails from "../task-edit/StaffTaskEditDetails.jsx";
 import {Modal} from "react-bootstrap";
 import {useDialogs} from "../../../contexts/DialogContext.jsx";
+import {HtmlToReact} from "../../util/text-editors.jsx";
 
 export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {setTask, getTasks, getTask} = useTasks();
@@ -97,7 +98,7 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
             }}
             filterLabel="Filter tasks"
             addedItemsLabel="Added Tasks"
-            icon={<img src={taskAddIcon} alt={"Add task Icon"} className="h-100 m-1"/>}
+            icon={<img src={taskAddIcon} alt={"Add task Icon"} className="h-100"/>}
             rightPanelStyles={{paddingTop: "60px"}}
             showRightPanelIcon={false}
             allowEdit={true}
@@ -114,9 +115,9 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                 return <div className="row d-flex">
                     <div className="col-sm-6 ps-3 pe-3 pt-3">
                         <div className="mb-2 fs-7">Technical Summary</div>
-                        <p className="mb-0 fs-8 word-break-break-all">
-                            {task.technical_summary}
-                        </p>
+                        <div className="mb-0 fs-8 word-break-break-all">
+                            <HtmlToReact>{task.technical_summary}</HtmlToReact>
+                        </div>
                     </div>
                     <div className="col-sm-6 ps-3 pe-3 pt-3">
                         <div className="mb-2 fs-7">Implementer Roles</div>
