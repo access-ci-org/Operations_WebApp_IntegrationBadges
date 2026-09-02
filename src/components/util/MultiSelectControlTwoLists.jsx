@@ -108,7 +108,9 @@ export default function MultiSelectControlTwoLists(
         // );
 
         // return <OverlayTrigger placement="bottom-start" overlay={renderTooltip}>
-        return <div className="flex-fill align-content-center ps-2 pe-2 text-gray-800 text-one-line-overflow-ellipsis">
+        return <div
+            className="flex-fill align-content-center text-start ps-2 pe-2 text-gray-800 text-one-line-overflow-ellipsis"
+            title={item.label}>
             {item.label}
         </div>
         //</OverlayTrigger>;
@@ -171,11 +173,11 @@ export default function MultiSelectControlTwoLists(
                 <div className="flex-fill overflow-auto">
                     {notSelectedItems.length === 0 &&
                         <InlineAlert variant="success" title="None"/>}
-                    <ul className="list-unstyled ">
+                    <ul className="w-100 list-unstyled">
                         {notSelectedItems.map((item, sequenceNo) => {
-                            return <li key={sequenceNo} className="p-0 pb-1">
+                            return <li key={sequenceNo} className="w-100 p-0 pb-1">
                                 <div
-                                    className="d-flex flex-row rounded-1 btn btn-outline-gray-300 bg-white pt-2 pb-2 ps-2 pe-3">
+                                    className="w-100 d-flex flex-row rounded-1 btn btn-outline-gray-300 bg-white pt-2 pb-2 ps-2 pe-3">
                                     <ItemLeftActions item={item} sequenceNo={sequenceNo}
                                                      showIcon={!!showLeftPanelIcon}/>
                                     {getItemNameJsx(item)}
@@ -202,31 +204,31 @@ export default function MultiSelectControlTwoLists(
                 <Accordion defaultActiveKey="" className="flex-fill overflow-auto">
                     {selectedItems.length === 0 &&
                         <InlineAlert variant="success" title="None"/>}
-                    <ul className="list-unstyled">
-                        {selectedItems.map((item, sequenceNo) => <li
-                            key={sequenceNo} className="pb-1"
-                        >
-                            <button className="rounded-1 btn btn-outline-gray-300 pt-2 pb-2 ps-2 pe-3"
-                                    draggable={enableOrdering}
-                                    onDragStart={(e) => handleDragStart(e, sequenceNo)}
-                                    onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
-                                    onDragEnd={handleSort}
-                                    onDragOver={(e) => e.preventDefault()} // Allow dropping
-                            >
-                                <div className="w-100 d-flex flex-row">
-                                    <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={!!showRightPanelIcon}
-                                                     enableOrdering={!!enableOrdering}
-                                                     enableViewMoreDetails={!!enableViewMoreDetails}/>
-                                    {getItemNameJsx(item)}
-                                    <ItemRightActions item={item} sequenceNo={sequenceNo}/>
-                                </div>
-                                <Accordion.Collapse eventKey={item.id}>
-                                    <div className="w-100 p-3 mt-3 border-top border-1">
-                                        {getMoreDetailsComponent && getMoreDetailsComponent(item)}
+                    <ul className="w-100 list-unstyled">
+                        {selectedItems.map((item, sequenceNo) =>
+                            <li key={sequenceNo} className="w-100 pb-1">
+                                <button className="w-100 rounded-1 btn btn-outline-gray-300 pt-2 pb-2 ps-2 pe-3"
+                                        draggable={enableOrdering}
+                                        onDragStart={(e) => handleDragStart(e, sequenceNo)}
+                                        onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
+                                        onDragEnd={handleSort}
+                                        onDragOver={(e) => e.preventDefault()} // Allow dropping
+                                >
+                                    <div className="w-100 d-flex flex-row">
+                                        <ItemLeftActions item={item} sequenceNo={sequenceNo}
+                                                         showIcon={!!showRightPanelIcon}
+                                                         enableOrdering={!!enableOrdering}
+                                                         enableViewMoreDetails={!!enableViewMoreDetails}/>
+                                        {getItemNameJsx(item)}
+                                        <ItemRightActions item={item} sequenceNo={sequenceNo}/>
                                     </div>
-                                </Accordion.Collapse>
-                            </button>
-                        </li>)}
+                                    <Accordion.Collapse eventKey={item.id}>
+                                        <div className="w-100 p-3 mt-3 border-top border-1">
+                                            {getMoreDetailsComponent && getMoreDetailsComponent(item)}
+                                        </div>
+                                    </Accordion.Collapse>
+                                </button>
+                            </li>)}
                     </ul>
                 </Accordion>
             </div>
