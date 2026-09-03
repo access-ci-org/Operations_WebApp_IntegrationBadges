@@ -18,10 +18,30 @@ export default function StaffBadgeEdit() {
     const {badgeId} = useParams();
 
     const navigate = useNavigate();
-    const {fetchBadge, setBadge, getBadge} = useBadges();
-    const {showDialog} = useDialogs();
+    const {fetchBadge, getBadge} = useBadges();
 
     const badge = getBadge({badgeId});
+
+    useEffect(() => {
+        !!badgeId && fetchBadge({badgeId})
+            .catch(() => navigate(StaffRouteUrls.INDEX));
+    }, [badgeId]);
+
+    if (!badgeId || !!badge) {
+        return <StaffBadgeEditForm key={badgeId} initialData={badge}/>
+    } else {
+        return <div className="container">
+            <LoadingBlock processing={true}/>
+        </div>
+    }
+}
+
+function StaffBadgeEditForm({initialData}) {
+    const {badgeId} = useParams();
+
+    const navigate = useNavigate();
+    const {fetchBadge, setBadge} = useBadges();
+    const {showDialog} = useDialogs();
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
     const [badgeData, setBadgeData] = useState({
@@ -46,8 +66,11 @@ export default function StaffBadgeEdit() {
             //     "task_id": 1
             //     "required": false
             // },
-        ]
+        ],
+        ...initialData
     });
+
+    console.log("###### initialData ", initialData);
 
     const areBadgeDetailsValid = badgeData.name.trim().length > 0
         && badgeData.researcher_summary.trim().length > 0
@@ -58,15 +81,6 @@ export default function StaffBadgeEdit() {
     useEffect(() => {
         scrollToTop();
     }, [activeSectionIndex]);
-
-    useEffect(() => {
-        (() => {
-            setBadgeData({
-                ...badgeData,
-                ...badge
-            })
-        })()
-    }, [badgeId, badge]);
 
     useEffect(() => {
         !!badgeId && fetchBadge({badgeId})
@@ -135,57 +149,51 @@ export default function StaffBadgeEdit() {
         }
     };
 
-    if (!badgeId || !!badge) {
-        return <div className="container">
-            <div className="row mt-2 p-3">
-                <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
-                    <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
+    return <div className="container">
+        <div className="row mt-2 p-3">
+            <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
+                <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
 
-                    <div className="w-100 text-center position-relative pt-5 pb-5">
-                        <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <EditProgressMarker steps={sections} current={activeSectionIndex}/>
-                        </div>
-                        <Link to={StaffRouteUrls.BADGES} className="btn btn-outline-secondary position-absolute"
-                              style={{right: 0}}>Cancel/Discard
-                        </Link>
+                <div className="w-100 text-center position-relative pt-5 pb-5">
+                    <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
+                        <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                     </div>
+                    <Link to={StaffRouteUrls.BADGES} className="btn btn-outline-secondary position-absolute"
+                          style={{right: 0}}>Cancel/Discard
+                    </Link>
+                </div>
 
-                    <div className="w-100 text-center">
-                        <div className="w-100 d-inline-block text-start" style={{maxWidth: 900, minWidth: 300}}>
-                            {activeSection.component}
-                        </div>
+                <div className="w-100 text-center">
+                    <div className="w-100 d-inline-block text-start" style={{maxWidth: 900, minWidth: 300}}>
+                        {activeSection.component}
                     </div>
+                </div>
 
-                    <div className="w-100 text-end pt-5 pb-5">
-                        {activeSectionIndex === 0 ?
-                            <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
-                                Back
-                            </Link> :
-                            <button className="btn btn-outline-primary ps-3 pe-3 m-1"
-                                    onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
-                                Back
-                            </button>}
+                <div className="w-100 text-end pt-5 pb-5">
+                    {activeSectionIndex === 0 ?
+                        <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
+                            Back
+                        </Link> :
+                        <button className="btn btn-outline-primary ps-3 pe-3 m-1"
+                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
+                            Back
+                        </button>}
 
-                        {activeSectionIndex === sections.length - 1 ?
-                            <button className="btn btn-primary ps-3 pe-3 m-1"
-                                    onClick={publishBadge}
-                                    disabled={!areBadgeDetailsValid}>
-                                Publish
-                            </button> :
-                            <button className="btn btn-primary ps-3 pe-3 m-1"
-                                    onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
-                                    disabled={!areBadgeDetailsValid}>
-                                Continue
-                            </button>}
-
-                    </div>
+                    {activeSectionIndex === sections.length - 1 ?
+                        <button className="btn btn-primary ps-3 pe-3 m-1"
+                                onClick={publishBadge}
+                                disabled={!areBadgeDetailsValid}>
+                            Publish
+                        </button> :
+                        <button className="btn btn-primary ps-3 pe-3 m-1"
+                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
+                                disabled={!areBadgeDetailsValid}>
+                            Continue
+                        </button>}
 
                 </div>
+
             </div>
         </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    </div>
 }

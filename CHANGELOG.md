@@ -8,9 +8,9 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
-## v1.23.3 2026-09-03 dinukadesilva
+## v1.23.4 2026-09-03 dinukadesilva
 
-1. [fix] Fixing the badge and roadmap page data refresh when switching the badges and roadmaps
+1. [fix] Improving the dataflow in staff roadmap and badge edit pages
     - `/staff/badges/:badgeId/edit`
     - `/staff/roadmaps/:roadmapId/edit`
 

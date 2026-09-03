@@ -16,10 +16,29 @@ export default function StaffRoadmapEdit() {
     const {roadmapId} = useParams();
 
     const navigate = useNavigate();
-    const {fetchRoadmap, setRoadmap, getRoadmap} = useRoadmaps();
-    const {showDialog} = useDialogs();
-
+    const {fetchRoadmap, getRoadmap} = useRoadmaps();
     const roadmap = getRoadmap({roadmapId});
+
+    useEffect(() => {
+        !!roadmapId && fetchRoadmap({roadmapId})
+            .catch(() => navigate(StaffRouteUrls.INDEX));
+    }, [roadmapId]);
+
+    if (!roadmapId || !!roadmap) {
+        return <StaffRoadmapEditForm key={roadmapId} initialData={roadmap}/>;
+    } else {
+        return <div className="container">
+            <LoadingBlock processing={true}/>
+        </div>
+    }
+}
+
+function StaffRoadmapEditForm({initialData}) {
+    const {roadmapId} = useParams();
+
+    const navigate = useNavigate();
+    const {fetchRoadmap, setRoadmap} = useRoadmaps();
+    const {showDialog} = useDialogs();
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(roadmapId ? 2 : 0);
     const [roadmapData, setRoadmapData] = useState({
@@ -35,7 +54,8 @@ export default function StaffRoadmapEdit() {
             //     "required": true,
             //     "badge_id": 1
             // }
-        ]
+        ],
+        ...initialData
     });
 
     const areRoadmapDetailsValid = roadmapData.name.trim().length > 0
@@ -47,15 +67,6 @@ export default function StaffRoadmapEdit() {
     useEffect(() => {
         scrollToTop();
     }, [activeSectionIndex]);
-
-    useEffect(() => {
-        (() => {
-            setRoadmapData({
-                ...roadmapData,
-                ...roadmap
-            });
-        })()
-    }, [roadmapId, roadmap]);
 
     useEffect(() => {
         !!roadmapId && fetchRoadmap({roadmapId})
@@ -116,55 +127,50 @@ export default function StaffRoadmapEdit() {
         }
     };
 
-    if (!roadmapId || !!roadmap) {
-        return <div className="container">
-            <div className="row mt-2 p-3">
-                <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
-                    <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
+    return <div className="container">
+        <div className="row mt-2 p-3">
+            <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
+                <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
 
-                    <div className="w-100 text-center position-relative pt-5 pb-5">
-                        <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <EditProgressMarker steps={sections} current={activeSectionIndex}/>
-                        </div>
-                        <Link to={StaffRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
-                              style={{right: 0}}>Cancel/Discard
-                        </Link>
+                <div className="w-100 text-center position-relative pt-5 pb-5">
+                    <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
+                        <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                     </div>
+                    <Link to={StaffRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
+                          style={{right: 0}}>Cancel/Discard
+                    </Link>
+                </div>
 
-                    <div className="w-100 text-center">
-                        <div className="w-100 d-inline-block text-start" style={{maxWidth: 800, minWidth: 300}}>
-                            {activeSection.component}
-                        </div>
+                <div className="w-100 text-center">
+                    <div className="w-100 d-inline-block text-start" style={{maxWidth: 800, minWidth: 300}}>
+                        {activeSection.component}
                     </div>
+                </div>
 
-                    <div className="w-100 text-end pt-5 pb-5">
-                        {activeSectionIndex === 0 ?
-                            <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
-                                Back
-                            </Link> :
-                            <button className="btn btn-outline-primary ps-3 pe-3 m-1"
-                                    onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
-                                Back
-                            </button>}
+                <div className="w-100 text-end pt-5 pb-5">
+                    {activeSectionIndex === 0 ?
+                        <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
+                            Back
+                        </Link> :
+                        <button className="btn btn-outline-primary ps-3 pe-3 m-1"
+                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
+                            Back
+                        </button>}
 
-                        {activeSectionIndex === sections.length - 1 ?
-                            <button className="btn btn-primary ps-3 pe-3 m-1"
-                                    onClick={publishRoadmap}
-                                    disabled={!areRoadmapDetailsValid}>
-                                Publish
-                            </button> :
-                            <button className="btn btn-primary ps-3 pe-3 m-1"
-                                    onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
-                                    disabled={!areRoadmapDetailsValid}>
-                                Continue
-                            </button>}
-                    </div>
+                    {activeSectionIndex === sections.length - 1 ?
+                        <button className="btn btn-primary ps-3 pe-3 m-1"
+                                onClick={publishRoadmap}
+                                disabled={!areRoadmapDetailsValid}>
+                            Publish
+                        </button> :
+                        <button className="btn btn-primary ps-3 pe-3 m-1"
+                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
+                                disabled={!areRoadmapDetailsValid}>
+                            Continue
+                        </button>}
                 </div>
             </div>
         </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    </div>
 }
+
