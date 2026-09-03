@@ -8,6 +8,12 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.23.3 2026-09-03 dinukadesilva
+
+1. [fix] Fixing the badge and roadmap page data refresh when switching the badges and roadmaps
+    - `/staff/badges/:badgeId/edit`
+    - `/staff/roadmaps/:roadmapId/edit`
+
 ## v1.23.2 2026-09-02 dinukadesilva
 
 1. [new] Removing `@redheadphone/react-json-grid`

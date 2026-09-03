@@ -49,17 +49,18 @@ export default function StaffRoadmapEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        setRoadmapData({
-            ...roadmapData,
-            ...roadmap
-        });
+        (() => {
+            setRoadmapData({
+                ...roadmapData,
+                ...roadmap
+            });
+        })()
     }, [roadmapId, roadmap]);
 
     useEffect(() => {
         !!roadmapId && fetchRoadmap({roadmapId})
             .catch(() => navigate(StaffRouteUrls.INDEX));
     }, [roadmapId]);
-
 
     const sections = [
         {
@@ -115,7 +116,7 @@ export default function StaffRoadmapEdit() {
         }
     };
 
-    if (!roadmap || !!roadmap) {
+    if (!roadmapId || !!roadmap) {
         return <div className="container">
             <div className="row mt-2 p-3">
                 <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>

@@ -60,10 +60,12 @@ export default function StaffBadgeEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        setBadgeData({
-            ...badgeData,
-            ...badge
-        })
+        (() => {
+            setBadgeData({
+                ...badgeData,
+                ...badge
+            })
+        })()
     }, [badgeId, badge]);
 
     useEffect(() => {
@@ -133,7 +135,7 @@ export default function StaffBadgeEdit() {
         }
     };
 
-    if (!badge || !!badge) {
+    if (!badgeId || !!badge) {
         return <div className="container">
             <div className="row mt-2 p-3">
                 <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
