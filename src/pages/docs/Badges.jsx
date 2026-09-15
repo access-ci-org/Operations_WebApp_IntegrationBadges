@@ -98,7 +98,8 @@ export default function Badges() {
                         <div className="w-100 pb-5">
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
-                                <div className="col-sm-9 pre-wrap-text"><HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact>
+                                <div className="col-sm-9 pre-wrap-text">
+                                    <HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact>
                                 </div>
                             </div>
                             <div className="row pb-3">
@@ -136,8 +137,9 @@ export default function Badges() {
                                                     verification. Click badge details to view and complete the required
                                                     tasks.
                                                 </Tooltip>}>
-                                    <button className="btn btn-link text-accent-primary d-inline">
-                                        <i className="bi bi-question-square-fill"></i></button>
+                                    <button className="btn btn-link d-inline">
+                                        <i className="bi bi-question-square-fill text-accent-primary"></i>
+                                    </button>
                                 </OverlayTrigger>
                             </div>
                             <ResourceBadgePrerequisites badgeId={badgeId}/>
@@ -152,8 +154,9 @@ export default function Badges() {
                                                     them, return
                                                     here, and mark each as Complete or N/A.
                                                 </Tooltip>}>
-                                    <button className="btn btn-link text-accent-primary d-inline">
-                                        <i className="bi bi-question-square-fill"></i></button>
+                                    <button className="btn btn-link d-inline">
+                                        <i className="bi bi-question-square-fill text-accent-primary"></i>
+                                    </button>
                                 </OverlayTrigger>
                             </div>
 

@@ -41,7 +41,7 @@ export default function ResourceBadge() {
     } = useResources();
     const {fetchBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
-    const {showDialog} = useDialogs();
+    const {showDialog, showErrorDialog} = useDialogs();
 
     const [comment, setComment] = useState("");
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
@@ -104,26 +104,14 @@ export default function ResourceBadge() {
                         ]
                     });
                 }
-            } catch {
-                await showDialog({
-                    variant: 'danger',
-                    title: "",
-                    icon: "bi-exclamation-triangle-fill",
-                    message: <div>
-                        <p>
-                            You don't have permissions to make this change. If you should have it, please submit
-                            an
-                            ACCESS ticket requesting:</p>
-
-                        <p>
-                            Integration Dashboard <strong>implementor</strong> permission for the
-                            resource <strong>{resourceId}</strong></p>
-                    </div>,
-                    buttons: [
-                        {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
-                    ]
+            } catch (error) {
+                await showErrorDialog({
+                    error: error,
+                    roles: [IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
+                    resourceId: resourceId,
                 });
             }
+
             setBadgeActionStatusProcessing(false);
         }
     };
@@ -229,8 +217,9 @@ export default function ResourceBadge() {
                                         Prerequisite badges must be completed before submitting this badge for concierge
                                         verification. Click badge details to view and complete the required tasks.
                                     </Tooltip>}>
-                        <button className="btn btn-link text-accent-primary d-inline">
-                            <i className="bi bi-question-square-fill"></i></button>
+                        <button className="btn btn-link d-inline">
+                            <i className="bi bi-question-square-fill text-accent-primary"></i>
+                        </button>
                     </OverlayTrigger>
                 </div>
                 <ResourceBadgePrerequisites resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
@@ -244,8 +233,9 @@ export default function ResourceBadge() {
                                         Some tasks are informational, while others require action. Review them, return
                                         here, and mark each as Complete or N/A.
                                     </Tooltip>}>
-                        <button className="btn btn-link text-accent-primary d-inline">
-                            <i className="bi bi-question-square-fill"></i></button>
+                        <button className="btn btn-link d-inline">
+                            <i className="bi bi-question-square-fill text-accent-primary"></i>
+                        </button>
                     </OverlayTrigger>
                 </div>
 

@@ -6,10 +6,11 @@ import StaffTaskEditDetails from "../task-edit/StaffTaskEditDetails.jsx";
 import {Modal} from "react-bootstrap";
 import {useDialogs} from "../../../contexts/DialogContext.jsx";
 import {HtmlToReact} from "../../util/text-editors.jsx";
+import {IntegrationRoles} from "../../../contexts/constants.js";
 
 export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {setTask, getTasks, getTask} = useTasks();
-    const {showDialog} = useDialogs();
+    const {showErrorDialog} = useDialogs();
 
     const [taskData, setTaskData] = useState({
         "task_id": null,
@@ -60,23 +61,10 @@ export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) 
                     ]
                 });
             }
-
-            throw new Error();
-        } catch {
-            await showDialog({
-                variant: 'danger',
-                title: "",
-                icon: "bi-exclamation-triangle-fill",
-                message: <div>
-                    <p>
-                        You don't have permissions to make this change. If you should have it,
-                        please submit an ACCESS ticket requesting:</p>
-
-                    <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
-                </div>,
-                buttons: [
-                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
-                ]
+        } catch (error) {
+            await showErrorDialog({
+                error: error,
+                roles: [IntegrationRoles.BADGE_MAINTAINER]
             });
         }
     }

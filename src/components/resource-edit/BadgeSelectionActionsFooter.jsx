@@ -4,11 +4,12 @@ import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useState} from "react";
 import {useDialogs} from "../../contexts/DialogContext.jsx";
 import {AppRouteUrls} from "../../pages/pages-config.js";
+import {IntegrationRoles} from "../../contexts/constants.js";
 
 export default function BadgeSelectionActionsFooter({resourceId, roadmapId, selected, next, prev, showSave}) {
     const {getResource, setResourceRoadmap} = useResources();
     const {getRoadmapBadges} = useRoadmaps();
-    const {showDialog} = useDialogs();
+    const {showDialog, showErrorDialog} = useDialogs();
 
     const [saveProcessing, setSaveProcessing] = useState(false);
 
@@ -44,23 +45,11 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
                     }
                 ]
             });
-        } catch {
-            await showDialog({
-                variant: 'danger',
-                title: "",
-                icon: "bi-exclamation-triangle-fill",
-                message: <div>
-                    <p>
-                        You don't have permissions to make this change. If you should have it, please submit an ACCESS
-                        ticket requesting:</p>
-
-                    <p>
-                        Integration Dashboard <strong>coordinator</strong> permission for the
-                        resource <strong>{resourceId}</strong></p>
-                </div>,
-                buttons: [
-                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
-                ]
+        } catch (error) {
+            await showErrorDialog({
+                error: error,
+                roles: [IntegrationRoles.COORDINATOR],
+                resourceId: resourceId,
             });
         }
 

@@ -1,5 +1,5 @@
 import {AccordionContext, Dropdown, useAccordionButton} from "react-bootstrap";
-import {BadgeTaskWorkflowStatus} from "../../../contexts/constants.js";
+import {BadgeTaskWorkflowStatus, IntegrationRoles} from "../../../contexts/constants.js";
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
@@ -16,7 +16,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     const {setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
     const {getAuthorizedRoles} = useRoles();
-    const {showDialog} = useDialogs();
+    const {showDialog, showErrorDialog} = useDialogs();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
 
@@ -36,23 +36,11 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
         try {
             await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
-        } catch {
-            await showDialog({
-                variant: 'danger',
-                title: "",
-                icon: "bi-exclamation-triangle-fill",
-                message: <div>
-                    <p>
-                        You don't have permissions to make this change. If you should have it, please submit an ACCESS
-                        ticket requesting:</p>
-
-                    <p>
-                        Integration Dashboard <strong>implementor</strong> permission for the
-                        resource <strong>{resourceId}</strong></p>
-                </div>,
-                buttons: [
-                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
-                ]
+        } catch (error){
+            await showErrorDialog({
+                error: error,
+                roles: [IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
+                resourceId: resourceId,
             });
         }
 

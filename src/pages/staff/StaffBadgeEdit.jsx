@@ -13,6 +13,7 @@ import {scrollToTop} from "../../components/util/scroll.jsx";
 import StaffBadgeEditAssociateTasks
     from "../../components/staff/badge-edit/StaffBadgeEditAssociateTasks.jsx";
 import {useDialogs} from "../../contexts/DialogContext.jsx";
+import {IntegrationRoles} from "../../contexts/constants.js";
 
 export default function StaffBadgeEdit() {
     const {badgeId} = useParams();
@@ -41,7 +42,7 @@ function StaffBadgeEditForm({initialData}) {
 
     const navigate = useNavigate();
     const {fetchBadge, setBadge} = useBadges();
-    const {showDialog} = useDialogs();
+    const {showDialog, showErrorDialog} = useDialogs();
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
     const [badgeData, setBadgeData] = useState({
@@ -130,21 +131,10 @@ function StaffBadgeEditForm({initialData}) {
                     {label: "Go to Badges", answer: false, className: "btn btn-primary", to: StaffRouteUrls.BADGES},
                 ]
             });
-        } catch {
-            await showDialog({
-                variant: 'danger',
-                title: "",
-                icon: "bi-exclamation-triangle-fill",
-                message: <div>
-                    <p>
-                        You don't have permissions to make this change. If you should have it,
-                        please submit an ACCESS ticket requesting:</p>
-
-                    <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
-                </div>,
-                buttons: [
-                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
-                ]
+        } catch (error) {
+            await showErrorDialog({
+                error: error,
+                roles: [IntegrationRoles.BADGE_MAINTAINER]
             });
         }
     };

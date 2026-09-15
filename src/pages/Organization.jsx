@@ -152,8 +152,9 @@ export default function Organization() {
                                 <Translate>resourceIntegrationStatus.{section.resourceIntegrationStatus}</Translate>
                                 ({section.resources.filter(r => !!r).length})</h2>
                             <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
-                                <button className="btn btn-link text-accent-primary d-inline"><i
-                                    className="bi bi-question-square-fill"></i></button>
+                                <button className="btn btn-link d-inline">
+                                    <i className="bi bi-question-square-fill text-accent-primary"></i>
+                                </button>
                             </OverlayTrigger>
                         </div>
 

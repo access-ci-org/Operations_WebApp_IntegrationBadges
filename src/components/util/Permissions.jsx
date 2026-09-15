@@ -17,9 +17,8 @@ export function BadgeMaintainer({children}) {
 }
 
 /**
- *
  * @param {import('react').ReactNode} children
- * @param {string []} roles
+ * @param {IntegrationRoles []} roles
  * @param {string []} resourceIds
  * @returns {import('react').ReactNode}
  * @constructor
@@ -33,9 +32,8 @@ export function ShowIfAuthorized({children, roles, resourceIds}) {
 }
 
 /**
- *
  * @param {import('react').ReactNode} children
- * @param {string []} roles
+ * @param {IntegrationRoles []} roles
  * @param {string []} resourceIds
  * @returns {import('react').ReactNode}
  * @constructor
@@ -49,6 +47,12 @@ export function HideIfAuthorized({children, roles, resourceIds}) {
 }
 
 
+/**
+ * @param {import('react').ReactNode} children
+ * @param {IntegrationRoles []} roles
+ * @returns {import('react').ReactNode}
+ * @constructor
+ */
 export function ProtectedRouteElement({roles, children}) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);

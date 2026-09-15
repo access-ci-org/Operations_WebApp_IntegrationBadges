@@ -11,6 +11,7 @@ import StaffRoadmapEditReviewAndEdit
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
 import {useDialogs} from "../../contexts/DialogContext.jsx";
+import {IntegrationRoles} from "../../contexts/constants.js";
 
 export default function StaffRoadmapEdit() {
     const {roadmapId} = useParams();
@@ -38,7 +39,7 @@ function StaffRoadmapEditForm({initialData}) {
 
     const navigate = useNavigate();
     const {fetchRoadmap, setRoadmap} = useRoadmaps();
-    const {showDialog} = useDialogs();
+    const {showDialog, showErrorDialog} = useDialogs();
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(roadmapId ? 2 : 0);
     const [roadmapData, setRoadmapData] = useState({
@@ -109,20 +110,10 @@ function StaffRoadmapEditForm({initialData}) {
                     {label: "Go to Roadmaps", answer: false, className: "btn btn-primary", to: StaffRouteUrls.ROADMAPS},
                 ]
             });
-        } catch {
-            await showDialog({
-                variant: 'danger',
-                title: "",
-                icon: "bi-exclamation-triangle-fill",
-                message: <div>
-                    <p>
-                        You don't have permissions to make this change. If you should have it, please submit
-                        an ACCESS ticket requesting:</p>
-                    <p>Integration Dashboard <strong>roadmap.maintainer</strong> permission</p>
-                </div>,
-                buttons: [
-                    {label: "Cancel", answer: false, className: "btn btn-outline-primary"}
-                ]
+        } catch (error) {
+            await showErrorDialog({
+                error: error,
+                roles: [IntegrationRoles.ROADMAP_MAINTAINER]
             });
         }
     };
