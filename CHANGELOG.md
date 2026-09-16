@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.23.6 2026-09-16 dinukadesilva
+
+1. [fix] Generalizing the error messages (CTT-1003)
+    - [new] Upgrading to access-operations-custom-bootstrap#v0.1.6
+
 ## v1.23.5 2026-09-16 dinukadesilva
 
 1. [fix] Generalizing the error messages (CTT-1003)
@@ -16,7 +21,7 @@ The general format of entries is:
     - `/resources/:resourceId/roadmaps/:roadmapId/edit`
     - `/resources/:resourceId/roadmaps/:roadmapId`
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
-2[fix] Adding a component for Global Error Handling (CTT-1003)
+2. [fix] Adding a component for Global Error Handling (CTT-1003)
     - All
 
 ## v1.23.4 2026-09-03 dinukadesilva
