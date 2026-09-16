@@ -57,14 +57,23 @@ function useDialogsValues() {
 
 
     /**
+     * @param {Error} error
      * @param {IntegrationRoles []} roles
      * @param {string} resourceId
      * @returns {Promise}
      * @constructor
      */
-    const showErrorDialog = ({error, resourceId, roles}) => {
+    const showErrorDialog = ({error, resourceId = null, roles = null}) => {
         let title = "Unknown Error";
-        let message = "Unknown Error. Please try again later.";
+        let message = (<div>
+            <p>The ACCESS Integration Dashboard is experiencing some application errors.</p>
+            <p>
+                Please create an&nbsp;
+                <Link className="btn btn-link" to="https://operations.access-ci.org/open-operations-request/">
+                    ACCESS ticket</Link>
+                &nbsp;to report this.
+            </p>
+        </div>);
 
         if (error instanceof AxiosError) {
             if (error.response.status === 401) {
@@ -81,24 +90,28 @@ function useDialogsValues() {
                         If you should have it, please submit an&nbsp;
                         <Link className="btn btn-link" to="https://operations.access-ci.org/open-operations-request/">
                             ACCESS ticket</Link>
-                        &nbsp;requesting:
+                        {(roles || resourceId) && <span>&nbsp;requesting:</span>}
                     </p>
 
-                    <p>
+                    {(roles || resourceId) && <p>
                         Integration Dashboard&nbsp;
-                        {roles.map((role, roleIndex) => {
+                        {roles && roles.map((role, roleIndex) => {
                             return <span key={roleIndex}>
                                 <strong>{role}</strong>
                                 {roleIndex < roles.length - 1 ? " or " : " "}
                             </span>
                         })}
 
-                        permission for the resource&nbsp;
+                        <span>&nbsp;permission&nbsp;</span>
 
-                        <Link className="btn btn-link" onClick={closeDialog.bind(this, {answer: false})}
-                              to={AppRouteUrls.RESOURCE.replace(":resourceId", resourceId)}>
+                        {resourceId && <span>
+                         for the resource&nbsp;
+
+                            <Link className="btn btn-link" onClick={closeDialog.bind(this, {answer: false})}
+                                  to={AppRouteUrls.RESOURCE.replace(":resourceId", resourceId)}>
                             {resourceId}</Link>
-                    </p>
+                        </span>}
+                    </p>}
                 </div>);
             } else if (error.response.status >= 500) {
                 title = "Server Error";
@@ -107,15 +120,10 @@ function useDialogsValues() {
                     Please try again later.
                 </p>);
             } else if (error.response.status >= 400) {
-                title = "Unknown Error";
-                message = (<p>
-                    The Integration Dashboard is experiencing some errors.<br/>
-                    Please create an&nbsp;
-                    <Link className="btn btn-link" to="https://operations.access-ci.org/open-operations-request/">
-                        ACCESS ticket</Link>
-                    &nbsp;to report this.
-                </p>);
+                title = "Client Error";
             }
+        } else {
+            title = "Application Error";
         }
 
         return showDialog({

@@ -68,7 +68,8 @@ export default function ResourceBadge() {
         fetchBadge({badgeId});
     }, [resourceId, badgeId]);
 
-    const clickBadgeAction = (status) => async () => {
+    const clickBadgeAction = (transition) => async () => {
+        const status = transition.to;
         let confirmationReceived;
         if (status === BadgeWorkflowStatus.TASK_COMPLETED) {
             confirmationReceived = await showDialog({
@@ -107,7 +108,7 @@ export default function ResourceBadge() {
             } catch (error) {
                 await showErrorDialog({
                     error: error,
-                    roles: [IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
+                    roles: transition.conditions ? transition.conditions.role : null,
                     resourceId: resourceId,
                 });
             }
@@ -298,7 +299,7 @@ export default function ResourceBadge() {
                             </button>}
                             {!badgeActionStatusProcessing && authorizedBadgeVerificationTransitions.map((transition, transitionIndex) => {
                                 let disabled = false;
-                                let onClick = clickBadgeAction(transition.to);
+                                let onClick = clickBadgeAction(transition);
                                 if ([BadgeWorkflowStatus.TASK_COMPLETED].indexOf(transition.to) >= 0) {
                                     disabled = !isReadyToSubmit;
                                 }

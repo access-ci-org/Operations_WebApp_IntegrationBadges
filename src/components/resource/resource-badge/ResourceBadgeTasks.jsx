@@ -16,7 +16,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     const {setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
     const {getAuthorizedRoles} = useRoles();
-    const {showDialog, showErrorDialog} = useDialogs();
+    const {showErrorDialog} = useDialogs();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
 
@@ -29,7 +29,9 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
             badgeStatus: badge.status
         });
 
-    const clickTaskAction = async (taskId, status) => {
+    const clickTaskAction = async (taskId, transition) => {
+        const status = transition.to;
+
         setTaskActionStatusProcessing({
             ...taskActionStatusProcessing, [taskId]: true
         });
@@ -39,7 +41,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         } catch (error){
             await showErrorDialog({
                 error: error,
-                roles: [IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
+                roles: transition.conditions ? transition.conditions.role : null,
                 resourceId: resourceId,
             });
         }
@@ -103,7 +105,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
                 <Dropdown.Menu>
                     {availableTransitions.map((transition, transitionIndex) => <Dropdown.Item
-                        key={transitionIndex} onClick={clickTaskAction.bind(this, taskId, transition.to)}
+                        key={transitionIndex} onClick={clickTaskAction.bind(this, taskId, transition)}
                         className={transition.to === BadgeTaskWorkflowStatus.ACTION_NEEDED ? "bg-danger-subtle" : ""}>
                         {transition.name}
                     </Dropdown.Item>)}

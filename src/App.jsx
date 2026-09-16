@@ -16,6 +16,7 @@ import {ContactProvider} from "./contexts/ContactsContext.jsx";
 import {RolesProvider, useRoles} from "./contexts/PermissionContext.jsx";
 import ApplicationRoutesConfig from "./pages/application-routes-config.jsx";
 import {DialogProvider} from "./contexts/DialogContext.jsx";
+import GlobalErrorHandling from "./components/util/GlobalErrorHandling.jsx";
 
 
 const ProviderWrapper = ({children}) => {
@@ -67,7 +68,9 @@ function ApplicationContainer() {
 
 function App() {
     return <ProviderWrapper>
-        <ApplicationContainer/>
+        <GlobalErrorHandling>
+            <ApplicationContainer/>
+        </GlobalErrorHandling>
     </ProviderWrapper>
 }
 
