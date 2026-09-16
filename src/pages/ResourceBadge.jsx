@@ -93,7 +93,6 @@ export default function ResourceBadge() {
                 await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
                 setComment("");
 
-
                 if (status === BadgeWorkflowStatus.TASK_COMPLETED) {
                     await showDialog({
                         variant: 'primary',

@@ -86,7 +86,7 @@ function useDialogsValues() {
                 title = "Unauthenticated";
                 message = (<div>
                     <p>
-                        You don't have permissions to make this change.
+                        You don't have permission to make this change.
                         If you should have it, please submit an&nbsp;
                         <Link className="btn btn-link" to="https://operations.access-ci.org/open-operations-request/">
                             ACCESS ticket</Link>
