@@ -8,6 +8,12 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+
+## v1.24.2 2026-09-21 dinukadesilva
+
+1. [new] Improving the resource badge route documentation examples (CTT-1052)
+    - `/dev/application-routes/:routeDetailsPath`
+    - 
 ## v1.24.1 2026-09-21 dinukadesilva
 
 1. [new] Adding the tasks and pre-requisite counts to the resource badge route documentation examples (CTT-1052)
