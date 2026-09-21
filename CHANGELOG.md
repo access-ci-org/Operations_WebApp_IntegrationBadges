@@ -12,11 +12,11 @@ The general format of entries is:
 
 1. [new] Initial accessibility improvements of issues found through Chrome Lighthouse (CTT-1141)
     - All routes except the staff roadmap and badge edit pages
-    - `/organizations/`
+    - `/organizations`
     - `/organizations/:organizationId`
     - `/organizations/:organizationId/badge-review/verification-failed`
     - `/resources/:resourceId`
-    - `/resources/:resourceId/roadmaps/new`
+    - `/resources/:resourceId/edit`
     - `/resources/:resourceId/roadmaps/:roadmapId`
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
     - `/resources/:resourceId/roadmaps/:roadmapId/edit`
