@@ -205,7 +205,7 @@ export default function ApplicationRoutePageCount(
 
         [AppRouteUrls.RESOURCE_BADGE]: () => {
             if (resourceRoadmapBadges) {
-                const routePages = resourceRoadmapBadges
+                let routePages = resourceRoadmapBadges
                     .map(resourceRoadmapBadge => {
                         return {
                             "label": <BadgeStatus status={resourceRoadmapBadge.status}/>,
@@ -213,16 +213,27 @@ export default function ApplicationRoutePageCount(
                             "href": AppRouteUrls.RESOURCE_BADGE
                                 .replace(":resourceId", resourceRoadmapBadge.info_resourceid)
                                 .replace(":roadmapId", resourceRoadmapBadge.roadmap_id)
-                                .replace(":badgeId", resourceRoadmapBadge.badge_id)
+                                .replace(":badgeId", resourceRoadmapBadge.badge_id),
+                            "countOfPrerequisites": resourceRoadmapBadge.prerequisites.length,
+                            "countOfTasks": resourceRoadmapBadge.tasks.length,
                         }
                     });
+
+                routePages = sortJsonArrayAlphabetically(routePages, "countOfPrerequisites", SortOrder.Descending);
+                routePages = sortJsonArrayAlphabetically(routePages, "countOfTasks", SortOrder.Descending);
 
                 return {
                     "all": routePages,
                     "examples": Object.values(BadgeWorkflowStatus).map(badgeStatus => {
                         const filteredRoutePages = routePages.filter(({resourceRoadmapBadgeStatus}) => resourceRoadmapBadgeStatus === badgeStatus);
                         return {
-                            "label": <BadgeStatus status={badgeStatus}/>,
+                            "label": <div className="d-inline">
+                                <BadgeStatus status={badgeStatus}/>&nbsp;
+                                {filteredRoutePages.length > 0 && <span>
+                                    Pre-Requisites ({filteredRoutePages[0].countOfPrerequisites}),&nbsp;
+                                    Tasks ({filteredRoutePages[0].countOfTasks})
+                                </span>}
+                            </div>,
                             "resourceRoadmapBadgeStatus": badgeStatus,
                             "href": filteredRoutePages.length > 0 ? filteredRoutePages[0].href : null,
                         }

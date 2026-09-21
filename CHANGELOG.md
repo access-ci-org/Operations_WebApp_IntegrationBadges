@@ -8,10 +8,14 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
-## v1.24.1 2026-09-20 dinukadesilva
+## v1.24.1 2026-09-21 dinukadesilva
+
+1. [new] Adding the tasks and pre-requisite counts to the resource badge route documentation examples (CTT-1052)
+    - `/dev/application-routes/:routeDetailsPath`
+
+## v1.24.0 2026-09-20 dinukadesilva
 
 1. [new] Initial accessibility improvements of issues found through Chrome Lighthouse (CTT-1141)
-    - All routes except the staff roadmap and badge edit pages
     - `/organizations`
     - `/organizations/:organizationId`
     - `/organizations/:organizationId/badge-review/verification-failed`
