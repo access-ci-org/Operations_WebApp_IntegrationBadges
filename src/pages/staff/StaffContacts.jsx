@@ -28,7 +28,7 @@ export default function StaffContacts() {
                         <div className="flex-fill">
                         </div>
                         <div className="p-2">
-                            <button className="btn btn-link rounded-2 btn-sm">
+                            <button className="btn btn-link rounded-2 btn-sm" aria-label="Contacts Settings">
                                 <i className="bi bi-gear-fill"></i>
                             </button>
                         </div>

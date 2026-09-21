@@ -71,9 +71,9 @@ export default function WhatIsTicketingSystem() {
         </div>
 
         <div className="w-100 p-3 mt-3">
-            <h4 className="fst-italic fw-bold text-dark fs-5 mb-5">
+            <h2 className="fst-italic fw-bold text-dark fs-5 mb-5">
                 Ticketing-Related Questions
-            </h4>
+            </h2>
 
             {questions.map((question, questionIndex) => {
                 return <div className="w-100 pb-4" key={questionIndex}>
@@ -93,7 +93,7 @@ export default function WhatIsTicketingSystem() {
                                     {questionIndex + 1}</div>
                             </div>
                             <div className="flex-fill ps-2">
-                                <h5 className="align-content-center">{question.title}</h5>
+                                <h3 className="align-content-center fs-5">{question.title}</h3>
                                 <div>{question.description}</div>
                             </div>
                         </div>

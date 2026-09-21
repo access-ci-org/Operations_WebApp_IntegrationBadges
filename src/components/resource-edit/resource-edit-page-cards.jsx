@@ -73,7 +73,7 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     }
 }
 
-export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
+export function BadgeCardRow({badgeId, toggleComponent, actions, body}) {
 
     const {getBadge} = useBadges();
 
@@ -88,7 +88,7 @@ export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
                         <ResourceBadgeIcon badgeId={badgeId}/>
                     </div>
                     <div className="flex-fill p-2 badge-card-row-header">
-                        <h4 className="m-0 align-content-center fs-6">{badge.name}</h4>
+                        <h4 className="m-0 align-content-center fs-6 text-black">{badge.name}</h4>
                     </div>
                 </div>
 
@@ -102,9 +102,9 @@ export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
 
                 <div className="col-sm-3 pt-2 pb-2 align-content-center">
                     {actions ? actions :
-                        <Link
-                            to={`${DocumentationRouteUrls.BADGES}?badgeId=${badgeId}`} target="_blank"
-                            className="w-100 btn btn-secondary rounded-1 btn-sm">
+                        <Link aria-label={`View Additional Details of ${badge.name}`}
+                              to={`${DocumentationRouteUrls.BADGES}?badgeId=${badgeId}`} target="_blank"
+                              className="w-100 btn btn-secondary rounded-1 btn-sm">
                             View Additional Badge Details
                         </Link>}
                 </div>
@@ -114,15 +114,25 @@ export function BadgeCardRow({badgeId, toggleComponent, actions, body }) {
 }
 
 export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selected, required, toggle}) {
+    const {getBadge} = useBadges();
+
+    const badge = getBadge({badgeId});
+
+    let btnLabel = `Remove ${badge.name}`;
+    let btnIconClass = "bi bi-dash";
+    if (selected) {
+        btnLabel = `Add ${badge.name}`;
+        btnIconClass = "bi bi-plus";
+    }
+
     const toggleComponent = <RequiredBadgeTooltip required={!!required}>
-        <button
-            className={`p-3 h-100 btn btn-gray-100 width-fit-content border-gray-100 rounded-start-3 align-content-center text-center fs-4`}
-            onClick={!required ? toggle : null} >
+        <button aria-label={btnLabel}
+                className={`p-3 h-100 btn btn-gray-100 width-fit-content border-gray-100 rounded-start-3 align-content-center text-center fs-4`}
+                onClick={!required ? toggle : null}>
             {required ?
                 <i className="bi bi-slash-circle text-gray-200"></i> :
-                selected ?
-                    <i className="bi bi-dash"></i> :
-                    <i className="bi bi-plus"></i>}
+                <i className={btnIconClass}></i>
+            }
         </button>
     </RequiredBadgeTooltip>
 
@@ -131,15 +141,21 @@ export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selec
 }
 
 export function BadgeCardRowWithRequiredLabel({resourceId, roadmapId, badgeId, selected, required, toggle}) {
-    const toggleComponent = <div
-        className="p-3 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-        role="button">
+    let toggleComponent = <div
+        className="p-3 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center">
     </div>
+
+    if (toggle) {
+        toggleComponent = <div
+            className="p-3 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
+            role="button">
+        </div>
+    }
 
     const body = <div className="text-center">
         {required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
                 Required</small> :
-            <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
+            <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-gray-300 text-gray-800">
                 Not Required</small>}
     </div>;
 

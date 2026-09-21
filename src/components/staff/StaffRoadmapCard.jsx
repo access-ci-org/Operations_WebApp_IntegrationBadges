@@ -22,6 +22,9 @@ export function StaffRoadmapCard({roadmapId}) {
     const roadmap = getRoadmap({roadmapId});
 
     if (roadmap) {
+        const roadmapEditButtonLabel = `Edit Roadmap ${roadmap.name}`;
+        const roadmapDeleteButtonLabel = `Delete Roadmap ${roadmap.name}`;
+
         return <div className="w-100 h-100 p-2 pt-4">
             <div
                 className="w-100 h-100 d-flex flex-column rounded-3 border-black border border-1 position-relative staff-roadmap-card bg-white">
@@ -38,7 +41,8 @@ export function StaffRoadmapCard({roadmapId}) {
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Draft</span>}
                     </div>
 
-                    <Link className="btn btn-link text-decoration-none" to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmapId}`}>
+                    <Link className="btn btn-link text-decoration-none"
+                          to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmapId}`}>
                         <h3 className="w-100 text-center fs-6">
                             <RoadmapName roadmapId={roadmapId}/>
                         </h3>
@@ -47,10 +51,11 @@ export function StaffRoadmapCard({roadmapId}) {
                 </div>
                 <div className="w-100 text-end p-1" style={{minHeight: 48}}>
                     <RoadmapMaintainer>
-                        <Link className="btn btn-link p-2"
+                        <Link className="btn btn-link p-2" aria-label={roadmapEditButtonLabel}
                               to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i
                             className="bi bi-pencil-fill"></i></Link>
-                        <Link className="btn btn-link p-2" to=""><i className="bi bi-trash-fill"></i></Link>
+                        <Link className="btn btn-link p-2" to="" aria-label={roadmapDeleteButtonLabel}>
+                            <i className="bi bi-trash-fill"></i></Link>
                     </RoadmapMaintainer>
                 </div>
             </div>

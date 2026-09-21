@@ -127,10 +127,16 @@ export default function ContactsAndCollaboratorsFilterView(
         <div className="w-100">
             <div className="row pb-3 ps-3 pe-3">
                 {contactFilters.map((contactFilter, contactFilterIndex) => {
+
+                    const contactFilterInputElementID = `contact-filter-${contactFilterIndex}`;
+                    const contactFilterInputLabelElementID = `contact-filter-${contactFilterIndex}-label`;
+
                     return <div className="col-lg-3 col-md-6 col-sm-6 p-2 d-flex flex-column" key={contactFilterIndex}>
-                        <h4 className="fs-8">{contactFilter.title}</h4>
+                        <label className="fs-8 fw-bold" id={contactFilterInputLabelElementID}>{contactFilter.title}</label>
                         <div className="flex-fill">
                             <Select
+                                aria-labelledby={contactFilterInputLabelElementID}
+                                id={contactFilterInputElementID}
                                 isMulti
                                 closeMenuOnSelect={false}
                                 name="colors"

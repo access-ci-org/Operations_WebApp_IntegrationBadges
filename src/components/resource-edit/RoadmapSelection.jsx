@@ -46,7 +46,8 @@ export default function RoadmapSelection({resourceId}) {
             </div>
             <div className="row pt-5">
                 <p>
-                    <strong>Explore the Future of Infrastructure Integration: </strong>
+                    <h2 className="fs-6 text-black d-inline-block">
+                        Explore the Future of Infrastructure Integration&nbsp;:&nbsp;</h2>
                     Interested in contributing to the development of new
                     infrastructure roadmaps? We invite you to explore the possibilities of integrating new and novel
                     infrastructure types. Open an ACCESS Integration and Operation Support Request to start a
@@ -55,7 +56,7 @@ export default function RoadmapSelection({resourceId}) {
                 </p>
             </div>
             <div className="row pt-5">
-                <h5>Integration Roadmaps Framework Participation</h5>
+                <h2 className="fs-5 text-black">Integration Roadmaps Framework Participation</h2>
                 <p>
                     ACCESS projects contribute to the Integration Roadmaps Framework by participating in the ACCESS
                     Integration Roadmaps Working Group where they develop, document, review, and release tasks and

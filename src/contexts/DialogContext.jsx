@@ -161,7 +161,8 @@ export const DialogProvider = ({children}) => {
             {children}
 
             {isOpen &&
-                (<Modal className={`modal-${variant}`} show={isOpen} onHide={closeDialog.bind(this, {answer: false})}>
+                (<Modal className={`modal-${variant}`} show={isOpen} aria-label={title}
+                        onHide={closeDialog.bind(this, {answer: false})}>
                     <Modal.Header closeButton className={icon ? "modal-icon-header" : ""}>
                         <Modal.Title>{title}</Modal.Title>
                         {icon && <i className={`bi ${icon}`}></i>}

@@ -41,7 +41,7 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
             <BadgeSelectionHeader resourceId={resourceId} roadmapId={roadmapId}/>
             <div className="row pt-5">
                 <div className="col-lg-12">
-                    <h2>Selected Badges ({selectedBadges.length})</h2>
+                    <h3 className="text-black">Selected Badges ({selectedBadges.length})</h3>
                     <div className="w-100 pt-2 pb-5">
                         {selectedBadges && selectedBadges.map((roadmapBadge) => {
                             const badgeId = roadmapBadge.badge_id;
@@ -58,7 +58,7 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                 </div>
 
                 <div className="col-lg-12">
-                    <h2>Recommended Skipped Badges ({notSelectedBadges.length})</h2>
+                    <h3 className="text-black">Recommended Skipped Badges ({notSelectedBadges.length})</h3>
                     <div className="w-100 pt-2 pb-5">
                         {notSelectedBadges && notSelectedBadges.map((badge) => {
                             const badgeId = badge.badge_id;

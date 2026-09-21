@@ -28,8 +28,7 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
 
     if (prerequisiteBadges) {
         const toggleComponent = <div
-            className="p-4 h-100 bg-warning-subtle rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-            role="button">
+            className="p-4 h-100 bg-warning-subtle rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center">
         </div>
 
         return <div className="w-100 pb-3">
@@ -40,8 +39,10 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
             {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
                 let actions = null;
 
+                const preRequisiteBadgeViewButtonLabel = `View prerequisite ${prerequisiteBadge.name}`;
+
                 if (!!resourceId && !!roadmapId) {
-                    actions = <Link
+                    actions = <Link aria-label={preRequisiteBadgeViewButtonLabel}
                         to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
                         className="w-100 btn btn-outline-primary btn-sm rounded-3 d-flex flex-row">
                         <span className="flex-fill text-start">

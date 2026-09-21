@@ -24,8 +24,8 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
         <div className="w-100 border-gray-200 border-top">
             <div className="row bg-gray-100 rounded-3 mt-4 p-2">
                 <div className="col p-2">
-                    <div><strong>{resource.resource_descriptive_name}</strong></div>
-                    <div><strong className="text-primary">{organization.organization_name}</strong></div>
+                    <h2 className="fs-6 text-black mb-0 mt-1">{resource.resource_descriptive_name}</h2>
+                    <div className="fw-bold text-primary" aria-label="Resource Provider">{organization.organization_name}</div>
                 </div>
                 <div className="col p-2">
                     <label className="text-secondary" htmlFor="resource-type">Resource Type</label>
@@ -47,7 +47,7 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
         </div>
 
         <div className="w-100 pt-5">
-            <h2>Selected Roadmap:</h2>
+            <h3 className="text-black">Selected Roadmap:</h3>
             <p>
                 If you’d like to change your selection or associate your resource with a different roadmap, please
                 visit the Roadmaps page and update it there. For any other questions or assistance, feel free to

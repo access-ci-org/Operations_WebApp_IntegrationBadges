@@ -25,7 +25,7 @@ export default function ResourceBadgeCardV2({resourceId, roadmapId, badgeId}) {
                         <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                     </div>
                     <div className="flex-fill">
-                        <h4 className="w-100">{badge.name}</h4>
+                        <h3 className="w-100 fs-4 text-black">{badge.name}</h3>
                         <div className="w-100 fst-italic">{roadmap.name}</div>
                     </div>
                 </div>
@@ -35,13 +35,13 @@ export default function ResourceBadgeCardV2({resourceId, roadmapId, badgeId}) {
                     </div>
                     <div className="flex-fill p-3 border border-1 border-start-0 rounded-end-1">
                         <div>
-                            <strong>Resource Type : </strong> {resource.cider_type}
+                            <h4 className="fs-6 d-inline-block">Resource Type : </h4> {resource.cider_type}
                         </div>
                         <div>
-                            <strong>Resource Name : </strong> {resource.resource_descriptive_name}
+                            <h4 className="fs-6 d-inline-block">Resource Name : </h4> {resource.resource_descriptive_name}
                         </div>
                         <div>
-                            <strong>Roadmap : </strong> {roadmap.name}
+                            <h4 className="fs-6 d-inline-block">Roadmap : </h4> {roadmap.name}
                         </div>
                     </div>
                 </div>

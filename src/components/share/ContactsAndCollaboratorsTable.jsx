@@ -24,13 +24,29 @@ export default function ContactsAndCollaboratorsTable(
     const [error, setError] = useState(false);
     const [copyStatus, setCopyStatus] = useState("");
 
-    let contacts = getContacts({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail});
+    let contacts = getContacts({
+        organizationId,
+        resourceId,
+        resourceIntegrationStatus,
+        roadmapId,
+        badgeId,
+        contactType,
+        contactEmail
+    });
 
     // if (contacts) contacts = sortJsonArrayAlphabetically(contacts, "contact_name");
 
     useEffect(() => {
         if (!contacts) {
-            fetchContacts({organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail})
+            fetchContacts({
+                organizationId,
+                resourceId,
+                resourceIntegrationStatus,
+                roadmapId,
+                badgeId,
+                contactType,
+                contactEmail
+            })
                 .catch(() => setError(true));
         }
     }, [organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail]);
@@ -94,11 +110,12 @@ export default function ContactsAndCollaboratorsTable(
                         <th scope="row">
                             <div className="d-flex flex-row pt-2">
                                 <div className="pe-2">
-                                    <CollaboratorProfileAvatarButton contact={contact}
-                                                                     profileAvatarClass="bg-accent-secondary text-white"/>
+                                    <CollaboratorProfileAvatarButton
+                                        contact={contact}
+                                        profileAvatarClass="bg-accent-secondary text-black fw-bold"/>
                                 </div>
                                 <div className="flex-fill">
-                                    <h5 className="fs-8 mb-0">{contact.contact_name}</h5>
+                                    <h3 className="fs-8 text-black mb-0">{contact.contact_name}</h3>
                                     <div className="fs-9 fw-normal">{contact.contact_email}</div>
                                 </div>
                             </div>
@@ -120,7 +137,7 @@ export default function ContactsAndCollaboratorsTable(
                                             }}/>
                                         </div>
                                         <div className="flex-fill ps-3 pt-2 align-content-start">
-                                            <h6 className="w-100 fs-9 m-0">{resource.resource_descriptive_name}</h6>
+                                            <h4 className="w-100 fs-9 m-0 text-black">{resource.resource_descriptive_name}</h4>
 
                                             <ul className="w-100 p-0 mb-2 ps-4 fs-8 text-gray-800">
                                                 {resourceContact.contact_types.map((contactType, contactTypeIndex) =>

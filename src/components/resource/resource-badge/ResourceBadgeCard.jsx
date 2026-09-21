@@ -31,7 +31,8 @@ export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
                     <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                 </div>
             </div>
-            <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
+            <Link aria-label={`View ${badge.name}`}
+                to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
                   className="btn btn-primary rounded-5 w-100">
                 View
             </Link>

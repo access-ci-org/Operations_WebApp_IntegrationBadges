@@ -38,7 +38,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
         try {
             await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
-        } catch (error){
+        } catch (error) {
             await showErrorDialog({
                 error: error,
                 roles: transition.conditions ? transition.conditions.role : null,
@@ -72,22 +72,28 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         </span>
     </span>);
 
+    let expandBtnLabel = `Show more about ${task.name}`;
+    let expandBtnIcon = <i className="bi bi-caret-right-fill"></i>;
+    if (isCurrentEventKey) {
+        expandBtnLabel = `Show less about ${task.name}`;
+        expandBtnIcon = <i className="bi bi-caret-down-fill"></i>;
+    }
+
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col ps-0 d-flex flex-row align-items-center">
 
-            <button
-                className="p-4 ps-3 pe-3 h-100 btn btn-gray-100 width-fit-content border-0 rounded-start-3 align-content-center text-center"
-                onClick={decoratedOnClick}>
-                {isCurrentEventKey ? <i className="bi bi-caret-down-fill"></i> :
-                    <i className="bi bi-caret-right-fill"></i>}
+            <button aria-label={expandBtnLabel}
+                    className="p-4 ps-3 pe-3 h-100 btn btn-gray-100 width-fit-content border-0 rounded-start-3 align-content-center text-center"
+                    onClick={decoratedOnClick}>
+                {expandBtnIcon}
             </button>
-            <h4 className="flex-fill p-2 ps-3 m-0 fs-6">{task.name}</h4>
+            <h4 className="flex-fill p-2 ps-3 m-0 text-black fs-6">{task.name}</h4>
         </div>
 
         <div className="col-sm-3 align-content-center text-center">
             {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
                     Required</small> :
-                <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">
+                <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-gray-300 text-gray-800">
                     Not Required</small>}
         </div>
 

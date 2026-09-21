@@ -159,6 +159,9 @@ export default function WhyBecomeAnRP() {
 
 export function WhyBecomeAnRPFooter() {
     return <div className="row p-3 pt-5 pb-5 justify-content-center">
+        <div className="visually-hidden">
+            <h2>More Resources and Help</h2>
+        </div>
         <div className="col">
             <div className="h-100 p-5 rounded-2 border border-light box-shadow-0-4-4-0 d-flex flex-column">
                 <div className="flex-fill">

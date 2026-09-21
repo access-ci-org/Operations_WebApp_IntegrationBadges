@@ -97,26 +97,26 @@ export default function Badges() {
 
                         <div className="w-100 pb-5">
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
+                                <h3 className="col-sm-3 fs-6 text-black">Researcher Summary:</h3>
                                 <div className="col-sm-9 pre-wrap-text">
                                     <HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact>
                                 </div>
                             </div>
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6">Resource Provider Summary:</h4>
+                                <h3 className="col-sm-3 fs-6 text-black">Resource Provider Summary:</h3>
                                 <div className="col-sm-9 pre-wrap-text">
                                     <HtmlToReact>{selectedBadge.resource_provider_summary}</HtmlToReact></div>
                             </div>
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6">Verification:</h4>
+                                <h3 className="col-sm-3 fs-6 text-black">Verification:</h3>
                                 <div className="col-sm-9 pre-wrap-text">
                                     <div><strong>[{selectedBadge.verification_method}]&nbsp;</strong></div>
                                     <HtmlToReact>{selectedBadge.verification_summary}</HtmlToReact>
                                 </div>
                             </div>
                             <div className="row pb-3">
-                                <h4 className="fs-6 col-sm-3 align-content-center">Default Badge
-                                    Access:</h4>
+                                <h3 className="fs-6 col-sm-3 align-content-center text-black">
+                                    Default Badge Access:</h3>
                                 <div className="col-sm-9 align-content-center">
                                     <Link to={selectedBadge.default_badge_access_url}
                                           className="btn btn-outline-primary btn-sm">
@@ -137,7 +137,8 @@ export default function Badges() {
                                                     verification. Click badge details to view and complete the required
                                                     tasks.
                                                 </Tooltip>}>
-                                    <button className="btn btn-link d-inline">
+                                    <button className="btn btn-link d-inline"
+                                            aria-label="What are Pre-Requisite Badges?">
                                         <i className="bi bi-question-square-fill text-accent-primary"></i>
                                     </button>
                                 </OverlayTrigger>
@@ -154,7 +155,7 @@ export default function Badges() {
                                                     them, return
                                                     here, and mark each as Complete or N/A.
                                                 </Tooltip>}>
-                                    <button className="btn btn-link d-inline">
+                                    <button className="btn btn-link d-inline" aria-label="What are Key Tasks & Tips?">
                                         <i className="bi bi-question-square-fill text-accent-primary"></i>
                                     </button>
                                 </OverlayTrigger>

@@ -20,10 +20,12 @@ export default function ResourceCard({organization, resource, inProgress = false
             <div className="w-100 ps-2 resource-card-header-actions">
                 <ShowIfAuthorized resourceIds={[resource.info_resourceid]}
                                   roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
-                    {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
-                                          className="btn btn-link text-primary">
-                        Edit
-                    </Link>}
+                    {!inProgress &&
+                        <Link to={`/resources/${resource.info_resourceid}/edit`}
+                              className="btn btn-link text-primary"
+                              aria-label={`Edit Resource ${resource.short_name}`}>
+                            Edit
+                        </Link>}
                 </ShowIfAuthorized>
             </div>
             <h3 className="w-100 text-black">{resource.short_name}</h3>
@@ -56,7 +58,8 @@ export default function ResourceCard({organization, resource, inProgress = false
             {showViewButton && !inProgress && resource.roadmaps && resource.roadmaps.map((roadmap, roadmapIndex) => {
                 return <div className="p-1" key={roadmapIndex}>
                     <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap.roadmap_id}`}
-                          className={`btn ${roadmapIndex === 0 ? 'btn-primary' : 'btn-outline-primary'} rounded-5 w-100`}>
+                          className={`btn ${roadmapIndex === 0 ? 'btn-primary' : 'btn-outline-primary'} rounded-5 w-100`}
+                    aria-label={`View ${resource.short_name}'s ${roadmap.roadmap.name} Roadmap`}>
                         {roadmap.roadmap.name}
                     </Link>
                 </div>

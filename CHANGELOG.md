@@ -8,6 +8,30 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.24.1 2026-09-20 dinukadesilva
+
+1. [new] Initial accessibility improvements of issues found through Chrome Lighthouse (CTT-1141)
+    - All routes except the staff roadmap and badge edit pages
+    - `/organizations/`
+    - `/organizations/:organizationId`
+    - `/organizations/:organizationId/badge-review/verification-failed`
+    - `/resources/:resourceId`
+    - `/resources/:resourceId/roadmaps/new`
+    - `/resources/:resourceId/roadmaps/:roadmapId`
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+    - `/resources/:resourceId/roadmaps/:roadmapId/edit`
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+    - `/staff/badge-status`
+    - `/staff/contacts`
+    - `/docs/badges`
+    - `/docs/roadmaps`
+    - `/docs`
+    - `/docs/why-become-an-rp`
+    - `/docs/why-should-i-integrate-resources`
+    - `/docs/how-to-integrate-resource`
+    - `/docs/how-to-choose-roadmap`
+    - `/docs/what-is-ticketing-system`
+
 ## v1.23.6 2026-09-16 dinukadesilva
 
 1. [fix] Generalizing the error messages (CTT-1003)

@@ -24,7 +24,7 @@ export default function ResourceBadgeStatusListing() {
 
     const {
         fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeStatusSummary,
-        getResourceRoadmapBadges, getResourceRoadmapBadgeStatusSummary
+        getResource, getResourceRoadmapBadges, getResourceRoadmapBadgeStatusSummary
     } = useResources();
     const {getBadge} = useBadges();
 
@@ -190,7 +190,11 @@ export default function ResourceBadgeStatusListing() {
                                     const resourceId = resourceBadge.info_resourceid;
                                     const badgeId = resourceBadge.badge_id;
                                     const roadmapId = resourceBadge.roadmap_id;
+
+                                    const resource = getResource({resourceId: resourceId});
                                     const badge = getBadge({badgeId});
+
+                                    let badgeActionButtonLabel = `View ${resource.resource_descriptive_name}'s ${badge.name}`;
 
                                     return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
                                         <td>
@@ -209,7 +213,7 @@ export default function ResourceBadgeStatusListing() {
                                             </div>
                                         </td>
                                         <td>
-                                            <Link style={{minWidth: "175px"}}
+                                            <Link style={{minWidth: "175px"}} aria-label={badgeActionButtonLabel}
                                                   to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}`}
                                                   className="btn btn-link text-primary text-decoration-none fw-normal fs-7 pt-2 pb-2 text-start"
                                                   target="_blank">
@@ -238,7 +242,7 @@ export default function ResourceBadgeStatusListing() {
                         <div className="w-100 mt-1 mb-5 border border-1 rounded-2 bg-light p-3">
                             <div className="row text-blue-800">
                                 <div className="col-sm-6 pb-2">
-                                    <h4 className="d-inline fs-7 text-blue-800">Active Filter:</h4>
+                                    <h3 className="d-inline fs-7 text-blue-800">Active Filter:</h3>
                                     <div className="d-inline ps-2 fs-7">
                                         {badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ?
                                             "View All" :

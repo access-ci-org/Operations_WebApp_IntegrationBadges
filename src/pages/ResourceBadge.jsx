@@ -179,8 +179,8 @@ export default function ResourceBadge() {
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Required</span>}
                     </div>
                     <div className="row">
-                        <label className="text-secondary" htmlFor="resource-badge-rp-roles">RP Roles</label>
-                        <div id="resource-badge-rp-roles">{getImplementorRoles(tasks).join(", ")}</div>
+                        <h3 className="text-secondary fs-6 fw-normal mt-4 mb-0">RP Roles</h3>
+                        <div>{getImplementorRoles(tasks).join(", ")}</div>
                     </div>
                 </div>
                 <div className="col-sm-3 ps-1 mb-3">
@@ -211,13 +211,13 @@ export default function ResourceBadge() {
             <div className="row">
 
                 <div className="w-100 text-start pb-2">
-                    <h3 className="d-inline me-4 text-black">Pre-Requisite Badges</h3>
+                    <h3 className="d-inline me-4 text-black fs-3">Pre-Requisite Badges</h3>
                     <OverlayTrigger placement="right" delayShow={300} delayHide={150}
                                     overlay={<Tooltip id="tooltip-tasks">
                                         Prerequisite badges must be completed before submitting this badge for concierge
                                         verification. Click badge details to view and complete the required tasks.
                                     </Tooltip>}>
-                        <button className="btn btn-link d-inline">
+                        <button className="btn btn-link d-inline" aria-label="What are Pre-Requisite Badges?">
                             <i className="bi bi-question-square-fill text-accent-primary"></i>
                         </button>
                     </OverlayTrigger>
@@ -227,13 +227,13 @@ export default function ResourceBadge() {
 
             <div className="row pt-4">
                 <div className="w-100 text-start pb-2">
-                    <h3 className="d-inline me-4 text-black">Key Tasks & Tips</h3>
+                    <h3 className="d-inline me-4 text-black fs-3">Key Tasks & Tips</h3>
                     <OverlayTrigger placement="right" delayShow={300} delayHide={150}
                                     overlay={<Tooltip id="tooltip-tasks">
                                         Some tasks are informational, while others require action. Review them, return
                                         here, and mark each as Complete or N/A.
                                     </Tooltip>}>
-                        <button className="btn btn-link d-inline">
+                        <button className="btn btn-link d-inline" aria-label="What are Key Tasks & Tips?">
                             <i className="bi bi-question-square-fill text-accent-primary"></i>
                         </button>
                     </OverlayTrigger>

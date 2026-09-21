@@ -41,9 +41,10 @@ export function CollaboratorProfileAvatarButton({contact, profileAvatarClass}) {
 
     return <div className="col p-0 me-1" style={style}>
         <OverlayTrigger overlay={tooltip} placement="bottom" delayShow={300} delayHide={150}>
-            <button className={"btn fs-9 w-100 h-100 rounded-circle p-1 " + profileAvatarClass}>
-                {getContactNameInitials(contact.contact_name)}
-            </button>
+            <div role="img" aria-label={`View contact ${contact.contact_name}`}
+                 className={"btn fs-10 w-100 h-100 rounded-circle p-1 " + profileAvatarClass}>
+                <span>{getContactNameInitials(contact.contact_name)}</span>
+            </div>
         </OverlayTrigger>
     </div>
 }
@@ -59,8 +60,8 @@ function ShowMoreCollaboratorDetailsButton(
         return <div className="col align-content-center text-end ps-2">
             {contacts &&
                 <button className="btn btn-light rounded-3 border-0 fs-8" onClick={() => onClick && onClick()}>
-                        <span className="small text-primary fw-bold"> Contacts / Collaborator</span>
-                        <span className="ps-1 pe-1 ms-2 bg-primary text-white fw-bold rounded rounded-3">
+                    <span className="small text-primary fw-bold"> Contacts / Collaborator</span>
+                    <span className="ps-1 pe-1 ms-2 bg-primary text-white fw-bold rounded rounded-3">
                             {contacts.length - NumberOfContactDisplayOnSummary}</span>
                 </button>}
         </div>
@@ -135,18 +136,20 @@ export default function ContactsAndCollaboratorsSummary(
             </div>
 
             <Modal className="modal-light" size="xl" show={showContactsAndCollaboratorsModal}
+                   aria-label="Contacts and Collaborators"
                    onHide={setShowContactsAndCollaboratorsModal.bind(this, false)}>
-                <Modal.Header closeButton >
+                <Modal.Header closeButton>
                     <Modal.Title>
                         Contacts / Collaborators
 
-                        <Link className="btn btn-link ps-3" to={externalLink} target="_blank">
+                        <Link className="btn btn-link ps-3" to={externalLink} target="_blank"
+                              aria-label="Open Contacts and Collaborators in a new Window">
                             <i className="bi bi-box-arrow-up-right"></i>
                         </Link>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div >
+                    <div>
                         <ContactsAndCollaboratorsFilterView organizationId={organizationId} resourceId={resourceId}
                                                             contactEmail={contactEmail} contactType={contactType}/>
                     </div>

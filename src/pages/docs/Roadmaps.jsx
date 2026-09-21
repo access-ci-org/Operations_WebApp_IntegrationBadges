@@ -111,21 +111,21 @@ export default function Roadmaps() {
 
                         <div className="w-100 pb-5">
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Infrastructure Type(s):</h4>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Infrastructure Type(s):</h3>
                                 <div className="col-sm-9">{selectedRoadmap.infrastructure_types}</div>
                             </div>
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap RP Summary:</h4>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Roadmap RP Summary:</h3>
                                 <div className="col-sm-9 pre-wrap-text">
                                     <HtmlToReact>{selectedRoadmap.executive_summary}</HtmlToReact>
                                 </div>
                             </div>
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Integration Concierge:</h4>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Integration Concierge:</h3>
                                 <div className="col-sm-9">{selectedRoadmap.integration_coordinators}</div>
                             </div>
                             <div className="row pb-3">
-                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap Status:</h4>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Roadmap Status:</h3>
                                 <div className="col-sm-9">{selectedRoadmap.status}</div>
                             </div>
                         </div>

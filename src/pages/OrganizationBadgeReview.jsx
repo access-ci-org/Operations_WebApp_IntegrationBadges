@@ -41,7 +41,7 @@ export default function OrganizationBadgeReview() {
                     <i className="bi bi-info-circle"></i>
                 </div>
                 <div className="flex-fill bg-warning rounded-end-2 p-3 bg-opacity-10">
-                    <h3>COMMENTS:</h3>
+                    <h2 className="fs-3 text-primary">COMMENTS:</h2>
                     <p>
                         These badges were returned with feedback. Please click and “view details” for each and revise
                         the highlighted tasks and resubmit for validation.

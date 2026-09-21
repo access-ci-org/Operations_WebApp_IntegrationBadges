@@ -11,6 +11,7 @@ import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 import {PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 import Translate from "../locales/Translate.jsx";
+import {useTranslation} from "react-i18next";
 
 /**
  * The initial page that displays al resources.
@@ -24,6 +25,7 @@ export default function Organization() {
         fetchResources,
         getResources, getResourceRoadmaps
     } = useResources();
+    const {t} = useTranslation();
 
     const [searchText, setSearchText] = useState("");
 
@@ -146,13 +148,16 @@ export default function Organization() {
                         <Translate>resourceIntegrationStatusDescription.{section.resourceIntegrationStatus}</Translate>
                     </Tooltip>;
 
+                    const sectionTitle = t(`resourceIntegrationStatus.${section.resourceIntegrationStatus}`);
+
                     return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
                         <div className="w-100 text-start pb-2">
                             <h2 className="d-inline me-4">
-                                <Translate>resourceIntegrationStatus.{section.resourceIntegrationStatus}</Translate>
+                                {sectionTitle}
                                 ({section.resources.filter(r => !!r).length})</h2>
                             <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
-                                <button className="btn btn-link d-inline">
+                                <button className="btn btn-link d-inline"
+                                        aria-label={`What are ${sectionTitle} resources?`}>
                                     <i className="bi bi-question-square-fill text-accent-primary"></i>
                                 </button>
                             </OverlayTrigger>

@@ -90,9 +90,9 @@ export default function WhyIntegrateResources() {
         </div>
 
         <div className="w-100 p-3 mt-3">
-            <h4 className="fst-italic fw-bold text-dark fs-5 mb-5">
+            <h2 className="fst-italic fw-bold text-dark fs-5 mb-5">
                 Benefits of Becoming an ACCESS Resource Provider
-            </h4>
+            </h2>
 
             {benefits.map((benefit, benefitIndex) => {
                 const explanationBlockClass = benefitIndex % 2 === 0 ? "bg-primary text-white" : "bg-light";
@@ -106,12 +106,12 @@ export default function WhyIntegrateResources() {
                                     style={{width: 40, height: 40, borderRadius: "50%"}}>
                                     {benefitIndex + 1}</div>
                             </div>
-                            <h5 className="flex-fill text-dark align-content-center ps-3 m-0">{benefit.title}</h5>
+                            <h3 className="flex-fill text-dark align-content-center fs-5 ps-3 m-0">{benefit.title}</h3>
                         </div>
                         <div className="text-dark">{benefit.description}</div>
                         <div
                             className={"w-100 p-3 mt-4 rounded-3 border border-1 " + explanationBlockClass}>
-                            <h6 className={"fw-bold " + explanationBlockClass}>What this means for you:</h6>
+                            <h4 className={"fw-bold fs-6" + explanationBlockClass}>What this means for you:</h4>
                             <ul>
                                 {benefit.explanations.map((explanation, explanationIndex) =>
                                     <li key={explanationIndex}>{explanation}</li>)}
@@ -125,9 +125,9 @@ export default function WhyIntegrateResources() {
 
         <div className="w-100 p-3 mt-3">
             <div className="border-bottom border-primary border-1 ms-5 me-5 mb-5"></div>
-            <h4 className="fst-italic fw-bold text-dark fs-5 mb-3">
+            <h2 className="fst-italic fw-bold text-dark fs-5 mb-3">
                 Examples of Visibility & Engagement Opportunities
-            </h4>
+            </h2>
             <div className="w-100 lh-lg">
                 <ul>
                     <li>

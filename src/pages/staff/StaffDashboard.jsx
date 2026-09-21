@@ -119,7 +119,7 @@ export default function StaffDashboard() {
                             </div>
                             <RoadmapMaintainer>
                                 <div style={{minWidth: 100}}>
-                                    <Link className="btn btn-sm btn-primary rounded-2"
+                                    <Link className="btn btn-sm btn-primary rounded-2" aria-label="Create new Roadmap"
                                           to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                                 </div>
                             </RoadmapMaintainer>
@@ -130,6 +130,10 @@ export default function StaffDashboard() {
                                 const roadmapId = roadmap.roadmap_id;
                                 let activeClassName = "";
                                 if (selectedRoadmapId === roadmapId) activeClassName = "bg-gray-200";
+
+
+                                const roadmapEditButtonLabel = `Edit Roadmap ${roadmap.name}`;
+                                const roadmapViewButtonLabel = `View Roadmap ${roadmap.name}`;
 
                                 return <li key={roadmapIndex} className="w-100 pb-2">
                                     <button onClick={toggleSelectedRoadmap({roadmapId})}
@@ -150,13 +154,13 @@ export default function StaffDashboard() {
 
                                         <div className="align-content-center text-end" style={{minWidth: 80}}>
                                             <RoadmapMaintainer>
-                                                <Link
-                                                    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                                    className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                                <Link aria-label={roadmapEditButtonLabel}
+                                                      to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
+                                                      className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                                     <i className="bi bi-pencil-square"></i>
                                                 </Link>
                                             </RoadmapMaintainer>
-                                            <Link target="_blank"
+                                            <Link target="_blank" aria-label={roadmapViewButtonLabel}
                                                   to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
                                                   className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                                 <i className="bi bi-info-circle"></i>
@@ -188,7 +192,8 @@ export default function StaffDashboard() {
                             </div>
                             <BadgeMaintainer>
                                 <div style={{minWidth: 100}}>
-                                    <Link className="btn btn-sm btn-primary rounded-2" to={StaffRouteUrls.BADGE_NEW}>
+                                    <Link className="btn btn-sm btn-primary rounded-2" to={StaffRouteUrls.BADGE_NEW}
+                                          aria-label="Create new Badge">
                                         Create New</Link>
                                 </div>
                             </BadgeMaintainer>
@@ -197,6 +202,9 @@ export default function StaffDashboard() {
                             {badges && badges.map((badge, badgeIndex) => {
                                 let borderClass = "border-gray-200 border-bottom border-1";
                                 if (badgeIndex === badges.length - 1) borderClass = "";
+
+                                const badgeEditButtonLabel = `Edit Badge ${badge.name}`;
+                                const badgeViewButtonLabel = `View Badge ${badge.name}`;
 
                                 return <li key={badgeIndex} className={"d-flex flex-row pb-2 mb-2 " + borderClass}>
                                     <div className="align-content-center">
@@ -211,12 +219,13 @@ export default function StaffDashboard() {
 
                                     <div className="align-content-center">
                                         <BadgeMaintainer>
-                                            <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
+                                            <Link aria-label={badgeEditButtonLabel}
+                                                  to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
                                                   className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
                                         </BadgeMaintainer>
-                                        <Link target="_blank"
+                                        <Link target="_blank" aria-label={badgeViewButtonLabel}
                                               to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
                                               className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>

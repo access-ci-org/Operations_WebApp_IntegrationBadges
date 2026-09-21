@@ -109,7 +109,8 @@ export default function HowToIntegrateResource() {
                 <div className="w-100">
                     {badges.slice(0, 2).map((badge, badgeIndex) =>
                         <div className="d-inline-block p-2" key={badgeIndex}>
-                            <Link to={`${DocumentationRouteUrls.BADGES}?badgeId=${badge.badge_id}`}>
+                            <Link to={`${DocumentationRouteUrls.BADGES}?badgeId=${badge.badge_id}`}
+                            aria-label={`View badge ${badge.name}`}>
                                 <BadgeIcon badgeId={badge.badge_id}/>
                             </Link>
                         </div>)}
@@ -206,7 +207,7 @@ export default function HowToIntegrateResource() {
         <div className="w-100 p-3 mt-5">
             <div className="w-100 d-flex flex-row">
                 <hr className="flex-fill"/>
-                <h3 className="text-uppercase fs-5 ps-2 pe-2 m-0 align-content-center text-primary">Getting Started</h3>
+                <h2 className="text-uppercase fs-5 ps-2 pe-2 m-0 align-content-center text-primary">Getting Started</h2>
                 <hr className="flex-fill"/>
             </div>
             <p className="w-100 pt-5 pb-5">
@@ -225,9 +226,9 @@ export default function HowToIntegrateResource() {
                                      style={{width: 35, height: 35}}>
                                     {gettingStartedSection.icon}
                                 </div>
-                                <h4 className="flex-fill align-content-center m-0 ps-3">
+                                <h3 className="flex-fill fs-4 text-black align-content-center m-0 ps-3">
                                     {gettingStartedSection.title}
-                                </h4>
+                                </h3>
                             </div>
                             <div className="pt-4 pb-4">
                                 {gettingStartedSection.body}
