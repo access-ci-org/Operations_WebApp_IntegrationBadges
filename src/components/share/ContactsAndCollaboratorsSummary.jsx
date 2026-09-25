@@ -60,7 +60,7 @@ function ShowMoreCollaboratorDetailsButton(
         return <div className="col align-content-center text-end ps-2">
             {contacts &&
                 <button className="btn btn-light rounded-3 border-0 fs-8" onClick={() => onClick && onClick()}>
-                    <span className="small text-primary fw-bold"> Contacts / Collaborator</span>
+                    <span className="small text-primary fw-bold"> Contacts / Collaborators</span>
                     <span className="ps-1 pe-1 ms-2 bg-primary text-white fw-bold rounded rounded-3">
                             {contacts.length - NumberOfContactDisplayOnSummary}</span>
                 </button>}

@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.24.4 2026-09-25 dinukadesilva
+
+1. [new] Fixing a typo on the contacts summary component on pages
+    - All
+
 ## v1.24.3 2026-09-25 dinukadesilva
 
 1. [new] Chrome lighthouse accessibility improvements of the staff roadmap and badge edit pages (CTT-1141)
