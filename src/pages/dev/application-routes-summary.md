@@ -10,7 +10,7 @@
 | **6**  | Resource Roadmap Integration - EDIT           | `/resources/:resourceId/roadmaps/:roadmapId/edit`                 | 
 | **7**  | Resource Roadmap Integration Badge            | `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`      | 
 | **8**  | Staff: Dashboard                              | `/staff/dashboard`                                                | 
-| **9** | Staff: Roadmap list and administration        | `/staff/roadmaps`                                                 | 
+| **9**  | Staff: Roadmap list and administration        | `/staff/roadmaps`                                                 | 
 | **10** | Staff: Roadmap Edit                           | `/staff/roadmaps/:roadmapId/edit`                                 | 
 | **11** | Staff: Add new roadmap                        | `/staff/roadmaps/new`                                             | 
 | **12** | Staff: Badge edit                             | `/staff/badges/:badgeId/edit`                                     | 

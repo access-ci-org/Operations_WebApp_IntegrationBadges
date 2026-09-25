@@ -4,6 +4,16 @@ import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from 'react-dropzone'
 import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
+const roadmapInputFieldLabelIds = {
+    roadmapId: "staff-roadmap-edit-form-roadmapId",
+    name: "staff-roadmap-edit-form-roadmap-name",
+    graphic: "staff-roadmap-edit-form-roadmap-graphic",
+    executive_summary: "staff-roadmap-edit-form-roadmap-executive-summary",
+    infrastructure_types: "staff-roadmap-edit-form-infrastructure_types",
+    integration_coordinators: "staff-roadmap-edit-form-integration-coordinators",
+    status: "staff-roadmap-edit-form-roadmap-status"
+};
+
 function useRoadmapInputFields({roadmapData, setRoadmapData}) {
 
     const onInputValueChange = (fieldName) => (evt) => {
@@ -42,19 +52,24 @@ function useRoadmapInputFields({roadmapData, setRoadmapData}) {
     });
 
     return {
-        name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
+        name: <Form.Control type="text" value={roadmapData.name}
+                            aria-labelledby={roadmapInputFieldLabelIds.name}
+                            onChange={onInputValueChange("name")}/>,
 
         graphic: (then) => {
             return <div {...getRootProps()}>
-                <input {...getInputProps()} />
+                <input {...getInputProps()} aria-labelledby={roadmapInputFieldLabelIds.graphic} />
                 {then(open, isDragAccept)}
             </div>;
         },
 
         executive_summary: <BasicFormattedTextEditor data={roadmapData.executive_summary}
+                                                     aria-labelledby={roadmapInputFieldLabelIds.executive_summary}
                                                      onChange={onFormattedTextInputValueChange("executive_summary")}/>,
 
-        infrastructure_types: <Form.Select aria-label="Default select example" value={roadmapData.infrastructure_types}
+        infrastructure_types: <Form.Select aria-label="Default select example"
+                                           aria-labelledby={roadmapInputFieldLabelIds.infrastructure_types}
+                                           value={roadmapData.infrastructure_types}
                                            onChange={onInputValueChange("infrastructure_types")}>
             <option value="" disabled={true}></option>
             <option value="Network">Network</option>
@@ -65,9 +80,12 @@ function useRoadmapInputFields({roadmapData, setRoadmapData}) {
         </Form.Select>,
 
         integration_coordinators: <Form.Control type="text" value={roadmapData.integration_coordinators}
+                                                aria-labelledby={roadmapInputFieldLabelIds.integration_coordinators}
                                                 onChange={onInputValueChange("integration_coordinators")}/>,
 
-        status: <Form.Select aria-label="Default select example" value={roadmapData.status}
+        status: <Form.Select aria-label="Default select example"
+                             aria-labelledby={roadmapInputFieldLabelIds.status}
+                             value={roadmapData.status}
                              onChange={onInputValueChange("status")}>
             <option value="1">Draft</option>
             <option value="2">Production</option>
@@ -84,11 +102,11 @@ export function StaffRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3">
-            <Form.Label>Name</Form.Label>
+            <Form.Label id={roadmapInputFieldLabelIds.name}>Name</Form.Label>
             {roadmapInputFields.name}
         </div>
         <div className="mb-3">
-            <Form.Label>Roadmap Image</Form.Label>
+            <Form.Label id={roadmapInputFieldLabelIds.graphic}>Roadmap Image</Form.Label>
 
             {roadmapInputFields.graphic((open, isDragAccept) => <div
                 className={`w-100 border border-1 p-4 rounded text-center ${isDragAccept && "border-style-dashed bg-light"}`}>
@@ -109,19 +127,19 @@ export function StaffRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
             </div>)}
         </div>
         <div className="mb-3">
-            <Form.Label>Executive Summary</Form.Label>
+            <Form.Label id={roadmapInputFieldLabelIds.executive_summary}>Executive Summary</Form.Label>
             {roadmapInputFields.executive_summary}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Infrastructure Type</Form.Label>
+            <Form.Label id={roadmapInputFieldLabelIds.infrastructure_types}>Infrastructure Type</Form.Label>
             {roadmapInputFields.infrastructure_types}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Integration Coordinators</Form.Label>
+            <Form.Label id={roadmapInputFieldLabelIds.integration_coordinators}>Integration Coordinators</Form.Label>
             {roadmapInputFields.integration_coordinators}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Status</Form.Label>
+            <Form.Label id={roadmapInputFieldLabelIds.status}>Status</Form.Label>
             {roadmapInputFields.status}
         </div>
     </div>
@@ -135,21 +153,22 @@ export function StaffRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Roadmap id</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.roadmapId}>Roadmap id</Form.Label>
             <div className="col-sm-7">
-                <Form.Control type="text" value={roadmapId} disabled={true}/>
+                <Form.Control type="text" aria-labelledby={roadmapInputFieldLabelIds.roadmapId} value={roadmapId} disabled={true}/>
             </div>
         </div>
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Name</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.name}>Name</Form.Label>
             <div className="col-sm-7">{roadmapInputFields.name}</div>
         </div>
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Executive Summary</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.executive_summary}>
+                Executive Summary</Form.Label>
             <div className="col-sm-7">{roadmapInputFields.executive_summary}</div>
         </div>
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Image</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.graphic}>Image</Form.Label>
             <div className="col-sm-7 d-flex flex-row">
                 {roadmapInputFields.graphic((open, isDragAccept) => <div
                     className={`w-100 d-flex flex-row p-2 rounded-2 border border-1 border-style-dashed ${isDragAccept ? "bg-light" : "border-white"}`}>
@@ -175,15 +194,17 @@ export function StaffRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
             </div>
         </div>
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Infrastructure Type</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.infrastructure_types}>
+                Infrastructure Type</Form.Label>
             <div className="col-sm-7">{roadmapInputFields.infrastructure_types}</div>
         </div>
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Integration Coordinators</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.integration_coordinators}>
+                Integration Coordinators</Form.Label>
             <div className="col-sm-7">{roadmapInputFields.integration_coordinators}</div>
         </div>
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Status</Form.Label>
+            <Form.Label className="col-sm-5" id={roadmapInputFieldLabelIds.status}>Status</Form.Label>
             <div className="col-sm-7">{roadmapInputFields.status}</div>
         </div>
     </div>

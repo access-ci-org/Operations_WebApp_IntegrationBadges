@@ -99,7 +99,7 @@ export default class GlobalErrorHandling extends React.Component {
         if (this.state.hasError) {
             // return this.props.fallback;
             return <div>
-                <Modal className="modal-danger" show={true}>
+                <Modal className="modal-danger" show={true} aria-label="Unknown Error">
                     <Modal.Header className="modal-icon-header">
                         <Modal.Title>Unknown Error</Modal.Title>
                         <i className="bi bi-exclamation-triangle-fill"></i>

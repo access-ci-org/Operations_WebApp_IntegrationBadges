@@ -129,38 +129,63 @@ export default function MultiSelectControlTwoLists(
         const currentEventKey = useContext(AccordionContext).activeEventKey;
         const decoratedOnClick = useAccordionButton(eventKey);
 
+        const dragButtonLabel = `Drag to reorder ${item.label}`;
+
+        let viewMoreDetailsButton = null;
+        if (enableViewMoreDetails) {
+            if (currentEventKey === eventKey) {
+                viewMoreDetailsButton = (<button
+                    type="button" className="btn btn-link text-primary ps-1 pe-1"
+                    onClick={decoratedOnClick} aria-label={`View less about ${item.label}`}>
+                    <i className="bi bi-caret-down-fill"></i>
+                </button>);
+            } else {
+                viewMoreDetailsButton = (<button
+                    type="button" className="btn btn-link text-primary ps-1 pe-1"
+                    onClick={decoratedOnClick} aria-label={`View more about ${item.label}`}>
+                    <i className="bi bi-caret-up-fill"></i>
+                </button>);
+            }
+        }
+
         return <div className="text-gray-400 align-items-center ps-1 pe-1 d-flex flex-row">
             {!!enableOrdering &&
-                <button className="btn btn-link ps-1 pe-1"
-                        draggable={enableOrdering}
-                        onDragStart={(e) => handleDragStart(e, sequenceNo)}
-                        onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
-                        onDragEnd={handleSort}
-                        onDragOver={(e) => e.preventDefault()} // Allow dropping
-                ><i className="bi bi-grip-vertical fs-5"></i></button>}
-            {!!enableViewMoreDetails && <button type="button" className="btn btn-link text-primary ps-1 pe-1"
-                                                onClick={decoratedOnClick}>
-                {currentEventKey === eventKey ? <i className="bi bi-caret-down-fill"></i> :
-                    <i className="bi bi-caret-up-fill"></i>}
-            </button>}
+                <button
+                    aria-label={dragButtonLabel}
+                    className="btn btn-link ps-1 pe-1"
+                    draggable={enableOrdering}
+                    onDragStart={(e) => handleDragStart(e, sequenceNo)}
+                    onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
+                    onDragEnd={handleSort}
+                    onDragOver={(e) => e.preventDefault()} // Allow dropping
+                >
+                    <i className="bi bi-grip-vertical fs-5"></i>
+                </button>}
+            {viewMoreDetailsButton}
             {!!showIcon && <div style={{lineHeight: "20px", height: "20px"}} className="ps-1 pe-1">{icon}</div>}
         </div>;
     }
 
     function ItemRightActions({item, sequenceNo}) {
         const currentEventKey = useContext(AccordionContext).activeEventKey;
+
+        const editButtonLabel = `Edit ${item.label}`;
+        const removeButtonLabel = `Remove ${item.label}`;
+        const requiredCheckboxLabel = `Is ${item.label} required?`;
+
         return <>
             {!!allowRequiredSwitch && currentEventKey !== item.id && <div className="align-content-center ps-2 pe-2">
                 <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
+                            aria-label={requiredCheckboxLabel}
                             checked={!!isItemRequired[item.id]}
                             onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
             </div>}
             {!!allowEdit && <div style={{minWidth: "50px"}} className="pe-2 text-end">
-                <button className="btn btn-link fw-normal"
+                <button className="btn btn-link fw-normal" aria-label={editButtonLabel}
                         onClick={onEditClick ? onEditClick.bind(this, item) : null}>Edit
                 </button>
             </div>}
-            {!!allowRemove && <button className="btn btn-link"
+            {!!allowRemove && <button className="btn btn-link" aria-label={removeButtonLabel}
                                       onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
                 <i className="bi bi-dash-square fs-5 text-gray-700"></i>
             </button>}
@@ -185,13 +210,15 @@ export default function MultiSelectControlTwoLists(
                         <InlineAlert variant="success" title="None"/>}
                     <ul className="w-100 list-unstyled">
                         {notSelectedItems.map((item, sequenceNo) => {
+                            const addButtonLabel = `Add ${item.label}`;
+
                             return <li key={sequenceNo} className="w-100 p-0 pb-1">
                                 <div
                                     className="w-100 d-flex flex-row rounded-1 btn btn-outline-gray-300 bg-white pt-2 pb-2 ps-2 pe-3">
                                     <ItemLeftActions item={item} sequenceNo={sequenceNo}
                                                      showIcon={!!showLeftPanelIcon}/>
                                     {getItemNameJsx(item)}
-                                    {allowAdd && <button className="btn btn-link"
+                                    {allowAdd && <button className="btn btn-link" aria-label={addButtonLabel}
                                                          onClick={addItemToSequence.bind(this, {id: item.id})}>
                                         <i className="bi bi-plus-square fs-5 text-gray-700"></i>
                                     </button>}
@@ -205,7 +232,7 @@ export default function MultiSelectControlTwoLists(
         <div className="col-sm-6 ps-sm-5 h-100 border-start border-1 border-black">
             <div className="w-100 h-100 d-flex flex-column" style={rightPanelStyles}>
                 <div className="w-100 d-flex flex-row p-3" style={{minHeight: "60px"}}>
-                    <h3 className="flex-fill coming-soon-regular text-black">{addedItemsLabel}</h3>
+                    <h2 className="flex-fill coming-soon-regular text-black fs-3">{addedItemsLabel}</h2>
                     {allowRequiredSwitch &&
                         <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
                             <small className="coming-soon-regular">Required?</small>
@@ -244,7 +271,8 @@ export default function MultiSelectControlTwoLists(
                                     {item.label}
                                 </div>
                                 <Accordion.Collapse eventKey={item.id}>
-                                    <div className="w-100 p-3 border-bottom border-start border-end border-1 rounded-bottom-1 bg-white">
+                                    <div
+                                        className="w-100 p-3 border-bottom border-start border-end border-1 rounded-bottom-1 bg-white">
                                         {getMoreDetailsComponent && getMoreDetailsComponent(item)}
                                     </div>
                                 </Accordion.Collapse>

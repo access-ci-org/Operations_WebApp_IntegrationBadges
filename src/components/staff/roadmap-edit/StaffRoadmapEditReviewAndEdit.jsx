@@ -15,12 +15,12 @@ export default function StaffRoadmapEditReviewAndEdit({roadmapData, setRoadmapDa
     }
 
     return <div className="w-100 d-inline-block text-start">
-        <h3 className="text-black pb-4 fw-medium">Roadmap Description</h3>
+        <h2 className="fs-3 text-black pb-4 fw-medium">Roadmap Description</h2>
 
         <StaffRoadmapEditDetailsV2 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
 
         <div className="d-flex flex-row pb-4 pt-5">
-            <h3 className="text-black fw-medium flex-fill">Associated Badges</h3>
+            <h2 className="fs-3 text-black fw-medium flex-fill">Associated Badges</h2>
             <button className="btn btn-link" onClick={onClickEditBadges}>Edit</button>
         </div>
 

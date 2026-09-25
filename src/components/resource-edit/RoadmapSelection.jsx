@@ -17,7 +17,7 @@ export default function RoadmapSelection({resourceId}) {
     };
 
     if (!!resource && !!roadmaps) {
-        return <>
+        return <div className="w-100">
             <div className="row pt-4">
                 <h1>Welcome to the ACCESS Integration Roadmaps.</h1>
                 <p>
@@ -45,9 +45,9 @@ export default function RoadmapSelection({resourceId}) {
                 </div>
             </div>
             <div className="row pt-5">
-                <p>
                     <h2 className="fs-6 text-black d-inline-block">
                         Explore the Future of Infrastructure Integration&nbsp;:&nbsp;</h2>
+                <p>
                     Interested in contributing to the development of new
                     infrastructure roadmaps? We invite you to explore the possibilities of integrating new and novel
                     infrastructure types. Open an ACCESS Integration and Operation Support Request to start a
@@ -64,6 +64,6 @@ export default function RoadmapSelection({resourceId}) {
                     roadmaps.
                 </p>
             </div>
-        </>
+        </div>
     }
 }

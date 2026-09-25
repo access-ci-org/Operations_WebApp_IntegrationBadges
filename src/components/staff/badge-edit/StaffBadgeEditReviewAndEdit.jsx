@@ -28,13 +28,13 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
     }
 
     return <div className="w-100 d-inline-block text-start">
-        <h3 className="text-black pb-4 fw-medium">Badge Description</h3>
+        <h2 className="text-black fs-3 pb-4 fw-medium">Badge Description</h2>
 
         <StaffBadgeEditDetailsV2 badgeData={badgeData} setBadgeData={setBadgeData}/>
 
 
         <div className="d-flex flex-row pb-4 pt-5">
-            <h3 className="text-black fw-medium flex-fill">Associated Tasks</h3>
+            <h2 className="text-black fs-3 fw-medium flex-fill">Associated Tasks</h2>
             <button className="btn btn-link" onClick={onClickEditTasks}>Edit</button>
         </div>
 
@@ -60,7 +60,7 @@ export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, on
         </div>
 
         <div className="d-flex flex-row pb-4 pt-5">
-            <h3 className="text-black fw-medium flex-fill">Prerequisite Badges</h3>
+            <h2 className="text-black fs-3 fw-medium flex-fill">Prerequisite Badges</h2>
             <button className="btn btn-link" onClick={onClickEditPrerequisiteBadges}>Edit</button>
         </div>
 

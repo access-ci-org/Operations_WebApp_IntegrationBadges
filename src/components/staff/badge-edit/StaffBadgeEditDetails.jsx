@@ -3,6 +3,17 @@ import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from "react-dropzone";
 import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
+const badgeInputFieldLabelIds = {
+    name: "staff-badge-edit-form-name",
+    researcher_summary: "staff-badge-edit-form-researcher-summary",
+    resource_provider_summary: "staff-badge-edit-form-resource-provider-summary",
+    graphic: "staff-badge-edit-form-graphic",
+    verification_method: "staff-badge-edit-form-verification-method",
+    verification_summary: "staff-badge-edit-form-verification-summary",
+    default_badge_access_url_label: "staff-badge-edit-form-default-badge-access-url-label",
+    default_badge_access_url: "staff-badge-edit-form-default-badge-access-url"
+};
+
 function useBadgeInputFields({badgeData, setBadgeData}) {
     const MAX_UPLOAD_SIZE = 5 * 1024 * 1024;  // 5 MB
     const ALLOWED_MIME_TYPES = {
@@ -40,37 +51,48 @@ function useBadgeInputFields({badgeData, setBadgeData}) {
     });
 
     return {
-        name: <Form.Control type="text" value={badgeData.name} onChange={onInputValueChange("name")}/>,
+        name: <Form.Control aria-labelledby={badgeInputFieldLabelIds.name}
+                            type="text" value={badgeData.name} onChange={onInputValueChange("name")}/>,
 
 
-        researcher_summary: <BasicFormattedTextEditor data={badgeData.researcher_summary}
+        researcher_summary: <BasicFormattedTextEditor aria-labelledby={badgeInputFieldLabelIds.researcher_summary}
+                                                      data={badgeData.researcher_summary}
                                                       onChange={onFormattedTextInputValueChange("researcher_summary")}/>,
 
-        resource_provider_summary: <BasicFormattedTextEditor data={badgeData.resource_provider_summary}
-                                                             onChange={onFormattedTextInputValueChange("resource_provider_summary")}/>,
+        resource_provider_summary: <BasicFormattedTextEditor
+            aria-labelledby={badgeInputFieldLabelIds.resource_provider_summary}
+            data={badgeData.resource_provider_summary}
+            onChange={onFormattedTextInputValueChange("resource_provider_summary")}/>,
 
         graphic: (then) => {
             return <div {...getRootProps()}>
-                <input {...getInputProps()} />
+                <input {...getInputProps()} aria-labelledby={badgeInputFieldLabelIds.graphic}/>
                 {then(open, isDragAccept)}
             </div>;
         },
 
-        verification_method: <Form.Select aria-label="Default select example" value={badgeData.verification_method}
+        verification_method: <Form.Select aria-labelledby={badgeInputFieldLabelIds.verification_method}
+                                          aria-label="Default select example" value={badgeData.verification_method}
                                           onChange={onInputValueChange("verification_method")}>
             <option value="" disabled={true}></option>
             <option value="Automated">Automated</option>
             <option value="Manual">Manual</option>
         </Form.Select>,
 
-        verification_summary: <BasicFormattedTextEditor data={badgeData.verification_summary}
-                                                        onChange={onFormattedTextInputValueChange("verification_summary")}/>,
+        verification_summary: <BasicFormattedTextEditor
+            aria-labelledby={badgeInputFieldLabelIds.verification_summary}
+            data={badgeData.verification_summary}
+            onChange={onFormattedTextInputValueChange("verification_summary")}/>,
 
-        default_badge_access_url_label: <Form.Control type="text" value={badgeData.default_badge_access_url_label}
-                                                      onChange={onInputValueChange("default_badge_access_url_label")}/>,
+        default_badge_access_url_label: <Form.Control
+            aria-labelledby={badgeInputFieldLabelIds.default_badge_access_url_label}
+            type="text" value={badgeData.default_badge_access_url_label}
+            onChange={onInputValueChange("default_badge_access_url_label")}/>,
 
-        default_badge_access_url: <Form.Control type="text" value={badgeData.default_badge_access_url}
-                                                onChange={onInputValueChange("default_badge_access_url")}/>
+        default_badge_access_url: <Form.Control
+            aria-labelledby={badgeInputFieldLabelIds.default_badge_access_url}
+            type="text" value={badgeData.default_badge_access_url}
+            onChange={onInputValueChange("default_badge_access_url")}/>
     };
 }
 
@@ -83,19 +105,19 @@ export function StaffBadgeEditDetailsV1({badgeData, setBadgeData}) {
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3">
-            <Form.Label>Badge Name</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.name}>Badge Name</Form.Label>
             {badgeInputFields.name}
         </div>
         <div className="mb-3">
-            <Form.Label>Researcher Summary</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.researcher_summary}>Researcher Summary</Form.Label>
             {badgeInputFields.researcher_summary}
         </div>
         <div className="mb-3">
-            <Form.Label>Resource Provider Summary</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.resource_provider_summary}>Resource Provider Summary</Form.Label>
             {badgeInputFields.resource_provider_summary}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Badge Image</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.graphic}>Badge Image</Form.Label>
             {badgeInputFields.graphic((open, isDragAccept) => <div
                 className={`w-100 border border-1 p-4 rounded text-center ${isDragAccept && "border-style-dashed bg-light"}`}>
                 <div className="overflow-hidden d-inline-block" style={{width: "44px", height: "44px"}}>
@@ -115,19 +137,19 @@ export function StaffBadgeEditDetailsV1({badgeData, setBadgeData}) {
             </div>)}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Verification Method</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.verification_method}>Verification Method</Form.Label>
             {badgeInputFields.verification_method}
         </div>
         <div className="mb-3">
-            <Form.Label>Verification Summary</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.verification_summary}>Verification Summary</Form.Label>
             {badgeInputFields.verification_summary}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Badge URL Label</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.default_badge_access_url_label}>Badge URL Label</Form.Label>
             {badgeInputFields.default_badge_access_url_label}
         </div>
         <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Badge URL</Form.Label>
+            <Form.Label id={badgeInputFieldLabelIds.default_badge_access_url}>Badge URL</Form.Label>
             {badgeInputFields.default_badge_access_url}
         </div>
     </div>
@@ -139,23 +161,25 @@ export function StaffBadgeEditDetailsV2({badgeData, setBadgeData}) {
 
     return <div className="w-100 d-inline-block text-start">
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Name</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.name}>Name</Form.Label>
             <div className="col-sm-7">{badgeInputFields.name}</div>
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Researcher Summary</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.researcher_summary}>
+                Researcher Summary</Form.Label>
             <div className="col-sm-7">{badgeInputFields.researcher_summary}</div>
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Resource Provider Summary</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.resource_provider_summary}>
+                Resource Provider Summary</Form.Label>
             <div className="col-sm-7">{badgeInputFields.resource_provider_summary}</div>
         </div>
 
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Image</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.graphic}>Image</Form.Label>
             <div className="col-sm-7 d-flex flex-row">
                 {badgeInputFields.graphic((open, isDragAccept) => <div
                     className={`w-100 d-flex flex-row p-2 rounded-2 border border-1 border-style-dashed ${isDragAccept ? "bg-light" : "border-white"}`}>
@@ -182,22 +206,24 @@ export function StaffBadgeEditDetailsV2({badgeData, setBadgeData}) {
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Verification Method</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.verification_method}>
+                Verification Method</Form.Label>
             <div className="col-sm-7">{badgeInputFields.verification_method}</div>
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Verification Summary</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.verification_summary}>
+                Verification Summary</Form.Label>
             <div className="col-sm-7">{badgeInputFields.verification_summary}</div>
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Badge Label</Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.default_badge_access_url_label}>Badge Label</Form.Label>
             <div className="col-sm-7">{badgeInputFields.default_badge_access_url_label}</div>
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Badge URL </Form.Label>
+            <Form.Label className="col-sm-5" id={badgeInputFieldLabelIds.default_badge_access_url}>Badge URL </Form.Label>
             <div className="col-sm-7">{badgeInputFields.default_badge_access_url}</div>
         </div>
     </div>

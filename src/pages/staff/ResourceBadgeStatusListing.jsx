@@ -11,6 +11,7 @@ import {HideIfAuthorized, ShowIfAuthorized} from "../../components/util/Permissi
 import {IntegrationRoles, BadgeWorkflowStatus} from "../../contexts/constants.js";
 import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
+import {useRoles} from "../../contexts/PermissionContext.jsx";
 
 export const BadgeWorkflowStatus_VIEW_ALL = "*";
 
@@ -194,7 +195,19 @@ export default function ResourceBadgeStatusListing() {
                                     const resource = getResource({resourceId: resourceId});
                                     const badge = getBadge({badgeId});
 
-                                    let badgeActionButtonLabel = `View ${resource.resource_descriptive_name}'s ${badge.name}`;
+                                    const {hasPermission} = useRoles();
+
+
+                                    let badgeActionButtonLabel = `VIEW ${resource.resource_descriptive_name}'s ${badge.name}`;
+                                    let badgeActionButtonText = "VIEW";
+
+                                    if (hasPermission({
+                                        roles: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
+                                        resourceIds: [resourceId]
+                                    })) {
+                                        badgeActionButtonLabel = `BADGE ACTION ${resource.resource_descriptive_name}'s ${badge.name}`;
+                                        badgeActionButtonText = "BADGE ACTION";
+                                    }
 
                                     return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
                                         <td>
@@ -217,16 +230,7 @@ export default function ResourceBadgeStatusListing() {
                                                   to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}`}
                                                   className="btn btn-link text-primary text-decoration-none fw-normal fs-7 pt-2 pb-2 text-start"
                                                   target="_blank">
-                                                <ShowIfAuthorized
-                                                    resourceIds={[resourceId]}
-                                                    roles={[IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER]}>
-                                                    BADGE ACTION
-                                                </ShowIfAuthorized>
-                                                <HideIfAuthorized
-                                                    resourceIds={[resourceId]}
-                                                    roles={[IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER]}>
-                                                    VIEW
-                                                </HideIfAuthorized>
+                                                {badgeActionButtonText}
                                                 <i className="bi bi-box-arrow-up-right ps-2"></i>
                                             </Link>
                                         </td>

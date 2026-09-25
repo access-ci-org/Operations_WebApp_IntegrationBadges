@@ -1,8 +1,8 @@
 import {Link} from "react-router-dom";
 import {BadgeWorkflowStatus} from "../../../contexts/constants.js";
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
-import Translate from "../../../locales/Translate.jsx";
 import {BadgeCardRow} from "../../resource-edit/resource-edit-page-cards.jsx";
+import {useTranslation} from "react-i18next";
 
 const badgePrerequisiteActionIconClass = {
     "": "bi-info-circle-fill",
@@ -22,6 +22,7 @@ const badgePrerequisiteActionIconClass = {
 };
 
 export default function ResourceBadgePrerequisites({resourceId, roadmapId, badgeId}) {
+    const {t} = useTranslation();
     const {getResourceRoadmapBadgePrerequisites} = useResources();
 
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
@@ -39,7 +40,8 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
             {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
                 let actions = null;
 
-                const preRequisiteBadgeViewButtonLabel = `View prerequisite ${prerequisiteBadge.name}`;
+                const preRequisiteBadgeStatus = t(`badgePrerequisiteActionLabel.${prerequisiteBadge.status}`);
+                const preRequisiteBadgeViewButtonLabel = `The status of prerequisite ${prerequisiteBadge.name} is ${preRequisiteBadgeStatus}. Click to view more`;
 
                 if (!!resourceId && !!roadmapId) {
                     actions = <Link aria-label={preRequisiteBadgeViewButtonLabel}
@@ -48,7 +50,7 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
                         <span className="flex-fill text-start">
                             <i className={`bi ${badgePrerequisiteActionIconClass[prerequisiteBadge.status]}`}></i>
                             <span className="ps-3 pe-3">
-                                <Translate>badgePrerequisiteActionLabel.{prerequisiteBadge.status}</Translate>
+                                {preRequisiteBadgeStatus}
                             </span>
                         </span>
                         <span className="">
