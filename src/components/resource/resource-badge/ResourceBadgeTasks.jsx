@@ -14,9 +14,11 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     const {activeEventKey} = useContext(AccordionContext);
     const decoratedOnClick = useAccordionButton(eventKey);
 
-    const {setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
+    const {getResource, setResourceRoadmapBadgeTaskWorkflowStatus} = useResources();
     const {getAuthorizedRoles} = useRoles();
     const {showErrorDialog} = useDialogs();
+
+    const resource = getResource({resourceId});
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
 
@@ -36,13 +38,15 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
             ...taskActionStatusProcessing, [taskId]: true
         });
 
+
+
         try {
             await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
         } catch (error) {
             await showErrorDialog({
                 error: error,
                 roles: transition.conditions ? transition.conditions.role : null,
-                resourceId: resourceId,
+                resource: resource
             });
         }
 

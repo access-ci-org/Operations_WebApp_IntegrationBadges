@@ -49,7 +49,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
             await showErrorDialog({
                 error: error,
                 roles: [IntegrationRoles.COORDINATOR],
-                resourceId: resourceId,
+                resource: resource,
             });
         }
 

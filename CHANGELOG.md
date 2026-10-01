@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.25.0 2026-10-01 dinukadesilva
+
+1. [new] Enabling the pre-populated links for creating tickets on error dialogs (CTT-1003)
+    - All
+
 ## v1.24.4 2026-09-25 dinukadesilva
 
 1. [new] Fixing a typo on the contacts summary component on pages

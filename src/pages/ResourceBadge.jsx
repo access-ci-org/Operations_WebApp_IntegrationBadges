@@ -108,7 +108,7 @@ export default function ResourceBadge() {
                 await showErrorDialog({
                     error: error,
                     roles: transition.conditions ? transition.conditions.role : null,
-                    resourceId: resourceId,
+                    resource: resource,
                 });
             }
 

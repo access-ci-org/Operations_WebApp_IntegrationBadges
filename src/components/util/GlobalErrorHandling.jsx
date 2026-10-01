@@ -3,6 +3,7 @@ import {useDialogs} from "../../contexts/DialogContext.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {Modal} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {getInternalACCESSResourceProviderRequestUrl, JSM_TICKET_TEMPLATE} from "./ticketing-system.js";
 
 const ErrorLoggingDeviceIdLocalStorageKey = "error_logging_device_id";
 
@@ -97,6 +98,10 @@ export default class GlobalErrorHandling extends React.Component {
 
     render() {
         if (this.state.hasError) {
+
+            const ticketCreationUrl = getInternalACCESSResourceProviderRequestUrl(
+                JSM_TICKET_TEMPLATE.APPLICATION_ERROR, {error: this.state.error});
+
             // return this.props.fallback;
             return <div>
                 <Modal className="modal-danger" show={true} aria-label="Unknown Error">
@@ -110,9 +115,8 @@ export default class GlobalErrorHandling extends React.Component {
                         </p>
                         <p>
                             Please create an&nbsp;
-                            <Link className="btn btn-link"
-                                  to="https://operations.access-ci.org/open-operations-request/">
-                                ACCESS ticket</Link>
+                            <Link className="btn btn-link" target="_blank" to={ticketCreationUrl}>
+                                Internal ACCESS ticket</Link>
                             &nbsp;to report this.
                         </p>
                         <code>{window.location.href}</code>

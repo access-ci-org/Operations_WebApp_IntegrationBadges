@@ -4,6 +4,9 @@ import {Modal} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {AxiosError} from "axios";
 import {AppRouteUrls} from "../pages/pages-config.js";
+import {
+    getInternalACCESSResourceProviderRequestUrl, JSM_TICKET_TEMPLATE
+} from "../components/util/ticketing-system.js";
 
 /** @type {React.Context<ReturnType<typeof useDialogsValues> | null>} */
 const DialogContext = createContext(null);
@@ -63,33 +66,40 @@ function useDialogsValues() {
      * @returns {Promise}
      * @constructor
      */
-    const showErrorDialog = ({error, resourceId = null, roles = null}) => {
+    const showErrorDialog = ({error, resource = null, roles = null}) => {
         let title = "Unknown Error";
+        let ticketCreationUrl = getInternalACCESSResourceProviderRequestUrl(
+            JSM_TICKET_TEMPLATE.API_REQUEST_FAILING, {error});
         let message = (<div>
             <p>The ACCESS Integration Dashboard is experiencing some application errors.</p>
             <p>
                 Please create an&nbsp;
-                <Link className="btn btn-link" to="https://operations.access-ci.org/open-operations-request/">
-                    ACCESS ticket</Link>
+                <Link className="btn btn-link" target="_blank" to={ticketCreationUrl}>
+                    Internal ACCESS ticket</Link>
                 &nbsp;to report this.
             </p>
         </div>);
 
+        const resourceId = resource?.info_resourceid || null;
+        const resourceGroup = {}; // TODO
+
         if (error instanceof AxiosError) {
-            if (error.response.status === 401) {
+            if (error.response?.status === 401) {
                 title = "Unauthenticated";
                 message = (<p>
                     You are not authenticated to perform this action.<br/>
                     Please login and try again.
                 </p>);
-            } else if (error.response.status === 403) {
-                title = "Unauthenticated";
+            } else if (error.response?.status === 403) {
+                title = "Unauthorized";
+                ticketCreationUrl = getInternalACCESSResourceProviderRequestUrl(
+                    JSM_TICKET_TEMPLATE.RESOURCE_PERMISSION, {resource, resourceGroup, roles});
                 message = (<div>
                     <p>
                         You don't have permission to make this change.
                         If you should have it, please submit an&nbsp;
-                        <Link className="btn btn-link" to="https://operations.access-ci.org/open-operations-request/">
-                            ACCESS ticket</Link>
+                        <Link className="btn btn-link" target="_blank" to={ticketCreationUrl}>
+                            Internal ACCESS ticket</Link>
                         {(roles || resourceId) && <span>&nbsp;requesting:</span>}
                     </p>
 
@@ -113,17 +123,49 @@ function useDialogsValues() {
                         </span>}
                     </p>}
                 </div>);
-            } else if (error.response.status >= 500) {
+            } else if (error.response?.status >= 500) {
+                ticketCreationUrl = getInternalACCESSResourceProviderRequestUrl(
+                    JSM_TICKET_TEMPLATE.API_REQUEST_FAILING, {error});
                 title = "Server Error";
-                message = (<p>
-                    The Integration Dashboard is experiencing some issues at this time. <br/>
-                    Please try again later.
-                </p>);
-            } else if (error.response.status >= 400) {
+                message = (<div>
+                    <p>
+                        The Integration Dashboard is experiencing some issues at this time. <br/>
+                        Please try again in a few minutes.
+                    </p>
+                    <p>
+                        Please create an&nbsp;
+                        <Link className="btn btn-link" target="_blank" to={ticketCreationUrl}>
+                            Internal ACCESS ticket</Link>
+                        &nbsp;if the issue still exists.
+                    </p>
+                </div>);
+            } else if (error.response?.status >= 400) {
+                ticketCreationUrl = getInternalACCESSResourceProviderRequestUrl(
+                    JSM_TICKET_TEMPLATE.API_REQUEST_FAILING, {error});
                 title = "Client Error";
+                message = (<div>
+                    <p>The ACCESS Integration Dashboard is experiencing some application errors.</p>
+                    <p>
+                        Please create an&nbsp;
+                        <Link className="btn btn-link" target="_blank" to={ticketCreationUrl}>
+                            Internal ACCESS ticket</Link>
+                        &nbsp;to report this.
+                    </p>
+                </div>);
             }
         } else {
+            ticketCreationUrl = getInternalACCESSResourceProviderRequestUrl(
+                JSM_TICKET_TEMPLATE.APPLICATION_ERROR, {error});
             title = "Application Error";
+            message = (<div>
+                <p>The ACCESS Integration Dashboard is experiencing some errors.</p>
+                <p>
+                    Please create an&nbsp;
+                    <Link className="btn btn-link" target="_blank" to={ticketCreationUrl}>
+                        Internal ACCESS ticket</Link>
+                    &nbsp;to report this.
+                </p>
+            </div>);
         }
 
         return showDialog({

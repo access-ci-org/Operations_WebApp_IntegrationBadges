@@ -21,12 +21,15 @@ import ResourceEdit from "./ResourceEdit.jsx";
 import DocumentationRoutesConfig from "./docs/documentation-routes-config.jsx";
 import StaffRoutesConfig from "./staff/staff-routes-config.jsx";
 import DevRoutesConfig from "./dev/dev-routes-config.jsx";
+import {useDialogs} from "../contexts/DialogContext.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isStaffPage = !!(/^\/staff/i.exec(pathname));
+
+    const {showErrorDialog} = useDialogs();
 
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
@@ -43,12 +46,16 @@ const RouterLayout = () => {
     const contactTypes = getContactTypes();
 
     useEffect(() => {
-        fetchOrganizations();
-        fetchResources();
-        fetchRoadmaps();
-        fetchBadges();
-        fetchTasks();
-        fetchContactTypes();
+        Promise.all([
+            fetchOrganizations(),
+            fetchResources(),
+            fetchRoadmaps(),
+            fetchBadges(),
+            fetchTasks(),
+            fetchContactTypes()
+        ]).catch((error) => {
+            showErrorDialog({error: error});
+        });
     }, []);
 
     let isDataReady = (organizations && organizations.length > 0)
