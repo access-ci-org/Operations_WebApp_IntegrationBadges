@@ -20,6 +20,8 @@ import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndColl
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "./pages-config.js";
 import {useDialogs} from "../contexts/DialogContext.jsx";
+import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../components/util/LoadingBlock.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -49,8 +51,8 @@ export default function ResourceBadge() {
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
     const roadmap = getRoadmap({roadmapId})
-    let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
-    let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+    let resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+    let resourceRoadmapBadgeTasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
     const authorizedBadgeVerificationTransitions = getAuthorizedBadgeTransitions({
@@ -61,12 +63,12 @@ export default function ResourceBadge() {
     //     resourceId, roadmapId, badgeId, transitionType: BadgeWorkflowTransitionType.BADGE_EXEMPTION
     // });
 
-    useEffect(() => {
-        fetchResource({resourceId});
-        fetchResourceRoadmapBadges({resourceId, roadmapId});
-        fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
-        fetchBadge({badgeId});
-    }, [resourceId, badgeId]);
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
+            fetchResourceRoadmapBadges({resourceId, roadmapId}),
+            fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId})
+        ]);
+    }, [resourceId, roadmapId, badgeId]);
 
     const clickBadgeAction = (transition) => async () => {
         const status = transition.to;
@@ -116,8 +118,8 @@ export default function ResourceBadge() {
         }
     };
 
-    if (resource && organization && badge && tasks && prerequisiteBadges) {
-        const requiredTasks = tasks.filter(t => t.required);
+    if (resource && organization && resourceRoadmapBadge && resourceRoadmapBadgeTasks && prerequisiteBadges) {
+        const requiredTasks = resourceRoadmapBadgeTasks.filter(t => t.required);
 
         const isReadyToSubmit = requiredTasks
                 .filter(t => [BadgeTaskWorkflowStatus.COMPLETED]
@@ -127,21 +129,23 @@ export default function ResourceBadge() {
                     BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.EXEMPTED
                 ].indexOf(pb.status) < 0).length === 0;
 
-        const lastUpdatedAt = new Date(Date.parse(badge.status_updated_at));
-        const lastUpdatedBy = badge.status_updated_by;
+        const lastUpdatedAt = new Date(Date.parse(resourceRoadmapBadge.status_updated_at));
+        const lastUpdatedBy = resourceRoadmapBadge.status_updated_by;
+
+        console.log("####### resourceRoadmapBadge ", resourceRoadmapBadge);
 
         return <div className="container">
             <PermissionSwitch/>
             <ShowIfAuthorized resourceIds={[resourceId]}
                               roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER, IntegrationRoles.CONCIERGE]}>
-                {badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
+                {resourceRoadmapBadge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
                     <div className="w-100 d-flex flex-row pb-3 pt-3">
                         <div className="flex-fill bg-warning rounded-2 p-3 bg-opacity-10">
                             <h3>Badge Returned</h3>
                             <div
                                 className="text-secondary pb-4 small">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
                             <p className="pre-wrap-text text-break m-0">
-                                {badge.comment}
+                                {resourceRoadmapBadge.comment}
                             </p>
                         </div>
                     </div>}
@@ -174,13 +178,13 @@ export default function ResourceBadge() {
                 </div>
                 <div className="col mb-3">
                     <div className="w-100">
-                        <h2 className="d-inline pe-3">{badge.name}</h2>
-                        {badge.required &&
+                        <h2 className="d-inline pe-3">{resourceRoadmapBadge.name}</h2>
+                        {resourceRoadmapBadge.required &&
                             <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Required</span>}
                     </div>
                     <div className="row">
                         <h3 className="text-secondary fs-6 fw-normal mt-4 mb-0">RP Roles</h3>
-                        <div>{getImplementorRoles(tasks).join(", ")}</div>
+                        <div>{getImplementorRoles(resourceRoadmapBadgeTasks).join(", ")}</div>
                     </div>
                 </div>
                 <div className="col-sm-3 ps-1 mb-3">
@@ -195,7 +199,7 @@ export default function ResourceBadge() {
                 </div>
             </div>
             <div className="w-100 pt-5 pb-3 pre-wrap-text">
-                <HtmlToReact>{badge.resource_provider_summary}</HtmlToReact>
+                <HtmlToReact>{resourceRoadmapBadge.resource_provider_summary}</HtmlToReact>
             </div>
 
             <div className="w-100 d-flex flex-row pt-3 pb-4">
@@ -254,16 +258,16 @@ export default function ResourceBadge() {
                             resource provider for guidance.
                         </p>
                         <div className="pt-2 pb-2">
-                            <strong className="text-primary">Verification Method : </strong> {badge.verification_method}
+                            <strong className="text-primary">Verification Method : </strong> {resourceRoadmapBadge.verification_method}
                         </div>
                         <div className="pre-wrap-text">
                             <strong className="text-primary">Verification Summary : </strong>
-                            <HtmlToReact>{badge.verification_summary}</HtmlToReact>
+                            <HtmlToReact>{resourceRoadmapBadge.verification_summary}</HtmlToReact>
                         </div>
                     </div>
                 </Concierge>
 
-                {badge.required &&
+                {resourceRoadmapBadge.required &&
                     <div className="w-100 pt-4">
                         <h3 className="text-black">Note</h3>
                         <p className="pt-2 pb-2">
@@ -320,6 +324,8 @@ export default function ResourceBadge() {
                 </Concierge>
             </div>
         </div>
+    } else {
+        return <LoadingBlock processing={processing} error={error} reload={reload} className="w-100 p-5 text-center"/>
     }
 }
 

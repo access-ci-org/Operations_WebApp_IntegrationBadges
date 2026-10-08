@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {CollaboratorProfileAvatarButton} from "./ContactsAndCollaboratorsSummary.jsx";
+import {useEffectWithErrorHandling} from "../util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 
 const CopyStatus = {
     success: "Copied to clipboard",
@@ -21,7 +23,6 @@ export default function ContactsAndCollaboratorsTable(
     const {getResource} = useResources();
     const {fetchContacts, getContacts} = useContacts();
 
-    const [error, setError] = useState(false);
     const [copyStatus, setCopyStatus] = useState("");
 
     let contacts = getContacts({
@@ -36,18 +37,11 @@ export default function ContactsAndCollaboratorsTable(
 
     // if (contacts) contacts = sortJsonArrayAlphabetically(contacts, "contact_name");
 
-    useEffect(() => {
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
         if (!contacts) {
-            fetchContacts({
-                organizationId,
-                resourceId,
-                resourceIntegrationStatus,
-                roadmapId,
-                badgeId,
-                contactType,
-                contactEmail
-            })
-                .catch(() => setError(true));
+            await fetchContacts({
+                organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail
+            });
         }
     }, [organizationId, resourceId, resourceIntegrationStatus, roadmapId, badgeId, contactType, contactEmail]);
 
@@ -67,11 +61,7 @@ export default function ContactsAndCollaboratorsTable(
     }
 
     if (error) {
-        return <div className="w-100 text-center">
-            <i className="bi bi-exclamation-triangle-fill text-danger pe-2"></i>
-            <span className="fw-bold">Error : </span>
-            <span>Unauthorized</span>
-        </div>
+        return <LoadingBlock title="contacts" processing={processing} error={error} reload={reload} />
     } else if (contacts && contacts.length === 0) {
         return <div className="w-100 text-center">
             <i className="bi bi-exclamation-triangle-fill text-accent-secondary pe-2"></i>

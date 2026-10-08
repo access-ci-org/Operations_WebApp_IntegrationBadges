@@ -1,6 +1,8 @@
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import {useEffect} from "react";
 import BadgeStatus from "../../status/BadgeStatus.jsx";
+import {useEffectWithErrorHandling} from "../../util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../../util/LoadingBlock.jsx";
 
 export default function ResourceBadgeLog({resourceId, roadmapId, badgeId}) {
     const {
@@ -10,12 +12,11 @@ export default function ResourceBadgeLog({resourceId, roadmapId, badgeId}) {
 
     let logs = getResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
 
-    useEffect(() => {
-        fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
     }, [resourceId, badgeId]);
 
-    return <div className="w-100">
-
+    return <LoadingBlock className="w-100" title="activity logs" processing={processing} error={error} reload={reload}>
         {logs && logs.map((log, logIndex) => {
             const comment = log.comment;
             const status = log.status;
@@ -42,5 +43,5 @@ export default function ResourceBadgeLog({resourceId, roadmapId, badgeId}) {
                 </div>
             </div>
         })}
-    </div>
+    </LoadingBlock>
 }

@@ -6,6 +6,8 @@ import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
 import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";
 import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
+import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
+import {AppRouteUrls} from "./pages-config.js";
 
 export default function ResourceEdit() {
     const navigate = useNavigate();
@@ -18,66 +20,17 @@ export default function ResourceEdit() {
         getResource, getResourceRoadmapBadges, getResourceOrganization,
         isResourceRoadmapSelected
     } = useResources();
-    const {fetchRoadmap, getRoadmapBadges} = useRoadmaps();
+    const {getRoadmap, getRoadmapBadges} = useRoadmaps();
 
     const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
     const [wizardIndex, setWizardIndex] = useState(0);
 
     const resource = getResource({resourceId});
-    const organization = getResourceOrganization({resourceId});
+    const roadmap = getRoadmap({roadmapId});
     const roadmapBadges = getRoadmapBadges({roadmapId});
     const resourceRoadmapBadges = getResourceRoadmapBadges({resourceId, roadmapId});
     const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
 
-    useEffect(() => {
-        fetchResource({resourceId});
-    }, [resourceId]);
-
-    useEffect(() => {
-        if (resourceId && roadmapId && !isRoadmapNew) {
-            fetchResourceRoadmapBadges({resourceId, roadmapId});
-        }
-    }, [resourceId, roadmapId, isRoadmapNew]);
-
-    useEffect(() => {
-        (async () => {
-            if (!!resourceId && !!roadmapId) {
-                if (isRoadmapNew) {
-                    setWizardIndex(1);
-                } else {
-                    setWizardIndex(2);
-                }
-            } else {
-                setWizardIndex(0);
-            }
-        })();
-    }, [resourceId, roadmapId, isRoadmapNew]);
-
-    useEffect(() => {
-        !!roadmapId && fetchRoadmap({roadmapId});
-    }, [roadmapId]);
-
-    useEffect(() => {
-        (async () => {
-            const _selectedBadgeIdMap = {};
-
-            if (resourceRoadmapBadges) {
-                for (let i = 0; i < resourceRoadmapBadges.length; i++) {
-                    _selectedBadgeIdMap[resourceRoadmapBadges[i].badge_id] = true;
-                }
-            }
-
-            if (roadmapBadges) {
-                for (let i = 0; i < roadmapBadges.length; i++) {
-                    if (roadmapBadges[i].required) {
-                        _selectedBadgeIdMap[roadmapBadges[i].badge_id] = true;
-                    }
-                }
-            }
-
-            setSelectedBadgeIdMap(_selectedBadgeIdMap);
-        })();
-    }, [roadmapId, resourceId, !!resourceRoadmapBadges, !!roadmapBadges]);
 
     useEffect(() => {
         if (!!resource && !!resource.roadmaps && !roadmapId) {
@@ -88,6 +41,46 @@ export default function ResourceEdit() {
             }
         }
     }, [resource, roadmapId]);
+
+    const resourceRoadmapBadgesLoading = useEffectWithErrorHandling(async () => {
+        await fetchResource({resourceId});
+
+        if (resourceId && roadmapId && !isRoadmapNew) {
+            await fetchResourceRoadmapBadges({resourceId, roadmapId});
+        }
+    }, [resourceId, roadmapId, isRoadmapNew]);
+
+    useEffectWithErrorHandling(async () => {
+        if (!!resourceId && !!roadmapId) {
+            if (isRoadmapNew) {
+                setWizardIndex(1);
+            } else {
+                setWizardIndex(2);
+            }
+        } else {
+            setWizardIndex(0);
+        }
+    }, [resourceId, roadmapId, isRoadmapNew]);
+
+    useEffectWithErrorHandling(async () => {
+        const _selectedBadgeIdMap = {};
+
+        if (resourceRoadmapBadges) {
+            for (let i = 0; i < resourceRoadmapBadges.length; i++) {
+                _selectedBadgeIdMap[resourceRoadmapBadges[i].badge_id] = true;
+            }
+        }
+
+        if (roadmapBadges) {
+            for (let i = 0; i < roadmapBadges.length; i++) {
+                if (roadmapBadges[i].required) {
+                    _selectedBadgeIdMap[roadmapBadges[i].badge_id] = true;
+                }
+            }
+        }
+
+        setSelectedBadgeIdMap(_selectedBadgeIdMap);
+    }, [roadmapId, resourceId, !!resourceRoadmapBadges, !!roadmapBadges]);
 
     const toggleBadgeSelection = ({badgeId}) => {
         setSelectedBadgeIdMap({
@@ -109,16 +102,15 @@ export default function ResourceEdit() {
         }
     };
 
-    if (resource && organization) {
-
-        return <div className="container">
+    return <div className="container">
+        <LoadingBlock processing={resourceRoadmapBadgesLoading.processing} error={resourceRoadmapBadgesLoading.error}
+                      reload={resourceRoadmapBadgesLoading.reload} className="w-100 p-5 text-center">
             {wizardIndex === 0 &&
-                <RoadmapSelection resourceId={resourceId}
-                                  prev={handlePrev} next={handleNext}/>}
+                <RoadmapSelection resourceId={resourceId} prev={handlePrev} next={handleNext}/>}
 
             {wizardIndex === 1 &&
-                <RoadmapSelectionConfirmation resourceId={resourceId}
-                                              roadmapId={roadmapId} prev={handlePrev} next={handleNext}/>}
+                <RoadmapSelectionConfirmation resourceId={resourceId} roadmapId={roadmapId} prev={handlePrev}
+                                              next={handleNext}/>}
 
             {/*{wizardIndex === 2 &&*/}
             {/*    <BadgeSelection resourceId={resourceId} roadmapId={roadmapId}*/}
@@ -127,13 +119,10 @@ export default function ResourceEdit() {
             {/*                    prev={handlePrev} next={handleNext}/>}*/}
 
             {wizardIndex === 2 &&
-                <BadgeSelectionConfirmation resourceId={resourceId}
-                                            roadmapId={roadmapId}
+                <BadgeSelectionConfirmation resourceId={resourceId} roadmapId={roadmapId}
                                             selected={(badgeId) => selectedBadgeIdMap[badgeId]}
                                             toggle={(badgeId) => toggleBadgeSelection({badgeId})}
                                             prev={handlePrev} next={handleNext}/>}
-        </div>
-    } else {
-        return <LoadingBlock processing={true}/>
-    }
+        </LoadingBlock>
+    </div>
 }

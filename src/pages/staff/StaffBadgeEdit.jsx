@@ -14,6 +14,7 @@ import StaffBadgeEditAssociateTasks
     from "../../components/staff/badge-edit/StaffBadgeEditAssociateTasks.jsx";
 import {useDialogs} from "../../contexts/DialogContext.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
 
 export default function StaffBadgeEdit() {
     const {badgeId} = useParams();
@@ -23,25 +24,26 @@ export default function StaffBadgeEdit() {
 
     const badge = getBadge({badgeId});
 
-    useEffect(() => {
-        !!badgeId && fetchBadge({badgeId})
-            .catch(() => navigate(StaffRouteUrls.INDEX));
+    let initialData;
+    if (badge) initialData = JSON.parse(JSON.stringify(badge));
+
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        !!badgeId && await fetchBadge({badgeId})
+            .catch((e) => {
+                navigate(StaffRouteUrls.INDEX);
+                throw e;
+            });
     }, [badgeId]);
 
-    if (!badgeId || !!badge) {
-        return <StaffBadgeEditForm key={badgeId} initialData={badge}/>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    return <LoadingBlock processing={processing} error={error} reload={reload} className="w-100 p-5 text-center">
+        <StaffBadgeEditForm key={badgeId} initialData={initialData}/>
+    </LoadingBlock>
 }
 
 function StaffBadgeEditForm({initialData}) {
     const {badgeId} = useParams();
 
-    const navigate = useNavigate();
-    const {fetchBadge, setBadge} = useBadges();
+    const {setBadge} = useBadges();
     const {showDialog, showErrorDialog} = useDialogs();
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
@@ -71,8 +73,6 @@ function StaffBadgeEditForm({initialData}) {
         ...initialData
     });
 
-    console.log("###### initialData ", initialData);
-
     const areBadgeDetailsValid = badgeData.name.trim().length > 0
         && badgeData.researcher_summary.trim().length > 0
         && badgeData.resource_provider_summary.trim().length > 0
@@ -82,11 +82,6 @@ function StaffBadgeEditForm({initialData}) {
     useEffect(() => {
         scrollToTop();
     }, [activeSectionIndex]);
-
-    useEffect(() => {
-        !!badgeId && fetchBadge({badgeId})
-            .catch(() => navigate(StaffRouteUrls.INDEX));
-    }, [badgeId]);
 
     const sections = [
         {
@@ -141,7 +136,7 @@ function StaffBadgeEditForm({initialData}) {
 
     return <div className="container">
         <div className="row mt-2 p-3">
-            <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
+            <div className="w-100 bg-white rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
                 <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
 
                 <div className="w-100 text-center position-relative pt-5 pb-5">

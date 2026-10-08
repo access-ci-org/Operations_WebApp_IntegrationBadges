@@ -12,6 +12,7 @@ import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndColl
 import {PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
 import Translate from "../locales/Translate.jsx";
 import {useTranslation} from "react-i18next";
+import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
 
 /**
  * The initial page that displays al resources.
@@ -36,9 +37,11 @@ export default function Organization() {
         resources = sortJsonArrayAlphabetically(resources, "short_name");
     }
 
-    useEffect(() => {
-        fetchOrganization({organizationId});
-        fetchResources({organizationId, full: true});
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
+            fetchOrganization({organizationId}),
+            fetchResources({organizationId, full: true})
+        ]);
     }, [organizationId]);
 
     // If conditions in the order
@@ -65,7 +68,6 @@ export default function Organization() {
         }
     ];
 
-    let resourcesProcessing = resources && resources.length > 0; // Set it to processing if there are resources.
     const resourceIds = [];
     for (let i = 0; resources && i < resources.length; i++) {
         let resource = resources[i];
@@ -78,8 +80,6 @@ export default function Organization() {
             const section = sections[j];
 
             if (resource && resourceRoadmaps) {
-                resourcesProcessing = false;
-
                 if (hasSearchCriteria(organization, resource, searchText) &&
                     section.resourceIntegrationStatus === resource.resource_integration_status) {
 
@@ -97,94 +97,94 @@ export default function Organization() {
 
     return <div className="container">
         <PermissionSwitch/>
-        <div className="row">
-            <div className="col-sm-3 p-3 align-content-center" style={{maxWidth: 300}}>
-                {organization && <div className="w-100 bg-white" style={{
-                    backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                    backgroundRepeat: "no-repeat", backgroundSize: "contain",
-                    backgroundPosition: "center", height: 200
-                }}/>}
-            </div>
-            <div className="col align-content-center">
-                <h1 className="p-3">{organization.organization_name}</h1>
-            </div>
-            <ShowIfAuthorized
-                roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
-                    IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
-                <div className="col-sm-3 pt-3 align-content-start d-flex flex-column" style={{minWidth: 280}}>
-                    <div>
-                        <ContactsAndCollaboratorsSummary organizationId={organizationId}/>
-                    </div>
-                    <div className="flex-fill align-content-end">
-                        <OrgBadgeVerificationStatus organizationId={organizationId}
-                                                    badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
-                    </div>
+        <LoadingBlock processing={processing} error={error} reload={reload} className="w-100 text-center">
+            <div className="row">
+                <div className="col-sm-3 p-3 align-content-center" style={{maxWidth: 300}}>
+                    {organization && <div className="w-100 bg-white" style={{
+                        backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                        backgroundRepeat: "no-repeat", backgroundSize: "contain",
+                        backgroundPosition: "center", height: 200
+                    }}/>}
                 </div>
-            </ShowIfAuthorized>
-        </div>
-
-        <div className="row">
-            <div className="col-12">
-                <div className="input-group mb-3 search-input">
+                <div className="col align-content-center">
+                    <h1 className="p-3">{organization.organization_name}</h1>
+                </div>
+                <ShowIfAuthorized
+                    roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+                        IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+                    <div className="col-sm-3 pt-3 align-content-start d-flex flex-column" style={{minWidth: 280}}>
+                        <div>
+                            <ContactsAndCollaboratorsSummary organizationId={organizationId}/>
+                        </div>
+                        <div className="flex-fill align-content-end">
+                            <OrgBadgeVerificationStatus organizationId={organizationId}
+                                                        badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
+                        </div>
+                    </div>
+                </ShowIfAuthorized>
+            </div>
+            <div className="row">
+                <div className="col-12">
+                    <div className="input-group mb-3 search-input">
                         <span className="input-group-text">
                             <i className="bi bi-search"></i>
                         </span>
-                    <input type="text" className="form-control"
-                           placeholder="Search Resource by Name, Type, ResourceBadge, etc"
-                           aria-label="Search keywords" onChange={(e) => setSearchText(e.target.value)}/>
+                        <input type="text" className="form-control"
+                               placeholder="Search Resource by Name, Type, ResourceBadge, etc"
+                               aria-label="Search keywords" onChange={(e) => setSearchText(e.target.value)}/>
+                    </div>
+                </div>
+
+                <div className="w-100">
+                    {sections.length === 0 &&
+                        <div className="w-100 p-3 text-center lead">
+                            There are no resource in this organization
+                        </div>}
+
+                    {sections.map((section, sectionIndex) => {
+                        const tooltip = <Tooltip id="tooltip">
+                            <Translate>resourceIntegrationStatusDescription.{section.resourceIntegrationStatus}</Translate>
+                        </Tooltip>;
+
+                        const sectionTitle = t(`resourceIntegrationStatus.${section.resourceIntegrationStatus}`);
+
+                        return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
+                            <div className="w-100 text-start pb-2">
+                                <h2 className="d-inline me-4">
+                                    {sectionTitle}
+                                    ({section.resources.filter(r => !!r).length})</h2>
+                                <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
+                                    <button className="btn btn-link d-inline"
+                                            aria-label={`What are ${sectionTitle} resources?`}>
+                                        <i className="bi bi-question-square-fill text-accent-primary"></i>
+                                    </button>
+                                </OverlayTrigger>
+                            </div>
+
+                            <div className="w-100 row row-cols-xl-3 row-cols-md-2 row-cols-1">
+                                {section.resources.map((resource, resourceIndex) => {
+                                    if (resource === null) {
+                                        return <ShowIfAuthorized resourceIds={resourceIds} key={resourceIndex}
+                                                                 roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
+                                            <div className="col p-3">
+                                                <ResourceCard organization={organization} resource={null}/>
+                                            </div>
+                                        </ShowIfAuthorized>
+                                    }
+
+                                    return <div className="col p-3" key={resourceIndex}>
+                                        <ResourceCard organization={organization} resource={resource}
+                                                      inProgress={section.showContinueSetup}/>
+                                    </div>
+                                })}
+                            </div>
+                        </div>
+                    })}
                 </div>
             </div>
-
-            <div className="w-100">
-                {resourcesProcessing && <LoadingBlock/>}
-
-                {!resourcesProcessing && sections.length === 0 &&
-                    <div className="w-100 p-3 text-center lead">
-                        There are no resource in this organization
-                    </div>}
-
-                {!resourcesProcessing && sections.map((section, sectionIndex) => {
-                    const tooltip = <Tooltip id="tooltip">
-                        <Translate>resourceIntegrationStatusDescription.{section.resourceIntegrationStatus}</Translate>
-                    </Tooltip>;
-
-                    const sectionTitle = t(`resourceIntegrationStatus.${section.resourceIntegrationStatus}`);
-
-                    return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
-                        <div className="w-100 text-start pb-2">
-                            <h2 className="d-inline me-4">
-                                {sectionTitle}
-                                ({section.resources.filter(r => !!r).length})</h2>
-                            <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
-                                <button className="btn btn-link d-inline"
-                                        aria-label={`What are ${sectionTitle} resources?`}>
-                                    <i className="bi bi-question-square-fill text-accent-primary"></i>
-                                </button>
-                            </OverlayTrigger>
-                        </div>
-
-                        <div className="w-100 row row-cols-xl-3 row-cols-md-2 row-cols-1">
-                            {section.resources.map((resource, resourceIndex) => {
-                                if (resource === null) {
-                                    return <ShowIfAuthorized resourceIds={resourceIds} key={resourceIndex}
-                                                             roles={[IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE]}>
-                                        <div className="col p-3">
-                                            <ResourceCard organization={organization} resource={null}/>
-                                        </div>
-                                    </ShowIfAuthorized>
-                                }
-
-                                return <div className="col p-3" key={resourceIndex}>
-                                    <ResourceCard organization={organization} resource={resource}
-                                                  inProgress={section.showContinueSetup}/>
-                                </div>
-                            })}
-                        </div>
-                    </div>
-                })}
-            </div>
-        </div>
+        </LoadingBlock>
     </div>
+
 }
 
 function hasSearchCriteria(organization, resource, searchText) {

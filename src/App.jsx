@@ -17,6 +17,7 @@ import {RolesProvider, useRoles} from "./contexts/PermissionContext.jsx";
 import ApplicationRoutesConfig from "./pages/application-routes-config.jsx";
 import {DialogProvider} from "./contexts/DialogContext.jsx";
 import GlobalErrorHandling from "./components/util/GlobalErrorHandling.jsx";
+import {useEffectWithErrorHandling} from "./components/util/useEffectWithErrorHandling.js";
 
 
 const ProviderWrapper = ({children}) => {
@@ -50,8 +51,8 @@ function ApplicationRoutesWrapper() {
 function ApplicationContainer() {
     const {fetchRoles} = useRoles();
     const [ready, setReady] = useState(false);
-    useEffect(() => {
-        fetchRoles().finally(() => setReady(true));
+    const {processing} = useEffectWithErrorHandling(async () => {
+        await fetchRoles().finally(() => setReady(true));
     }, []);
 
     if (ready) {
@@ -62,7 +63,7 @@ function ApplicationContainer() {
             </div>
         </div>;
     } else {
-        return <LoadingBlock processing={true}/>
+        return <LoadingBlock processing={processing} className="w-100 p-5 text-center"/>
     }
 }
 

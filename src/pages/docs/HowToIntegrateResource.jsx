@@ -9,13 +9,8 @@ import {WhyBecomeAnRPFooter} from "./WhyBecomeAnRP.jsx";
 
 export default function HowToIntegrateResource() {
 
-    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
-    const {fetchBadges, getBadges} = useBadges();
-
-    useEffect(() => {
-        fetchRoadmaps();
-        fetchBadges();
-    }, []);
+    const {getRoadmaps} = useRoadmaps();
+    const {getBadges} = useBadges();
 
     const roadmaps = getRoadmaps();
     const badges = getBadges();

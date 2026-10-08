@@ -9,6 +9,8 @@ import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBad
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 import ContactsAndCollaboratorsSummary from "../components/share/ContactsAndCollaboratorsSummary.jsx";
 import {PermissionSwitch, ShowIfAuthorized} from "../components/util/Permissions.jsx";
+import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
+import {AppRouteUrls, StaffRouteUrls} from "./pages-config.js";
 
 export default function Resource() {
     const navigate = useNavigate();
@@ -28,12 +30,10 @@ export default function Resource() {
     let badges = getResourceRoadmapBadges({resourceId, roadmapId});
     let roadmap = getRoadmap({roadmapId});
 
-    useEffect(() => {
-        fetchResource({resourceId});
-    }, [resourceId]);
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await fetchResource({resourceId});
 
-    useEffect(() => {
-        resourceId && roadmapId && fetchResourceRoadmapBadges({resourceId, roadmapId});
+        resourceId && roadmapId && await fetchResourceRoadmapBadges({resourceId, roadmapId});
     }, [resourceId, roadmapId]);
 
     useEffect(() => {
@@ -46,9 +46,6 @@ export default function Resource() {
         }
     }, [resource, roadmapId]);
 
-    useEffect(() => {
-        !!roadmapId && fetchRoadmap({roadmapId});
-    }, [roadmapId]);
 
     let badgeGroups = {};
     for (let _badgeStatusKey in BadgeWorkflowStatus) {
@@ -92,30 +89,30 @@ export default function Resource() {
     ];
 
 
-    if (resource && roadmap && organization) {
-        return <div className="container">
-            <PermissionSwitch/>
-            <div className="row">
-                <div className="col pb-5">
-                    <h1>{resource.resource_descriptive_name}</h1>
-                    <div>
-                        By&nbsp;&nbsp;
-                        <Link to={`/organizations/${organization.organization_id}`} className="btn btn-link text-dark">
-                            {organization.organization_name}
-                        </Link>
-                    </div>
+    return <div className="container">
+        <PermissionSwitch/>
+        <div className="row">
+            <div className="col pb-5">
+                <h1>{resource.resource_descriptive_name}</h1>
+                <div>
+                    By&nbsp;&nbsp;
+                    <Link to={`/organizations/${organization.organization_id}`} className="btn btn-link text-dark">
+                        {organization.organization_name}
+                    </Link>
                 </div>
-                <ShowIfAuthorized
-                    roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
-                        IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
-                    <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
-                        <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
-                                                         organizationId={organization.organization_id}/>
-                    </div>
-                </ShowIfAuthorized>
             </div>
-            <div className="row">
-                <h2>Overview</h2>
+            <ShowIfAuthorized
+                roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
+                    IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+                <div className="col-sm-3 pt-3 align-content-start" style={{minWidth: 280}}>
+                    <ContactsAndCollaboratorsSummary resourceId={resource.info_resourceid}
+                                                     organizationId={organization.organization_id}/>
+                </div>
+            </ShowIfAuthorized>
+        </div>
+        <div className="row">
+            <h2 className="w-100">Overview</h2>
+            <div className="w-100">
                 <div className="row">
                     <div className="col">
                         <label className="text-secondary" htmlFor="resource-type">Resource Type</label>
@@ -131,39 +128,46 @@ export default function Resource() {
                     </div>
                     <div className="col">
                         <label className="text-secondary" htmlFor="resource-roadmap-name">Roadmap</label>
-                        <div id="resource-roadmap-name">{roadmap.name}</div>
+                        <LoadingBlock processing={processing}
+                                      error={error} reload={reload}>
+                            {roadmap && <div id="resource-roadmap-name">{roadmap.name}</div>}
+                        </LoadingBlock>
                     </div>
                 </div>
             </div>
-            <div className="w-100 pt-3 pb-3">
-                <p>{resource.resource_description}</p>
-                {/*<Link to={resource.user_guide_url} className="btn btn-primary">View User Guide</Link>*/}
-            </div>
+        </div>
+        <div className="row">
+            <p className="w-100 pt-3 pb-3">{resource.resource_description}</p>
+            {/*<Link to={resource.user_guide_url} className="btn btn-primary">View User Guide</Link>*/}
 
             <div className=" w-100 pt-5 pb-5 text-primary lead fst-italic">
                 Review the list of badges waiting for completion and start completing tasks to earn badges and track
                 your progress!
             </div>
+        </div>
 
-            <div className="row">
-                <h2 className="pb-4">Badges</h2>
-                <div className="w-100 d-flex flex-row">
-                    <div className="flex-fill">
-                        <Nav variant="underline" defaultActiveKey="1"
-                             className="pe-3 border-bottom border-1 border-gray-200" onSelect={setActiveTabIndex}>
-                            {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                                <Nav.Link eventKey={tabIndex}>
-                                    {tab.title} ({tab.badges.length})
-                                </Nav.Link>
-                            </Nav.Item>)}
-                        </Nav>
-                    </div>
-                    <GridAndListSwitch/>
+
+        <div className="row">
+            <h2 className="pb-4">Badges</h2>
+            <div className="w-100 d-flex flex-row">
+                <div className="flex-fill">
+                    <Nav variant="underline" defaultActiveKey="1"
+                         className="pe-3 border-bottom border-1 border-gray-200" onSelect={setActiveTabIndex}>
+                        {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
+                            <Nav.Link eventKey={tabIndex}>
+                                {tab.title} ({tab.badges.length})
+                            </Nav.Link>
+                        </Nav.Item>)}
+                    </Nav>
                 </div>
+                <GridAndListSwitch/>
+            </div>
 
-                {tabs.map((tab, tabIndex) => {
-                    return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
-                        <div className="w-100 pt-2 pb-5 row row-cols-xl-3 row-cols-md-2 row-cols-1">
+            {tabs.map((tab, tabIndex) => {
+                return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
+                    <div className="w-100 pt-2 pb-5 row row-cols-xl-3 row-cols-md-2 row-cols-1">
+                        <LoadingBlock title="badges" className="w-100 p-5 text-center" processing={processing}
+                                      error={error} reload={reload}>
                             {tab.badges && tab.badges.map((badge) => {
                                 return <div className="col p-3" key={badge.badge_id}>
                                     <ResourceBadgeCard resourceId={resourceId} roadmapId={roadmapId}
@@ -174,15 +178,13 @@ export default function Resource() {
                                 <div className="w-100 p-3 text-center lead">
                                     No badges available
                                 </div>}
-                        </div>
-                    </Collapse>
-                })}
+                        </LoadingBlock>
+                    </div>
+                </Collapse>
+            })}
 
-            </div>
         </div>
-    } else {
-        return <LoadingBlock processing={true}/>
-    }
+    </div>
 
 }
 

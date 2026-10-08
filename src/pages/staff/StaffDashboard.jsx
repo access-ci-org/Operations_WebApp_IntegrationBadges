@@ -12,6 +12,7 @@ import {BadgeWorkflowStatus_VIEW_ALL} from "./ResourceBadgeStatusListing.jsx";
 import {BadgeMaintainer, RoadmapMaintainer} from "../../components/util/Permissions.jsx";
 import {DocumentationRouteUrls} from "../pages-config.js";
 import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
 
 export default function StaffDashboard() {
     const {
@@ -23,7 +24,6 @@ export default function StaffDashboard() {
 
     const [selectedRoadmapId, setSelectedRoadmapId] = useState(null);
 
-    const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
     const roadmaps = getRoadmaps();
     let badges = getBadges();
 
@@ -32,10 +32,6 @@ export default function StaffDashboard() {
         selectedRoadmap = getRoadmap({roadmapId: selectedRoadmapId});
         badges = getRoadmapBadges({roadmapId: selectedRoadmapId});
     }
-
-    useEffect(() => {
-        fetchResourceRoadmapBadgeStatusSummary();
-    }, []);
 
     const documents = [
         {
@@ -84,199 +80,192 @@ export default function StaffDashboard() {
         }
     };
 
-    if (roadmaps && badges && resourceRoadmapBadgeStatusSummary) {
+    return <div className="container">
+        <div className="row visually-hidden">
+            <h1>Staff Dashboard</h1>
+        </div>
 
-        return <div className="container">
-            <div className="row visually-hidden">
-                <h1>Staff Dashboard</h1>
+        <div className="row mt-2 p-3">
+
+            <div className="col-12 p-0 pb-4">
+                <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                    <div className="w-100 d-flex flex-row p-0">
+                        <h2 className="text-primary">Badge Verification Status</h2>
+                        <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
+                        </div>
+                        <div style={{minWidth: 100}}>
+                            <Link className="btn btn-sm btn-primary rounded-2"
+                                  to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View
+                                All</Link>
+                        </div>
+                    </div>
+                    <div className="w-100 pt-4">
+                            <BadgeStatusSummaryHeader/>
+                    </div>
+                </div>
             </div>
 
-            <div className="row mt-2 p-3">
-
-                <div className="col-12 p-0 pb-4">
-                    <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
-                        <div className="w-100 d-flex flex-row p-0">
-                            <h2 className="text-primary">Badge Verification Status</h2>
-                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
-                            </div>
+            <div className="col-md-6 p-0 pb-4 pe-md-3 pe-sm-1">
+                <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                    <div className="w-100 d-flex flex-row pb-4">
+                        <h2 className="text-primary">Roadmaps</h2>
+                        <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
+                        </div>
+                        <RoadmapMaintainer>
                             <div style={{minWidth: 100}}>
-                                <Link className="btn btn-sm btn-primary rounded-2"
-                                      to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View
-                                    All</Link>
+                                <Link className="btn btn-sm btn-primary rounded-2" aria-label="Create new Roadmap"
+                                      to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                             </div>
-                        </div>
-                        <div className="w-100 pt-4">
-                            <BadgeStatusSummaryHeader/>
-                        </div>
+                        </RoadmapMaintainer>
                     </div>
-                </div>
 
-                <div className="col-md-6 p-0 pb-4 pe-md-3 pe-sm-1">
-                    <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
-                        <div className="w-100 d-flex flex-row pb-4">
-                            <h2 className="text-primary">Roadmaps</h2>
-                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
-                            </div>
-                            <RoadmapMaintainer>
-                                <div style={{minWidth: 100}}>
-                                    <Link className="btn btn-sm btn-primary rounded-2" aria-label="Create new Roadmap"
-                                          to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
-                                </div>
-                            </RoadmapMaintainer>
-                        </div>
-
-                        <ul className="w-100 p-0 list-unstyled">
-                            {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
-                                const roadmapId = roadmap.roadmap_id;
-                                let activeClassName = "";
-                                if (selectedRoadmapId === roadmapId) activeClassName = "bg-gray-200";
+                    <ul className="w-100 p-0 list-unstyled">
+                        {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
+                            const roadmapId = roadmap.roadmap_id;
+                            let activeClassName = "";
+                            if (selectedRoadmapId === roadmapId) activeClassName = "bg-gray-200";
 
 
-                                const roadmapEditButtonLabel = `Edit Roadmap ${roadmap.name}`;
-                                const roadmapViewButtonLabel = `View Roadmap ${roadmap.name}`;
+                            const roadmapEditButtonLabel = `Edit Roadmap ${roadmap.name}`;
+                            const roadmapViewButtonLabel = `View Roadmap ${roadmap.name}`;
 
-                                return <li key={roadmapIndex} className="w-100 pb-2">
-                                    <button onClick={toggleSelectedRoadmap({roadmapId})}
-                                            className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 ${activeClassName}`}>
-                                        <div>
-                                            {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
-                                            <i className="bi bi-map text-primary"></i>
-                                        </div>
-                                        <div className="flex-fill ps-3 align-content-center text-start">
-                                            <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
-                                                {roadmap.name}
-                                            </h3>
-                                            <div
-                                                className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
-                                                <HtmlToText>{roadmap.executive_summary}</HtmlToText>
-                                            </div>
-                                        </div>
-
-                                        <div className="align-content-center text-end" style={{minWidth: 80}}>
-                                            <RoadmapMaintainer>
-                                                <Link aria-label={roadmapEditButtonLabel}
-                                                      to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                                      className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
-                                                    <i className="bi bi-pencil-square"></i>
-                                                </Link>
-                                            </RoadmapMaintainer>
-                                            <Link target="_blank" aria-label={roadmapViewButtonLabel}
-                                                  to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
-                                                  className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
-                                                <i className="bi bi-info-circle"></i>
-                                            </Link>
-                                            {/*<Link*/}
-                                            {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
-                                            {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
-                                            {/*    <i className="bi bi-trash"></i>*/}
-                                            {/*</Link>*/}
-                                        </div>
-                                    </button>
-                                </li>
-                            })}
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="col-md-6 p-0 pb-4 ps-md-3 ps-sm-1">
-                    <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
-                        <div className="w-100 d-flex flex-row pb-4">
-                            <div className="align-content-center text-start" style={{minHeight: 40}}>
-                                {!selectedRoadmap && <h2 className="text-primary">Badges</h2>}
-                                {!!selectedRoadmap && <h2 className="text-primary fs-6">
-                                    {selectedRoadmap.name} Badges
-                                </h2>}
-                            </div>
-                            <div
-                                className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4 align-content-center">
-                            </div>
-                            <BadgeMaintainer>
-                                <div style={{minWidth: 100}}>
-                                    <Link className="btn btn-sm btn-primary rounded-2" to={StaffRouteUrls.BADGE_NEW}
-                                          aria-label="Create new Badge">
-                                        Create New</Link>
-                                </div>
-                            </BadgeMaintainer>
-                        </div>
-                        <ul className="p-0">
-                            {badges && badges.map((badge, badgeIndex) => {
-                                let borderClass = "border-gray-200 border-bottom border-1";
-                                if (badgeIndex === badges.length - 1) borderClass = "";
-
-                                const badgeEditButtonLabel = `Edit Badge ${badge.name}`;
-                                const badgeViewButtonLabel = `View Badge ${badge.name}`;
-
-                                return <li key={badgeIndex} className={"d-flex flex-row pb-2 mb-2 " + borderClass}>
-                                    <div className="align-content-center">
-                                        {/*<BadgeIcon badgeId={badge.badge_id}/>*/}
-                                        <i className="bi bi-patch-check text-primary"></i>
+                            return <li key={roadmapIndex} className="w-100 pb-2">
+                                <button onClick={toggleSelectedRoadmap({roadmapId})}
+                                        className={`w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 ${activeClassName}`}>
+                                    <div>
+                                        {/*<RoadmapIcon roadmapId={roadmap.roadmap_id}/>*/}
+                                        <i className="bi bi-map text-primary"></i>
                                     </div>
                                     <div className="flex-fill ps-3 align-content-center text-start">
-                                        <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis fw-normal">
-                                            {badge.name}
+                                        <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
+                                            {roadmap.name}
                                         </h3>
+                                        <div
+                                            className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
+                                            <HtmlToText>{roadmap.executive_summary}</HtmlToText>
+                                        </div>
                                     </div>
 
-                                    <div className="align-content-center">
-                                        <BadgeMaintainer>
-                                            <Link aria-label={badgeEditButtonLabel}
-                                                  to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
+                                    <div className="align-content-center text-end" style={{minWidth: 80}}>
+                                        <RoadmapMaintainer>
+                                            <Link aria-label={roadmapEditButtonLabel}
+                                                  to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
                                                   className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
-                                        </BadgeMaintainer>
-                                        <Link target="_blank" aria-label={badgeViewButtonLabel}
-                                              to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
+                                        </RoadmapMaintainer>
+                                        <Link target="_blank" aria-label={roadmapViewButtonLabel}
+                                              to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
                                               className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
                                         </Link>
+                                        {/*<Link*/}
+                                        {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
+                                        {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
+                                        {/*    <i className="bi bi-trash"></i>*/}
+                                        {/*</Link>*/}
                                     </div>
-                                </li>
+                                </button>
+                            </li>
+                        })}
+                    </ul>
+                </div>
+            </div>
 
+            <div className="col-md-6 p-0 pb-4 ps-md-3 ps-sm-1">
+                <div className="w-100 h-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                    <div className="w-100 d-flex flex-row pb-4">
+                        <div className="align-content-center text-start" style={{minHeight: 40}}>
+                            {!selectedRoadmap && <h2 className="text-primary">Badges</h2>}
+                            {!!selectedRoadmap && <h2 className="text-primary fs-6">
+                                {selectedRoadmap.name} Badges
+                            </h2>}
+                        </div>
+                        <div
+                            className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4 align-content-center">
+                        </div>
+                        <BadgeMaintainer>
+                            <div style={{minWidth: 100}}>
+                                <Link className="btn btn-sm btn-primary rounded-2" to={StaffRouteUrls.BADGE_NEW}
+                                      aria-label="Create new Badge">
+                                    Create New</Link>
+                            </div>
+                        </BadgeMaintainer>
+                    </div>
+                    <ul className="p-0">
+                        {badges && badges.map((badge, badgeIndex) => {
+                            let borderClass = "border-gray-200 border-bottom border-1";
+                            if (badgeIndex === badges.length - 1) borderClass = "";
+
+                            const badgeEditButtonLabel = `Edit Badge ${badge.name}`;
+                            const badgeViewButtonLabel = `View Badge ${badge.name}`;
+
+                            return <li key={badgeIndex} className={"d-flex flex-row pb-2 mb-2 " + borderClass}>
+                                <div className="align-content-center">
+                                    {/*<BadgeIcon badgeId={badge.badge_id}/>*/}
+                                    <i className="bi bi-patch-check text-primary"></i>
+                                </div>
+                                <div className="flex-fill ps-3 align-content-center text-start">
+                                    <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis fw-normal">
+                                        {badge.name}
+                                    </h3>
+                                </div>
+
+                                <div className="align-content-center">
+                                    <BadgeMaintainer>
+                                        <Link aria-label={badgeEditButtonLabel}
+                                              to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
+                                              className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                            <i className="bi bi-pencil-square"></i>
+                                        </Link>
+                                    </BadgeMaintainer>
+                                    <Link target="_blank" aria-label={badgeViewButtonLabel}
+                                          to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
+                                          className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                        <i className="bi bi-info-circle"></i>
+                                    </Link>
+                                </div>
+                            </li>
+
+                        })}
+                    </ul>
+                </div>
+            </div>
+
+            <div className="col-12 p-0 pb-4">
+                <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                    <div className="w-100 d-flex flex-row p-0">
+                        <h2 className="text-primary">Documents & Views</h2>
+                        <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
+                        </div>
+                    </div>
+                    <div className="w-100 pt-4">
+                        <ul className="p-0 list-unstyled">
+                            {documents.map((document, documentIndex) => {
+                                return <li key={documentIndex} className="w-100">
+
+                                    <Link to={document.link}
+                                          className="w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2">
+                                        <div className="align-content-start text-accent-primary fs-3">
+                                            {document.icon}
+                                        </div>
+                                        <div className="flex-fill ps-3 align-content-center text-start">
+                                            <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
+                                                {document.title}
+                                            </h3>
+                                            <div
+                                                className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
+                                                {document.description}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </li>
                             })}
                         </ul>
                     </div>
                 </div>
-
-                <div className="col-12 p-0 pb-4">
-                    <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
-                        <div className="w-100 d-flex flex-row p-0">
-                            <h2 className="text-primary">Documents & Views</h2>
-                            <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
-                            </div>
-                        </div>
-                        <div className="w-100 pt-4">
-                            <ul className="p-0 list-unstyled">
-                                {documents.map((document, documentIndex) => {
-                                    return <li key={documentIndex} className="w-100">
-
-                                        <Link to={document.link}
-                                              className="w-100 d-flex flex-row p-3 btn btn-outline-gray-100 rounded-1 mb-2">
-                                            <div className="align-content-start text-accent-primary fs-3">
-                                                {document.icon}
-                                            </div>
-                                            <div className="flex-fill ps-3 align-content-center text-start">
-                                                <h3 className="w-100 fs-6 text-black mb-0 text-one-line-overflow-ellipsis">
-                                                    {document.title}
-                                                </h3>
-                                                <div
-                                                    className="w-100 small text-gray-600 mb-0 text-one-line-overflow-ellipsis">
-                                                    {document.description}
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                })}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
         </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    </div>
 }

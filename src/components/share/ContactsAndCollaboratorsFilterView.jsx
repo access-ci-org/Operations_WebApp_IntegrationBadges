@@ -10,6 +10,7 @@ import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useContacts} from "../../contexts/ContactsContext.jsx";
 import {ResourceIntegrationStatus} from "../../contexts/constants.js";
 import {sortJsonArrayAlphabetically} from "../util/sort.jsx";
+import {useEffectWithErrorHandling} from "../util/useEffectWithErrorHandling.js";
 
 
 const CopyStatus = {
@@ -41,25 +42,20 @@ export default function ContactsAndCollaboratorsFilterView(
     const [selectedRoadmapIds, setSelectedRoadmapIds] = useState([]);
     const [selectedBadgeIds, setSelectedBadgeIds] = useState([]);
     const [selectedContactTypes, setSelectedContactTypes] = useState([]);
-    const [processing, setProcessing] = useState(true);
 
-    useEffect(() => {
-        (async () => {
-            const organization = getOrganization({organizationId});
-            const resource = getResource({resourceId});
-            const roadmap = getRoadmap({roadmapId});
-            const badge = getBadge({badgeId});
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        const organization = getOrganization({organizationId});
+        const resource = getResource({resourceId});
+        const roadmap = getRoadmap({roadmapId});
+        const badge = getBadge({badgeId});
 
-            organization && setSelectedOrganizationIds([{
-                value: organizationId,
-                label: organization.organization_name
-            }]);
-            resource && setSelectedResourceIds([{value: resourceId, label: resource.resource_descriptive_name}]);
-            roadmap && setSelectedRoadmapIds([{value: roadmapId, label: roadmap.name}]);
-            badge && setSelectedBadgeIds([{value: badgeId, label: badge.name}]);
-
-            setProcessing(false);
-        })();
+        organization && setSelectedOrganizationIds([{
+            value: organizationId,
+            label: organization.organization_name
+        }]);
+        resource && setSelectedResourceIds([{value: resourceId, label: resource.resource_descriptive_name}]);
+        roadmap && setSelectedRoadmapIds([{value: roadmapId, label: roadmap.name}]);
+        badge && setSelectedBadgeIds([{value: badgeId, label: badge.name}]);
     }, [organizationId, resourceId, roadmapId, badgeId, getOrganization, getResource, getRoadmap, getBadge]);
 
     const contactFilters = [
@@ -132,7 +128,8 @@ export default function ContactsAndCollaboratorsFilterView(
                     const contactFilterInputLabelElementID = `contact-filter-${contactFilterIndex}-label`;
 
                     return <div className="col-lg-3 col-md-6 col-sm-6 p-2 d-flex flex-column" key={contactFilterIndex}>
-                        <label className="fs-8 fw-bold" id={contactFilterInputLabelElementID}>{contactFilter.title}</label>
+                        <label className="fs-8 fw-bold"
+                               id={contactFilterInputLabelElementID}>{contactFilter.title}</label>
                         <div className="flex-fill">
                             <Select
                                 aria-labelledby={contactFilterInputLabelElementID}
@@ -152,15 +149,16 @@ export default function ContactsAndCollaboratorsFilterView(
 
             </div>
             <div className="col-sm-12">
-                <LoadingBlock processing={processing}/>
-                {!processing && <ContactsAndCollaboratorsTable
-                    organizationId={selectedOrganizationIds.map(({value}) => value)}
-                    resourceId={selectedResourceIds.map(({value}) => value)}
-                    roadmapId={selectedRoadmapIds.map(({value}) => value)}
-                    badgeId={selectedBadgeIds.map(({value}) => value)}
-                    contactType={selectedContactTypes.map(({value}) => value)}
-                    resourceIntegrationStatus={selectedResourceStatuses.map(({value}) => value)}
-                />}
+                <LoadingBlock title="contacts" processing={processing} error={error} reload={reload}>
+                    {!processing && <ContactsAndCollaboratorsTable
+                        organizationId={selectedOrganizationIds.map(({value}) => value)}
+                        resourceId={selectedResourceIds.map(({value}) => value)}
+                        roadmapId={selectedRoadmapIds.map(({value}) => value)}
+                        badgeId={selectedBadgeIds.map(({value}) => value)}
+                        contactType={selectedContactTypes.map(({value}) => value)}
+                        resourceIntegrationStatus={selectedResourceStatuses.map(({value}) => value)}
+                    />}
+                </LoadingBlock>
             </div>
         </div>
     </div>

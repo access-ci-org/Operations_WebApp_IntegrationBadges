@@ -1,3 +1,9 @@
+// https://support.atlassian.com/jira-service-management-cloud/docs/available-custom-fields-for-team-managed-service-projects/
+const JSM_ticket_summary_text_limit = 255;
+const JSM_ticket_description_text_limit = 2000;
+
+const JSM_ticket_description_variable_text_limit = 500;
+
 function getResourcePermissionTicketObject({resource, resourceGroup, roles}) {
     return {
         "summary": `Request permission for ${resourceGroup.group_descriptive_name} Resource Group (for ${resource.short_name})`,
@@ -21,7 +27,7 @@ I am a staff working/collaborating with ACCESS Resource Integration workflows. P
 function getApiRequestFailingTicketObject({error}) {
     // const requestUrl = error.config?.url || 'Unknown';
     // const requestUrl = error.request?.responseURL || 'Unknown';
-    const requestUrl = error.config.baseURL
+    const requestUrl = error.config?.baseURL
         ? `${error.config.baseURL.replace(/\/$/, '')}/${error.config.url.replace(/^\//, '')}`
         : error.config.url;
 
@@ -31,7 +37,19 @@ function getApiRequestFailingTicketObject({error}) {
 
     const responseStatusCode = error.response?.status || 'NETWORK_ERROR (No status code available)';
     const responseStatusText = error.response?.statusText || '';
-    const response = JSON.stringify(error.response?.data || 'None (Connection failed or was blocked)');
+
+    let response;
+
+    const contentType = error.response.headers['content-type'] || '';
+    if (contentType.includes('text/html')) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(error.response.data, 'text/html');
+      const plainText = doc.body.textContent || doc.body.innerText || "";
+
+      response = plainText.trim().replaceAll(/[\n\r ]+/ig, " ");
+    } else {
+      response = JSON.stringify(error.response?.data || 'None (Connection failed or was blocked)');
+    }
 
     return {
         "summary": `[Bug] Integration Dashboard ${responseStatusCode} Error - API Request Failure`,
@@ -46,13 +64,13 @@ I am a staff member working/collaborating with the Integration Dashboard. I’m 
 
 **Status Code**: ${responseStatusCode} ${responseStatusText} 
 
-**Params**: ${requestParams}
+**Params**: ${requestParams.substring(0, JSM_ticket_description_variable_text_limit)}
 
-**Body**: ${requestBody}
+**Body**: ${requestBody.substring(0, JSM_ticket_description_variable_text_limit)}
 
-**Response**: ${response}
+**Response**: ${response.substring(0, JSM_ticket_description_variable_text_limit)}
 
-**Error Stack**: ${error.stack}
+**Error Stack**: ${error.stack.substring(0, JSM_ticket_description_variable_text_limit)}
 
 **Timestamp**: ${new Date().toString()}`
     }
@@ -68,7 +86,7 @@ I am a staff member working/collaborating with the Integration Dashboard. I’m 
 
 **Integration Dashboard Web Application URL**: ${window.location.href}
 
-**Error Stack**: ${error.stack}
+**Error Stack**: ${error.stack.substring(0, JSM_ticket_description_variable_text_limit)}
 
 **Timestamp**: ${new Date().toString()}`,
     }
@@ -101,10 +119,12 @@ export function getInternalACCESSResourceProviderRequestUrl(jsmTicketType, args)
     let ticketCreationUrl = "https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/32";
 
     summary = encodeURIComponent(summary);
+    summary = summary.substring(0, JSM_ticket_summary_text_limit);
 
     description = encodeURIComponent(description);
     description = description.trim().replace(/\n/g, '\n ');
     description = description.replace(/%2A%2A/g, '**');
+    description = description.substring(0, JSM_ticket_description_text_limit);
 
     ticketCreationUrl += `?summary=${summary}&description=${description}`;
     ticketCreationUrl += "&customfield_10116=11129" // "ACCESS Operational Support Issues" --> "Resource Integration"

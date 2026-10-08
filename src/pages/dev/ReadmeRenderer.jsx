@@ -9,6 +9,8 @@ import {
 } from "./application-routes-util.jsx";
 import RouteDetailLink from "./RouteDetailsLink.jsx";
 import {Link} from "react-router-dom";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 
 
 function ReadmeRenderer({markdownFileUrl, showNotMentionedRoutsList = false}) {
@@ -23,24 +25,22 @@ function ReadmeRenderer({markdownFileUrl, showNotMentionedRoutsList = false}) {
     const apiUrl = 'https://api.github.com';
     const repoPath = "access-ci-org/Operations_WebApp_IntegrationBadges";
 
-    useEffect(() => {
-        fetch(apiUrl + "/repos/" + repoPath + "/contents" + markdownFileUrl, {})
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch markdown file ' + markdownFileUrl);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // GitHub API returns content as Base64 with newlines. Clean and decode it.
-                const cleanedBase64 = data.content.replace(/\s/g, '');
-                const decodedMarkdown = atob(cleanedBase64);
-                setMarkdownContent(decodedMarkdown);
-            })
-            .catch((err) => {
-                console.error('#### Error fetching markdown file: ' + markdownFileUrl, err);
-            });
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        const response = await fetch(apiUrl + "/repos/" + repoPath + "/contents" + markdownFileUrl, {});
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch markdown file ' + markdownFileUrl);
+        }
+
+        const data = await response.json();
+
+        // GitHub API returns content as Base64 with newlines. Clean and decode it.
+        const cleanedBase64 = data.content.replace(/\s/g, '');
+        const decodedMarkdown = atob(cleanedBase64);
+        setMarkdownContent(decodedMarkdown);
     }, [markdownFileUrl]);
+
+    console.log("####### Markdown ", {processing, error, reload});
 
     return (
         <div className="w-100">
@@ -52,50 +52,52 @@ function ReadmeRenderer({markdownFileUrl, showNotMentionedRoutsList = false}) {
                     <i className="bi bi-github ps-2"></i>
                 </Link>
             </div>}
-            <ReactMarkdown
-                remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}
-                components={{
-                    h1: ({node, hasInjectedHtml, ...validProps}) => {
-                        return <h2 {...validProps}/>;
-                    },
-                    h2: ({node, hasInjectedHtml, ...validProps}) => {
-                        return <h3 {...validProps}/>;
-                    },
-                    h3: ({node, hasInjectedHtml, ...validProps}) => {
-                        return <h4 {...validProps}/>;
-                    },
-                    h4: ({node, hasInjectedHtml, ...validProps}) => {
-                        return <h5 {...validProps}/>;
-                    },
-                    img: ({node, hasInjectedHtml, width, height, ...validProps}) => {
-                        return <img {...validProps} className="w-100"/>;
-                    },
-                    code: ({node, hasInjectedHtml, children, className, ...validProps}) => {
-                        if (applicationRoutesMap[children]) {
-                            return <RouteDetailLink
-                                {...validProps}
-                                route={applicationRoutesMap[children]}
-                                showPrivacy={true} showPageCount={true}
-                                className={className + " fs-7"}
-                            />;
-                        } else {
-                            return <code {...validProps}>{children}</code>;
-                        }
-                    },
-                    table: ({node, hasInjectedHtml, ...validProps}) =>
-                        <table className="table" {...validProps} />,
-                }}
-            >
-                {markdownContent}
-            </ReactMarkdown>
-            {notMentionedRoutesList && notMentionedRoutesList.length > 0 && <div className="pt-5 mt-5 small">
-                <h6>Other routes :</h6>
-                <ul>
-                    {notMentionedRoutesList.map((r, i) => <li key={i}>
-                        <RouteDetailLink route={r}/>
-                    </li>)}
-                </ul>
-            </div>}
+            <LoadingBlock processing={processing} error={error} reload={reload} className="w-100 p-5 text-center">
+                <ReactMarkdown
+                    remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}
+                    components={{
+                        h1: ({node, hasInjectedHtml, ...validProps}) => {
+                            return <h2 {...validProps}/>;
+                        },
+                        h2: ({node, hasInjectedHtml, ...validProps}) => {
+                            return <h3 {...validProps}/>;
+                        },
+                        h3: ({node, hasInjectedHtml, ...validProps}) => {
+                            return <h4 {...validProps}/>;
+                        },
+                        h4: ({node, hasInjectedHtml, ...validProps}) => {
+                            return <h5 {...validProps}/>;
+                        },
+                        img: ({node, hasInjectedHtml, width, height, ...validProps}) => {
+                            return <img {...validProps} className="w-100"/>;
+                        },
+                        code: ({node, hasInjectedHtml, children, className, ...validProps}) => {
+                            if (applicationRoutesMap[children]) {
+                                return <RouteDetailLink
+                                    {...validProps}
+                                    route={applicationRoutesMap[children]}
+                                    showPrivacy={true} showPageCount={true}
+                                    className={className + " fs-7"}
+                                />;
+                            } else {
+                                return <code {...validProps}>{children}</code>;
+                            }
+                        },
+                        table: ({node, hasInjectedHtml, ...validProps}) =>
+                            <table className="table" {...validProps} />,
+                    }}
+                >
+                    {markdownContent}
+                </ReactMarkdown>
+                {notMentionedRoutesList && notMentionedRoutesList.length > 0 && <div className="pt-5 mt-5 small">
+                    <h6>Other routes :</h6>
+                    <ul>
+                        {notMentionedRoutesList.map((r, i) => <li key={i}>
+                            <RouteDetailLink route={r}/>
+                        </li>)}
+                    </ul>
+                </div>}
+            </LoadingBlock>
         </div>
     );
 }

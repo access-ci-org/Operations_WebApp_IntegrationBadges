@@ -12,6 +12,7 @@ import {scrollToTop} from "../../components/util/scroll.jsx";
 import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
 import {useDialogs} from "../../contexts/DialogContext.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
 
 export default function StaffRoadmapEdit() {
     const {roadmapId} = useParams();
@@ -20,25 +21,26 @@ export default function StaffRoadmapEdit() {
     const {fetchRoadmap, getRoadmap} = useRoadmaps();
     const roadmap = getRoadmap({roadmapId});
 
-    useEffect(() => {
-        !!roadmapId && fetchRoadmap({roadmapId})
-            .catch(() => navigate(StaffRouteUrls.INDEX));
+    let initialData;
+    if (roadmap) initialData = JSON.parse(JSON.stringify(roadmap));
+
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        !!roadmapId && await fetchRoadmap({roadmapId})
+            .catch((e) => {
+                navigate(StaffRouteUrls.INDEX);
+                throw e;
+            });
     }, [roadmapId]);
 
-    if (!roadmapId || !!roadmap) {
-        return <StaffRoadmapEditForm key={roadmapId} initialData={roadmap}/>;
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    return <LoadingBlock processing={processing} error={error} reload={reload} className="w-100 p-5 text-center">
+        <StaffRoadmapEditForm key={roadmapId} initialData={initialData}/>
+    </LoadingBlock>
 }
 
 function StaffRoadmapEditForm({initialData}) {
     const {roadmapId} = useParams();
 
-    const navigate = useNavigate();
-    const {fetchRoadmap, setRoadmap} = useRoadmaps();
+    const {setRoadmap} = useRoadmaps();
     const {showDialog, showErrorDialog} = useDialogs();
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(roadmapId ? 2 : 0);
@@ -68,11 +70,6 @@ function StaffRoadmapEditForm({initialData}) {
     useEffect(() => {
         scrollToTop();
     }, [activeSectionIndex]);
-
-    useEffect(() => {
-        !!roadmapId && fetchRoadmap({roadmapId})
-            .catch(() => navigate(StaffRouteUrls.INDEX));
-    }, [roadmapId]);
 
     const sections = [
         {

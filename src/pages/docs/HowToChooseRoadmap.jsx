@@ -5,11 +5,7 @@ import {useEffect} from "react";
 import roadmapsBanner from "../../assets/roadmaps-banner.jpeg";
 
 export default function HowToChooseRoadmap() {
-    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
-
-    useEffect(() => {
-        fetchRoadmaps();
-    }, []);
+    const {getRoadmaps} = useRoadmaps();
 
     const roadmaps = getRoadmaps();
 

@@ -11,6 +11,8 @@ import {sortJsonArrayAlphabetically, SortOrder} from "../../components/util/sort
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import Translate from "../../locales/Translate.jsx";
 import {useTranslation} from "react-i18next";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 
 let fetchOncePromiseForResourcesBadgesTasks = false;
 let fetchOncePromiseForOrgBadgeStatusSummary = false;
@@ -45,24 +47,26 @@ export default function ApplicationRoutePageCount(
     // Replacing "verification-failed" because the webapp uses only that route
     const routePath = route.path.replace("verification-failed", ":badgeWorkflowStatus");
 
-    useEffect(() => {
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
         if (!fetchOncePromiseForResourcesBadgesTasks) {
             fetchOncePromiseForResourcesBadgesTasks = true;
 
-            fetchResources({full: true});
-            fetchResourceRoadmapBadges();
-            fetchResourceRoadmapBadgeTasks();
-        }
-    }, []);
+            await Promise.all([
+                fetchResources({full: true}),
+                fetchResourceRoadmapBadges(),
+                fetchResourceRoadmapBadgeTasks()
+            ]);
 
-    useEffect(() => {
+        }
+
         if (routePath === AppRouteUrls.ORGANIZATION_BADGE_REVIEW && !fetchOncePromiseForOrgBadgeStatusSummary) {
             fetchOncePromiseForOrgBadgeStatusSummary = true;
 
             for (let i = 0; i < organizations.length; i++) {
                 const organization = organizations[i];
-                fetchResourceRoadmapBadgeStatusSummary({organizationId: organization.organization_id});
+                await fetchResourceRoadmapBadgeStatusSummary({organizationId: organization.organization_id});
             }
+
         }
     }, [routePath, organizations.length]);
 
@@ -289,16 +293,22 @@ export default function ApplicationRoutePageCount(
         },
     };
 
+    let pageBody;
     if (routePagesMap[routePath]) {
         const routePages = routePagesMap[routePath]();
         if (routePages) {
             if (Array.isArray(routePages)) {
-                return renderComponent(routePages.length, routePages);
+                pageBody = renderComponent(routePages.length, routePages);
             } else {
-                return renderComponent(routePages["all"].length, routePages["examples"]);
+                pageBody = renderComponent(routePages["all"].length, routePages["examples"]);
             }
         }
     } else {
-        return renderComponent(1, [{"href": routePath}]);
+        pageBody = renderComponent(1, [{"href": routePath}]);
     }
+
+    return <LoadingBlock processing={processing} error={error} reload={reload} minHeight={0} noText={true}
+                         className="d-inline-block fs-9">
+        {pageBody}
+    </LoadingBlock>
 }

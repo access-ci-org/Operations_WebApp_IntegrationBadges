@@ -21,11 +21,11 @@ export default function RouteDetailLink({className, route, showPrivacy=false, sh
             </span>
         </Link>
 
-        {showPageCount && <span className="ms-2 fs-9 badge bg-gray-300">
+        {showPageCount && <div className="ms-2 d-inline-block fs-9 badge bg-gray-300">
             <ApplicationRoutePageCount route={route} renderComponent={(pageCount) => pageCount} />
-            &nbsp;
-            page(s)
-        </span>}
+
+            <span className="ps-2">page(s)</span>
+        </div>}
 
         {/*<div>getRouteDetailsGithubEditUrl : {getRouteDetailsGithubEditUrl(route)}</div>*/}
         {/*<div>getRouteDetailsPath : {getRouteDetailsPath(route)}</div>*/}

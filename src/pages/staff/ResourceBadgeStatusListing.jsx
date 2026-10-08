@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
@@ -12,6 +12,7 @@ import {IntegrationRoles, BadgeWorkflowStatus} from "../../contexts/constants.js
 import BadgeStatusSummaryHeader from "../../components/staff/BadgeStatusSummaryHeader.jsx";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import {useRoles} from "../../contexts/PermissionContext.jsx";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
 
 export const BadgeWorkflowStatus_VIEW_ALL = "*";
 
@@ -24,7 +25,7 @@ export default function ResourceBadgeStatusListing() {
     const orderBy = queryParams.get('orderBy');
 
     const {
-        fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeStatusSummary,
+        fetchResourceRoadmapBadges,
         getResource, getResourceRoadmapBadges, getResourceRoadmapBadgeStatusSummary
     } = useResources();
     const {getBadge} = useBadges();
@@ -82,21 +83,15 @@ export default function ResourceBadgeStatusListing() {
         }
     ];
 
-    useEffect(() => {
-        fetchResourceRoadmapBadgeStatusSummary();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            if (resourceRoadmapBadgeStatusSummary) {
-                setBadgeWorkflowStatus(badgeWorkflowStatusParam);
-            }
-        })();
+    useEffectWithErrorHandling(async () => {
+        if (resourceRoadmapBadgeStatusSummary) {
+            setBadgeWorkflowStatus(badgeWorkflowStatusParam);
+        }
     }, [!!resourceRoadmapBadgeStatusSummary, JSON.stringify(badgeWorkflowStatusParam)]);
 
-    useEffect(() => {
+    const badgeListLoading = useEffectWithErrorHandling(async () => {
         if (badgeWorkflowStatus) {
-            fetchResourceRoadmapBadges({
+            await fetchResourceRoadmapBadges({
                 badgeWorkflowStatus: badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ? null : badgeWorkflowStatus,
                 orderBy: orderBy
             });
@@ -125,157 +120,168 @@ export default function ResourceBadgeStatusListing() {
 
     const sortingActiveColumnClass = "bg-opacity-10 bg-blue";
 
-    if (badgeWorkflowStatus && resourceRoadmapBadgeStatusSummary) {
+    return <div className="container">
+        <div className="row mt-2 p-3">
+            <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                <div className="w-100 " style={{borderBottom: "1px dashed"}}>
+                    <h2 className="text-primary">Badge Verification Status</h2>
+                </div>
 
-        return <div className="container">
-            <div className="row mt-2 p-3">
-                <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
-                    <div className="w-100 " style={{borderBottom: "1px dashed"}}>
-                        <h2 className="text-primary">Badge Verification Status</h2>
-                    </div>
+                <p className="w-100 pt-3 text-gray-600">
+                    View and manage badge verification across all resources.
+                </p>
 
-                    <p className="w-100 pt-3 text-gray-600">
-                        View and manage badge verification across all resources.
-                    </p>
+                <div className="w-100 pt-2 pb-4" style={{borderBottom: "1px dashed"}}>
+                    <BadgeStatusSummaryHeader/>
+                </div>
 
-                    <div className="w-100 pt-2 pb-4" style={{borderBottom: "1px dashed"}}>
-                        <BadgeStatusSummaryHeader/>
-                    </div>
-
-                    <div className="w-100 pt-4">
-                        <div className="w-100 mt-4 border border-1 rounded-2">
-                            <table className="table sortable-table">
-                                <thead>
-                                <tr className="table-gray-100">
-                                    {columns.map((column, columnIndex) => {
-                                        const tooltip = <Tooltip>
-                                            {column.sortableFieldName === orderByColumnFieldName && !orderByDirection ?
-                                                "Sort descending" : "Sort ascending"}
-                                        </Tooltip>
+                <div className="w-100 pt-4">
+                    <div className="w-100 mt-4 border border-1 rounded-2">
+                        <table className="table sortable-table">
+                            <thead>
+                            <tr className="table-gray-100">
+                                {columns.map((column, columnIndex) => {
+                                    const tooltip = <Tooltip>
+                                        {column.sortableFieldName === orderByColumnFieldName && !orderByDirection ?
+                                            "Sort descending" : "Sort ascending"}
+                                    </Tooltip>
 
 
-                                        return <th scope="col" key={columnIndex}
-                                                   className={column.sortableFieldName === orderByColumnFieldName ? sortingActiveColumnClass : ""}>
-                                            {column.sortable ?
-                                                <OverlayTrigger overlay={tooltip} placement="bottom-start"
-                                                                delayShow={300}
-                                                                delayHide={150}>
-                                                    <button
-                                                        className={`w-100 fs-7 pt-2 pb-2 border-0 text-start bg-transparent`}
-                                                        onClick={onClickSort(column.sortableFieldName)}>
+                                    return <th scope="col" key={columnIndex}
+                                               className={column.sortableFieldName === orderByColumnFieldName ? sortingActiveColumnClass : ""}>
+                                        {column.sortable ?
+                                            <OverlayTrigger overlay={tooltip} placement="bottom-start"
+                                                            delayShow={300}
+                                                            delayHide={150}>
+                                                <button
+                                                    className={`w-100 fs-7 pt-2 pb-2 border-0 text-start bg-transparent`}
+                                                    onClick={onClickSort(column.sortableFieldName)}>
                                                     <span
                                                         className="fs-7 pt-2 pb-2 text-start fw-bold">{column.title}</span>
-                                                        {orderByColumnFieldName === column.sortableFieldName &&
-                                                            sortOrderIndicator}
-                                                    </button>
-                                                </OverlayTrigger> :
-                                                <div className="fs-7 pt-2 pb-2 text-start fw-bold">{column.title}</div>
-                                            }
-                                        </th>
-                                    })}
-                                </tr>
-                                </thead>
-                                <tbody>
+                                                    {orderByColumnFieldName === column.sortableFieldName &&
+                                                        sortOrderIndicator}
+                                                </button>
+                                            </OverlayTrigger> :
+                                            <div className="fs-7 pt-2 pb-2 text-start fw-bold">{column.title}</div>
+                                        }
+                                    </th>
+                                })}
+                            </tr>
+                            </thead>
 
-                                {badges && badges.length === 0 &&
-                                    <tr className="pt-2 pb-2">
-                                        <td colSpan={5}>
-                                            <div className="w-100 p-3 text-center lead text-gray-600">
-                                                No resource badge integrations available to display
-                                            </div>
-                                        </td>
-                                    </tr>
+                            {(!badgeListLoading.processing && !badgeListLoading.error) && <tbody>
+                            {badges && badges.length === 0 &&
+                                <tr className="pt-2 pb-2">
+                                    <td colSpan={5}>
+                                        <div className="w-100 p-3 text-center lead text-gray-600">
+                                            No resource badge integrations available to display
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                            {badges && badges.map((resourceBadge, resourceBadgeIndex) => {
+                                const resourceId = resourceBadge.info_resourceid;
+                                const badgeId = resourceBadge.badge_id;
+                                const roadmapId = resourceBadge.roadmap_id;
+
+                                const resource = getResource({resourceId: resourceId});
+                                const badge = getBadge({badgeId});
+
+                                const {hasPermission} = useRoles();
+
+
+                                let badgeActionButtonLabel = `VIEW ${resource.resource_descriptive_name}'s ${badge.name}`;
+                                let badgeActionButtonText = "VIEW";
+
+                                if (hasPermission({
+                                    roles: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
+                                    resourceIds: [resourceId]
+                                })) {
+                                    badgeActionButtonLabel = `BADGE ACTION ${resource.resource_descriptive_name}'s ${badge.name}`;
+                                    badgeActionButtonText = "BADGE ACTION";
                                 }
 
-                                {badges && badges.map((resourceBadge, resourceBadgeIndex) => {
-                                    const resourceId = resourceBadge.info_resourceid;
-                                    const badgeId = resourceBadge.badge_id;
-                                    const roadmapId = resourceBadge.roadmap_id;
+                                return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
+                                    <td>
+                                        <div className="fs-7 pt-2 pb-2 text-gray-700">{resourceId}</div>
+                                    </td>
+                                    <td>
+                                        <div className="fs-7 pt-2 pb-2 text-gray-700">{badge.name}</div>
+                                    </td>
+                                    <td>
+                                        <div className="fs-7 pt-2 pb-2 text-gray-700">
+                                            <RoadmapName roadmapId={roadmapId} seperator=" "/></div>
+                                    </td>
+                                    <td>
+                                        <div className="pt-2 pb-2">
+                                            <BadgeStatus status={resourceBadge.status}/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <Link style={{minWidth: "175px"}} aria-label={badgeActionButtonLabel}
+                                              to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}`}
+                                              className="btn btn-link text-primary text-decoration-none fw-normal fs-7 pt-2 pb-2 text-start"
+                                              target="_blank">
+                                            {badgeActionButtonText}
+                                            <i className="bi bi-box-arrow-up-right ps-2"></i>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            })}
+                            </tbody>}
 
-                                    const resource = getResource({resourceId: resourceId});
-                                    const badge = getBadge({badgeId});
+                            {(badgeListLoading.processing || badgeListLoading.error) && <tbody>
+                            <tr className="pt-2 pb-2">
+                                <td colSpan={5}>
+                                    <LoadingBlock title="badge statuses" processing={badgeListLoading.processing}
+                                                  error={badgeListLoading.error} reload={badgeListLoading.reload}
+                                                  className="w-100 p-5 text-center"/>
+                                </td>
+                            </tr>
+                            </tbody>}
 
-                                    const {hasPermission} = useRoles();
-
-
-                                    let badgeActionButtonLabel = `VIEW ${resource.resource_descriptive_name}'s ${badge.name}`;
-                                    let badgeActionButtonText = "VIEW";
-
-                                    if (hasPermission({
-                                        roles: [IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER],
-                                        resourceIds: [resourceId]
-                                    })) {
-                                        badgeActionButtonLabel = `BADGE ACTION ${resource.resource_descriptive_name}'s ${badge.name}`;
-                                        badgeActionButtonText = "BADGE ACTION";
-                                    }
-
-                                    return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
-                                        <td>
-                                            <div className="fs-7 pt-2 pb-2 text-gray-700">{resourceId}</div>
-                                        </td>
-                                        <td>
-                                            <div className="fs-7 pt-2 pb-2 text-gray-700">{badge.name}</div>
-                                        </td>
-                                        <td>
-                                            <div className="fs-7 pt-2 pb-2 text-gray-700">
-                                                <RoadmapName roadmapId={roadmapId} seperator=" "/></div>
-                                        </td>
-                                        <td>
-                                            <div className="pt-2 pb-2">
-                                                <BadgeStatus status={resourceBadge.status}/>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <Link style={{minWidth: "175px"}} aria-label={badgeActionButtonLabel}
-                                                  to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}`}
-                                                  className="btn btn-link text-primary text-decoration-none fw-normal fs-7 pt-2 pb-2 text-start"
-                                                  target="_blank">
-                                                {badgeActionButtonText}
-                                                <i className="bi bi-box-arrow-up-right ps-2"></i>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                })}
-                                </tbody>
-                            </table>
-                            <div className="w-100 mt-5 mb-5 p-3 bg-gray-100 fs-7 text-gray-800">
+                        </table>
+                        <div className="w-100 mt-5 mb-5 p-3 bg-gray-100 fs-7 text-gray-800">
+                            <LoadingBlock title="totals of badge statuses" processing={badgeListLoading.processing}
+                                          error={badgeListLoading.error} reload={badgeListLoading.reload}>
                                 Showing {badges && badges.length} of {resourceRoadmapBadgeStatusSummary && resourceRoadmapBadgeStatusSummary.total} records
-                            </div>
+                            </LoadingBlock>
                         </div>
+                    </div>
 
-                        <div className="w-100 mt-1 mb-5 border border-1 rounded-2 bg-light p-3">
-                            <div className="row text-blue-800">
-                                <div className="col-sm-6 pb-2">
-                                    <h3 className="d-inline fs-7 text-blue-800">Active Filter:</h3>
-                                    <div className="d-inline ps-2 fs-7">
-                                        {badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ?
-                                            "View All" :
-                                            Array.isArray(badgeWorkflowStatus) ?
-                                                badgeWorkflowStatus.map((bws, bwsIndex) =>
-                                                    <span key={bwsIndex}>
+                    <div className="w-100 mt-1 mb-5 border border-1 rounded-2 bg-light p-3">
+                        <div className="row text-blue-800">
+                            <div className="col-sm-6 pb-2">
+                                <h3 className="d-inline fs-7 text-blue-800">Active Filter:</h3>
+                                <div className="d-inline ps-2 fs-7">
+                                    {badgeWorkflowStatus === BadgeWorkflowStatus_VIEW_ALL ?
+                                        "View All" :
+                                        Array.isArray(badgeWorkflowStatus) ?
+                                            badgeWorkflowStatus.map((bws, bwsIndex) =>
+                                                <span key={bwsIndex}>
                                                         <Translate>badgeWorkflowStatus.{bws}</Translate><br/></span>) :
-                                                <Translate>badgeWorkflowStatus.{badgeWorkflowStatus}</Translate>}
-                                    </div>
+                                            <Translate>badgeWorkflowStatus.{badgeWorkflowStatus}</Translate>}
                                 </div>
-                                <div className="col-sm-6 pb-2">
-                                    <h4 className="d-inline fs-7 text-blue-800">Current Sort:</h4>
-                                    <div className="d-inline ps-2 fs-7">
-                                        {columns.filter(c => c.sortableFieldName === orderByColumnFieldName)
-                                            .map(c => c.title).join(", ")}
-                                        {orderBy ? <span className="ps-1">
+                            </div>
+                            <div className="col-sm-6 pb-2">
+                                <h4 className="d-inline fs-7 text-blue-800">Current Sort:</h4>
+                                <div className="d-inline ps-2 fs-7">
+                                    {columns.filter(c => c.sortableFieldName === orderByColumnFieldName)
+                                        .map(c => c.title).join(", ")}
+                                    {orderBy ? <span className="ps-1">
                                                 ({!orderByDirection ? "Ascending" : "Descending"})</span> : "None"}
-                                    </div>
                                 </div>
-                                <div className="col-sm-6">
-                                    <div className="d-inline fs-7">
-                                        Filtering does not affect column sort order
-                                    </div>
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="d-inline fs-7">
+                                    Filtering does not affect column sort order
                                 </div>
-                                <div className="col-sm-6">
-                                    <h4 className="d-inline fs-7 text-blue-800">Priorities:</h4>
-                                    <div className="d-inline ps-2 fs-7">
-                                        Resource Id → Badge → Roadmap
-                                    </div>
+                            </div>
+                            <div className="col-sm-6">
+                                <h4 className="d-inline fs-7 text-blue-800">Priorities:</h4>
+                                <div className="d-inline ps-2 fs-7">
+                                    Resource Id → Badge → Roadmap
                                 </div>
                             </div>
                         </div>
@@ -283,9 +289,6 @@ export default function ResourceBadgeStatusListing() {
                 </div>
             </div>
         </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+    </div>
+
 }

@@ -1,5 +1,4 @@
 import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {useEffect} from "react";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import IntegrationDashboard from "./IntegrationDashboard.jsx";
 import Organization from "./Organization.jsx";
@@ -21,15 +20,13 @@ import ResourceEdit from "./ResourceEdit.jsx";
 import DocumentationRoutesConfig from "./docs/documentation-routes-config.jsx";
 import StaffRoutesConfig from "./staff/staff-routes-config.jsx";
 import DevRoutesConfig from "./dev/dev-routes-config.jsx";
-import {useDialogs} from "../contexts/DialogContext.jsx";
+import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
 
 const RouterLayout = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isStaffPage = !!(/^\/staff/i.exec(pathname));
-
-    const {showErrorDialog} = useDialogs();
 
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
@@ -45,17 +42,15 @@ const RouterLayout = () => {
     const tasks = getTasks();
     const contactTypes = getContactTypes();
 
-    useEffect(() => {
-        Promise.all([
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
             fetchOrganizations(),
             fetchResources(),
             fetchRoadmaps(),
             fetchBadges(),
             fetchTasks(),
             fetchContactTypes()
-        ]).catch((error) => {
-            showErrorDialog({error: error});
-        });
+        ])
     }, []);
 
     let isDataReady = (organizations && organizations.length > 0)
@@ -65,21 +60,26 @@ const RouterLayout = () => {
         && (tasks && tasks.length > 0)
         && (contactTypes && contactTypes.length > 0);
 
+    let content;
     if (isStaffPage) {
-        return <div className="w-100 pt-3 pb-5 bg-gray-200">
+        content = <div className="w-100 pt-3 pb-5 bg-gray-200">
             <div className="container">
                 <StaffMainNavigation/>
             </div>
             {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
         </div>;
     } else {
-        return <div className="w-100">
+        content = <div className="w-100">
             <CustomizedBreadcrumb/>
             <div className="w-100 pt-3 pb-5">
                 {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
             </div>
         </div>;
     }
+
+    return <LoadingBlock title="metadata" processing={processing} error={error} reload={reload} className="w-100 p-5 text-center">
+        {content}
+    </LoadingBlock>;
 };
 
 const ApplicationRoutesConfig = [

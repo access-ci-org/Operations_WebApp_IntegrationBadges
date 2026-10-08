@@ -5,6 +5,8 @@ import React, {useEffect} from "react";
 import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {StaffBadgeStatusCssVariant} from "../status/BadgeStatus.jsx";
+import {useEffectWithErrorHandling} from "../util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 
 export default function BadgeStatusSummaryHeader() {
     const location = useLocation();
@@ -15,8 +17,8 @@ export default function BadgeStatusSummaryHeader() {
 
     const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
 
-    useEffect(() => {
-        fetchResourceRoadmapBadgeStatusSummary();
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await fetchResourceRoadmapBadgeStatusSummary();
     }, []);
 
     const verificationHighlightList = [
@@ -49,22 +51,24 @@ export default function BadgeStatusSummaryHeader() {
         },
     ];
 
-    for (let i in verificationHighlightList) {
-        const verificationHighlight = verificationHighlightList[i];
+    if (resourceRoadmapBadgeStatusSummary) {
+        for (let i in verificationHighlightList) {
+            const verificationHighlight = verificationHighlightList[i];
 
-        if (Array.isArray(verificationHighlight.status)) {
-            verificationHighlight.count = Math.sumPrecise(verificationHighlight.status.map(s =>
-                resourceRoadmapBadgeStatusSummary[s]));
-        } else {
-            verificationHighlight.count = resourceRoadmapBadgeStatusSummary[verificationHighlight.status];
-        }
+            if (Array.isArray(verificationHighlight.status)) {
+                verificationHighlight.count = Math.sumPrecise(verificationHighlight.status.map(s =>
+                    resourceRoadmapBadgeStatusSummary[s]));
+            } else {
+                verificationHighlight.count = resourceRoadmapBadgeStatusSummary[verificationHighlight.status];
+            }
 
-        if (!verificationHighlight.title) {
-            verificationHighlight.title = <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>;
-        }
+            if (!verificationHighlight.title) {
+                verificationHighlight.title = <Translate>badgeWorkflowStatus.{verificationHighlight.status}</Translate>;
+            }
 
-        if (!verificationHighlight.variant) {
-            verificationHighlight.variant = StaffBadgeStatusCssVariant[verificationHighlight.status];
+            if (!verificationHighlight.variant) {
+                verificationHighlight.variant = StaffBadgeStatusCssVariant[verificationHighlight.status];
+            }
         }
     }
 
@@ -79,7 +83,7 @@ export default function BadgeStatusSummaryHeader() {
         return url;
     }
 
-    return <div className="w-100">
+    return <LoadingBlock title="badge status summary" processing={processing} error={error} reload={reload}>
         <ul className="row p-0 list-unstyled">
             {verificationHighlightList.map((verificationHighlight, verificationHighlightIndex) => {
                 const variant = verificationHighlight.variant;
@@ -102,5 +106,5 @@ export default function BadgeStatusSummaryHeader() {
                 </li>
             })}
         </ul>
-    </div>
+    </LoadingBlock>
 }

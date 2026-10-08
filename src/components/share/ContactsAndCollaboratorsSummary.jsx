@@ -7,6 +7,7 @@ import {StaffRouteUrls} from "../../pages/pages-config.js";
 import ContactsAndCollaboratorsFilterView from "./ContactsAndCollaboratorsFilterView.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {ShowIfAuthorized} from "../util/Permissions.jsx";
+import {useEffectWithErrorHandling} from "../util/useEffectWithErrorHandling.js";
 
 const ContactAvatarClasses = [
     "bg-accent-secondary text-white",
@@ -57,14 +58,11 @@ function ShowMoreCollaboratorDetailsButton(
     const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
 
     if (contacts) {
-        return <div className="col align-content-center text-end ps-2">
-            {contacts &&
-                <button className="btn btn-light rounded-3 border-0 fs-8" onClick={() => onClick && onClick()}>
-                    <span className="small text-primary fw-bold"> Contacts / Collaborators</span>
-                    <span className="ps-1 pe-1 ms-2 bg-primary text-white fw-bold rounded rounded-3">
+       return  <button className="btn btn-light rounded-3 border-0 fs-8" onClick={() => onClick && onClick()}>
+            <span className="small text-primary fw-bold"> Contacts / Collaborators</span>
+            <span className="ps-1 pe-1 ms-2 bg-primary text-white fw-bold rounded rounded-3">
                             {contacts.length - NumberOfContactDisplayOnSummary}</span>
-                </button>}
-        </div>
+        </button>
     }
 }
 
@@ -72,16 +70,12 @@ function ShowMoreCollaboratorDetailsButton(
 export default function ContactsAndCollaboratorsSummary(
     {organizationId = null, resourceId = null, contactType = null, contactEmail = null} = {}
 ) {
-    const {fetchContacts, getContacts} = useContacts();
+    const {fetchContacts} = useContacts();
 
     const [showContactsAndCollaboratorsModal, setShowContactsAndCollaboratorsModal] = useState(false);
-    const [error, setError] = useState(false);
 
-    const contacts = getContacts({organizationId, resourceId, contactType, contactEmail});
-
-    useEffect(() => {
-        fetchContacts({organizationId, resourceId, contactType, contactEmail})
-            .catch(() => setError(true));
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await fetchContacts({organizationId, resourceId, contactType, contactEmail});
     }, [organizationId, resourceId, contactType, contactEmail]);
 
     // ContactAvatarClasses.sort(() => Math.random() - Math.random());
@@ -100,40 +94,18 @@ export default function ContactsAndCollaboratorsSummary(
             {/*        <i className="bi bi-info-circle-fill fs-7"></i></button>*/}
             {/*</div>*/}
 
-            <LoadingBlock processing={!error && !contacts} className="row fs-8 p-2 rounded-5 bg-light"/>
-
             <div className="row p-2">
-                {/*{contacts && contacts.slice(0, NumberOfContactDisplayOnSummary).map((contact, contactIndex) =>*/}
-                {/*    <CollaboratorProfileAvatarButton key={contactIndex} contact={contact}*/}
-                {/*                                     contactIndex={contactIndex}/>)}*/}
-
-
-                {/*{error && <div className="col align-content-center ps-1">*/}
-                {/*    <div className="w-100 fs-8">*/}
-                {/*        <i className="bi bi-exclamation-triangle-fill text-danger pe-2"></i>*/}
-                {/*        <span className="fw-bold">Error : </span>*/}
-                {/*        <span>Unauthorized</span>*/}
-                {/*    </div>*/}
-                {/*</div>}*/}
-
-                {/*{!error && contacts && contacts.length === 0 &&*/}
-                {/*    <div className="col align-content-center ps-1">*/}
-                {/*        <div className="w-100 fs-8">*/}
-                {/*            <i className="bi bi-exclamation-triangle-fill text-accent-secondary pe-2"></i>*/}
-                {/*            <span className="text-secondary">No contacts found.</span>*/}
-                {/*        </div>*/}
-                {/*    </div>}*/}
-
-
-                {!error && contacts &&
-                    <ShowMoreCollaboratorDetailsButton organizationId={organizationId} resourceId={resourceId}
-                                                       contactEmail={contactEmail} contactType={contactType}
-                                                       onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>}
-
-                {/*<AddNewCollaboratorButton organizationId={organizationId} resourceId={resourceId}*/}
-                {/*                          contactEmail={contactEmail} contactType={contactType}*/}
-                {/*                          onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>*/}
+                <div className="col align-content-center text-end ps-2">
+                    <LoadingBlock title="contacts" processing={processing} error={error} reload={reload} minHeight={0}
+                                  className="ps-2 pe-2 pt-1 pb-1 d-inline-block rounded-3 border border-1 border-light width-fit-content">
+                        <ShowMoreCollaboratorDetailsButton
+                            organizationId={organizationId} resourceId={resourceId}
+                            contactEmail={contactEmail} contactType={contactType}
+                            onClick={setShowContactsAndCollaboratorsModal.bind(this, true)}/>
+                    </LoadingBlock>
+                </div>
             </div>
+
 
             <Modal className="modal-light" size="xl" show={showContactsAndCollaboratorsModal}
                    aria-label="Contacts and Collaborators"
