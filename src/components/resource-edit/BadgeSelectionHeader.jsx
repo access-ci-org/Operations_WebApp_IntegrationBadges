@@ -25,7 +25,8 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
             <div className="row bg-gray-100 rounded-3 mt-4 p-2">
                 <div className="col p-2">
                     <h2 className="fs-6 text-black mb-0 mt-1">{resource.resource_descriptive_name}</h2>
-                    <div className="fw-bold text-primary" aria-label="Resource Provider">{organization.organization_name}</div>
+                    <div className="fw-bold text-primary"
+                         aria-label="Resource Provider">{organization.organization_name}</div>
                 </div>
                 <div className="col p-2">
                     <label className="text-secondary" htmlFor="resource-type">Resource Type</label>
@@ -54,20 +55,18 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
                 contact the concierge team.
             </p>
 
-            {resourceRoadmaps ?
-                <DropdownButton size="lg" title={roadmap.name}
-                                bsPrefix="w-100 text-start btn btn-lg btn-outline-primary rounded-2 p-4"
-                                onSelect={handleResourceRoadmapSelect}>
-                    {resourceRoadmaps.map(resourceRoadmap => <Dropdown.Item key={resourceRoadmap.roadmap_id}
-                                                                            eventKey={resourceRoadmap.roadmap_id}>
-                        {resourceRoadmap.name}
-                    </Dropdown.Item>)}
+            <DropdownButton size="lg" title={roadmap.name}
+                            bsPrefix="w-100 text-start btn btn-lg btn-outline-primary rounded-2 p-4"
+                            onSelect={handleResourceRoadmapSelect}>
+                {resourceRoadmaps.map(resourceRoadmap => <Dropdown.Item key={resourceRoadmap.roadmap_id}
+                                                                        eventKey={resourceRoadmap.roadmap_id}>
+                    {resourceRoadmap.name}
+                </Dropdown.Item>)}
 
-                    {!!isRoadmapNew && <Dropdown.Item key={roadmap.roadmap_id} eventKey={roadmap.roadmap_id}>
-                        {roadmap.name}
-                    </Dropdown.Item>}
-                </DropdownButton> :
-                <LoadingBlock/>}
+                {!!isRoadmapNew && <Dropdown.Item key={roadmap.roadmap_id} eventKey={roadmap.roadmap_id}>
+                    {roadmap.name}
+                </Dropdown.Item>}
+            </DropdownButton>
         </div>
 
     </>

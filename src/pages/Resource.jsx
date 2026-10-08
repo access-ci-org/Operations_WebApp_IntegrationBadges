@@ -126,13 +126,12 @@ export default function Resource() {
                         <label className="text-secondary" htmlFor="resource-id">Global Resource ID</label>
                         <div id="resource-id">{resource.info_resourceid}</div>
                     </div>
-                    <div className="col">
+                    {roadmap && <div className="col">
                         <label className="text-secondary" htmlFor="resource-roadmap-name">Roadmap</label>
-                        <LoadingBlock processing={processing}
-                                      error={error} reload={reload}>
-                            {roadmap && <div id="resource-roadmap-name">{roadmap.name}</div>}
-                        </LoadingBlock>
-                    </div>
+                        <div id="resource-roadmap-name">
+                            {roadmap.name}
+                        </div>
+                    </div>}
                 </div>
             </div>
         </div>

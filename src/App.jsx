@@ -55,16 +55,14 @@ function ApplicationContainer() {
         await fetchRoles().finally(() => setReady(true));
     }, []);
 
-    if (ready) {
-        return <div className="w-100">
+    return <LoadingBlock processing={processing} className="w-100 p-5 text-center">
+        {ready && <div className="w-100">
             <div className="w-100">
                 <AlwaysScrollToTop/>
                 <ApplicationRoutesWrapper/>
             </div>
-        </div>;
-    } else {
-        return <LoadingBlock processing={processing} className="w-100 p-5 text-center"/>
-    }
+        </div>}
+    </LoadingBlock>;
 }
 
 function App() {

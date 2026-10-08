@@ -69,46 +69,43 @@ export default function IntegrationDashboard() {
             <GridAndListSwitch/>
         </div>
 
-        <LoadingBlock processing={!filteredOrganizations}
-                      className="pt-4 pb-5">
-            {filteredOrganizations && filteredOrganizations.length === 0 &&
-                <div className="w-100 p-3 text-center lead">
-                    No organisations available
-                </div>}
-            <div className="row mt-2 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                {filteredOrganizations && filteredOrganizations.map((organization, organizationIndex) => {
-                    return <div key={organizationIndex} className="col p-3">
-                        <Link className="organization-card rounded-3 w-100 h-100"
-                              to={"/organizations/" + organization.organization_id}>
-                            <div className="w-100 p-3"></div>
-                            <div className="w-100 p-5 bg-light" style={{
-                                backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                                backgroundRepeat: "no-repeat",
-                                backgroundSize: "contain",
-                                backgroundPosition: "center"
-                            }}>
-                                {/*<img className="w-100" src={organization.other_attributes.organization_logo_url}/>*/}
+        {filteredOrganizations && filteredOrganizations.length === 0 &&
+            <div className="w-100 p-3 text-center lead">
+                No organisations available
+            </div>}
+        <div className="row mt-2 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+            {filteredOrganizations && filteredOrganizations.map((organization, organizationIndex) => {
+                return <div key={organizationIndex} className="col p-3">
+                    <Link className="organization-card rounded-3 w-100 h-100"
+                          to={"/organizations/" + organization.organization_id}>
+                        <div className="w-100 p-3"></div>
+                        <div className="w-100 p-5 bg-light" style={{
+                            backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "contain",
+                            backgroundPosition: "center"
+                        }}>
+                            {/*<img className="w-100" src={organization.other_attributes.organization_logo_url}/>*/}
+                        </div>
+                        <div className="w-100 p-3 text-center">
+                            <div className="btn btn-link">
+                                {organization.organization_name}
                             </div>
-                            <div className="w-100 p-3 text-center">
-                                <div className="btn btn-link">
-                                    {organization.organization_name}
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                })}
+                        </div>
+                    </Link>
+                </div>
+            })}
 
-                <div className="col p-3">
-                    <div className="organization-card rounded-3 w-100 h-100">
-                        <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center">
-                            <i className="bi bi-plus-lg fs-1"></i>
-                            <div className="pb-5">
-                                Register New Organization
-                            </div>
-                        </Link>
-                    </div>
+            <div className="col p-3">
+                <div className="organization-card rounded-3 w-100 h-100">
+                    <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center">
+                        <i className="bi bi-plus-lg fs-1"></i>
+                        <div className="pb-5">
+                            Register New Organization
+                        </div>
+                    </Link>
                 </div>
             </div>
-        </LoadingBlock>
+        </div>
     </div>);
 }

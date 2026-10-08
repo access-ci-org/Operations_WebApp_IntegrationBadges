@@ -27,8 +27,6 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
 
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
-    console.log("####### prerequisiteBadges ", prerequisiteBadges);
-
     if (prerequisiteBadges) {
         const toggleComponent = <div
             className="p-4 h-100 bg-warning-subtle rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center">

@@ -9,6 +9,7 @@ import {scrollToTop} from "../../components/util/scroll.jsx";
 import {BadgeCardRowWithRequiredLabel} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {HtmlToReact} from "../../components/util/text-editors.jsx";
 import RoadmapName from "../../components/roadmap/RoadmapName.jsx";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
 
 /**
  * The initial page that displays al resources.
@@ -21,8 +22,8 @@ export default function Roadmaps() {
     const queryParams = new URLSearchParams(location.search);
     let roadmapId = queryParams.get('roadmapId');
 
-    const {getBadges} = useBadges();
-    const {getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
+    const {fetchBadges, getBadges} = useBadges();
+    const {fetchRoadmaps, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
 
     let roadmaps = getRoadmaps();
     const badges = getBadges();
@@ -42,6 +43,13 @@ export default function Roadmaps() {
     }
     roadmaps = productionRoadmaps.concat(draftRoadmaps);
 
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
+            fetchRoadmaps(),
+            fetchBadges()
+        ]);
+    }, []);
+
     useEffect(() => {
         scrollToTop();
     }, [roadmapId]);
@@ -52,23 +60,21 @@ export default function Roadmaps() {
         }
     }, [roadmapId, roadmaps]);
 
-    if (!!roadmaps && !!badges) {
+    const tabs = !roadmaps ? [] : roadmaps.map((roadmap) => {
+        return {
+            title: <RoadmapName roadmapId={roadmap.roadmap_id} seperator=" " showStatus={true}/>,
+            link: DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`
+        }
+    });
 
-        const tabs = roadmaps.map((roadmap) => {
-            return {
-                title: <RoadmapName roadmapId={roadmap.roadmap_id} seperator=" " showStatus={true}/> ,
-                link: DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`
-            }
-        });
+    let activeKey = DocumentationRouteUrls.ROADMAPS;
+    if (roadmapId) activeKey += `?roadmapId=${roadmapId}`;
 
-        let activeKey = DocumentationRouteUrls.ROADMAPS;
-        if (roadmapId) activeKey += `?roadmapId=${roadmapId}`;
-
-        return <div className="container">
-            <div className="row pt-4">
-                <h1>Available Roadmaps</h1>
-            </div>
-
+    return <div className="container">
+        <div className="row pt-4">
+            <h1>Available Roadmaps</h1>
+        </div>
+        <LoadingBlock processing={processing} error={error} reload={reload}>
             <div className="w-100 pt-4 d-flex flex-row">
                 <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3">
                     <Nav variant="pills" activeKey={activeKey}
@@ -111,21 +117,25 @@ export default function Roadmaps() {
 
                         <div className="w-100 pb-5">
                             <div className="row pb-3">
-                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Infrastructure Type(s):</h3>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Infrastructure
+                                    Type(s):</h3>
                                 <div className="col-sm-9">{selectedRoadmap.infrastructure_types}</div>
                             </div>
                             <div className="row pb-3">
-                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Roadmap RP Summary:</h3>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Roadmap RP
+                                    Summary:</h3>
                                 <div className="col-sm-9 pre-wrap-text">
                                     <HtmlToReact>{selectedRoadmap.executive_summary}</HtmlToReact>
                                 </div>
                             </div>
                             <div className="row pb-3">
-                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Integration Concierge:</h3>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Integration
+                                    Concierge:</h3>
                                 <div className="col-sm-9">{selectedRoadmap.integration_coordinators}</div>
                             </div>
                             <div className="row pb-3">
-                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Roadmap Status:</h3>
+                                <h3 className="col-sm-3 fs-6 text-black" style={{minWidth: "200px"}}>Roadmap
+                                    Status:</h3>
                                 <div className="col-sm-9">{selectedRoadmap.status}</div>
                             </div>
                         </div>
@@ -146,10 +156,6 @@ export default function Roadmaps() {
                     </div>}
                 </div>
             </div>
-        </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+        </LoadingBlock>
+    </div>
 }

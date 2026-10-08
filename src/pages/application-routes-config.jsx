@@ -21,6 +21,7 @@ import DocumentationRoutesConfig from "./docs/documentation-routes-config.jsx";
 import StaffRoutesConfig from "./staff/staff-routes-config.jsx";
 import DevRoutesConfig from "./dev/dev-routes-config.jsx";
 import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
+import {useState} from "react";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -28,58 +29,52 @@ const RouterLayout = () => {
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isStaffPage = !!(/^\/staff/i.exec(pathname));
 
-    const {fetchOrganizations, getOrganizations} = useOrganizations();
-    const {fetchResources, getResources} = useResources();
-    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
-    const {fetchBadges, getBadges} = useBadges();
-    const {fetchTasks, getTasks} = useTasks();
-    const {fetchContactTypes, getContactTypes} = useContacts();
+    const {fetchOrganizations} = useOrganizations();
+    const {fetchResources} = useResources();
+    const {fetchRoadmaps} = useRoadmaps();
+    const {fetchBadges} = useBadges();
+    const {fetchTasks} = useTasks();
+    const {fetchContactTypes} = useContacts();
 
-    const organizations = getOrganizations();
-    const resources = getResources();
-    const roadmaps = getRoadmaps();
-    const badges = getBadges();
-    const tasks = getTasks();
-    const contactTypes = getContactTypes();
+    const [isDataReady, setIsDataReady] = useState(false);
 
     const {processing, error, reload} = useEffectWithErrorHandling(async () => {
-        await Promise.all([
-            fetchOrganizations(),
-            fetchResources(),
-            fetchRoadmaps(),
-            fetchBadges(),
-            fetchTasks(),
-            fetchContactTypes()
-        ])
+        if (initialFetchesAreRequired) {
+            await Promise.all([
+                fetchOrganizations(),
+                fetchResources(),
+                fetchRoadmaps(),
+                fetchBadges(),
+                fetchTasks(),
+                fetchContactTypes()
+            ]);
+        }
+
+        setIsDataReady(true)
     }, []);
 
-    let isDataReady = (organizations && organizations.length > 0)
-        && (resources && resources.length > 0)
-        && (roadmaps && roadmaps.length > 0)
-        && (badges && badges.length > 0)
-        && (tasks && tasks.length > 0)
-        && (contactTypes && contactTypes.length > 0);
+    let content = <LoadingBlock title="metadata" processing={processing} error={error} reload={reload}
+                                className="w-100 p-5 text-center">
+        {isDataReady && <Outlet/>}
+    </LoadingBlock>;
 
-    let content;
     if (isStaffPage) {
         content = <div className="w-100 pt-3 pb-5 bg-gray-200">
             <div className="container">
                 <StaffMainNavigation/>
             </div>
-            {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
+            {content}
         </div>;
     } else {
         content = <div className="w-100">
             <CustomizedBreadcrumb/>
             <div className="w-100 pt-3 pb-5">
-                {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
+                {content}
             </div>
         </div>;
     }
 
-    return <LoadingBlock title="metadata" processing={processing} error={error} reload={reload} className="w-100 p-5 text-center">
-        {content}
-    </LoadingBlock>;
+    return content;
 };
 
 const ApplicationRoutesConfig = [

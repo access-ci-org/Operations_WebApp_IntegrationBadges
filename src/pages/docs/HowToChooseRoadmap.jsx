@@ -3,11 +3,20 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {RoadmapCard} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {useEffect} from "react";
 import roadmapsBanner from "../../assets/roadmaps-banner.jpeg";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 
 export default function HowToChooseRoadmap() {
-    const {getRoadmaps} = useRoadmaps();
+    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
 
     const roadmaps = getRoadmaps();
+
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
+            fetchRoadmaps()
+        ]);
+    }, []);
 
     return <div className="container">
         <div className="w-100 p-3 pt-5">
@@ -42,9 +51,12 @@ export default function HowToChooseRoadmap() {
                 </h2>
             </div>
 
-            {roadmaps && roadmaps.map((roadmap, roadmapIndex) => <div className="col-sm-6" key={roadmapIndex}>
-                <RoadmapCard roadmapId={roadmap.roadmap_id}/>
-            </div>)}
+            <LoadingBlock processing={processing} error={error} reload={reload}>
+                {roadmaps && roadmaps.map((roadmap, roadmapIndex) => <div className="col-sm-6" key={roadmapIndex}>
+                    <RoadmapCard roadmapId={roadmap.roadmap_id}/>
+                </div>)}
+            </LoadingBlock>
+
             <div className="col-sm-6">
                 <RoadmapCard roadmapId={null}/>
             </div>

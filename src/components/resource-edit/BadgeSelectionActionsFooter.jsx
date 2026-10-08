@@ -56,38 +56,33 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
         setSaveProcessing(false);
     };
 
-    if (!!resource && !!roadmapBadges) {
+    for (let i = 0; i < roadmapBadges.length; i++) {
+        const badge = roadmapBadges[i];
+        const badgeId = badge.badge_id;
 
-        for (let i = 0; i < roadmapBadges.length; i++) {
-            const badge = roadmapBadges[i];
-            const badgeId = badge.badge_id;
-
-            if (selected(badgeId)) {
-                selectedBadgeIds.push(badgeId);
-            }
+        if (selected(badgeId)) {
+            selectedBadgeIds.push(badgeId);
         }
-
-        return <div className="w-100 text-end pt-3 pb-5">
-            <button className="btn btn-outline-primary rounded-1 m-1" onClick={prev}>
-                Cancel
-            </button>
-
-            {!showSave ?
-                <button className="btn btn-primary rounded-1 m-1 ${}" disabled={selectedBadgeIds.length === 0}
-                        onClick={next}>
-                    Continue with {selectedBadgeIds.length} Selected Badges
-                </button> :
-                saveProcessing ?
-                    <button className="btn btn-primary rounded-1 m-1">
-                        <span className="spinner-border spinner-border-sm me-3" role="status" aria-hidden="true"></span>
-                        Loading...
-                    </button> :
-                    <button className="btn btn-primary rounded-1 m-1" disabled={selectedBadgeIds.length === 0}
-                            onClick={handleSave}>
-                        Save Selection
-                    </button>}
-        </div>
-    } else {
-        return <LoadingBlock/>
     }
+
+    return <div className="w-100 text-end pt-3 pb-5">
+        <button className="btn btn-outline-primary rounded-1 m-1" onClick={prev}>
+            Cancel
+        </button>
+
+        {!showSave ?
+            <button className="btn btn-primary rounded-1 m-1 ${}" disabled={selectedBadgeIds.length === 0}
+                    onClick={next}>
+                Continue with {selectedBadgeIds.length} Selected Badges
+            </button> :
+            saveProcessing ?
+                <button className="btn btn-primary rounded-1 m-1">
+                    <span className="spinner-border spinner-border-sm me-3" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button> :
+                <button className="btn btn-primary rounded-1 m-1" disabled={selectedBadgeIds.length === 0}
+                        onClick={handleSave}>
+                    Save Selection
+                </button>}
+    </div>;
 }

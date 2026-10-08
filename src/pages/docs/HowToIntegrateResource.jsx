@@ -6,14 +6,23 @@ import {DocumentationRouteUrls} from "../pages-config.js";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {WhyBecomeAnRPFooter} from "./WhyBecomeAnRP.jsx";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 
 export default function HowToIntegrateResource() {
 
-    const {getRoadmaps} = useRoadmaps();
-    const {getBadges} = useBadges();
+    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
+    const {fetchBadges, getBadges} = useBadges();
 
     const roadmaps = getRoadmaps();
     const badges = getBadges();
+
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
+            fetchRoadmaps(),
+            fetchBadges()
+        ]);
+    }, []);
 
     const highlightedFeatures = [
         {
@@ -82,11 +91,13 @@ export default function HowToIntegrateResource() {
                     <strong>Current Roadmaps</strong> include:
                 </p>
                 <div className="row">
-                    {roadmaps.slice(0, 6).map((roadmap, roadmapIndex) =>
-                        <div className="col-sm-6 p-2" key={roadmapIndex}>
-                            <Link to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmap.roadmap_id}`}
-                                  className="w-100 btn btn-primary rounded-2">{roadmap.name}</Link>
-                        </div>)}
+                    <LoadingBlock processing={processing} error={error} reload={reload}>
+                        {roadmaps && roadmaps.slice(0, 6).map((roadmap, roadmapIndex) =>
+                            <div className="col-sm-6 p-2" key={roadmapIndex}>
+                                <Link to={`${DocumentationRouteUrls.ROADMAPS}?roadmapId=${roadmap.roadmap_id}`}
+                                      className="w-100 btn btn-primary rounded-2">{roadmap.name}</Link>
+                            </div>)}
+                    </LoadingBlock>
                 </div>
             </div>
         },
@@ -102,13 +113,15 @@ export default function HowToIntegrateResource() {
                     Each badge includes clear instructions, links, and examples to guide you.
                 </p>
                 <div className="w-100">
-                    {badges.slice(0, 2).map((badge, badgeIndex) =>
-                        <div className="d-inline-block p-2" key={badgeIndex}>
-                            <Link to={`${DocumentationRouteUrls.BADGES}?badgeId=${badge.badge_id}`}
-                            aria-label={`View badge ${badge.name}`}>
-                                <BadgeIcon badgeId={badge.badge_id}/>
-                            </Link>
-                        </div>)}
+                    <LoadingBlock processing={processing} error={error} reload={reload}>
+                        {badges && badges.slice(0, 2).map((badge, badgeIndex) =>
+                            <div className="d-inline-block p-2" key={badgeIndex}>
+                                <Link to={`${DocumentationRouteUrls.BADGES}?badgeId=${badge.badge_id}`}
+                                      aria-label={`View badge ${badge.name}`}>
+                                    <BadgeIcon badgeId={badge.badge_id}/>
+                                </Link>
+                            </div>)}
+                    </LoadingBlock>
                 </div>
             </div>
         },

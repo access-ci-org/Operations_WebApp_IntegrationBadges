@@ -9,6 +9,7 @@ import {useTasks} from "../../contexts/TaskContext.jsx";
 import ResourceBadgePrerequisites from "../../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../../components/resource/resource-badge/ResourceBadgeTasks.jsx";
 import {HtmlToReact} from "../../components/util/text-editors.jsx";
+import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
 
 /**
  * The initial page that displays al resources.
@@ -21,12 +22,18 @@ export default function Badges() {
     const queryParams = new URLSearchParams(location.search);
     let badgeId = queryParams.get('badgeId');
 
-    const {getBadges, getBadge} = useBadges();
-    const {getTasks} = useTasks();
+    const {fetchBadges, getBadges, getBadge} = useBadges();
+    const {fetchTasks} = useTasks();
 
     const badges = getBadges();
-    const tasks = getTasks();
     const selectedBadge = getBadge({badgeId});
+
+    const {processing, error, reload} = useEffectWithErrorHandling(async () => {
+        await Promise.all([
+            fetchBadges(),
+            fetchTasks()
+        ]);
+    }, []);
 
     useEffect(() => {
         scrollToTop();
@@ -38,23 +45,23 @@ export default function Badges() {
         }
     }, [badgeId, badges]);
 
-    if (!!badges && !!tasks) {
+    const tabs = !badges ? [] : badges.map((badge) => {
+        return {
+            title: badge.name,
+            link: DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`
+        }
+    });
 
-        const tabs = badges.map((badge) => {
-            return {
-                title: badge.name,
-                link: DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`
-            }
-        });
+    let activeKey = DocumentationRouteUrls.BADGES;
+    if (badgeId) activeKey += `?badgeId=${badgeId}`;
 
-        let activeKey = DocumentationRouteUrls.BADGES;
-        if (badgeId) activeKey += `?badgeId=${badgeId}`;
 
-        return <div className="container">
-            <div className="row pt-4">
-                <h1>Available Badges</h1>
-            </div>
+    return <div className="container">
+        <div className="row pt-4">
+            <h1>Available Badges</h1>
+        </div>
 
+        <LoadingBlock processing={processing} error={error} reload={reload}>
             <div className="w-100 pt-4 d-flex flex-row">
                 <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3">
                     <Nav variant="pills" activeKey={activeKey}
@@ -168,10 +175,7 @@ export default function Badges() {
                     </div>}
                 </div>
             </div>
-        </div>
-    } else {
-        return <div className="container">
-            <LoadingBlock processing={true}/>
-        </div>
-    }
+        </LoadingBlock>
+    </div>
+
 }

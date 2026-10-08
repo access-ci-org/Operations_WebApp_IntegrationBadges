@@ -12,29 +12,27 @@ export default function RoadmapSelectionConfirmation({resourceId, roadmapId, nex
     let roadmap = getRoadmap({roadmapId});
     let organization = getResourceOrganization({resourceId});
 
-    if (!!resource && !! roadmap && !!organization) {
-        return <>
-            <div className="row pt-4">
-                <div className="col-lg-8 d-flex flex-column pe-5">
-                    <h1>{roadmap.name}</h1>
-                    <div className="flex-fill small pre-wrap-text"><HtmlToReact>{roadmap.executive_summary}</HtmlToReact></div>
-                    <div>
-                        <button className="btn btn-primary rounded-1" onClick={next}>Select Your Resource-Specific Badges</button>
-                    </div>
+    return <>
+        <div className="row pt-4">
+            <div className="col-lg-8 d-flex flex-column pe-5">
+                <h1>{roadmap.name}</h1>
+                <div className="flex-fill small pre-wrap-text"><HtmlToReact>{roadmap.executive_summary}</HtmlToReact>
                 </div>
-                <div className="col-lg-4 p-5">
-                    <ResourceCard organization={organization} resource={resource} inProgress={true}
-                                  showViewButton={false}/>
+                <div>
+                    <button className="btn btn-primary rounded-1" onClick={next}>Select Your Resource-Specific Badges
+                    </button>
                 </div>
             </div>
-            <div className="w-100 pt-5">
-                <h2>Need More Information? </h2>
-                <p>
-                    View Additional Information
-                </p>
+            <div className="col-lg-4 p-5">
+                <ResourceCard organization={organization} resource={resource} inProgress={true}
+                              showViewButton={false}/>
             </div>
-        </>
-    } else {
-        <LoadingBlock />
-    }
+        </div>
+        <div className="w-100 pt-5">
+            <h2>Need More Information? </h2>
+            <p>
+                View Additional Information
+            </p>
+        </div>
+    </>
 }

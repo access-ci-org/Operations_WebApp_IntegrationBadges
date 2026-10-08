@@ -118,7 +118,7 @@ export default function ResourceBadge() {
         }
     };
 
-    if (resource && organization && resourceRoadmapBadge && resourceRoadmapBadgeTasks && prerequisiteBadges) {
+    if (resourceRoadmapBadge && resourceRoadmapBadgeTasks && prerequisiteBadges) {
         const requiredTasks = resourceRoadmapBadgeTasks.filter(t => t.required);
 
         const isReadyToSubmit = requiredTasks
@@ -131,8 +131,6 @@ export default function ResourceBadge() {
 
         const lastUpdatedAt = new Date(Date.parse(resourceRoadmapBadge.status_updated_at));
         const lastUpdatedBy = resourceRoadmapBadge.status_updated_by;
-
-        console.log("####### resourceRoadmapBadge ", resourceRoadmapBadge);
 
         return <div className="container">
             <PermissionSwitch/>
