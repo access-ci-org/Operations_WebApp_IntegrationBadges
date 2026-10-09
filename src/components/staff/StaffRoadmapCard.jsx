@@ -10,7 +10,7 @@ export function StaffRoadmapCard({roadmapId}) {
 
     if (roadmapId === null) {
         return <div className="w-100 h-100  p-2 pt-4">
-            <Link to={StaffRouteUrls.ROADMAP_NEW}
+            <Link to={StaffRouteUrls.ROADMAP_NEW} style={{minHeight: 180}}
                   className="btn btn-gray-200 rounded-4 border border-gray-500 border-2 border-style-dashed w-100 h-100 text-secondary align-content-center">
                 <div className="rounded-circle p-2 bg-white width-fit-content d-inline-block">
                     <i className="bi bi-plus-lg fs-1 lh-1"></i>

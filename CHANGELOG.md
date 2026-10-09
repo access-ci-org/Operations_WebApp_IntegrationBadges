@@ -8,6 +8,12 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.25.2 2026-10-9 dinukadesilva
+
+1. [new] Setting a min height to the "Create New" blocks (CTT-1150)
+    - `/organizations/:organizationId`
+    - `/staff/roadmaps`
+
 ## v1.25.1 2026-10-9 dinukadesilva
 
 1. [new] Style improvements of the "Required" indicator (CTT-1150)
