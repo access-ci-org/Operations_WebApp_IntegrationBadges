@@ -21,21 +21,21 @@ export default function ApplicationRouteDetails() {
         </div>
 
         <div className="w-100 mb-3">
-            <h6 className="d-inline pe-3">Authentication:</h6>
+            <h3 className="d-inline pe-3 fs-6">Authentication:</h3>
             {route.authenticationRequired ? <span>Required <i className="ps-1 bi bi-lock-fill"></i></span> : "NA"}
         </div>
 
         <div className="w-100 mb-3">
-            <h6 className="d-inline pe-3">Authorized Roles:</h6>
+            <h3 className="d-inline pe-3 fs-6">Authorized Roles:</h3>
             {route.authorizedRoles && route.authorizedRoles.length > 0 ? route.authorizedRoles.join(" ,") : "NA"}
         </div>
 
         <div className="w-100 mb-3">
-            <h6 className="d-inline pe-3">Total page count : </h6>
+            <h3 className="d-inline pe-3 fs-6">Total page count : </h3>
             <ApplicationRoutePageCount route={route} renderComponent={(pageCount) => pageCount}/>
         </div>
         <div className="w-100 mb-3">
-            <h6>Examples:</h6>
+            <h3 className="fs-6">Examples:</h3>
             <ApplicationRoutePageCount route={route} renderComponent={(pageCount, examples) => <div>
                 {(!examples || examples.length === 0) &&
                     <span className="text-secondary p-2">Examples are not available</span>}
