@@ -5,11 +5,15 @@ import {ShowIfAuthorized} from "../util/Permissions.jsx";
 
 export default function ResourceCard({organization, resource, inProgress = false, showViewButton = true}) {
     if (resource === null) {
-        return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column bg-gray-200">
-            <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center text-secondary">
-                <i className="bi bi-plus-lg fs-1"></i>
-                <div className="pb-5">
-                    Register New Resource
+        return <div className="w-100 h-100">
+            <Link to={DocumentationRouteUrls.INDEX}
+                  className="btn btn-gray-200 rounded-4 border border-gray-500 border-2 border-style-dashed w-100 h-100 text-secondary align-content-center">
+                <div className="rounded-circle p-3 bg-white width-fit-content d-inline-block">
+                    <i className="bi bi-plus-lg fs-1 lh-1"></i>
+                </div>
+                <div className="w-100 text-center pt-4 d-inline-block text-gray-900 fw-bold fs-4">
+                    Register New <br/>
+                    Resource
                 </div>
             </Link>
         </div>
@@ -59,7 +63,7 @@ export default function ResourceCard({organization, resource, inProgress = false
                 return <div className="p-1" key={roadmapIndex}>
                     <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap.roadmap_id}`}
                           className={`btn ${roadmapIndex === 0 ? 'btn-primary' : 'btn-outline-primary'} rounded-5 w-100`}
-                    aria-label={`View ${resource.short_name}'s ${roadmap.roadmap.name} Roadmap`}>
+                          aria-label={`View ${resource.short_name}'s ${roadmap.roadmap.name} Roadmap`}>
                         {roadmap.roadmap.name}
                     </Link>
                 </div>

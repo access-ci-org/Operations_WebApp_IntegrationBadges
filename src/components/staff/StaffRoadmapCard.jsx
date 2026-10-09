@@ -9,13 +9,17 @@ export function StaffRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();
 
     if (roadmapId === null) {
-        return <div className="w-100 h-100 p-2 pt-4">
-            <div className="w-100 h-100 rounded-4 p-2 d-flex flex-column bg-gray-200 border-black border border-1">
-                <Link to={StaffRouteUrls.ROADMAP_NEW}
-                      className="btn btn-link w-100 h-100 text-center align-content-center fw-normal text-secondary">
-                    + Create New
-                </Link>
-            </div>
+        return <div className="w-100 h-100  p-2 pt-4">
+            <Link to={StaffRouteUrls.ROADMAP_NEW}
+                  className="btn btn-gray-200 rounded-4 border border-gray-500 border-2 border-style-dashed w-100 h-100 text-secondary align-content-center">
+                <div className="rounded-circle p-2 bg-white width-fit-content d-inline-block">
+                    <i className="bi bi-plus-lg fs-1 lh-1"></i>
+                </div>
+                <div className="w-100 text-center pt-4 d-inline-block text-gray-900 fw-bold fs-6">
+                    Create New<br/>
+                    Roadmap
+                </div>
+            </Link>
         </div>
     }
 
@@ -27,7 +31,7 @@ export function StaffRoadmapCard({roadmapId}) {
 
         return <div className="w-100 h-100 p-2 pt-4">
             <div
-                className="w-100 h-100 d-flex flex-column rounded-3 border-black border border-1 position-relative staff-roadmap-card bg-white">
+                className="w-100 h-100 d-flex flex-column rounded-4 border-black border border-1 position-relative staff-roadmap-card bg-white">
                 <div className="w-100 position-absolute text-center roadmap-card-icon-row">
                     <div className="rounded-circle p-3 border d-inline-block bg-white">
                         <div className="background-image-center-no-repeat roadmap-card-icon"

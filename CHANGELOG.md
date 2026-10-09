@@ -8,13 +8,15 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
-
 ## v1.26.1 2026-10-9 dinukadesilva
 
 1. [new] Style improvements of the "Required" indicator (CTT-1150)
     - `/resources/:resourceId/roadmaps/:roadmapId`
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
     - `/docs/roadmaps`
+    - `/staff/roadmaps`
+2. [new] Style improvements of the "Create New" boxes (CTT-1150)
+    - `/organizations/:organizationId`
     - `/staff/roadmaps`
 
 ## v1.26.0 2026-10-9 dinukadesilva
@@ -67,7 +69,6 @@ The general format of entries is:
     - `/resources/:resourceId`
     - `/resources/:resourceId/edit`
     - `/resources/:resourceId/roadmaps/:roadmapId`
-    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
     - `/resources/:resourceId/roadmaps/:roadmapId/edit`
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
     - `/staff/badge-status`
