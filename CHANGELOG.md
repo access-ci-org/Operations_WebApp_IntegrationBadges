@@ -8,6 +8,14 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.26.0 2026-10-9 dinukadesilva
+
+1. [new] Updating the badge status styles to compliant with colour contrast requirements (CTT-1150)
+    - `/resources/:resourceId/roadmaps/:roadmapId`
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+    - `/staff/dashboard`
+    - `/staff/badge-status`
+
 ## v1.25.1 2026-10-08 dinukadesilva
 
 1. [new] Enabling overlays and error handling for all the asynchronous api calls on individual pages (CTT-1003)

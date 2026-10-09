@@ -4,7 +4,7 @@ import Translate from "../../locales/Translate.jsx";
 import React, {useEffect} from "react";
 import {BadgeWorkflowStatus} from "../../contexts/constants.js";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-import {StaffBadgeStatusCssVariant} from "../status/BadgeStatus.jsx";
+import {BadgeStatusHoverCssClass, BadgeStatusCssClass} from "../status/BadgeStatus.jsx";
 import {useEffectWithErrorHandling} from "../util/useEffectWithErrorHandling.js";
 import LoadingBlock from "../util/LoadingBlock.jsx";
 
@@ -67,7 +67,7 @@ export default function BadgeStatusSummaryHeader() {
             }
 
             if (!verificationHighlight.variant) {
-                verificationHighlight.variant = StaffBadgeStatusCssVariant[verificationHighlight.status];
+                verificationHighlight.variant = BadgeStatusCssClass[verificationHighlight.status] + " " + BadgeStatusHoverCssClass[verificationHighlight.status];
             }
         }
     }
@@ -87,19 +87,19 @@ export default function BadgeStatusSummaryHeader() {
         <ul className="row p-0 list-unstyled">
             {verificationHighlightList.map((verificationHighlight, verificationHighlightIndex) => {
                 const variant = verificationHighlight.variant;
-                const variantClass = `border-${variant} bg-${variant} text-${variant}`
+                const variantClass = `${variant}`;
 
                 return <li className="col p-2" key={verificationHighlightIndex}>
                     <Link
                         to={getBadgeStatusLink(verificationHighlight.status)}
-                        className={`btn w-100 h-100 p-2 bg-opacity-10 border border-2 border-opacity-10 rounded-3 ${variantClass}`}>
+                        className={`btn btn-outline-primary fw-normal text-decoration-none underline w-100 h-100 p-2 border border-1 rounded-3 ${variantClass}`}>
                         <div className="w-100 text-center fs-2">
                             {verificationHighlight.icon}
                         </div>
                         <div className="w-100 text-center fs-2 fw-bolder">
                             {verificationHighlight.count}
                         </div>
-                        <div className="w-100 text-center text-secondary">
+                        <div className="w-100 text-center">
                             {verificationHighlight.title}
                         </div>
                     </Link>
