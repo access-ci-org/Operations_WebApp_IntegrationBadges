@@ -22,6 +22,7 @@ import {DocumentationRouteUrls} from "./pages-config.js";
 import {useDialogs} from "../contexts/DialogContext.jsx";
 import {useEffectWithErrorHandling} from "../components/util/useEffectWithErrorHandling.js";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
+import RequiredStatus from "../components/status/RequiredStatus.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -177,8 +178,7 @@ export default function ResourceBadge() {
                 <div className="col mb-3">
                     <div className="w-100">
                         <h2 className="d-inline pe-3">{resourceRoadmapBadge.name}</h2>
-                        {resourceRoadmapBadge.required &&
-                            <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Required</span>}
+                        <RequiredStatus required={resourceRoadmapBadge.required}/>
                     </div>
                     <div className="row">
                         <h3 className="text-secondary fs-6 fw-normal mt-4 mb-0">RP Roles</h3>

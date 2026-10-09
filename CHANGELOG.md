@@ -8,6 +8,15 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+
+## v1.26.1 2026-10-9 dinukadesilva
+
+1. [new] Style improvements of the "Required" indicator (CTT-1150)
+    - `/resources/:resourceId/roadmaps/:roadmapId`
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+    - `/docs/roadmaps`
+    - `/staff/roadmaps`
+
 ## v1.26.0 2026-10-9 dinukadesilva
 
 1. [new] Updating the badge status styles to compliant with colour contrast requirements (CTT-1150)

@@ -9,6 +9,7 @@ import {DocumentationRouteUrls} from "../../pages/pages-config.js";
 import {HtmlToText} from "../util/text-editors.jsx";
 import RoadmapName from "../roadmap/RoadmapName.jsx";
 import computeResourceIcon from "../../assets/integration_icon_compute.png";
+import RequiredStatus from "../status/RequiredStatus.jsx";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const {getResource} = useResources();
@@ -153,10 +154,7 @@ export function BadgeCardRowWithRequiredLabel({resourceId, roadmapId, badgeId, s
     }
 
     const body = <div className="text-center">
-        {required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
-                Required</small> :
-            <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-gray-300 text-gray-800">
-                Not Required</small>}
+        <RequiredStatus required={required}/>
     </div>;
 
     return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}

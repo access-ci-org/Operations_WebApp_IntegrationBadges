@@ -9,6 +9,7 @@ import {getAvailableTransitions, TASK_WORKFLOW} from "../../../contexts/Workflow
 import {useRoles} from "../../../contexts/PermissionContext.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import {useDialogs} from "../../../contexts/DialogContext.jsx";
+import RequiredStatus from "../../status/RequiredStatus.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
@@ -95,12 +96,8 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         </div>
 
         <div className="col-sm-3 align-content-center text-center">
-            {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-primary-subtle text-black">
-                    Required</small> :
-                <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-gray-300 text-gray-800">
-                    Not Required</small>}
+            <RequiredStatus required={task.required}/>
         </div>
-
 
         {badge.status && <div className="col-sm-3 pt-2 pb-2 align-content-center">
             {availableTransitions.length === 0 && <span className="text-primary">{taskStatusLabel}</span>}

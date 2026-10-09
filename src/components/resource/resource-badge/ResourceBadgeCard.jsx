@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import ResourceBadgeStatus from "../../status/ResourceBadgeStatus.jsx";
 import ResourceBadgeIcon from "./ResourceBadgeIcon.jsx";
 import {HtmlToText} from "../../util/text-editors.jsx";
+import RequiredStatus from "../../status/RequiredStatus.jsx";
 
 export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
     const {getResource, getResourceOrganization, getResourceRoadmapBadge} = useResources();
@@ -16,8 +17,7 @@ export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
             <div className="w-100 p-1 badge-card-header">
                 <div className="w-100 badge-card-header-thumbnail">
                     <div className="w-100 text-end" style={{height: "25px"}}>
-                        {badge.required &&
-                            <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Required</span>}
+                        <RequiredStatus required={badge.required}/>
                     </div>
                     <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                 </div>
