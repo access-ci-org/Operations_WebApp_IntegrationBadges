@@ -214,25 +214,129 @@ export default function FAQ1() {
                         {
                             "question": "How do I update my profile information (name, email, organization)?",
                             "anchorHash": "update_profile_info",
-                            "content": <ul className="mb-0 list-unstyled">
-                                <li>
-                                    You can view and update your profile by logging into
-                                    <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
-                                    and choosing "Profile".
-                                </li>
-                            </ul>
+                            "content": <div>
+                                <h5 className="fs-6">
+                                    To modify the name or email associated with your ACCESS ID:
+                                </h5>
+                                <ol>
+                                    <li>
+                                        Log on to your&nbsp;
+                                        <a className="btn btn-link" href="https://account.access-ci.org/">ACCESS</a>
+                                        &nbsp;Account with the same identity you used to register for ACCESS
+                                        (your ACCESS ID or&nbsp;
+                                        <a className="btn btn-link"
+                                           href="https://operations.access-ci.org/identity/id-linking">
+                                            university account</a>).
+                                    </li>
+                                    <li>
+                                        Click the “Profile” tile.
+                                    </li>
+                                    <li>
+                                        After updating the information, click the "Save Profile" button.
+                                    </li>
+                                    <li>
+                                        Working with email addresses:
+                                        <ol>
+                                            <li>
+                                                You can add one primary and multiple recovery email addresses.
+                                            </li>
+                                            <li>
+                                                Your primary email must match your institution.
+                                            </li>
+                                            <li>
+                                                Your recovery email addresses can be used to change your password if you
+                                                lose access to your primary email address.
+                                            </li>
+                                            <li>
+                                                Changing your email address does not affect your current allocations.
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                                <h5 className="fs-6">
+                                    To modify the organization associated with your ACCESS ID:
+                                </h5>
+                                <p>
+                                    <a className="btn btn-link" href="https://account.access-ci.org/profile">
+                                        Edit your profile</a>
+                                    , change the value of the Institution field, and click Save Profile. You will only
+                                    see organizations that match your primary email address.
+                                </p>
+                                <p>
+                                    If you cannot find your organization in the list, you can&nbsp;
+                                    <a className="btn btn-link"
+                                       href="https://support.access-ci.org/form/organization-request">
+                                        request it be added</a>
+                                </p>
+                            </div>
                         },
                         {
                             "question": "How can I link or unlink external accounts (e.g. ORCID, or University account)?",
                             "anchorHash": "link_unlink_external_accounts",
-                            "content": <ul className="mb-0 list-unstyled">
-                                <li>
-                                    Linked accounts allow you to log into ACCESS using an external account. To manage
-                                    your linked accounts or link a new account, log into
-                                    <a className="ms-2 me-2" href="https://account.access-ci.org/">My ACCESS Account</a>
-                                    and choose "Linked Accounts".
-                                </li>
-                            </ul>
+                            "content": <div>
+                                <p className="fst-italic">
+                                    Identity linking is the process required to link a University account with an
+                                    ACCESS ID so that you can log on to ACCESS services using the linked account.
+                                    Please review the instructions below to link or unlink an account.
+                                </p>
+                                <div>
+                                    <h5 className="h6">
+                                        Link
+                                    </h5>
+                                    <div>
+                                        <h6 className="fs-7">
+                                            To link an account:
+                                        </h6>
+                                        <ol>
+                                            <li>
+                                                Log in to your&nbsp;
+                                                <a className="btn btn-link" href="https://account.access-ci.org/">
+                                                    ACCESS Account</a>.
+                                            </li>
+                                            <li>
+                                                Click the Linked Accounts tile.
+                                            </li>
+                                            <li>
+                                                Click the Link an Account button.
+                                            </li>
+                                            <li>
+                                                In the "Select an Identity Provider" box, choose the identity provider
+                                                for your university that you want to link to your ACCESS ID.&nbsp;
+                                                <strong>DO NOT</strong> choose "ACCESS CI (XSEDE)".
+                                            </li>
+                                            <li>
+                                                Log in with your chosen Identity Provider as you typically would.
+                                            </li>
+                                            <li>
+                                                Follow the prompts to complete the linking process.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 className="fs-6">
+                                        Unlink
+                                    </h5>
+                                    <div>
+                                        <h6 className="fs-7">
+                                            To unlink an account:
+                                        </h6>
+                                        <ol>
+                                            <li>
+                                                Log in to your&nbsp;
+                                                <a className="btn btn-link" href="https://account.access-ci.org/">
+                                                    ACCESS Account</a>.
+                                            </li>
+                                            <li>
+                                                Click the Linked Accounts tile.
+                                            </li>
+                                            <li>
+                                                Click the Delete button next to the account you want to unlink.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
                         },
                         {
                             "question": "I accidentally created multiple ACCESS IDs. Can I merge them?",
