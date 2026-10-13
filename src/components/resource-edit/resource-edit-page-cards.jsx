@@ -105,7 +105,7 @@ export function BadgeCardRow({badgeId, toggleComponent, actions, body}) {
                     {actions ? actions :
                         <Link aria-label={`View Additional Badge Details of ${badge.name}`}
                               to={`${DocumentationRouteUrls.BADGES}?badgeId=${badgeId}`} target="_blank"
-                              className="w-100 btn btn-secondary rounded-1 btn-sm">
+                              className="w-100 btn btn-secondary btn-sm">
                             View Additional Badge Details
                         </Link>}
                 </div>

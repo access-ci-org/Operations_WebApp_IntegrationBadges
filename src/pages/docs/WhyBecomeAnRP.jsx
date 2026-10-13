@@ -175,7 +175,7 @@ export function WhyBecomeAnRPFooter() {
                     </p>
                 </div>
                 <div className="text-center">
-                    <Link className="btn btn-accent-primary btn-lg rounded-2 mt-2"
+                    <Link className="btn btn-accent-primary btn-lg mt-2"
                           to="https://support.access-ci.org/help-ticket">Open Help Ticket</Link>
                 </div>
             </div>
@@ -193,7 +193,7 @@ export function WhyBecomeAnRPFooter() {
                     </p>
                 </div>
                 <div className="text-center">
-                    <Link className="btn btn-primary btn-lg rounded-2 mt-2" to="/docs">Start Integration</Link>
+                    <Link className="btn btn-primary btn-lg mt-2" to="/docs">Start Integration</Link>
                 </div>
             </div>
         </div>

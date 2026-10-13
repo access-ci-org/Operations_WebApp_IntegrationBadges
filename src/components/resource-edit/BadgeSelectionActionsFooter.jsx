@@ -66,21 +66,21 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
     }
 
     return <div className="w-100 text-end pt-3 pb-5">
-        <button className="btn btn-outline-primary rounded-1 m-1" onClick={prev}>
+        <button className="btn btn-outline-primary m-1" onClick={prev}>
             Cancel
         </button>
 
         {!showSave ?
-            <button className="btn btn-primary rounded-1 m-1 ${}" disabled={selectedBadgeIds.length === 0}
+            <button className="btn btn-primary m-1" disabled={selectedBadgeIds.length === 0}
                     onClick={next}>
                 Continue with {selectedBadgeIds.length} Selected Badges
             </button> :
             saveProcessing ?
-                <button className="btn btn-primary rounded-1 m-1">
+                <button className="btn btn-primary m-1">
                     <span className="spinner-border spinner-border-sm me-3" role="status" aria-hidden="true"></span>
                     Loading...
                 </button> :
-                <button className="btn btn-primary rounded-1 m-1" disabled={selectedBadgeIds.length === 0}
+                <button className="btn btn-primary m-1" disabled={selectedBadgeIds.length === 0}
                         onClick={handleSave}>
                     Save Selection
                 </button>}

@@ -6,6 +6,12 @@ body {
 .btn {
   border-width: 0.1rem;
   font-weight: 400;
+
+  @extend .rounded-1;
+}
+
+.btn-lg {
+  @extend .rounded-2;
 }
 
 .infrastructure-type-card {

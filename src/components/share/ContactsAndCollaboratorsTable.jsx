@@ -76,7 +76,7 @@ export default function ContactsAndCollaboratorsTable(
                 {copyStatus === CopyStatus.error &&
                     <i className="pe-2 text-warning bi bi-exclamation-triangle-fill"></i>}
 
-                {contacts && <button className="btn btn-sm btn-gray-300 rounded-2" onClick={copyEmailAddresses}>
+                {contacts && <button className="btn btn-sm btn-gray-300" onClick={copyEmailAddresses}>
                     <i className="bi bi-copy pe-2"></i>
                     Copy ({contacts.length}) Email Addresses
                 </button>}

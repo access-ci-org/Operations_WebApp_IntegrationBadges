@@ -127,7 +127,7 @@ export default function ContactsAndCollaboratorsSummary(
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-primary rounded-1"
+                    <button className="btn btn-outline-primary"
                             onClick={setShowContactsAndCollaboratorsModal.bind(this, false)}>
                         Cancel
                     </button>

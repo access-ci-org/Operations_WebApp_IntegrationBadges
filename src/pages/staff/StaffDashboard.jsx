@@ -94,9 +94,9 @@ export default function StaffDashboard() {
                         <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                         </div>
                         <div style={{minWidth: 100}}>
-                            <Link className="btn btn-sm btn-primary rounded-2"
-                                  to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>View
-                                All</Link>
+                            <Link className="btn btn-sm btn-primary"
+                                  to={`${StaffRouteUrls.BADGE_STATUS}?badgeWorkflowStatus=${BadgeWorkflowStatus_VIEW_ALL}`}>
+                                View All</Link>
                         </div>
                     </div>
                     <div className="w-100 pt-4">
@@ -113,7 +113,7 @@ export default function StaffDashboard() {
                         </div>
                         <RoadmapMaintainer>
                             <div style={{minWidth: 100}}>
-                                <Link className="btn btn-sm btn-primary rounded-2" aria-label="Create new Roadmap"
+                                <Link className="btn btn-sm btn-primary" aria-label="Create new Roadmap"
                                       to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                             </div>
                         </RoadmapMaintainer>
@@ -150,20 +150,15 @@ export default function StaffDashboard() {
                                         <RoadmapMaintainer>
                                             <Link aria-label={roadmapEditButtonLabel}
                                                   to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}
-                                                  className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                                  className="btn btn-sm me-1 btn-outline-secondary width-fit-content border-0 text-center">
                                                 <i className="bi bi-pencil-square"></i>
                                             </Link>
                                         </RoadmapMaintainer>
                                         <Link target="_blank" aria-label={roadmapViewButtonLabel}
                                               to={DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`}
-                                              className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                              className="btn btn-sm me-1 btn-outline-secondary width-fit-content border-0 text-center">
                                             <i className="bi bi-info-circle"></i>
                                         </Link>
-                                        {/*<Link*/}
-                                        {/*    to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmap.roadmap_id)}*/}
-                                        {/*    className="btn btn-sm ms-1 btn-outline-secondary rounded-1 border-0 text-center">*/}
-                                        {/*    <i className="bi bi-trash"></i>*/}
-                                        {/*</Link>*/}
                                     </div>
                                 </button>
                             </li>
@@ -186,7 +181,7 @@ export default function StaffDashboard() {
                         </div>
                         <BadgeMaintainer>
                             <div style={{minWidth: 100}}>
-                                <Link className="btn btn-sm btn-primary rounded-2" to={StaffRouteUrls.BADGE_NEW}
+                                <Link className="btn btn-sm btn-primary" to={StaffRouteUrls.BADGE_NEW}
                                       aria-label="Create new Badge">
                                     Create New</Link>
                             </div>
@@ -221,7 +216,7 @@ export default function StaffDashboard() {
                                     </BadgeMaintainer>
                                     <Link target="_blank" aria-label={badgeViewButtonLabel}
                                           to={DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`}
-                                          className="btn btn-sm me-1 btn-outline-secondary width-fit-content rounded-1 border-0 text-center">
+                                          className="btn btn-sm me-1 btn-outline-secondary width-fit-content border-0 text-center">
                                         <i className="bi bi-info-circle"></i>
                                     </Link>
                                 </div>
