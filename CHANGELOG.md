@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.25.4 2026-10-14 dinukadesilva
+
+1. [new] Typo fixes (CTT-1142)
+    - `/staff/badges/new`
+
 ## v1.25.3 2026-10-14 dinukadesilva
 
 1. [new] Making the buttons to be rounded by default (CTT-1097)

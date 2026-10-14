@@ -100,7 +100,7 @@ function StaffBadgeEditForm({initialData}) {
 
     const stepDetailsMap = {
         [StaffBadgeEditFormStep.DESCRIBE_BADGE]: {
-            label: "Describe Badge",
+            label: "Describe the Badge",
             isValid: areBadgeDetailsValid,
             component: <StaffBadgeEditDetails badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
