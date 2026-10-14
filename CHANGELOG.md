@@ -8,6 +8,16 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.25.3 2026-10-14 dinukadesilva
+
+1. [new] Making the buttons to be rounded by default (CTT-1097)
+    - All
+2. [new] Removing the `Describe` step from badge and roadmap edit forms (CTT-1142)
+    - `/staff/roadmaps/new`
+    - `/staff/roadmaps/:roadmapId/edit`
+    - `/staff/badges/new`
+    - `/staff/badges/:badgeId/edit`
+
 ## v1.25.2 2026-10-9 dinukadesilva
 
 1. [new] Setting a min height to the "Create New" blocks (CTT-1150)

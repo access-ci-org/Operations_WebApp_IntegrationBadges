@@ -15,6 +15,8 @@ import StaffBadgeEditAssociateTasks
 import {useDialogs} from "../../contexts/DialogContext.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
+import StaffMultiStepForm from "../../components/staff/StaffMultiStepForm.jsx";
+
 
 export default function StaffBadgeEdit() {
     const {badgeId} = useParams();
@@ -40,13 +42,26 @@ export default function StaffBadgeEdit() {
     </LoadingBlock>
 }
 
+const StaffBadgeEditFormStep = {
+    DESCRIBE_BADGE: "describe-badge",
+    ASSOCIATE_TASKS: "associate-tasks",
+    PREREQUISITE_BADGES: "prerequisite-badges",
+    REVIEW: "review"
+};
+
 function StaffBadgeEditForm({initialData}) {
+    const navigate = useNavigate();
+
     const {badgeId} = useParams();
 
     const {setBadge} = useBadges();
     const {showDialog, showErrorDialog} = useDialogs();
 
-    const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
+    const [activeStep, setActiveStep] = useState(
+        badgeId ?
+            StaffBadgeEditFormStep.REVIEW :
+            StaffBadgeEditFormStep.DESCRIBE_BADGE);
+
     const [badgeData, setBadgeData] = useState({
         "badge_id": null,
         "name": "",
@@ -81,41 +96,60 @@ function StaffBadgeEditForm({initialData}) {
 
     useEffect(() => {
         scrollToTop();
-    }, [activeSectionIndex]);
+    }, [activeStep]);
 
-    const sections = [
-        {
-            title: "Describe A New Badge",
+    const stepDetailsMap = {
+        [StaffBadgeEditFormStep.DESCRIBE_BADGE]: {
+            label: "Describe Badge",
+            isValid: areBadgeDetailsValid,
             component: <StaffBadgeEditDetails badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
-        {
-            title: "Associate Tasks",
+        [StaffBadgeEditFormStep.ASSOCIATE_TASKS]: {
+            label: "Associate Tasks",
+            isValid: areBadgeDetailsValid,
             component: <StaffBadgeEditAssociateTasks badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
-        {
-            title: "Select Prerequisite Badges",
+        [StaffBadgeEditFormStep.PREREQUISITE_BADGES]: {
+            label: "Select Prerequisite Badges",
+            isValid: areBadgeDetailsValid,
             component: <StaffBadgeEditAssociatePrerequisiteBadges badgeData={badgeData}
                                                                   setBadgeData={setBadgeData}/>
         },
-        {
-            title: "Review & Edit",
+        [StaffBadgeEditFormStep.REVIEW]: {
+            label: "Review & Edit",
+            isValid: areBadgeDetailsValid,
             component: <StaffBadgeEditReviewAndEdit
                 badgeData={badgeData} setBadgeData={setBadgeData}
-                onClickEditTasks={seActiveSectionIndex.bind(this, 1)}
-                onClickEditPrerequisiteBadges={seActiveSectionIndex.bind(this, 2)}/>
-        },
-    ];
+                onClickEditTasks={setActiveStep.bind(this, StaffBadgeEditFormStep.ASSOCIATE_TASKS)}
+                onClickEditPrerequisiteBadges={setActiveStep.bind(this, StaffBadgeEditFormStep.PREREQUISITE_BADGES)}/>
+        }
+    };
 
-    const activeSection = sections[activeSectionIndex];
+    let steps;
+    if (!badgeId) {
+        steps = [StaffBadgeEditFormStep.DESCRIBE_BADGE];
+    } else {
+        steps = [];
+    }
+
+    steps = [
+        ...steps,
+        StaffBadgeEditFormStep.ASSOCIATE_TASKS,
+        StaffBadgeEditFormStep.PREREQUISITE_BADGES,
+        StaffBadgeEditFormStep.REVIEW
+    ];
 
     const publishBadge = async () => {
         try {
-            await setBadge({badgeId, badgeData});
+            const newBadge = await setBadge({badgeId, badgeData});
+
+            navigate(StaffRouteUrls.BADGE_EDIT.replace(":badgeId", newBadge.badge_id));
+
             await showDialog({
                 variant: 'primary',
                 title: "",
                 icon: "bi-check-circle",
-                message: <div>The Badge “{badgeData.name}” is Successfully Published.</div>,
+                message: <div>The Badge “{newBadge.name}” is Successfully Published.</div>,
                 buttons: [
                     {
                         label: "Go to Home Page",
@@ -137,47 +171,10 @@ function StaffBadgeEditForm({initialData}) {
     return <div className="container">
         <div className="row mt-2 p-3">
             <div className="w-100 bg-white rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
-                <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
-
-                <div className="w-100 text-center position-relative pt-5 pb-5">
-                    <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                        <EditProgressMarker steps={sections} current={activeSectionIndex}/>
-                    </div>
-                    <Link to={StaffRouteUrls.BADGES} className="btn btn-outline-secondary position-absolute"
-                          style={{right: 0}}>Cancel/Discard
-                    </Link>
-                </div>
-
-                <div className="w-100 text-center">
-                    <div className="w-100 d-inline-block text-start" style={{maxWidth: 900, minWidth: 300}}>
-                        {activeSection.component}
-                    </div>
-                </div>
-
-                <div className="w-100 text-end pt-5 pb-5">
-                    {activeSectionIndex === 0 ?
-                        <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
-                            Back
-                        </Link> :
-                        <button className="btn btn-outline-primary ps-3 pe-3 m-1"
-                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
-                            Back
-                        </button>}
-
-                    {activeSectionIndex === sections.length - 1 ?
-                        <button className="btn btn-primary ps-3 pe-3 m-1"
-                                onClick={publishBadge}
-                                disabled={!areBadgeDetailsValid}>
-                            Publish
-                        </button> :
-                        <button className="btn btn-primary ps-3 pe-3 m-1"
-                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
-                                disabled={!areBadgeDetailsValid}>
-                            Continue
-                        </button>}
-
-                </div>
-
+                <StaffMultiStepForm steps={steps} onPublish={publishBadge}
+                                    onExit={() => navigate(StaffRouteUrls.BADGES)}
+                                    activeStep={activeStep} setActiveStep={setActiveStep}
+                                    getStepDetails={(step) => stepDetailsMap[step]}/>
             </div>
         </div>
     </div>

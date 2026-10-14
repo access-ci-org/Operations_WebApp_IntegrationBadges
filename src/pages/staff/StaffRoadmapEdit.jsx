@@ -13,6 +13,7 @@ import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
 import {useDialogs} from "../../contexts/DialogContext.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
 import {useEffectWithErrorHandling} from "../../components/util/useEffectWithErrorHandling.js";
+import StaffMultiStepForm from "../../components/staff/StaffMultiStepForm.jsx";
 
 export default function StaffRoadmapEdit() {
     const {roadmapId} = useParams();
@@ -37,13 +38,25 @@ export default function StaffRoadmapEdit() {
     </LoadingBlock>
 }
 
+const StaffRoadmapEditFormStep = {
+    DESCRIBE_ROADMAP: "describe-roadmap",
+    ASSOCIATE_BADGES: "associate-badges",
+    REVIEW: "review"
+};
+
 function StaffRoadmapEditForm({initialData}) {
+    const navigate = useNavigate();
+
     const {roadmapId} = useParams();
 
     const {setRoadmap} = useRoadmaps();
     const {showDialog, showErrorDialog} = useDialogs();
 
-    const [activeSectionIndex, seActiveSectionIndex] = useState(roadmapId ? 2 : 0);
+    const [activeStep, setActiveStep] = useState(
+        roadmapId ?
+            StaffRoadmapEditFormStep.REVIEW :
+            StaffRoadmapEditFormStep.DESCRIBE_ROADMAP);
+
     const [roadmapData, setRoadmapData] = useState({
         "name": "",
         "executive_summary": "",
@@ -69,34 +82,53 @@ function StaffRoadmapEditForm({initialData}) {
 
     useEffect(() => {
         scrollToTop();
-    }, [activeSectionIndex]);
+    }, [activeStep]);
 
-    const sections = [
-        {
-            title: "Let’s Describe the New Roadmap",
+
+    let stepDetailsMap = {
+        [StaffRoadmapEditFormStep.DESCRIBE_ROADMAP]: {
+            label: "Describe the Roadmap",
+            isValid: areRoadmapDetailsValid,
             component: <StaffRoadmapEditDetails roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
         },
-        {
-            title: "Associate Badges",
+        [StaffRoadmapEditFormStep.ASSOCIATE_BADGES]: {
+            label: "Associate Badges",
+            isValid: areRoadmapDetailsValid,
             component: <StaffRoadmapEditAssociateBadges roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
         },
-        {
-            title: "Review & Edit",
-            component: <StaffRoadmapEditReviewAndEdit roadmapData={roadmapData} setRoadmapData={setRoadmapData}
-                                                      onClickEditBadges={seActiveSectionIndex.bind(this, 1)}/>
-        },
-    ];
+        [StaffRoadmapEditFormStep.REVIEW]: {
+            label: "Review & Edit",
+            isValid: areRoadmapDetailsValid,
+            component: <StaffRoadmapEditReviewAndEdit
+                roadmapData={roadmapData} setRoadmapData={setRoadmapData}
+                onClickEditBadges={setActiveStep.bind(this, StaffRoadmapEditFormStep.ASSOCIATE_BADGES)}/>
+        }
+    };
 
-    const activeSection = sections[activeSectionIndex];
+    let steps;
+    if (!roadmapId) {
+        steps = [StaffRoadmapEditFormStep.DESCRIBE_ROADMAP];
+    } else {
+        steps = [];
+    }
+
+    steps = [
+        ...steps,
+        StaffRoadmapEditFormStep.ASSOCIATE_BADGES,
+        StaffRoadmapEditFormStep.REVIEW
+    ];
 
     const publishRoadmap = async () => {
         try {
-            await setRoadmap({roadmapId, roadmapData});
+            const newRoadmap = await setRoadmap({roadmapId, roadmapData});
+
+            navigate(StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", newRoadmap.roadmap_id));
+
             await showDialog({
                 variant: 'primary',
                 title: "",
                 icon: "bi-check-circle",
-                message: <div>The Roadmap “{roadmapData.name}” is Successfully Published.</div>,
+                message: <div>The Roadmap “{newRoadmap.name}” is Successfully Published.</div>,
                 buttons: [
                     {
                         label: "Go to Home Page",
@@ -118,45 +150,10 @@ function StaffRoadmapEditForm({initialData}) {
     return <div className="container">
         <div className="row mt-2 p-3">
             <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
-                <h1 className="w-100 text-center text-dark fw-normal pt-5 pb-3">{activeSection.title}</h1>
-
-                <div className="w-100 text-center position-relative pt-5 pb-5">
-                    <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                        <EditProgressMarker steps={sections} current={activeSectionIndex}/>
-                    </div>
-                    <Link to={StaffRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
-                          style={{right: 0}}>Cancel/Discard
-                    </Link>
-                </div>
-
-                <div className="w-100 text-center">
-                    <div className="w-100 d-inline-block text-start" style={{maxWidth: 800, minWidth: 300}}>
-                        {activeSection.component}
-                    </div>
-                </div>
-
-                <div className="w-100 text-end pt-5 pb-5">
-                    {activeSectionIndex === 0 ?
-                        <Link className="btn btn-outline-primary ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
-                            Back
-                        </Link> :
-                        <button className="btn btn-outline-primary ps-3 pe-3 m-1"
-                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex - 1)}>
-                            Back
-                        </button>}
-
-                    {activeSectionIndex === sections.length - 1 ?
-                        <button className="btn btn-primary ps-3 pe-3 m-1"
-                                onClick={publishRoadmap}
-                                disabled={!areRoadmapDetailsValid}>
-                            Publish
-                        </button> :
-                        <button className="btn btn-primary ps-3 pe-3 m-1"
-                                onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
-                                disabled={!areRoadmapDetailsValid}>
-                            Continue
-                        </button>}
-                </div>
+                <StaffMultiStepForm steps={steps} onPublish={publishRoadmap}
+                                    onExit={() => navigate(StaffRouteUrls.ROADMAPS)}
+                                    activeStep={activeStep} setActiveStep={setActiveStep}
+                                    getStepDetails={(step) => stepDetailsMap[step]}/>
             </div>
         </div>
     </div>
