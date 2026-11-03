@@ -46,7 +46,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         } catch (error) {
             await showErrorDialog({
                 error: error,
-                roles: transition.conditions ? transition.conditions.role : null,
+                roles: transition?.conditions?.role,
                 resource: resource
             });
         }
