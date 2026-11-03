@@ -22,7 +22,8 @@ export const IntegrationRoles = {
     COORDINATOR: "coordinator",
     IMPLEMENTER: "implementer",
     ROADMAP_MAINTAINER: "roadmap.maintainer",
-    BADGE_MAINTAINER: "badge.maintainer"
+    BADGE_MAINTAINER: "badge.maintainer",
+    STAFF: "staff"
 }
 
 export const ResourceIntegrationStatus = {

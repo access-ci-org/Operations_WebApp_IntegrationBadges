@@ -84,10 +84,7 @@ const StaffRoutesConfig = {
         {
             name: "Staff: Resource Provider Contacts",
             path: StaffRouteUrls.CONTACTS,
-            element: <ProtectedRouteElement roles={[
-                IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR,
-                IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER, IntegrationRoles.CONCIERGE
-            ]}>
+            element: <ProtectedRouteElement roles={[IntegrationRoles.STAFF]}>
                 <StaffContacts/>
             </ProtectedRouteElement>
         },

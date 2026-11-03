@@ -8,6 +8,10 @@ export function Concierge({children}) {
     return <ShowIfAuthorized roles={[IntegrationRoles.CONCIERGE]}>{children}</ShowIfAuthorized>
 }
 
+export function Staff({children}) {
+    return <ShowIfAuthorized roles={[IntegrationRoles.STAFF]}>{children}</ShowIfAuthorized>
+}
+
 export function RoadmapMaintainer({children}) {
     return <ShowIfAuthorized roles={[IntegrationRoles.ROADMAP_MAINTAINER]}>{children}</ShowIfAuthorized>
 }

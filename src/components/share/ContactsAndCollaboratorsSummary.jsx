@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {StaffRouteUrls} from "../../pages/pages-config.js";
 import ContactsAndCollaboratorsFilterView from "./ContactsAndCollaboratorsFilterView.jsx";
 import {IntegrationRoles} from "../../contexts/constants.js";
-import {ShowIfAuthorized} from "../util/Permissions.jsx";
+import {ShowIfAuthorized, Staff} from "../util/Permissions.jsx";
 import {useEffectWithErrorHandling} from "../util/useEffectWithErrorHandling.js";
 
 const ContactAvatarClasses = [
@@ -84,9 +84,7 @@ export default function ContactsAndCollaboratorsSummary(
     if (organizationId) externalLink += `organizationId=${organizationId}&`;
     if (resourceId) externalLink += `resourceId=${resourceId}&`;
 
-    return <ShowIfAuthorized
-        roles={[IntegrationRoles.IMPLEMENTER, IntegrationRoles.COORDINATOR, IntegrationRoles.CONCIERGE,
-            IntegrationRoles.ROADMAP_MAINTAINER, IntegrationRoles.BADGE_MAINTAINER]}>
+    return <Staff>
         <div className="w-100 p-2">
             {/*<div className="w-100">*/}
             {/*    <h4 className="fs-10 fw-bold mb-1 pe-2 text-primary d-inline">Contacts / Collaborators</h4>*/}
@@ -134,6 +132,6 @@ export default function ContactsAndCollaboratorsSummary(
                 </Modal.Footer>
             </Modal>
         </div>
-    </ShowIfAuthorized>
+    </Staff>
 }
 

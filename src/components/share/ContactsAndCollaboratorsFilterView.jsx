@@ -149,7 +149,8 @@ export default function ContactsAndCollaboratorsFilterView(
 
             </div>
             <div className="col-sm-12">
-                <LoadingBlock title="contacts" processing={processing} error={error} reload={reload}>
+                <LoadingBlock title="contacts" processing={processing} error={error} reload={reload}
+                              className="p-3 text-center">
                     {!processing && <ContactsAndCollaboratorsTable
                         organizationId={selectedOrganizationIds.map(({value}) => value)}
                         resourceId={selectedResourceIds.map(({value}) => value)}

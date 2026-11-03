@@ -61,7 +61,7 @@ export default function ContactsAndCollaboratorsTable(
     }
 
     if (error) {
-        return <LoadingBlock title="contacts" processing={processing} error={error} reload={reload} />
+        return <LoadingBlock className="p3 text-center" title="contacts" processing={processing} error={error} reload={reload} />
     } else if (contacts && contacts.length === 0) {
         return <div className="w-100 text-center">
             <i className="bi bi-exclamation-triangle-fill text-accent-secondary pe-2"></i>
