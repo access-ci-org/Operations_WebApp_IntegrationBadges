@@ -14,6 +14,8 @@ The general format of entries is:
     - All
 2. [new] Make the Activity log visible to the RP coordinator, Implementor and concierge (CTT-1152)
     - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+3. [new] Adding the "staff" role to authorize content related to contacts (CTT-871)
+    - All
 
 ## v1.25.4 2026-10-14 dinukadesilva
 
