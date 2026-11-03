@@ -8,6 +8,13 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.26.0 2026-11-03 dinukadesilva
+
+1. [new] Error handling improvements (CTT-1003)
+    - All
+2. [new] Make the Activity log visible to the RP coordinator, Implementor and concierge (CTT-1152)
+    - `/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId`
+
 ## v1.25.4 2026-10-14 dinukadesilva
 
 1. [new] Typo fixes (CTT-1142)
