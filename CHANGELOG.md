@@ -8,6 +8,14 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.26.1 2026-11-03 dinukadesilva
+
+1. [fix] Minor fixes on the staff roadmap and badge edit pages (CTT-1151)
+    - `/staff/roadmaps/new`
+    - `/staff/roadmaps/:roadmapId/edit`
+    - `/staff/badges/new`
+    - `/staff/badges/:badgeId/edit`
+
 ## v1.26.0 2026-11-03 dinukadesilva
 
 1. [new] Error handling improvements (CTT-1003)

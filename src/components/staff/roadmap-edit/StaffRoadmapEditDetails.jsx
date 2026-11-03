@@ -121,7 +121,7 @@ export function StaffRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
                     Drag and Drop to Upload Image <br/><br/>
                     or<br/>
                 </p>
-                <button className="btn btn-gray-200">
+                <button className="btn btn-gray-200" onClick={open}>
                     Browse Device
                 </button>
             </div>)}

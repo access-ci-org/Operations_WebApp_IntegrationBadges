@@ -36,7 +36,7 @@ export default function StaffMultiStepForm({steps, activeStep, setActiveStep, on
                 <EditProgressMarker steps={steps} current={activeStepIndex}/>
             </div>
             <div className="text-end col-lg-3 col-md-2 col-sm-3">
-                <button className="btn btn-outline-secondary">Cancel/Discard</button>
+                <button className="btn btn-outline-secondary" onClick={onExit}>Cancel/Discard</button>
             </div>
         </div>
 
