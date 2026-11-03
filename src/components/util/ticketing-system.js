@@ -40,15 +40,15 @@ function getApiRequestFailingTicketObject({error}) {
 
     let response;
 
-    const contentType = error.response.headers['content-type'] || '';
-    if (contentType.includes('text/html')) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(error.response.data, 'text/html');
-      const plainText = doc.body.textContent || doc.body.innerText || "";
+    const contentType = error.response?.headers ? error.response?.headers['content-type'] : null;
+    if (contentType?.includes('text/html')) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(error.response.data, 'text/html');
+        const plainText = doc.body.textContent || doc.body.innerText || "";
 
-      response = plainText.trim().replaceAll(/[\n\r ]+/ig, " ");
+        response = plainText.trim().replaceAll(/[\n\r ]+/ig, " ");
     } else {
-      response = JSON.stringify(error.response?.data || 'None (Connection failed or was blocked)');
+        response = JSON.stringify(error.response?.data || 'None (Connection failed or was blocked)');
     }
 
     return {

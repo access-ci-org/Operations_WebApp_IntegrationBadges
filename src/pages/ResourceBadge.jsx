@@ -42,7 +42,6 @@ export default function ResourceBadge() {
         getAuthorizedBadgeTransitions,
         setResourceRoadmapBadgeWorkflowStatus,
     } = useResources();
-    const {fetchBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
     const {showDialog, showErrorDialog} = useDialogs();
 

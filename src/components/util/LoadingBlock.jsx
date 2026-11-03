@@ -1,6 +1,10 @@
+import {useDialogs} from "../../contexts/DialogContext.jsx";
+
 export default function LoadingBlock(
     {title = "", data, processing, error, reload, children, className, minHeight = 40, noText = false}
 ) {
+    const {showErrorDialog} = useDialogs();
+
     if (!processing && !error) {
         return children
     }
@@ -17,11 +21,14 @@ export default function LoadingBlock(
 
         </>
     } else if (error) {
+        const showError = () => showErrorDialog({error: error});
+
         loadingBlockContent = <>
             {!noText && <i className="bi bi-exclamation-triangle-fill text-danger" aria-hidden="true"></i>}
 
             {!noText && <span className="pe-2 ps-2 text-gray-600">
-                <span>Error fetching&nbsp;</span>
+                <button className="btn btn-link fs-7 lh-1" onClick={showError}>Error</button>
+                <span>&nbsp;fetching&nbsp;</span>
                 <span>{title}</span>
             </span>}
 

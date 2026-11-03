@@ -87,7 +87,7 @@ function useDialogsValues() {
             if (error.response?.status === 401) {
                 title = "Unauthenticated";
                 message = (<p>
-                    You are not authenticated to perform this action.<br/>
+                    You are not authenticated to view this content or perform this action.<br/><br/>
                     Please login and try again.
                 </p>);
             } else if (error.response?.status === 403) {

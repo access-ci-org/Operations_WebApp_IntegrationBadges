@@ -119,11 +119,11 @@ export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selec
 
     const badge = getBadge({badgeId});
 
-    let btnLabel = `Remove ${badge.name}`;
-    let btnIconClass = "bi bi-dash";
+    let btnLabel = `Add ${badge.name}`;
+    let btnIconClass = "bi bi-plus";
     if (selected) {
-        btnLabel = `Add ${badge.name}`;
-        btnIconClass = "bi bi-plus";
+        btnLabel = `Remove ${badge.name}`;
+        btnIconClass = "bi bi-dash";
     }
 
     const toggleComponent = <RequiredBadgeTooltip required={!!required}>
