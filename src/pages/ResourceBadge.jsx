@@ -255,7 +255,8 @@ export default function ResourceBadge() {
                             resource provider for guidance.
                         </p>
                         <div className="pt-2 pb-2">
-                            <strong className="text-primary">Verification Method : </strong> {resourceRoadmapBadge.verification_method}
+                            <strong className="text-primary">Verification Method
+                                : </strong> {resourceRoadmapBadge.verification_method}
                         </div>
                         <div className="pre-wrap-text">
                             <strong className="text-primary">Verification Summary : </strong>
@@ -315,10 +316,11 @@ export default function ResourceBadge() {
             </div>
 
             <div className="row mt-5 mb-5">
-                <Concierge>
+                <ShowIfAuthorized
+                    roles={[IntegrationRoles.CONCIERGE, IntegrationRoles.COORDINATOR, IntegrationRoles.IMPLEMENTER]}>
                     <h3 className="d-inline mb-5 mt-5 text-black mb-4">Activity Log</h3>
                     <ResourceBadgeLog resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
-                </Concierge>
+                </ShowIfAuthorized>
             </div>
         </div>
     } else {
