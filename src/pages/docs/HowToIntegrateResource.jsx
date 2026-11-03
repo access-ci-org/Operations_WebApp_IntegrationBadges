@@ -26,24 +26,24 @@ export default function HowToIntegrateResource() {
 
     const highlightedFeatures = [
         {
-            "title": <>
-                <span className="text-accent-primary">Secure</span><br/>
+            "title": <p className="fs-7 lh-sm mb-0">
+                <span className="text-dark fw-bold">Secure</span><br/>
                 <span className="text-primary">Verified Process</span>
-            </>,
+            </p>,
             "icon": <i className="bi bi-shield"></i>
         },
         {
-            "title": <>
-                <span className="text-accent-primary">Supported</span><br/>
+            "title": <p className="fs-7 lh-sm mb-0">
+                <span className="text-dark fw-bold">Supported</span><br/>
                 <span className="text-primary">Concierge Team</span>
-            </>,
+            </p>,
             "icon": <i className="bi bi-people"></i>
         },
         {
-            "title": <>
-                <span className="text-accent-primary">Efficient</span><br/>
+            "title": <p className="fs-7 lh-sm mb-0">
+                <span className="text-dark fw-bold">Efficient</span><br/>
                 <span className="text-primary">Streamlined Workflow</span>
-            </>,
+            </p>,
             "icon": <i className="bi bi-lightning-charge"></i>
         }
     ];
@@ -205,9 +205,9 @@ export default function HowToIntegrateResource() {
                                 {highlightedFeature.icon}
                             </div>
                         </div>
-                        <p className="flex-fill ps-2 pe-2">
+                        <div className="flex-fill ps-2 pe-2 align-content-center">
                             {highlightedFeature.title}
-                        </p>
+                        </div>
                     </div>)}
             </div>
         </div>

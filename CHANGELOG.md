@@ -8,6 +8,11 @@ The general format of entries is:
     - `/<webapp path 1>/<1>`
     - `/<webapp path 2>/<2>`
 
+## v1.26.2 2026-11-03 dinukadesilva
+
+1. [fix] Color contrast fixes in "How Do I Integrate My Resource into ACCESS?" page (CTT-1150)
+    - `/docs/how-to-integrate-resource`
+
 ## v1.26.1 2026-11-03 dinukadesilva
 
 1. [fix] Minor fixes on the staff roadmap and badge edit pages (CTT-1151)
